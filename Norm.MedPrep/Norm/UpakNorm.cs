@@ -19,12 +19,6 @@ namespace Norm.MedPrep.Norm
         public UpakNorm()
         {
             _queryContainer = new List<QueryContainer>();
-            //_list = new List<Detect>()
-            //{
-            //    new Detect() {QueryStrings = new[] {"{ss}"},  RegExpDetectors = new []{@"\s[№n]([0-9]*)"}}
-            //};
-            //File.WriteAllText($"{nameof(UpakNorm)}.json", JsonConvert.SerializeObject(_list));
-
             var path =
                 new Uri(
                     $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase)}\\Norm\\json\\{nameof(UpakNorm)}.json")
@@ -103,7 +97,6 @@ namespace Norm.MedPrep.Norm
                         shoulds.Add(Query<Content>
                             .QueryString(m => m
                                 .Query(should + "*")
-                                .Analyzer("whitespace")
                                 .Fields(f => f.Field(fn => fn.Name))
                             )
                             );
@@ -112,7 +105,6 @@ namespace Norm.MedPrep.Norm
                     //_queryContainer.Add(Query<Content>
                     // .QueryString(q => q
                     //    .Query(string.Format(queryString, NormResult))
-                    //    .Analyzer("name_analyzer")
                     //    .Fields(f=>f.Field(fn=>fn.Name)/*.Field(fn=>fn.Seller)*/))
                     // );
                 }

@@ -145,7 +145,6 @@ namespace Norm.MedPrep.Norm
             {
                 _queryContainer.Add(Query<Content>
                     .QueryString(q => q.Query(FirstWords.Trim().ToLower())
-                        .Analyzer("whitespace")
                         .Fields(f => f.Field(fn => fn.Name) /*.Field(fn=>fn.Seller)*/)
                     )
                     );

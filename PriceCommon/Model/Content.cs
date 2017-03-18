@@ -1,5 +1,4 @@
 using System;
-using Newtonsoft.Json;
 
 namespace PriceCommon.Model
 {
@@ -22,8 +21,5 @@ namespace PriceCommon.Model
         public DateTime Collected => new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(Convert.ToDouble(CollectedAt));
 
         public string Id { get; set; }
-
-        [JsonProperty("@timestamp")]
-        public string Timestamp { get; set; }
     }
 }

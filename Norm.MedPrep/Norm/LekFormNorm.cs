@@ -19,21 +19,6 @@ namespace Norm.MedPrep.Norm
         public LekFormNorm()
         {
             _queryContainer = new List<QueryContainer>();
-            //_list = new Dictionary<string, LekFormDetect>
-            //{
-            //    ["Таблетки"] = new LekFormDetect()
-            //    {
-            //        QueryStrings = new[] { "таб*" },
-            //        RegExpDetectors = new[] { @"\bтаб[.летк]*" }
-            //    },
-            //    ["Раствор"] = new LekFormDetect()
-            //    {
-            //        QueryStrings = new[] { "р-р OR /рас[твор]*/" },
-            //        RegExpDetectors = new[] { @"\bр-р", @"\bраст[.вор]*" }
-            //    }
-            //};
-            //File.WriteAllText($"{nameof(LekFormNorm)}.json", JsonConvert.SerializeObject(_list));
-
             var uri =
                 new Uri(
                     $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase)}\\Norm\\json\\{nameof(LekFormNorm)}.json");
@@ -92,7 +77,6 @@ namespace Norm.MedPrep.Norm
                 {
                     _queryContainer.Add(Query<Content>
                         .QueryString(q => q.Query(queryString)
-                            .Analyzer("whitespace")
                             .Fields(f => f.Field(fn => fn.Name) /*.Field(fn=>fn.Seller)*/)
                         )
                         );

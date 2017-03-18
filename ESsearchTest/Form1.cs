@@ -20,7 +20,6 @@ namespace ESsearchTest
 {
     public partial class Form1 : Form
     {
-        private string _analyzerName;
         private bool _canUpdateAnalyze = true;
         private string _defaultIndex;
         private ElasticClient _elasticClient;
@@ -77,21 +76,6 @@ namespace ESsearchTest
                 throw;
             }
 
-            // get analyzer name
-            try
-            {
-                _analyzerName = "whitespace"; //"standard";
-                var idxSettings = _elasticClient.GetIndexSettings(descriptor => descriptor.Index(_defaultIndex));
-                var idx = idxSettings.Indices.FirstOrDefault();
-                _analyzerName = idx.Value.Settings.Analysis.Analyzers.FirstOrDefault().Key;
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-                MessageBox.Show($"Ошибка определения наименования анализатора. {exception}");
-                throw;
-            }
-
             // get document count of type Content in index
             try
             {
@@ -105,13 +89,13 @@ namespace ESsearchTest
             }
             tabControl1.TabPages.Remove(tpExpert);
 
-            // Количество поставщиков в базе
+            // get seller count
             try
             {
                 var uniqSellerResponce = _elasticClient.Search<Content>(s => s
                     .Aggregations(a => a
                         .Terms("unique", te => te
-                            .Field("seller")
+                            .Field(nameof(Content.Seller).ToLower())
                             .MinimumDocumentCount(10)
                             .Size(1000)
                         )
@@ -346,8 +330,6 @@ namespace ESsearchTest
             if (dataGridViewColumn != null) dataGridViewColumn.Visible = false;
             dataGridViewColumn = dgv.Columns[nameof(Content.Seller)];
             if (dataGridViewColumn != null) dataGridViewColumn.Visible = false;
-            dataGridViewColumn = dgv.Columns[nameof(Content.Timestamp)];
-            if (dataGridViewColumn != null) dataGridViewColumn.Visible = false;
             dataGridViewColumn = dgv.Columns[nameof(Content.Selected)];
             if (dataGridViewColumn != null)
             {
@@ -508,7 +490,6 @@ namespace ESsearchTest
             var request = new AnalyzeRequest(_defaultIndex)
             {
                 /*Analyzer = "russian", /* "standard|russian", https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-analyze.html */
-                Analyzer = _analyzerName,
                 Text = new[] { text.Replace('.', ' ') /* text */}
             };
 
@@ -543,7 +524,7 @@ namespace ESsearchTest
             catch (Exception e)
             {
                 Debug.WriteLine(e);
-                MessageBox.Show($"Ошибка анализатора {_analyzerName}. {e}");
+                MessageBox.Show($"Ошибка анализатора. {e}");
             }
         }
 
