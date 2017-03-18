@@ -13,22 +13,19 @@ namespace PricePipeCore
 {
     public class Searcher
     {
-        private readonly string _defaultIndex;
         private readonly ElasticClient _elasticClient;
-        private List<Content> _founded;
-        private readonly INorm _norm;
 
         private readonly int _maxTake;
+        private readonly INorm _norm;
+        private List<Content> _founded;
 
         public Searcher(string defaultIndex, string address, string userName, string password)
         {
             _maxTake = 200;
 
-            ConnectionSettings connectionSettings;
-            _defaultIndex = defaultIndex;
             try
             {
-                connectionSettings = new ConnectionSettings(new Uri(address))
+                var connectionSettings = new ConnectionSettings(new Uri(address))
                     .OnRequestCompleted(details =>
                     {
                         var s = details.RequestBodyInBytes != null
@@ -37,26 +34,16 @@ namespace PricePipeCore
                         Debug.WriteLine($"{s}");
                     })
                     .DisableDirectStreaming()
-                    .DefaultIndex(_defaultIndex)
-                    .BasicAuthentication(userName, password)
-                    ;
-            }
-            catch (Exception exception)
-            {
-                Debug.WriteLine(exception);
-                throw;
-            }
-            try
-            {
+                    .DefaultIndex(defaultIndex)
+                    .BasicAuthentication(userName, password);
                 _elasticClient = new ElasticClient(connectionSettings);
+                _norm = new MedPrepNorm();
             }
             catch (Exception exception)
             {
                 Debug.WriteLine(exception);
                 throw;
             }
-
-            _norm = new MedPrepNorm();
         }
 
         public decimal GetNmck(string name)
@@ -68,21 +55,20 @@ namespace PricePipeCore
 
         private decimal Calculate()
         {
-            string calculationText;
+            string text;
             var prices = _founded.Select(z => z.Nprice).ToList();
-            return (decimal) Utils.GetPriceCalculation(prices, out calculationText);
+            return (decimal) Utils.GetPriceCalculation(prices, out text);
         }
 
         private void Search()
         {
-            //Search query to retrieve info
-            var queryContainer = GetQueryContainer();
-            if (queryContainer.Count == 0) return;
+            var container = GetQueryContainer();
+            if (container.Count == 0) return;
             var response = _elasticClient.Search<Content>(s => s
                 .Take(_maxTake)
                 .Query(q => q
                     .Bool(b => b
-                        .Must(queryContainer.ToArray())))
+                        .Must(container.ToArray())))
                 );
 
             _founded = response.Hits.Select(s => s.Source).ToList();

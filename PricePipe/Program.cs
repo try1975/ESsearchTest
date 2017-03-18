@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using PricePipeCore;
@@ -14,12 +13,12 @@ namespace PricePipe
             var names = File.ReadAllLines(args[0]);
             if (names.Any())
             {
-                var defaultIndex = ConfigurationManager.AppSettings["ElasticSearchDefaultIndex"];
-                var address = ConfigurationManager.AppSettings["ElasticSearchAddress"];
-                var userName = ConfigurationManager.AppSettings["ElasticSearchUserName"];
-                var password = ConfigurationManager.AppSettings["ElasticSearchPassword"];
-                
-                var priceCalculator = new Searcher(defaultIndex, address, userName, password);
+                var priceCalculator = new Searcher(
+                    AppSettings.DefaultIndex,
+                    AppSettings.Host,
+                    AppSettings.UserName,
+                    AppSettings.Password);
+
                 foreach (var name in names)
                 {
                     var nmck = priceCalculator.GetNmck(name);
@@ -29,5 +28,4 @@ namespace PricePipe
             Console.ReadKey();
         }
     }
-    
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Globalization;
@@ -15,13 +14,13 @@ using Nest;
 using PriceCommon.Model;
 using PriceCommon.Norm;
 using PriceCommon.Utils;
+using PricePipeCore;
 
 namespace ESsearchTest
 {
     public partial class Form1 : Form
     {
         private bool _canUpdateAnalyze = true;
-        private string _defaultIndex;
         private ElasticClient _elasticClient;
         private List<Content> _founded;
         private long _hitsTotal;
@@ -44,29 +43,25 @@ namespace ESsearchTest
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            _defaultIndex = ConfigurationManager.AppSettings["ElasticSearchDefaultIndex"];
-            var address = ConfigurationManager.AppSettings["ElasticSearchAddress"];
+            var address = AppSettings.Host;
             if (string.IsNullOrEmpty(address)) address = @"http://localhost:9200/";
-            var userName = ConfigurationManager.AppSettings["ElasticSearchUserName"];
-            if (string.IsNullOrEmpty(userName)) userName = @"elastic";
-            var password = ConfigurationManager.AppSettings["ElasticSearchPassword"];
 
             try
             {
                 var connectionSettings = new ConnectionSettings(new Uri(address))
-                      //.OnRequestCompleted(details => Debug.WriteLine($"{details.HttpMethod} {details.Uri} {Encoding.UTF8.GetString(details.RequestBodyInBytes)}"))
-                      .OnRequestCompleted(details =>
-                      {
-                          var s = details.RequestBodyInBytes != null
-                              ? Encoding.UTF8.GetString(details.RequestBodyInBytes)
-                              : null;
-                          Debug.WriteLine($"{s}");
-                      })
-                      .DisableDirectStreaming()
-                      .DefaultIndex(_defaultIndex)
-                      .BasicAuthentication(userName, password)
-                      //.PrettyJson()
-                      ;
+                    //.OnRequestCompleted(details => Debug.WriteLine($"{details.HttpMethod} {details.Uri} {Encoding.UTF8.GetString(details.RequestBodyInBytes)}"))
+                    .OnRequestCompleted(details =>
+                    {
+                        var s = details.RequestBodyInBytes != null
+                            ? Encoding.UTF8.GetString(details.RequestBodyInBytes)
+                            : null;
+                        Debug.WriteLine($"{s}");
+                    })
+                    .DisableDirectStreaming()
+                    .DefaultIndex(AppSettings.DefaultIndex)
+                    .BasicAuthentication(AppSettings.UserName, AppSettings.Password)
+                    //.PrettyJson()
+                    ;
                 _elasticClient = new ElasticClient(connectionSettings);
             }
             catch (Exception exception)
@@ -116,7 +111,7 @@ namespace ESsearchTest
                 throw;
             }
 
-            // Дата последнего обновления базы
+            // Last update date
             try
             {
                 var lastUpdatedResponce = _elasticClient.Search<Content>(s => s
@@ -139,7 +134,7 @@ namespace ESsearchTest
 
             // Add norm control to form
             _norm = new MedPrepControl();
-            AddNormControlToForm((Control)_norm);
+            AddNormControlToForm((Control) _norm);
         }
 
         #endregion //Initial
@@ -149,7 +144,7 @@ namespace ESsearchTest
         private void SearchExpert(int maxTake = 200)
         {
             var queryContainer = new List<QueryContainer>();
-            var exactRows = tbExactExpert.Text.ToLower().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            var exactRows = tbExactExpert.Text.ToLower().Split(new[] {Environment.NewLine}, StringSplitOptions.None);
             foreach (var row in exactRows)
             {
                 if (string.IsNullOrEmpty(row)) continue;
@@ -159,23 +154,23 @@ namespace ESsearchTest
                         .Query(row.Trim())));
             }
 
-            var queryRows = tbQueryExpert.Text.ToLower().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            var queryRows = tbQueryExpert.Text.ToLower().Split(new[] {Environment.NewLine}, StringSplitOptions.None);
             foreach (var row in queryRows)
             {
                 if (string.IsNullOrEmpty(row)) continue;
                 var modifiedRow = string.Join(" ",
-                    row.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(r => /*'*' +*/ r + '*'));
+                    row.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries).Select(r => /*'*' +*/ r + '*'));
                 queryContainer.Add(Query<Content>
                     .QueryString(q => q.Query(modifiedRow))
                     );
             }
 
-            var excludeRows = tbExcludeExpert.Text.ToLower().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            var excludeRows = tbExcludeExpert.Text.ToLower().Split(new[] {Environment.NewLine}, StringSplitOptions.None);
             foreach (var row in excludeRows)
             {
                 if (string.IsNullOrEmpty(row)) continue;
                 var modifiedRow = string.Join(" ",
-                    row.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(r => "-*" + r + '*'));
+                    row.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries).Select(r => "-*" + r + '*'));
                 queryContainer.Add(Query<Content>
                     .QueryString(q => q.Query(modifiedRow))
                     );
@@ -238,7 +233,7 @@ namespace ESsearchTest
 
 
             var exactRows = tbExact.Text.ToLower()
-                .Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                .Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
             foreach (var row in exactRows)
             {
                 if (string.IsNullOrEmpty(row)) continue;
@@ -262,25 +257,25 @@ namespace ESsearchTest
             }
 
             var queryRows = tbQuery.Text.ToLower()
-                .Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                .Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
             foreach (var row in queryRows)
             {
                 if (string.IsNullOrEmpty(row)) continue;
                 //var modifiedRow = string.Join("|", row.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(r => "\""+  r.Trim() + "\"*"));
                 var modifiedRow = string.Join(" ",
-                    row.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(r => r + "*"));
+                    row.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries).Select(r => r + "*"));
                 queryContainer.Add(Query<Content>
                     .QueryString(q => q.Query(modifiedRow))
                     );
             }
 
             var excludeRows = tbExclude.Text.ToLower()
-                .Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                .Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
             foreach (var row in excludeRows)
             {
                 if (string.IsNullOrEmpty(row)) continue;
                 var modifiedRow = string.Join(" ",
-                    row.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(r => "-*" + r.Trim() + "*"));
+                    row.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries).Select(r => "-*" + r.Trim() + "*"));
                 queryContainer.Add(Query<Content>
                     .QueryString(q => q.Query(modifiedRow))
                     );
@@ -303,7 +298,7 @@ namespace ESsearchTest
             var selectedCount = 0;
             foreach (DataGridViewRow row in dgv.Rows)
             {
-                if (!(bool)row.Cells[nameof(Content.Selected)].Value) continue;
+                if (!(bool) row.Cells[nameof(Content.Selected)].Value) continue;
                 selectedCount++;
                 selectedSeller.Add(row.Cells[nameof(Content.Seller)].Value.ToString());
             }
@@ -313,7 +308,7 @@ namespace ESsearchTest
             var prices = new List<double>();
             foreach (DataGridViewRow row in dgvSearchResult.Rows)
             {
-                if ((bool)row.Cells[nameof(Content.Selected)].Value)
+                if ((bool) row.Cells[nameof(Content.Selected)].Value)
                     prices.Add(Convert.ToDouble(row.Cells[nameof(Content.Price)].Value));
             }
             var calculatedPrice = Utils.GetPriceCalculation(prices, out calculationText);
@@ -350,9 +345,6 @@ namespace ESsearchTest
             dataGridViewColumn = dgv.Columns[nameof(Content.Price)];
             if (dataGridViewColumn != null)
             {
-                //dataGridViewColumn.HeaderText = @"Цена";
-                //dataGridViewColumn.ReadOnly = true;
-                //dataGridViewColumn.DisplayIndex = 3;
                 dataGridViewColumn.Visible = false;
             }
             dataGridViewColumn = dgv.Columns[nameof(Content.Nprice)];
@@ -365,6 +357,7 @@ namespace ESsearchTest
             dataGridViewColumn = dgv.Columns[nameof(Content.Uri)];
             if (dataGridViewColumn != null)
             {
+                dataGridViewColumn.Width = 500;
                 dataGridViewColumn.HeaderText = @"Ссылка на ТРУ";
                 dataGridViewColumn.ReadOnly = true;
                 dataGridViewColumn.DisplayIndex = 4;
@@ -487,10 +480,10 @@ namespace ESsearchTest
                 }
             }
 
-            var request = new AnalyzeRequest(_defaultIndex)
+            var request = new AnalyzeRequest(AppSettings.DefaultIndex)
             {
                 /*Analyzer = "russian", /* "standard|russian", https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-analyze.html */
-                Text = new[] { text.Replace('.', ' ') /* text */}
+                Text = new[] {text.Replace('.', ' ') /* text */}
             };
 
             try
@@ -541,7 +534,7 @@ namespace ESsearchTest
 
         private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            var dgv = (DataGridView)sender;
+            var dgv = (DataGridView) sender;
             var dataGridViewColumn = dgv.Columns[nameof(Content.Uri)];
             if (dataGridViewColumn == null || e.RowIndex < 0) return;
             var webAddressString = dgv.Rows[e.RowIndex].Cells[dataGridViewColumn.Index].Value.ToString();
@@ -563,7 +556,7 @@ namespace ESsearchTest
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            var maxTake = (int)numericUpDown1.Value;
+            var maxTake = (int) numericUpDown1.Value;
             if (cbExpert.Checked) SearchExpert(maxTake);
             if (cbSearch.Checked) Search(maxTake);
         }
@@ -596,12 +589,12 @@ namespace ESsearchTest
 
         private void dgvSearchResult_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            SetCalculation((DataGridView)sender);
+            SetCalculation((DataGridView) sender);
         }
 
         private void dgvSearchResult_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            ((DataGridView)sender).CommitEdit(DataGridViewDataErrorContexts.Commit);
+            ((DataGridView) sender).CommitEdit(DataGridViewDataErrorContexts.Commit);
         }
 
         private void tbName_KeyDown(object sender, KeyEventArgs e)
@@ -615,7 +608,7 @@ namespace ESsearchTest
             var prices = new List<double>();
             foreach (DataGridViewRow row in dgvSearchResult.Rows)
             {
-                if ((bool)row.Cells[nameof(Content.Selected)].Value)
+                if ((bool) row.Cells[nameof(Content.Selected)].Value)
                     prices.Add(Convert.ToDouble(row.Cells[nameof(Content.Price)].Value));
             }
             Utils.GetPriceCalculation(prices, out calculationText);
@@ -626,7 +619,7 @@ namespace ESsearchTest
         {
             foreach (DataGridViewRow row in dgvSearchResult.Rows)
             {
-                if (!(bool)row.Cells[nameof(Content.Selected)].Value) row.Cells[nameof(Content.Selected)].Value = true;
+                if (!(bool) row.Cells[nameof(Content.Selected)].Value) row.Cells[nameof(Content.Selected)].Value = true;
             }
         }
 
@@ -634,13 +627,13 @@ namespace ESsearchTest
         {
             foreach (DataGridViewRow row in dgvSearchResult.Rows)
             {
-                row.Cells[nameof(Content.Selected)].Value = !(bool)row.Cells[nameof(Content.Selected)].Value;
+                row.Cells[nameof(Content.Selected)].Value = !(bool) row.Cells[nameof(Content.Selected)].Value;
             }
         }
 
         private void cbExpert_CheckedChanged(object sender, EventArgs e)
         {
-            var visible = ((CheckBox)sender).Checked;
+            var visible = ((CheckBox) sender).Checked;
             if (visible)
             {
                 gbExpert.Visible = true;
@@ -655,7 +648,7 @@ namespace ESsearchTest
 
         private void cbSearch_CheckedChanged(object sender, EventArgs e)
         {
-            var visible = ((CheckBox)sender).Checked;
+            var visible = ((CheckBox) sender).Checked;
             if (visible)
             {
                 pnlSearch.Visible = true;
@@ -670,7 +663,7 @@ namespace ESsearchTest
 
         private void dgvExpert_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            var dgv = (DataGridView)sender;
+            var dgv = (DataGridView) sender;
             var dataGridViewColumn = dgv.Columns[nameof(Expert.ZakupkiLink)];
             if (dataGridViewColumn == null || e.RowIndex < 0) return;
             var url = dgv.Rows[e.RowIndex].Cells[dataGridViewColumn.Index].Value.ToString();
@@ -688,14 +681,14 @@ namespace ESsearchTest
 
         private void cbNorm_CheckedChanged(object sender, EventArgs e)
         {
-            gbNorm.Visible = ((CheckBox)sender).Checked;
+            gbNorm.Visible = ((CheckBox) sender).Checked;
         }
 
         private void btnExcelExport_Click(object sender, EventArgs e)
         {
-            var saveFileDialog = new SaveFileDialog { FileName = "test.xlsx" };
+            var saveFileDialog = new SaveFileDialog {FileName = "test.xlsx"};
             if (saveFileDialog.ShowDialog() != DialogResult.OK) return;
-            var dataTable = (DataTable)bsQuery.DataSource;
+            var dataTable = (DataTable) bsQuery.DataSource;
             var dataSet = new DataSet();
             dataSet.Tables.Add(dataTable);
             CreateExcelFile.CreateExcelDocument(dataSet, saveFileDialog.FileName);
