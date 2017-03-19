@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using Nest;
-using Norm.MedPrep.Norm;
+using Norm.MedPrep;
 using PriceCommon.Norm;
 
 namespace ESsearchTest.Controls

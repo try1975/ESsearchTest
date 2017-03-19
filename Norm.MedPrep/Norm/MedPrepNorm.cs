@@ -5,7 +5,7 @@ using Nest;
 using PriceCommon.Model;
 using PriceCommon.Norm;
 
-namespace Norm.MedPrep.Norm
+namespace Norm.MedPrep
 {
     public class MedPrepNorm : INorm, IMedPrep
     {
@@ -43,9 +43,9 @@ namespace Norm.MedPrep.Norm
 
             UpakNorm = new UpakNorm();
             DozNorm = new DozNorm();
-            if (DozNorm.NormDictionary != null && _controlMedPrep != null)
+            if (DozNorm.DozDictionary != null && _controlMedPrep != null)
             {
-                _controlMedPrep.DozEdList = DozNorm.NormDictionary.Select(i => i.Key).ToList();
+                _controlMedPrep.DozEdList = DozNorm.DozDictionary.Select(i => i.Key).ToList();
             }
         }
 
@@ -144,7 +144,7 @@ namespace Norm.MedPrep.Norm
             if (!string.IsNullOrEmpty(FirstWords))
             {
                 _queryContainer.Add(Query<Content>
-                    .QueryString(q => q.Query(FirstWords.Trim().ToLower())
+                    .QueryString(q => q.Query(FirstWords.Trim().ToLower()+"*")
                         .Fields(f => f.Field(fn => fn.Name) /*.Field(fn=>fn.Seller)*/)
                     )
                     );

@@ -72,6 +72,12 @@
     <Compile Include="Controls\MedPrepControl.Designer.cs">
       <DependentUpon>MedPrepControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\NormControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\NormControl.Designer.cs">
+      <DependentUpon>NormControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +89,9 @@
     <Compile Include="Utils\CreateExcelFile.cs" />
     <EmbeddedResource Include="Controls\MedPrepControl.resx">
       <DependentUpon>MedPrepControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\NormControl.resx">
+      <DependentUpon>NormControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

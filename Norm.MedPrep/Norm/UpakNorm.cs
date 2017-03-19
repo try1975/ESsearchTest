@@ -8,11 +8,11 @@ using Newtonsoft.Json;
 using PriceCommon.Model;
 using PriceCommon.Norm;
 
-namespace Norm.MedPrep.Norm
+namespace Norm.MedPrep
 {
     public class UpakNorm : INorm
     {
-        private readonly List<Detect> _list;
+        private readonly List<IDetect> _detectors;
         private readonly List<QueryContainer> _queryContainer;
         private string _initialName;
 
@@ -25,7 +25,8 @@ namespace Norm.MedPrep.Norm
                     .LocalPath;
             if (!File.Exists(path)) return;
             var json = File.ReadAllText(path);
-            _list = JsonConvert.DeserializeObject<List<Detect>>(json);
+            //_list = JsonConvert.DeserializeObject<List<Detect>>(json);
+            _detectors = new List<IDetect>(JsonConvert.DeserializeObject<List<Detect>>(json));
         }
 
         public string InitialName
@@ -52,9 +53,9 @@ namespace Norm.MedPrep.Norm
         private void Normalize()
         {
             NormResult = "";
-            if (_list == null || InitialName == null) return;
+            if (_detectors == null || InitialName == null) return;
             const RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace;
-            foreach (var detect in _list)
+            foreach (var detect in _detectors)
             {
                 foreach (var detector in detect.RegExpDetectors)
                 {
@@ -72,10 +73,10 @@ namespace Norm.MedPrep.Norm
             if (string.IsNullOrEmpty(NormResult)) return;
 
 
-            foreach (var item in _list)
+            foreach (var detect in _detectors)
             {
                 var shoulds = new List<QueryContainer>();
-                foreach (var queryString in item.QueryStrings)
+                foreach (var queryString in detect.QueryStrings)
                 {
                     var should = string.Format(queryString, NormResult);
                     if (should.Contains(" "))
@@ -113,7 +114,7 @@ namespace Norm.MedPrep.Norm
                     .Bool(w => w
                         .Should(shoulds.ToArray())
                         .MinimumShouldMatch(1)
-                    )
+                        )
                     );
             }
         }

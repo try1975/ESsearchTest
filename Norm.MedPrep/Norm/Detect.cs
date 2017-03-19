@@ -1,6 +1,6 @@
 ﻿using PriceCommon.Norm;
 
-namespace Norm.MedPrep.Norm
+namespace Norm.MedPrep
 {
     public class Detect : IDetect
     {

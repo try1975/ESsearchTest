@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Nest;
-using Norm.MedPrep.Norm;
+using Norm.MedPrep;
 using PriceCommon.Model;
 using PriceCommon.Norm;
 using PriceCommon.Utils;
