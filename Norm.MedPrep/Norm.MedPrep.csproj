@@ -47,11 +47,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Norm\Detect.cs" />
-    <Compile Include="Norm\DozNorm.cs" />
-    <Compile Include="Norm\LekFormNorm.cs" />
-    <Compile Include="Norm\MedPrepNorm.cs" />
-    <Compile Include="Norm\UpakNorm.cs" />
+    <Compile Include="Detect.cs" />
+    <Compile Include="DozNorm.cs" />
+    <Compile Include="LekFormNorm.cs" />
+    <Compile Include="MedPrepNorm.cs" />
+    <Compile Include="UpakNorm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
