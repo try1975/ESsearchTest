@@ -38,10 +38,13 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.tbFirstWords = new System.Windows.Forms.TextBox();
+            this.clbSyn = new System.Windows.Forms.CheckedListBox();
+            this.gbSyn = new System.Windows.Forms.GroupBox();
             this.gbLekForma.SuspendLayout();
             this.gbUpak.SuspendLayout();
             this.gbDoz.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.gbSyn.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmbLekForm
@@ -139,10 +142,33 @@
             this.tbFirstWords.TabIndex = 0;
             this.tbFirstWords.TextChanged += new System.EventHandler(this.tbFirstWords_TextChanged);
             // 
+            // clbSyn
+            // 
+            this.clbSyn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.clbSyn.FormattingEnabled = true;
+            this.clbSyn.Location = new System.Drawing.Point(3, 16);
+            this.clbSyn.MultiColumn = true;
+            this.clbSyn.Name = "clbSyn";
+            this.clbSyn.Size = new System.Drawing.Size(247, 37);
+            this.clbSyn.TabIndex = 5;
+            this.clbSyn.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbSyn_ItemCheck);
+            // 
+            // gbSyn
+            // 
+            this.gbSyn.Controls.Add(this.clbSyn);
+            this.gbSyn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbSyn.Location = new System.Drawing.Point(452, 38);
+            this.gbSyn.Name = "gbSyn";
+            this.gbSyn.Size = new System.Drawing.Size(253, 56);
+            this.gbSyn.TabIndex = 6;
+            this.gbSyn.TabStop = false;
+            this.gbSyn.Text = "Аналоги";
+            // 
             // MedPrepControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.gbSyn);
             this.Controls.Add(this.gbDoz);
             this.Controls.Add(this.gbUpak);
             this.Controls.Add(this.gbLekForma);
@@ -156,6 +182,7 @@
             this.gbDoz.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.gbSyn.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -172,5 +199,7 @@
         private System.Windows.Forms.TextBox tbFirstWords;
         private System.Windows.Forms.TextBox tbUpak;
         private System.Windows.Forms.ComboBox cmbDoz;
+        private System.Windows.Forms.CheckedListBox clbSyn;
+        private System.Windows.Forms.GroupBox gbSyn;
     }
 }

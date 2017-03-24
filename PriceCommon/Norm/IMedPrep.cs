@@ -8,5 +8,6 @@
         string DozEd { get; set; }
         string Upak { get; set; }
         string Ob { get; set; }
+        string Syn { get; set; }
     }
 }

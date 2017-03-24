@@ -18,6 +18,7 @@ namespace ESsearchTest.Controls
         private string _initialName;
         private string _lekForm;
         private string _upak;
+        private string _syn;
 
         public MedPrepControl()
         {
@@ -82,6 +83,23 @@ namespace ESsearchTest.Controls
         }
 
         public string Ob { get; set; }
+
+        public string Syn
+        {
+            get { return _syn; }
+            set
+            {
+                if(_syn==value) return;
+                _syn = value;
+                clbSyn.ItemCheck -= clbSyn_ItemCheck;
+                clbSyn.Items.Clear();
+                foreach (var s in _syn.Split(','))
+                {
+                    clbSyn.Items.Add(s, true);
+                }
+                clbSyn.ItemCheck += clbSyn_ItemCheck;
+            }
+        }
 
         public List<string> LekFormList
         {
@@ -150,6 +168,21 @@ namespace ESsearchTest.Controls
         private void tbFirstWords_TextChanged(object sender, EventArgs e)
         {
             _medPrepNorm.FirstWords = tbFirstWords.Text;
+        }
+
+        private void clbSyn_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            var checkedItems = (from object item in clbSyn.CheckedItems select item.ToString()).ToList();
+            if (e.NewValue == CheckState.Checked)
+            {
+                checkedItems.Add(clbSyn.Items[e.Index].ToString());
+            }
+            else
+            {
+                checkedItems.Remove(clbSyn.Items[e.Index].ToString());
+            }
+            
+            _syn = string.Join(",", checkedItems);
         }
     }
 }

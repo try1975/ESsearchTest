@@ -15,12 +15,14 @@ namespace Norm.MedPrep
 
         public readonly LekFormNorm LekFormNorm;
         public readonly UpakNorm UpakNorm;
+        public readonly SynNorm SynNorm;
         private string _doz;
         private string _dozEd;
         private string _firstWords;
         private string _initialName;
         private string _lekForm;
         private string _upak;
+        private string _syn;
 
         public MedPrepNorm()
         {
@@ -47,6 +49,8 @@ namespace Norm.MedPrep
             {
                 _controlMedPrep.DozEdList = DozNorm.DozDictionary.Select(i => i.Key).ToList();
             }
+
+            SynNorm = new SynNorm();
         }
 
         public string FirstWords
@@ -102,6 +106,17 @@ namespace Norm.MedPrep
 
         public string Ob { get; set; }
 
+        public string Syn
+        {
+            get { return _syn; }
+            set
+            {
+                _syn = value;
+                if (_controlMedPrep != null && SynNorm != null) _controlMedPrep.Syn = SynNorm.NormResult;
+            }
+
+        }
+
         public string InitialName
         {
             get { return _initialName; }
@@ -123,6 +138,11 @@ namespace Norm.MedPrep
                 DozNorm.InitialName = _initialName;
                 Doz = DozNorm.DozValue;
                 DozEd = DozNorm.DozKey;
+                if (SynNorm != null)
+                {
+                    SynNorm.InitialName = FirstWords;
+                    Syn = SynNorm.NormResult;
+                }
             }
         }
 
@@ -143,11 +163,50 @@ namespace Norm.MedPrep
 
             if (!string.IsNullOrEmpty(FirstWords))
             {
-                _queryContainer.Add(Query<Content>
-                    .QueryString(q => q.Query(FirstWords.Trim().ToLower()+"*")
-                        .Fields(f => f.Field(fn => fn.Name) /*.Field(fn=>fn.Seller)*/)
-                    )
+                if (!string.IsNullOrEmpty(_controlMedPrep?.Syn))
+                {
+                    var shoulds = new List<QueryContainer>();
+                    foreach (var queryString in _controlMedPrep.Syn.Split(','))
+                    {
+                        var should = queryString;
+                        if (should.Contains(" "))
+                        {
+                            shoulds.Add(Query<Content>
+                                .MatchPhrase(m => m
+                                    .Field(f => f.Name)
+                                    .Query(should))
+                                );
+                        }
+                        else
+                        {
+                            shoulds.Add(Query<Content>
+                                .QueryString(m => m
+                                    .Query(should + "*")
+                                    .Fields(f => f.Field(fn => fn.Name))
+                                )
+                                );
+                        }
+                    }
+                    shoulds.Add(Query<Content>
+                        .QueryString(q => q.Query(FirstWords.Trim().ToLower() + "*")
+                            .Fields(f => f.Field(fn => fn.Name))
+                        )
+                        );
+                    _queryContainer.Add(Query<Content>
+                    .Bool(w => w
+                        .Should(shoulds.ToArray())
+                        .MinimumShouldMatch(1)
+                        )
                     );
+                }
+                else
+                {
+                    _queryContainer.Add(Query<Content>
+                        .QueryString(q => q.Query(FirstWords.Trim().ToLower() + "*")
+                            .Fields(f => f.Field(fn => fn.Name) /*.Field(fn=>fn.Seller)*/)
+                        )
+                        );
+                }
             }
             _queryContainer.AddRange(LekFormNorm.QueryContainer);
             _queryContainer.AddRange(UpakNorm.QueryContainer);

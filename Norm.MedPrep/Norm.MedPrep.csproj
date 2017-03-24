@@ -51,6 +51,7 @@
     <Compile Include="DozNorm.cs" />
     <Compile Include="LekFormNorm.cs" />
     <Compile Include="MedPrepNorm.cs" />
+    <Compile Include="SynNorm.cs" />
     <Compile Include="UpakNorm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
