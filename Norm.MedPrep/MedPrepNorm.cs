@@ -15,7 +15,7 @@ namespace Norm.MedPrep
 
         public readonly LekFormNorm LekFormNorm;
         public readonly UpakNorm UpakNorm;
-        public readonly SynNorm SynNorm;
+        private readonly SynNorm _synNorm;
         private string _doz;
         private string _dozEd;
         private string _firstWords;
@@ -23,16 +23,18 @@ namespace Norm.MedPrep
         private string _lekForm;
         private string _upak;
         private string _syn;
+        private string _synInitial;
 
-        public MedPrepNorm()
+        public MedPrepNorm(ElasticClient elasticClient)
         {
             _queryContainer = new List<QueryContainer>();
             LekFormNorm = new LekFormNorm();
             UpakNorm = new UpakNorm();
             DozNorm = new DozNorm();
+            _synNorm = new SynNorm(elasticClient);
         }
 
-        public MedPrepNorm(IMedPrepControl controlMedPrep)
+        public MedPrepNorm(IMedPrepControl controlMedPrep, ElasticClient elasticClient)
         {
             _controlMedPrep = controlMedPrep;
             _queryContainer = new List<QueryContainer>();
@@ -50,7 +52,7 @@ namespace Norm.MedPrep
                 _controlMedPrep.DozEdList = DozNorm.DozDictionary.Select(i => i.Key).ToList();
             }
 
-            SynNorm = new SynNorm();
+            _synNorm = new SynNorm(elasticClient);
         }
 
         public string FirstWords
@@ -112,7 +114,7 @@ namespace Norm.MedPrep
             set
             {
                 _syn = value;
-                if (_controlMedPrep != null && SynNorm != null) _controlMedPrep.Syn = SynNorm.NormResult;
+                if (_controlMedPrep != null && _synNorm != null) _controlMedPrep.Syn = _synNorm.NormResult;
             }
 
         }
@@ -125,11 +127,9 @@ namespace Norm.MedPrep
                 _initialName = value;
                 if (_initialName != null)
                 {
-                    const RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace;
-                    const string exprRegex = @"\b([\w-]+)\b";
-                    if (Regex.IsMatch(_initialName, exprRegex, options))
-                        FirstWords = Regex.Match(_initialName, exprRegex, options).Groups[1].Value;
+                    FirstWords = GetFirstWords(_initialName);
                 }
+
 
                 LekFormNorm.InitialName = _initialName;
                 LekForm = LekFormNorm.NormResult;
@@ -138,12 +138,57 @@ namespace Norm.MedPrep
                 DozNorm.InitialName = _initialName;
                 Doz = DozNorm.DozValue;
                 DozEd = DozNorm.DozKey;
-                if (SynNorm != null)
+                if (_synNorm == null) return;
+                _synInitial = GetSynInitial();
+                _synNorm.InitialName = _synInitial;
+                Syn = _synNorm.NormResult;
+            }
+        }
+
+        private string GetFirstWords(string input)
+        {
+            const RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace;
+            const string exprRegex = @"\b([\w-]+)\b";
+            // применять нормализаторы, чтобы определить FirstWords
+            var words = Regex.Matches(input, exprRegex, options)
+                .Cast<Match>()
+                .Select(m => m.Value)
+                .ToList();
+            var aFirstWords = "";
+            if (!words.Any()) return aFirstWords;
+            var tempFirstWords = "";
+            foreach (var word in words)
+            {
+                tempFirstWords += $" {word}";
+                LekFormNorm.InitialName = tempFirstWords;
+                UpakNorm.InitialName = tempFirstWords;
+                DozNorm.InitialName = tempFirstWords;
+                if (LekFormNorm.NormResult.Equals("-")
+                    && string.IsNullOrEmpty(UpakNorm.NormResult)
+                    && DozNorm.DozKey.Equals("-")
+                    && char.IsLetter(word[0]))
                 {
-                    SynNorm.InitialName = FirstWords;
-                    Syn = SynNorm.NormResult;
+                    aFirstWords = tempFirstWords;
+                }
+                else
+                {
+                    break;
                 }
             }
+            return aFirstWords.Trim();
+        }
+
+        private string GetSynInitial()
+        {
+            if (!_initialName.Contains('+')) return FirstWords;
+            var innList = _initialName.Split('+');
+            var i = 0;
+            foreach (var inn in innList)
+            {
+                innList[i] = GetFirstWords(inn).ToLower().Trim();
+                i++;
+            }
+            return string.Join("+", innList);
         }
 
         public string NormResult { get; set; }
@@ -187,11 +232,12 @@ namespace Norm.MedPrep
                                 );
                         }
                     }
-                    shoulds.Add(Query<Content>
-                        .QueryString(q => q.Query(FirstWords.Trim().ToLower() + "*")
-                            .Fields(f => f.Field(fn => fn.Name))
-                        )
-                        );
+                    // это убрать?
+                    //shoulds.Add(Query<Content>
+                    //    .QueryString(q => q.Query(FirstWords.Trim().ToLower() + "*")
+                    //        .Fields(f => f.Field(fn => fn.Name))
+                    //    )
+                    //    );
                     _queryContainer.Add(Query<Content>
                     .Bool(w => w
                         .Should(shoulds.ToArray())

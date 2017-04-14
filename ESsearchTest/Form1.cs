@@ -135,7 +135,7 @@ namespace ESsearchTest
             }
 
             // Add norm control to form
-            _norms.Add(new KeyValuePair<string, INorm>("Медицинские препараты", new MedPrepControl()));
+            _norms.Add(new KeyValuePair<string, INorm>("Медицинские препараты", new MedPrepControl(_elasticClient)));
             _norms.Add(new KeyValuePair<string, INorm>("Пустой нормализатор", new NormControl()));
 
             cmbNorm.DataSource = _norms;
@@ -259,11 +259,20 @@ namespace ESsearchTest
 
             if (clbSellers.CheckedItems.Count > 0)
             {
-                var sellers = string.Join(" ", clbSellers.CheckedItems.OfType<string>());
+                var sellers="";
+                if (clbSellers.CheckedItems.Count == 1)
+                {
+                    sellers = string.Join("",clbSellers.CheckedItems.OfType<string>()).Trim() + '*';
+                }
+                else
+                {
+                    sellers = clbSellers.CheckedItems.OfType<string>().Aggregate(sellers, (current, seller) => current + (seller.Trim() + "* "));
+                }
                 queryContainer.Add(Query<Content>
-                    .Match(m => m
-                        .Field(p => p.Seller)
-                        .Query(sellers.Trim())));
+                    .QueryString(qs => qs
+                        .DefaultField(df => df.Seller)
+                        .Query(sellers)))
+                ;
             }
 
             var queryRows = tbQuery.Text.ToLower()
@@ -708,8 +717,8 @@ namespace ESsearchTest
         private void cmbNorm_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbNorm.SelectedIndex < 0) return;
-            _norm = (INorm) cmbNorm.SelectedValue;
-            AddNormControlToForm((Control) _norm);
+            _norm = (INorm)cmbNorm.SelectedValue;
+            AddNormControlToForm((Control)_norm);
         }
 
         #endregion //Event handlers

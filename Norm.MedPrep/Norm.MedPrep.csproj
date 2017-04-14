@@ -62,15 +62,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Norm\json\DozNorm.json">
+    <Content Include="Norm\json\DozNorm.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Norm\json\LekFormNorm.json">
+    </Content>
+    <Content Include="Norm\json\LekFormNorm.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Norm\json\UpakNorm.json">
+    </Content>
+    <Content Include="Norm\json\UpakNorm.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

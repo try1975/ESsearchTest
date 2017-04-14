@@ -20,10 +20,10 @@ namespace ESsearchTest.Controls
         private string _upak;
         private string _syn;
 
-        public MedPrepControl()
+        public MedPrepControl(ElasticClient elasticClient)
         {
             InitializeComponent();
-            if (LicenseManager.UsageMode != LicenseUsageMode.Designtime) _medPrepNorm = new MedPrepNorm(this);
+            if (LicenseManager.UsageMode != LicenseUsageMode.Designtime) _medPrepNorm = new MedPrepNorm(this, elasticClient);
         }
 
 
@@ -43,7 +43,7 @@ namespace ESsearchTest.Controls
             get { return _lekForm; }
             set
             {
-                if (_lekForm == value) return;
+               if (_lekForm == value) return;
                 _lekForm = value;
                 cmbLekForm.SelectedIndex = cmbLekForm.FindString(_lekForm);
             }
@@ -95,6 +95,7 @@ namespace ESsearchTest.Controls
                 clbSyn.Items.Clear();
                 foreach (var s in _syn.Split(','))
                 {
+                    if(string.IsNullOrEmpty(s)) continue;
                     clbSyn.Items.Add(s, true);
                 }
                 clbSyn.ItemCheck += clbSyn_ItemCheck;

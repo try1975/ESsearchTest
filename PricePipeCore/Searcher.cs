@@ -37,7 +37,7 @@ namespace PricePipeCore
                     .DefaultIndex(defaultIndex)
                     .BasicAuthentication(userName, password);
                 _elasticClient = new ElasticClient(connectionSettings);
-                _norm = new MedPrepNorm();
+                _norm = new MedPrepNorm(_elasticClient);
             }
             catch (Exception exception)
             {

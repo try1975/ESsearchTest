@@ -23,6 +23,7 @@ GET md_v2/content/_search
 }
 GET md_v1/_stats
 
+53c926bcb2e3b840120fcadb52b51b27
 
 PUT md_v3
 {

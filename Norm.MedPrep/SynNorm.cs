@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Nest;
+using PriceCommon.Model;
 using PriceCommon.Norm;
 
 namespace Norm.MedPrep
@@ -10,16 +11,17 @@ namespace Norm.MedPrep
 
         private readonly List<QueryContainer> _queryContainer;
         private string _initialName;
-        private readonly List<string> _list01, _list02, _list03, _list04;
+        private readonly ElasticClient _elasticClient;
 
-        public SynNorm()
+        //public SynNorm()
+        //{
+        //    _queryContainer = new List<QueryContainer>();
+        //}
+
+        public SynNorm(ElasticClient elasticClient)
         {
+            _elasticClient = elasticClient;
             _queryContainer = new List<QueryContainer>();
-            _list01 = new List<string> { "эзомепразол", "нео-зекст", "эманера", "нексиум" };
-            _list02 = new List<string> { "панкреатин", "креон", "микразим", "пангрол", "эрмиталь" };
-            _list03 = new List<string> { "инсулин", "биосулин", "возулим", "генсулин", "инсуман", "ринсулин" };
-            _list04 = new List<string> { "орлистат", "алли", "ксеналтен" };
-
         }
 
         public List<QueryContainer> QueryContainer
@@ -39,27 +41,51 @@ namespace Norm.MedPrep
 
         private void Normalize()
         {
-            if (InitialName == null) return;
+            NormResult = "";
+            if (string.IsNullOrEmpty(InitialName)) return;
             _initialName = _initialName.Trim().ToLower();
-            if (_list01.Contains(_initialName))
+            var innItems = _initialName.Split('+');
+
+            //var musts = new List<QueryContainer>();
+            //foreach (var innItem in innItems)
+            //{
+            //    musts.Add(Query<Syn>
+            //                   .Match(m => m
+            //                        .Field(f => f.Inn)
+            //                        .Query(innItem))
+            //                   );
+            //}
+
+            //var innList = _elasticClient.Search<Syn>(s => s
+            //    .Size(100)
+            //    .Query(q => q
+            //        .Bool(b => b
+            //            .Must(musts.ToArray())))
+            //    );
+
+            var innList = _elasticClient.Search<Syn>(s => s
+                .Size(100)
+                .Query(q => q
+                    .Bool(b => b
+                        .Must(innItems.Select(innItem => Query<Syn>.Match(m => m.Field(f => f.Inn).Query(innItem))).ToArray())))
+                );
+
+            //var innList = _elasticClient.Search<Syn>(s => s
+            //    .Size(100)
+            //    .Query(q => q
+            //        .QueryString(qs => qs
+            //            .Fields(fs => fs.Field(f => f.Inn))
+            //            .Query(_initialName)))
+
+            //);
+            if (innList.Hits.Any(s => s.Source.Inn.Length == innItems.Length))
             {
-                NormResult = string.Join(",", _list01.Where(z => !z.Equals(_initialName)).ToList());
-                return;
-            }
-            if (_list02.Contains(_initialName))
-            {
-                NormResult = string.Join(",", _list02.Where(z => !z.Equals(_initialName)).ToList());
-                return;
-            }
-            if (_list03.Contains(_initialName))
-            {
-                NormResult = string.Join(",", _list03.Where(z => !z.Equals(_initialName)).ToList());
-                return;
-            }
-            if (_list04.Contains(_initialName))
-            {
-                NormResult = string.Join(",", _list04.Where(z => !z.Equals(_initialName)).ToList());
-                return;
+                NormResult = innList.Hits
+                    .Where(s => s.Source.Inn.Length == innItems.Length)
+                    .Select(s => s.Source.Tn)
+                    .Distinct()
+                    .Aggregate((current, next) => current + "," + next)
+                    ;
             }
         }
 

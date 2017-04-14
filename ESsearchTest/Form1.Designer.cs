@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpSearch = new System.Windows.Forms.TabPage();
@@ -57,6 +57,9 @@
             this.cbScreenshotLink = new System.Windows.Forms.CheckBox();
             this.cbOpenLink = new System.Windows.Forms.CheckBox();
             this.gbNorm = new System.Windows.Forms.GroupBox();
+            this.pnlNorm = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.cmbNorm = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cbNorm = new System.Windows.Forms.CheckBox();
             this.cbSearch = new System.Windows.Forms.CheckBox();
@@ -89,9 +92,7 @@
             this.splExpert = new System.Windows.Forms.Splitter();
             this.bsQuery = new System.Windows.Forms.BindingSource(this.components);
             this.bsExpert = new System.Windows.Forms.BindingSource(this.components);
-            this.cmbNorm = new System.Windows.Forms.ComboBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.pnlNorm = new System.Windows.Forms.Panel();
+            this.splitter2 = new System.Windows.Forms.Splitter();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tpSearch.SuspendLayout();
@@ -100,6 +101,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.gbNorm.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.pnlSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSearchResult)).BeginInit();
@@ -108,7 +110,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvExpert)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsQuery)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsExpert)).BeginInit();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -116,6 +117,7 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.tabControl1);
             this.panel1.Controls.Add(this.panel5);
+            this.panel1.Controls.Add(this.splitter2);
             this.panel1.Controls.Add(this.gbNorm);
             this.panel1.Controls.Add(this.groupBox3);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -129,10 +131,10 @@
             this.tabControl1.Controls.Add(this.tpSearch);
             this.tabControl1.Controls.Add(this.tpExpert);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 176);
+            this.tabControl1.Location = new System.Drawing.Point(0, 179);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1063, 104);
+            this.tabControl1.Size = new System.Drawing.Size(1063, 101);
             this.tabControl1.TabIndex = 38;
             // 
             // tpSearch
@@ -149,7 +151,7 @@
             this.tpSearch.Location = new System.Drawing.Point(4, 22);
             this.tpSearch.Name = "tpSearch";
             this.tpSearch.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSearch.Size = new System.Drawing.Size(1055, 78);
+            this.tpSearch.Size = new System.Drawing.Size(1055, 75);
             this.tpSearch.TabIndex = 1;
             this.tpSearch.Text = "Условия поиска";
             this.tpSearch.UseVisualStyleBackColor = true;
@@ -171,7 +173,7 @@
             this.clbSellers.Location = new System.Drawing.Point(463, 19);
             this.clbSellers.MultiColumn = true;
             this.clbSellers.Name = "clbSellers";
-            this.clbSellers.Size = new System.Drawing.Size(400, 49);
+            this.clbSellers.Size = new System.Drawing.Size(400, 34);
             this.clbSellers.TabIndex = 38;
             // 
             // label1
@@ -191,7 +193,7 @@
             this.tbExact.Location = new System.Drawing.Point(10, 19);
             this.tbExact.Multiline = true;
             this.tbExact.Name = "tbExact";
-            this.tbExact.Size = new System.Drawing.Size(134, 53);
+            this.tbExact.Size = new System.Drawing.Size(134, 50);
             this.tbExact.TabIndex = 0;
             this.tbExact.TextChanged += new System.EventHandler(this.SearchCondition_TextChanged);
             // 
@@ -212,7 +214,7 @@
             this.tbExclude.Location = new System.Drawing.Point(310, 19);
             this.tbExclude.Multiline = true;
             this.tbExclude.Name = "tbExclude";
-            this.tbExclude.Size = new System.Drawing.Size(134, 53);
+            this.tbExclude.Size = new System.Drawing.Size(134, 50);
             this.tbExclude.TabIndex = 35;
             this.tbExclude.TextChanged += new System.EventHandler(this.SearchCondition_TextChanged);
             // 
@@ -232,7 +234,7 @@
             this.tbQuery.Location = new System.Drawing.Point(160, 19);
             this.tbQuery.Multiline = true;
             this.tbQuery.Name = "tbQuery";
-            this.tbQuery.Size = new System.Drawing.Size(134, 53);
+            this.tbQuery.Size = new System.Drawing.Size(134, 50);
             this.tbQuery.TabIndex = 28;
             this.tbQuery.TextChanged += new System.EventHandler(this.SearchCondition_TextChanged);
             // 
@@ -247,7 +249,7 @@
             this.tpExpert.Location = new System.Drawing.Point(4, 22);
             this.tpExpert.Name = "tpExpert";
             this.tpExpert.Padding = new System.Windows.Forms.Padding(3);
-            this.tpExpert.Size = new System.Drawing.Size(1055, 88);
+            this.tpExpert.Size = new System.Drawing.Size(1055, 78);
             this.tpExpert.TabIndex = 2;
             this.tpExpert.Text = "Условия поиска экспертных оценок";
             this.tpExpert.UseVisualStyleBackColor = true;
@@ -410,6 +412,31 @@
             this.gbNorm.TabStop = false;
             this.gbNorm.Text = "Нормализация";
             // 
+            // pnlNorm
+            // 
+            this.pnlNorm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlNorm.Location = new System.Drawing.Point(3, 46);
+            this.pnlNorm.Name = "pnlNorm";
+            this.pnlNorm.Size = new System.Drawing.Size(1057, 82);
+            this.pnlNorm.TabIndex = 2;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.cmbNorm);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(3, 16);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1057, 30);
+            this.panel2.TabIndex = 1;
+            // 
+            // cmbNorm
+            // 
+            this.cmbNorm.FormattingEnabled = true;
+            this.cmbNorm.Location = new System.Drawing.Point(5, 3);
+            this.cmbNorm.Name = "cmbNorm";
+            this.cmbNorm.Size = new System.Drawing.Size(558, 21);
+            this.cmbNorm.TabIndex = 0;
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.cbNorm);
@@ -498,14 +525,14 @@
             this.dgvSearchResult.AllowUserToOrderColumns = true;
             this.dgvSearchResult.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvSearchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSearchResult.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSearchResult.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvSearchResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvSearchResult.Location = new System.Drawing.Point(0, 78);
             this.dgvSearchResult.MultiSelect = false;
@@ -723,14 +750,14 @@
             this.dgvExpert.AllowUserToOrderColumns = true;
             this.dgvExpert.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvExpert.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvExpert.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvExpert.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvExpert.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvExpert.Location = new System.Drawing.Point(3, 16);
             this.dgvExpert.MultiSelect = false;
@@ -750,30 +777,15 @@
             this.splExpert.TabIndex = 32;
             this.splExpert.TabStop = false;
             // 
-            // cmbNorm
+            // splitter2
             // 
-            this.cmbNorm.FormattingEnabled = true;
-            this.cmbNorm.Location = new System.Drawing.Point(5, 3);
-            this.cmbNorm.Name = "cmbNorm";
-            this.cmbNorm.Size = new System.Drawing.Size(558, 21);
-            this.cmbNorm.TabIndex = 0;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.cmbNorm);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(3, 16);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1057, 30);
-            this.panel2.TabIndex = 1;
-            // 
-            // pnlNorm
-            // 
-            this.pnlNorm.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlNorm.Location = new System.Drawing.Point(3, 46);
-            this.pnlNorm.Name = "pnlNorm";
-            this.pnlNorm.Size = new System.Drawing.Size(1057, 82);
-            this.pnlNorm.TabIndex = 2;
+            this.splitter2.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.splitter2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.splitter2.Location = new System.Drawing.Point(0, 176);
+            this.splitter2.Name = "splitter2";
+            this.splitter2.Size = new System.Drawing.Size(1063, 3);
+            this.splitter2.TabIndex = 0;
+            this.splitter2.TabStop = false;
             // 
             // Form1
             // 
@@ -802,6 +814,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.gbNorm.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.pnlSearch.ResumeLayout(false);
@@ -812,7 +825,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvExpert)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsQuery)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsExpert)).EndInit();
-            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -880,6 +892,7 @@
         private System.Windows.Forms.ComboBox cmbNorm;
         private System.Windows.Forms.Panel pnlNorm;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Splitter splitter2;
     }
 }
 
