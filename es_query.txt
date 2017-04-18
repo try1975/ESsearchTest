@@ -25,6 +25,22 @@ GET md_v1/_stats
 
 53c926bcb2e3b840120fcadb52b51b27
 
+POST md5/content/_search?size=0
+{
+     "query": {
+        "query_string": {
+
+           "query": "кофеин парацетамол",
+           "default_operator": "AND"
+        }
+    },
+    "aggs" : {
+        "sellers": {
+            "terms" : { "field" : "seller" }
+        }
+    }
+}
+
 PUT md_v3
 {
     "settings":{

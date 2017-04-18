@@ -56,6 +56,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbScreenshotLink = new System.Windows.Forms.CheckBox();
             this.cbOpenLink = new System.Windows.Forms.CheckBox();
+            this.splitter2 = new System.Windows.Forms.Splitter();
             this.gbNorm = new System.Windows.Forms.GroupBox();
             this.pnlNorm = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -69,6 +70,7 @@
             this.pnlSearch = new System.Windows.Forms.Panel();
             this.dgvSearchResult = new System.Windows.Forms.DataGridView();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btnHistory = new System.Windows.Forms.Button();
             this.btnExcelExport = new System.Windows.Forms.Button();
             this.lblLastUpdated = new System.Windows.Forms.Label();
             this.lblSellerCount = new System.Windows.Forms.Label();
@@ -92,7 +94,6 @@
             this.splExpert = new System.Windows.Forms.Splitter();
             this.bsQuery = new System.Windows.Forms.BindingSource(this.components);
             this.bsExpert = new System.Windows.Forms.BindingSource(this.components);
-            this.splitter2 = new System.Windows.Forms.Splitter();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tpSearch.SuspendLayout();
@@ -249,7 +250,7 @@
             this.tpExpert.Location = new System.Drawing.Point(4, 22);
             this.tpExpert.Name = "tpExpert";
             this.tpExpert.Padding = new System.Windows.Forms.Padding(3);
-            this.tpExpert.Size = new System.Drawing.Size(1055, 78);
+            this.tpExpert.Size = new System.Drawing.Size(1055, 75);
             this.tpExpert.TabIndex = 2;
             this.tpExpert.Text = "Условия поиска экспертных оценок";
             this.tpExpert.UseVisualStyleBackColor = true;
@@ -400,6 +401,16 @@
             this.cbOpenLink.Text = "показать в браузере";
             this.cbOpenLink.UseVisualStyleBackColor = true;
             // 
+            // splitter2
+            // 
+            this.splitter2.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.splitter2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.splitter2.Location = new System.Drawing.Point(0, 176);
+            this.splitter2.Name = "splitter2";
+            this.splitter2.Size = new System.Drawing.Size(1063, 3);
+            this.splitter2.TabIndex = 0;
+            this.splitter2.TabStop = false;
+            // 
             // gbNorm
             // 
             this.gbNorm.Controls.Add(this.pnlNorm);
@@ -545,6 +556,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.btnHistory);
             this.panel3.Controls.Add(this.btnExcelExport);
             this.panel3.Controls.Add(this.lblLastUpdated);
             this.panel3.Controls.Add(this.lblSellerCount);
@@ -567,6 +579,16 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1065, 78);
             this.panel3.TabIndex = 30;
+            // 
+            // btnHistory
+            // 
+            this.btnHistory.Location = new System.Drawing.Point(675, 48);
+            this.btnHistory.Name = "btnHistory";
+            this.btnHistory.Size = new System.Drawing.Size(136, 23);
+            this.btnHistory.TabIndex = 44;
+            this.btnHistory.Text = "История";
+            this.btnHistory.UseVisualStyleBackColor = true;
+            this.btnHistory.Click += new System.EventHandler(this.btnHistory_Click);
             // 
             // btnExcelExport
             // 
@@ -777,16 +799,6 @@
             this.splExpert.TabIndex = 32;
             this.splExpert.TabStop = false;
             // 
-            // splitter2
-            // 
-            this.splitter2.BackColor = System.Drawing.SystemColors.HotTrack;
-            this.splitter2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitter2.Location = new System.Drawing.Point(0, 176);
-            this.splitter2.Name = "splitter2";
-            this.splitter2.Size = new System.Drawing.Size(1063, 3);
-            this.splitter2.TabIndex = 0;
-            this.splitter2.TabStop = false;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -893,6 +905,7 @@
         private System.Windows.Forms.Panel pnlNorm;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Splitter splitter2;
+        private System.Windows.Forms.Button btnHistory;
     }
 }
 

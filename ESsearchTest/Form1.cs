@@ -203,7 +203,7 @@ namespace ESsearchTest
             //bsExpert.DataSource = table;
             bsExpert.DataSource = responseExpert.Hits.Select(s => s.Source).ToList();
             dgvExpert.DataSource = bsExpert;
-            SetTablesColumns(dgvExpert);
+            GridUtils.SetTablesColumns(dgvExpert);
         }
 
         private void Search(int maxTake = 200)
@@ -211,14 +211,14 @@ namespace ESsearchTest
             var queryContainer = GetQueryContainer();
             if (queryContainer.Count == 0) return;
 
-            var response = _elasticClient.Search<Content>(s => s
+            var responseContent = _elasticClient.Search<Content>(s => s
                 .Take(maxTake)
                 .Query(q => q
                     .Bool(b => b
                         .Must(queryContainer.ToArray())))
                 );
-            _founded = response.Hits.Select(s => s.Source).ToList();
-            _hitsTotal = response.Total;
+            _founded = responseContent.Hits.Select(s => s.Source).ToList();
+            _hitsTotal = responseContent.Total;
             var table = new DataTable();
             using (var reader = ObjectReader.Create(_founded))
             {
@@ -226,7 +226,7 @@ namespace ESsearchTest
             }
             bsQuery.DataSource = table;
             dgvSearchResult.DataSource = bsQuery;
-            SetTablesColumns(dgvSearchResult);
+            GridUtils.SetTablesColumns(dgvSearchResult);
             SetCalculation(dgvSearchResult);
             //lblIndexDocCount.Text = $"В базе: {_elasticClient.Count<Content>().Count}";
         }
@@ -259,10 +259,10 @@ namespace ESsearchTest
 
             if (clbSellers.CheckedItems.Count > 0)
             {
-                var sellers="";
+                var sellers = "";
                 if (clbSellers.CheckedItems.Count == 1)
                 {
-                    sellers = string.Join("",clbSellers.CheckedItems.OfType<string>()).Trim() + '*';
+                    sellers = string.Join("", clbSellers.CheckedItems.OfType<string>()).Trim() + '*';
                 }
                 else
                 {
@@ -307,6 +307,24 @@ namespace ESsearchTest
 
         #region Utils
 
+        private List<string> GetHistoryIdc(DataGridView dgv)
+        {
+            var historyIdc = new List<string>();
+            var selectedCount = 0;
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                if (!(bool)row.Cells[nameof(Content.Selected)].Value) continue;
+                selectedCount++;
+                historyIdc.Add(row.Cells[nameof(Content.Id)].Value.ToString());
+            }
+            if (selectedCount == 0 && _founded != null && _founded.Count > 0)
+            {
+                historyIdc = _founded.Select(e => e.Id).ToList();
+            }
+
+            return historyIdc;
+        }
+
         private void SetCalculation(DataGridView dgv)
         {
             var sellerCount = _founded.Select(e => e.Seller).Distinct().Count();
@@ -335,139 +353,139 @@ namespace ESsearchTest
             btnCalc.Visible = selectedCount > 0;
         }
 
-        private static void SetTablesColumns(DataGridView dgv)
-        {
-            dgv.RowHeadersWidth = 10;
-            var dataGridViewColumn = dgv.Columns[nameof(Content.CollectedAt)];
-            if (dataGridViewColumn != null) dataGridViewColumn.Visible = false;
-            dataGridViewColumn = dgv.Columns[nameof(Content.Id)];
-            if (dataGridViewColumn != null) dataGridViewColumn.Visible = false;
-            dataGridViewColumn = dgv.Columns[nameof(Content.Seller)];
-            if (dataGridViewColumn != null) dataGridViewColumn.Visible = false;
-            dataGridViewColumn = dgv.Columns[nameof(Content.Selected)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.SortMode = DataGridViewColumnSortMode.Automatic;
-                dataGridViewColumn.HeaderText = @"Отмечен";
-                dataGridViewColumn.Width = 60;
-                dataGridViewColumn.DisplayIndex = 1;
-            }
+        //private static void SetTablesColumns(DataGridView dgv)
+        //{
+        //    dgv.RowHeadersWidth = 10;
+        //    var dataGridViewColumn = dgv.Columns[nameof(Content.CollectedAt)];
+        //    if (dataGridViewColumn != null) dataGridViewColumn.Visible = false;
+        //    dataGridViewColumn = dgv.Columns[nameof(Content.Id)];
+        //    if (dataGridViewColumn != null) dataGridViewColumn.Visible = false;
+        //    dataGridViewColumn = dgv.Columns[nameof(Content.Seller)];
+        //    if (dataGridViewColumn != null) dataGridViewColumn.Visible = false;
+        //    dataGridViewColumn = dgv.Columns[nameof(Content.Selected)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.SortMode = DataGridViewColumnSortMode.Automatic;
+        //        dataGridViewColumn.HeaderText = @"Отмечен";
+        //        dataGridViewColumn.Width = 60;
+        //        dataGridViewColumn.DisplayIndex = 1;
+        //    }
 
-            dataGridViewColumn = dgv.Columns[nameof(Content.Name)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.Width = 500;
-                dataGridViewColumn.HeaderText = @"Наименование ТРУ";
-                dataGridViewColumn.ReadOnly = true;
-                if (dgv.Name.Equals("dgvSearchResult")) dataGridViewColumn.DisplayIndex = 2;
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Content.Price)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.Visible = false;
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Content.Nprice)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"Цена";
-                dataGridViewColumn.ReadOnly = true;
-                dataGridViewColumn.DisplayIndex = 3;
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Content.Uri)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.Width = 500;
-                dataGridViewColumn.HeaderText = @"Ссылка на ТРУ";
-                dataGridViewColumn.ReadOnly = true;
-                dataGridViewColumn.DisplayIndex = 4;
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Content.Collected)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"Дата";
-                dataGridViewColumn.DisplayIndex = 5;
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Expert.Price2016)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"Цена(2016)";
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Expert.Price2017)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"Цена(2017)";
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Expert.Price2018)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"Цена(2018)";
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Expert.TruPrim)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"Уточнение";
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Expert.Edizm)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"Единица измерения";
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Expert.ExpertDate)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"Дата";
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Expert.ExpertName)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"Эксперт";
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Expert.ExpertNumber)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"№ экспертизы";
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Expert.Npp)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"№ п/п";
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Expert.KpgzName)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"Наименование КПГЗ (ЕАИСТ 2.0)";
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Expert.KpgzCode)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"№ КПГЗ (ЕАИСТ 2.0)";
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Expert.SpgzName)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"СПГЗ";
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Expert.Okpd2)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"ОКПД2";
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Expert.Comment)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"Комментарий";
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Expert.Comment2)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"Примечание";
-            }
-            dataGridViewColumn = dgv.Columns[nameof(Expert.ZakupkiLink)];
-            if (dataGridViewColumn != null)
-            {
-                dataGridViewColumn.HeaderText = @"Ссылка на закупки";
-            }
-        }
+        //    dataGridViewColumn = dgv.Columns[nameof(Content.Name)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.Width = 500;
+        //        dataGridViewColumn.HeaderText = @"Наименование ТРУ";
+        //        dataGridViewColumn.ReadOnly = true;
+        //        if (dgv.Name.Equals("dgvSearchResult")) dataGridViewColumn.DisplayIndex = 2;
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Content.Price)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.Visible = false;
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Content.Nprice)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"Цена";
+        //        dataGridViewColumn.ReadOnly = true;
+        //        dataGridViewColumn.DisplayIndex = 3;
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Content.Uri)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.Width = 500;
+        //        dataGridViewColumn.HeaderText = @"Ссылка на ТРУ";
+        //        dataGridViewColumn.ReadOnly = true;
+        //        dataGridViewColumn.DisplayIndex = 4;
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Content.Collected)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"Дата";
+        //        dataGridViewColumn.DisplayIndex = 5;
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Expert.Price2016)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"Цена(2016)";
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Expert.Price2017)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"Цена(2017)";
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Expert.Price2018)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"Цена(2018)";
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Expert.TruPrim)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"Уточнение";
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Expert.Edizm)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"Единица измерения";
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Expert.ExpertDate)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"Дата";
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Expert.ExpertName)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"Эксперт";
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Expert.ExpertNumber)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"№ экспертизы";
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Expert.Npp)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"№ п/п";
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Expert.KpgzName)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"Наименование КПГЗ (ЕАИСТ 2.0)";
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Expert.KpgzCode)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"№ КПГЗ (ЕАИСТ 2.0)";
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Expert.SpgzName)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"СПГЗ";
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Expert.Okpd2)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"ОКПД2";
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Expert.Comment)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"Комментарий";
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Expert.Comment2)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"Примечание";
+        //    }
+        //    dataGridViewColumn = dgv.Columns[nameof(Expert.ZakupkiLink)];
+        //    if (dataGridViewColumn != null)
+        //    {
+        //        dataGridViewColumn.HeaderText = @"Ссылка на закупки";
+        //    }
+        //}
 
         #endregion //Utils
 
@@ -712,6 +730,27 @@ namespace ESsearchTest
             dataSet.Tables.Add(dataTable);
             CreateExcelFile.CreateExcelDocument(dataSet, saveFileDialog.FileName);
             if (File.Exists(saveFileDialog.FileName)) Process.Start(saveFileDialog.FileName);
+        }
+
+        private void btnHistory_Click(object sender, EventArgs e)
+        {
+            var historyIdc = GetHistoryIdc(dgvSearchResult);
+            if(!historyIdc.Any()) return;
+            var responseHistory = _elasticClient.Search<History>(s => s
+                .Size(1000)
+                .Query(q => q
+                    .Terms(t => t
+                        .Field(p => p.Idc)
+                        .Terms(historyIdc))))
+                        ;
+            var foundedHistory = responseHistory.Hits.Select(s => s.Source).OrderBy(s=>s.Collected).ToList();
+            var table = new DataTable();
+            using (var reader = ObjectReader.Create(foundedHistory))
+            {
+                table.Load(reader);
+            }
+            var priceHistoryForm = new PriceHistoryForm(table);
+            priceHistoryForm.Show();
         }
 
         private void cmbNorm_SelectedIndexChanged(object sender, EventArgs e)

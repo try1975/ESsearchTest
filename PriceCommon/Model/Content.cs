@@ -18,7 +18,7 @@ namespace PriceCommon.Model
 
         public long? CollectedAt { get; set; }
 
-        public DateTime Collected => new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(Convert.ToDouble(CollectedAt));
+        public virtual DateTime Collected => new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(Convert.ToDouble(CollectedAt))/*.Date*/;
 
         public string Id { get; set; }
     }
