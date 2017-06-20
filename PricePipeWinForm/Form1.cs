@@ -30,7 +30,7 @@ namespace PricePipeWinForm
         private void StartCalc()
         {
             tbTrueResult.Clear();
-            var priceCalculator = new Searcher(
+            var searcher = new Searcher(
                 AppSettings.DefaultIndex,
                 AppSettings.Host,
                 AppSettings.UserName,
@@ -41,7 +41,7 @@ namespace PricePipeWinForm
             foreach (var name in tbTruItems.Lines)
             {
                 Application.DoEvents();
-                var nmck = priceCalculator.GetNmck(name);
+                var nmck = searcher.GetNmck(name);
                 tbTrueResult.AppendText($"\"{name}\";\"{nmck}\"{Environment.NewLine}");
             }
             stopWatch.Stop();

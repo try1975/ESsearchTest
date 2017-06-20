@@ -1,0 +1,1 @@
+<h1>{NAME}</h1>{SKIP}<span class="b-product__price-new">{PRICE}</span>{SKIP}<div class="p-product__product-d b-product-d" id="tpdescr">{DESCRIPTION}</div>

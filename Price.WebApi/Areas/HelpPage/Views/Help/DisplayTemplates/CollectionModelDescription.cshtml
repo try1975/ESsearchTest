@@ -1,0 +1,6 @@
+@using Price.WebApi.Areas.HelpPage.ModelDescriptions
+@model Price.WebApi.Areas.HelpPage.ModelDescriptions.CollectionModelDescription
+@if (Model.ElementDescription is ComplexTypeModelDescription)
+{
+    @Html.DisplayFor(m => m.ElementDescription)
+}

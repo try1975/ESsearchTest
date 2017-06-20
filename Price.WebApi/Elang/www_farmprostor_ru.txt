@@ -1,0 +1,3 @@
+<h1 style="margin-bottom: 0px;">{NAME}</h1></div>{SKIP}<div class="desc_tov">{SKIP}Производитель:{MANUF}</div>{SKIP}<table class="opis" border="0">{SKIP}<td align="center">{SKIP}</span>{SKIP}<span>{PRICE} руб</span>{SKIP}<div class="desc_tov">{DESCR}</tbody>
+
+

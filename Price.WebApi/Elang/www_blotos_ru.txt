@@ -1,0 +1,3 @@
+<td class="latname">{NAME}</td>{SKIP}<td>{FIRM}</td>{SKIP}<td>{COUNTRY}</td>{SKIP}<td>{SKIP}</td>{SKIP}<td>{PRICE}</td>
+[VAR]
+Показаны записи:{NUM}из

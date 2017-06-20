@@ -48,8 +48,8 @@ namespace PricePipeCore
 
         public decimal GetNmck(string name)
         {
-            _norm.InitialName = name;
-            Search();
+
+            _founded = Search(name).ToList();
             return Calculate();
         }
 
@@ -57,21 +57,21 @@ namespace PricePipeCore
         {
             string text;
             var prices = _founded.Select(z => z.Nprice).ToList();
-            return (decimal) Utils.GetPriceCalculation(prices, out text);
+            return (decimal)Utils.GetPriceCalculation(prices, out text);
         }
 
-        private void Search()
+        public IEnumerable<Content> Search(string name)
         {
+            _norm.InitialName = name;
             var container = GetQueryContainer();
-            if (container.Count == 0) return;
+            if (container.Count == 0) return new List<Content>();
             var response = _elasticClient.Search<Content>(s => s
                 .Take(_maxTake)
                 .Query(q => q
                     .Bool(b => b
                         .Must(container.ToArray())))
                 );
-
-            _founded = response.Hits.Select(s => s.Source).ToList();
+            return response.Hits.Select(s => s.Source);
         }
 
         private List<QueryContainer> GetQueryContainer()

@@ -1,0 +1,4 @@
+<h1>{NAME}</h1>{SKIP}<div class="price-current  price-old-none">{PRICE}руб.{SKIP}</div>{SKIP}<a href="/magazin/vendor/{SKIP}">{FIRM}</a>{SKIP}МНН</div><div class="product-option-val">{COMPONENT}</div>{SKIP}<div style="font-size:13px;">{CLASS}</div>
+<h1>{NAME}</h1>{SKIP}<div class="price-current  price-old-none">{PRICE}руб.{SKIP}</div>{SKIP}<a href="/magazin/vendor/{SKIP}">{FIRM}</a>{SKIP}МНН</div><div class="product-option-val">{COMPONENT}</div>
+<h1>{NAME}</h1>{SKIP}<div class="price-current  price-old-none">{PRICE}руб.{SKIP}</div>{SKIP}<a href="/magazin/vendor/{SKIP}">{FIRM}</a>{SKIP}<div style="font-size:13px;">{CLASS}</div>
+<h1>{NAME}</h1>{SKIP}<div class="price-current  price-old-none">{PRICE}руб.{SKIP}</div>{SKIP}<a href="/magazin/vendor/{SKIP}">{FIRM}</a>

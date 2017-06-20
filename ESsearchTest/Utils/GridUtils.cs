@@ -12,6 +12,8 @@ namespace ESsearchTest
             if (dataGridViewColumn != null) dataGridViewColumn.Visible = false;
             dataGridViewColumn = dgv.Columns[nameof(Content.Id)];
             if (dataGridViewColumn != null) dataGridViewColumn.Visible = false;
+            dataGridViewColumn = dgv.Columns[nameof(Content.Phones)];
+            if (dataGridViewColumn != null) dataGridViewColumn.Visible = false;
             dataGridViewColumn = dgv.Columns[nameof(History.Idc)];
             if (dataGridViewColumn != null) dataGridViewColumn.Visible = false;
             dataGridViewColumn = dgv.Columns[nameof(Content.Seller)];
@@ -62,6 +64,14 @@ namespace ESsearchTest
             {
                 dataGridViewColumn.HeaderText = @"Дата";
                 dataGridViewColumn.DisplayIndex = 5;
+            }
+            dataGridViewColumn = dgv.Columns[nameof(Content.Producer)];
+            if (dataGridViewColumn != null)
+            {
+                dataGridViewColumn.Width = 100;
+                dataGridViewColumn.HeaderText = @"Производитель";
+                dataGridViewColumn.ReadOnly = true;
+                dataGridViewColumn.DisplayIndex = 6;
             }
             dataGridViewColumn = dgv.Columns[nameof(Expert.Price2016)];
             if (dataGridViewColumn != null)

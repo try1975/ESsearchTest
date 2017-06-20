@@ -52,7 +52,7 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.btnSearch = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.udResultCount = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbScreenshotLink = new System.Windows.Forms.CheckBox();
             this.cbOpenLink = new System.Windows.Forms.CheckBox();
@@ -70,6 +70,7 @@
             this.pnlSearch = new System.Windows.Forms.Panel();
             this.dgvSearchResult = new System.Windows.Forms.DataGridView();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btnUpdatePrices = new System.Windows.Forms.Button();
             this.btnHistory = new System.Windows.Forms.Button();
             this.btnExcelExport = new System.Windows.Forms.Button();
             this.lblLastUpdated = new System.Windows.Forms.Label();
@@ -99,7 +100,7 @@
             this.tpSearch.SuspendLayout();
             this.tpExpert.SuspendLayout();
             this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.udResultCount)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.gbNorm.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -316,7 +317,7 @@
             // 
             this.panel5.Controls.Add(this.btnSearch);
             this.panel5.Controls.Add(this.label3);
-            this.panel5.Controls.Add(this.numericUpDown1);
+            this.panel5.Controls.Add(this.udResultCount);
             this.panel5.Controls.Add(this.groupBox1);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel5.Location = new System.Drawing.Point(0, 280);
@@ -345,24 +346,24 @@
             this.label3.TabIndex = 32;
             this.label3.Text = "Показать не более:";
             // 
-            // numericUpDown1
+            // udResultCount
             // 
-            this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numericUpDown1.Increment = new decimal(new int[] {
+            this.udResultCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.udResultCount.Increment = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.numericUpDown1.Location = new System.Drawing.Point(264, 17);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.udResultCount.Location = new System.Drawing.Point(264, 17);
+            this.udResultCount.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(42, 20);
-            this.numericUpDown1.TabIndex = 29;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.udResultCount.Name = "udResultCount";
+            this.udResultCount.Size = new System.Drawing.Size(42, 20);
+            this.udResultCount.TabIndex = 29;
+            this.udResultCount.Value = new decimal(new int[] {
             200,
             0,
             0,
@@ -460,7 +461,7 @@
             this.groupBox3.Size = new System.Drawing.Size(1063, 45);
             this.groupBox3.TabIndex = 39;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Введите наименование";
+            this.groupBox3.Text = "Наименование предмета закупки";
             // 
             // cbNorm
             // 
@@ -556,6 +557,7 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.btnUpdatePrices);
             this.panel3.Controls.Add(this.btnHistory);
             this.panel3.Controls.Add(this.btnExcelExport);
             this.panel3.Controls.Add(this.lblLastUpdated);
@@ -579,6 +581,17 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1065, 78);
             this.panel3.TabIndex = 30;
+            // 
+            // btnUpdatePrices
+            // 
+            this.btnUpdatePrices.Enabled = false;
+            this.btnUpdatePrices.Location = new System.Drawing.Point(817, 48);
+            this.btnUpdatePrices.Name = "btnUpdatePrices";
+            this.btnUpdatePrices.Size = new System.Drawing.Size(93, 23);
+            this.btnUpdatePrices.TabIndex = 45;
+            this.btnUpdatePrices.Text = "Обновить цены";
+            this.btnUpdatePrices.UseVisualStyleBackColor = true;
+            this.btnUpdatePrices.Click += new System.EventHandler(this.btnUpdatePrices_Click);
             // 
             // btnHistory
             // 
@@ -822,7 +835,7 @@
             this.tpExpert.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.udResultCount)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.gbNorm.ResumeLayout(false);
@@ -850,7 +863,7 @@
         private System.Windows.Forms.BindingSource bsQuery;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.TextBox tbQuery;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown udResultCount;
         private System.Windows.Forms.Panel pnlSearch;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -906,6 +919,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Splitter splitter2;
         private System.Windows.Forms.Button btnHistory;
+        private System.Windows.Forms.Button btnUpdatePrices;
     }
 }
 

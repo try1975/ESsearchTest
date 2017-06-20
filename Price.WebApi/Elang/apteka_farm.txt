@@ -1,0 +1,7 @@
+<h2 class="product-title pull-left">{NAME}</h2>{SKIP}<span class="PricesalesPrice" >{PRICE} руб</span>{SKIP}<h3>Действующее вещество</h3>{SKIP}<div class="sec-item__instructions-item-text left">{SKIP}>{VEZH}</a>{SKIP}<h3>Форма выпуска{SKIP}p>{FORMA}</p>
+
+<h2 class="product-title pull-left">{NAME}</h2>{SKIP}<span class="PricesalesPrice" >{PRICE} руб</span>{SKIP}<h3>Форма выпуска{SKIP}p>{FORMA}</p>
+
+<h2 class="product-title pull-left">{NAME}</h2>{SKIP}<span class="PricesalesPrice" >{PRICE} руб</span>{SKIP}<h3>Действующее вещество</h3>{SKIP}<div class="sec-item__instructions-item-text left">{SKIP}>{VEZH}</a>
+
+<h2 class="product-title pull-left">{NAME}</h2>{SKIP}<span class="PricesalesPrice" >{PRICE} руб</span>

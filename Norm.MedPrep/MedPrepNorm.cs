@@ -208,10 +208,11 @@ namespace Norm.MedPrep
 
             if (!string.IsNullOrEmpty(FirstWords))
             {
-                if (!string.IsNullOrEmpty(_controlMedPrep?.Syn))
+                if (!string.IsNullOrEmpty(_controlMedPrep?.Syn)) Syn = _controlMedPrep?.Syn;
+                if (!string.IsNullOrEmpty(Syn))
                 {
                     var shoulds = new List<QueryContainer>();
-                    foreach (var queryString in _controlMedPrep.Syn.Split(','))
+                    foreach (var queryString in Syn.Split(','))
                     {
                         var should = queryString;
                         if (should.Contains(" "))

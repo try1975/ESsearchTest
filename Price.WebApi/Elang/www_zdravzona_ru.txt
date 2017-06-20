@@ -1,0 +1,3 @@
+<h1 class="m-pc-name" itemprop="name">{NAME}</h1>{SKIP}<div class="table-cell">Производитель:</div>{SKIP}<div class="table-cell">{Proizv}</div>{SKIP}<div class="table-cell">Страна производитель:</div>{SKIP}<div class="table-cell">{Strana}</div>{SKIP}<div class="m-pc-p-price ">{PRICE}<i class="rub1">
+
+<h1 class="m-pc-name" itemprop="name">{NAME}</h1>{SKIP}<div class="m-pc-p-price ">{PRICE}<i class="rub1">

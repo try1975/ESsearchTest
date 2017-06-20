@@ -1,0 +1,2 @@
+{PRICE}=([\d.])
+<h1>{NAME}</h1>{SKIP}<a id="manufacturer_id" {SKIP}>{PROIZ}</a>{SKIP}Цена:</th>{SKIP}<td class="bigger bold">{PRICE} руб.

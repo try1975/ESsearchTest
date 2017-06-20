@@ -1,0 +1,2 @@
+<h1 class="h2-line h2-line--blue">{NAME}</h1>{SKIP}<span class="fproduct__param-label">Производитель:</span>{FIRM}</div>{SKIP}<span class="fproduct__price-value-number">{PRICE}</span>
+<h1 class="h2-line h2-line--blue">{NAME}</h1>{SKIP}<span class="fproduct__price-value-number">{PRICE}</span>

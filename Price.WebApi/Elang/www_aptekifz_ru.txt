@@ -1,0 +1,1 @@
+<h3>{NAME}</h3>{SKIP}valign="top"><span class="textred14bold">{PRICE} р.{SKIP}</table>{DESCRIPTION}<td valign="top" align="center">

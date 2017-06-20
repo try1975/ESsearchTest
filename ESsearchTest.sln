@@ -15,7 +15,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Norm.MedPrep", "Norm.MedPre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PricePipeWinForm", "PricePipeWinForm\PricePipeWinForm.csproj", "{C441F92B-5F7C-4013-99CD-E65FA01F8F8E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Price.WebApi", "Price.WebApi\Price.WebApi.csproj", "{4CE3D4E3-51B2-480A-8211-CEA5B021A6EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddProducer", "AddProducer\AddProducer.csproj", "{687879FF-CFC5-4FF2-90F0-BF110567CAFB}"
+EndProject
 Global
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -45,6 +52,14 @@ Global
 		{C441F92B-5F7C-4013-99CD-E65FA01F8F8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C441F92B-5F7C-4013-99CD-E65FA01F8F8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C441F92B-5F7C-4013-99CD-E65FA01F8F8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CE3D4E3-51B2-480A-8211-CEA5B021A6EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CE3D4E3-51B2-480A-8211-CEA5B021A6EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CE3D4E3-51B2-480A-8211-CEA5B021A6EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CE3D4E3-51B2-480A-8211-CEA5B021A6EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{687879FF-CFC5-4FF2-90F0-BF110567CAFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{687879FF-CFC5-4FF2-90F0-BF110567CAFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{687879FF-CFC5-4FF2-90F0-BF110567CAFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{687879FF-CFC5-4FF2-90F0-BF110567CAFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

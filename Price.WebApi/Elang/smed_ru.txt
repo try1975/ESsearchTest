@@ -1,0 +1,4 @@
+<tr>{SKIP}<td{SKIP}>{NUM}<{SKIP}<td{SKIP}"{NAME}/td>{SKIP}<td{SKIP}>{PRICE}<{SKIP}</tr>
+{NAME}=>(.*?)<
+[GLOBAL]
+<table class="price">{LIST}<tbody>

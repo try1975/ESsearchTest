@@ -1,0 +1,1 @@
+<h1>{NAME}</h1>{SKIP}<div class="addToCart">{SKIP}<div class="cena">{SKIP}<span>{PRICE}<span>{SKIP}<div id="productContentBottom">
