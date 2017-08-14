@@ -74,5 +74,16 @@ namespace PriceCommon.Model
         ///     ОКПД2
         /// </summary>
         public string Okpd2 { get; set; }
+
+        /// <summary>
+        ///     Единица измерения
+        /// </summary>
+        public string Okei { get; set; }
+
+        /// <summary>
+        ///     Валюта
+        /// </summary>
+        public string Currency { get; set; }
+
     }
 }

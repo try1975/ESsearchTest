@@ -32,14 +32,16 @@ namespace Price.WebApi.Controllers
         /// <param name="doz">Значение дозировки</param>
         /// <param name="dozEd">Единица измерения дозировки</param>
         /// <param name="normNumber">Номер пользовательского нормализатора</param>
+        /// <param name="source">Источник, в котором осуществляется поиск (пусто - источник по умолчанию, gz - госзакупки)</param>
         /// <returns></returns>
         [HttpGet]
         [Route("contents", Name = nameof(GetPharmacyContents) + "Route")]
         public IEnumerable<ContentDto> GetPharmacyContents(string text = "", string firstWords = "",
-            string lekForm = "", string upak = "", string doz = "", string dozEd = "", string normNumber = "")
+            string lekForm = "", string upak = "", string doz = "", string dozEd = "", string normNumber = "", string source="")
         {
             Logger.Log.Info($"{nameof(GetPharmacyContents)}: {text}");
-            var seacher = new PharmacySearcher(AppSettings.DefaultIndex); 
+            if (string.IsNullOrEmpty(source)) source = AppSettings.DefaultIndex;
+            var seacher = new PharmacySearcher(source); 
             var contents = seacher.Search(text, firstWords, lekForm, upak, doz, dozEd, normNumber);
             // add phones: left join SourceNames.Names and contents
             var contentsWithPhones = from o in contents
@@ -55,6 +57,9 @@ namespace Price.WebApi.Controllers
                                          CollectedAt = o.CollectedAt,
                                          Id = o.Id,
                                          Producer = o.Producer,
+                                         Okpd2 = o.Okpd2,
+                                         Okei = o.Okei,
+                                         Currency = o.Currency,
                                          Phones = p.Equals(new KeyValuePair<string, SourceDto>()) ? "" : p.Value.Phones
                                      };
 
@@ -87,6 +92,9 @@ namespace Price.WebApi.Controllers
                                          CollectedAt = o.CollectedAt,
                                          Id = o.Id,
                                          Producer = o.Producer,
+                                         Okpd2 = o.Okpd2,
+                                         Okei = o.Okei,
+                                         Currency = o.Currency,
                                          Phones = p.Equals(new KeyValuePair<string, SourceDto>()) ? "" : p.Value.Phones
                                      };
             var dto = new ContentNmckDto

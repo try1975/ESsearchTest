@@ -11,7 +11,7 @@ namespace PricePipeCore
     {
         private static readonly Dictionary<string, ElasticClient> ClientsPool = new Dictionary<string, ElasticClient>();
 
-        public static ElasticClient GetElasticClient(string name)
+        public static ElasticClient GetElasticClient(string name = "")
         {
             ElasticClient elasticClient;
             ClientsPool.TryGetValue(name, out elasticClient);
@@ -20,17 +20,17 @@ namespace PricePipeCore
             string defaultIndex = null;
             string userName = null;
             string password = null;
-            if (name.Equals(nameof(ElacticIndexName.Md5)))
+            if (name.Equals(nameof(ElacticIndexName.Md5), StringComparison.InvariantCultureIgnoreCase) || string.IsNullOrEmpty(name))
             {
                 address = AppSettings.Host;
-                defaultIndex = AppSettings.DefaultIndex;
+                defaultIndex = AppSettings.DefaultIndex.ToLower();
                 userName = AppSettings.UserName;
                 password = AppSettings.Password;
             }
-            if (name.Equals(nameof(ElacticIndexName.Gz)))
+            if (name.Equals(nameof(ElacticIndexName.Gz), StringComparison.InvariantCultureIgnoreCase))
             {
                 address = AppSettings.Host;
-                defaultIndex = nameof(ElacticIndexName.Gz);
+                defaultIndex = nameof(ElacticIndexName.Gz).ToLower();
                 userName = AppSettings.UserName;
                 password = AppSettings.Password;
             }
