@@ -118,7 +118,7 @@ namespace Price.WebApi.Controllers
         #region LekForm
 
         /// <summary>
-        /// Получить нормализатор лекарственной формы по умолчанию
+        /// Нормализатор лекарственной формы по умолчанию
         /// </summary>
         [HttpGet]
         [Route("normalizers/lekForm", Name = nameof(GetDefaultLekFormNormalizer) + "Route")]
@@ -128,39 +128,64 @@ namespace Price.WebApi.Controllers
         }
 
         /// <summary>
-        /// Получить нормализатор лекарственной формы по номеру
+        /// Результат нормализатора лекарственной формы по умолчанию
         /// </summary>
-        /// <param name="normNumber">Номер пользовательского нормализатора</param>
+        /// <param name="text">Анализируемый текст</param>
         [HttpGet]
-        [Route("normalizers/lekForm/{normNumber}", Name = nameof(GetLekFormNormalizer) + "Route")]
-        public Dictionary<string, Detect> GetLekFormNormalizer(string normNumber)
+        [Route("normalizers/lekForm", Name = nameof(GetDefaultLekFormNormalizerResult) + "Route")]
+        public string GetDefaultLekFormNormalizerResult(string text)
         {
-            return new LekFormNorm(normNumber).GetDetects();
+            var lekFormNorm = new LekFormNorm {InitialName = text};
+            return lekFormNorm.NormResult;
         }
 
         /// <summary>
-        /// Создать нормализатор лекарственной формы с указанным номером
+        /// Нормализатор лекарственной формы по имени
         /// </summary>
-        /// <param name="normNumber">Номер пользовательского нормализатора</param>
+        /// <param name="name">Имя пользовательского нормализатора</param>
+        [HttpGet]
+        [Route("normalizers/lekForm/{name}", Name = nameof(GetLekFormNormalizer) + "Route")]
+        public Dictionary<string, Detect> GetLekFormNormalizer(string name)
+        {
+            return new LekFormNorm(name).GetDetects();
+        }
+
+        /// <summary>
+        /// Результат нормализатора лекарственной формы по имени
+        /// </summary>
+        /// <param name="name">Имя пользовательского нормализатора</param>
+        /// <param name="text">Анализируемый текст</param>
+        [HttpGet]
+        [Route("normalizers/lekForm/{name}", Name = nameof(GetLekFormNormalizerResult) + "Route")]
+        public string GetLekFormNormalizerResult(string name, string text)
+        {
+            var lekFormNorm = new LekFormNorm(name) { InitialName = text };
+            return lekFormNorm.NormResult;
+        }
+
+        /// <summary>
+        /// Создать нормализатор лекарственной формы с указанным именем
+        /// </summary>
+        /// <param name="name">Имя пользовательского нормализатора</param>
         /// <param name="detects">Нормализатор лекарственной формы</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("normalizers/lekForm/{normNumber}", Name = nameof(PostLekFormNormalizer) + "Route")]
-        public HttpStatusCode PostLekFormNormalizer(string normNumber, Dictionary<string, Detect> detects)
+        [Route("normalizers/lekForm/{name}", Name = nameof(PostLekFormNormalizer) + "Route")]
+        public HttpStatusCode PostLekFormNormalizer(string name, Dictionary<string, Detect> detects)
         {
-            return new LekFormNorm().CreateDetects(normNumber, detects) ? HttpStatusCode.Created : HttpStatusCode.NotFound;
+            return new LekFormNorm().CreateDetects(name, detects) ? HttpStatusCode.Created : HttpStatusCode.NotFound;
         }
 
         /// <summary>
-        /// Удалить нормализатор лекарственной формы с указанным номером
+        /// Удалить нормализатор лекарственной формы с указанным именем
         /// </summary>
-        /// <param name="normNumber">Номер пользовательского нормализатора</param>
+        /// <param name="name">Имя пользовательского нормализатора</param>
         /// <returns></returns>
         [HttpDelete]
-        [Route("normalizers/lekForm/{normNumber}", Name = nameof(DeleteLekFormNormalizer) + "Route")]
-        public HttpStatusCode DeleteLekFormNormalizer(string normNumber)
+        [Route("normalizers/lekForm/{name}", Name = nameof(DeleteLekFormNormalizer) + "Route")]
+        public HttpStatusCode DeleteLekFormNormalizer(string name)
         {
-            return new LekFormNorm().DeleteDetects(normNumber) ? HttpStatusCode.Created : HttpStatusCode.NotFound;
+            return new LekFormNorm().DeleteDetects(name) ? HttpStatusCode.Created : HttpStatusCode.NotFound;
         }
 
         #endregion //LekForm
@@ -168,7 +193,7 @@ namespace Price.WebApi.Controllers
         #region Upak
 
         /// <summary>
-        /// Получить нормализатор упаковки по умолчанию
+        /// Нормализатор упаковки по умолчанию
         /// </summary>
         [HttpGet]
         [Route("normalizers/upak", Name = nameof(GetDefaultUpakNormalizer) + "Route")]
@@ -178,39 +203,64 @@ namespace Price.WebApi.Controllers
         }
 
         /// <summary>
-        /// Получить нормализатор упаковки по номеру
+        /// Результат нормализатора упаковки по умолчанию
         /// </summary>
-        /// <param name="normNumber">Номер пользовательского нормализатора</param>
+        /// <param name="text">Анализируемый текст</param>
         [HttpGet]
-        [Route("normalizers/upak/{normNumber}", Name = nameof(GetUpakNormalizer) + "Route")]
-        public List<IDetect> GetUpakNormalizer(string normNumber)
+        [Route("normalizers/upak", Name = nameof(GetDefaultUpakNormalizerResult) + "Route")]
+        public string GetDefaultUpakNormalizerResult(string text)
         {
-            return new UpakNorm(normNumber).GetDetects();
+            var upakNorm = new UpakNorm() {InitialName = text};
+            return upakNorm.NormResult;
         }
 
         /// <summary>
-        /// Создать нормализатор упаковки с указанным номером
+        /// Нормализатор упаковки по имени
         /// </summary>
-        /// <param name="normNumber">Номер пользовательского нормализатора</param>
+        /// <param name="name">Имя пользовательского нормализатора</param>
+        [HttpGet]
+        [Route("normalizers/upak/{name}", Name = nameof(GetUpakNormalizer) + "Route")]
+        public List<IDetect> GetUpakNormalizer(string name)
+        {
+            return new UpakNorm(name).GetDetects();
+        }
+
+        /// <summary>
+        /// Нормализатор упаковки по имени
+        /// </summary>
+        /// <param name="name">Имя пользовательского нормализатора</param>
+        /// <param name="text">Анализируемый текст</param>
+        [HttpGet]
+        [Route("normalizers/upak/{name}", Name = nameof(GetUpakNormalizerResult) + "Route")]
+        public string GetUpakNormalizerResult(string name, string text)
+        {
+            var upakNorm = new UpakNorm(name) { InitialName = text };
+            return upakNorm.NormResult;
+        }
+
+        /// <summary>
+        /// Создать нормализатор упаковки с указанным именем
+        /// </summary>
+        /// <param name="name">Имя пользовательского нормализатора</param>
         /// <param name="detects">Нормализатор упаковки</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("normalizers/upak/{normNumber}", Name = nameof(PostUpakNormalizer) + "Route")]
-        public HttpStatusCode PostUpakNormalizer(string normNumber, List<Detect> detects)
+        [Route("normalizers/upak/{name}", Name = nameof(PostUpakNormalizer) + "Route")]
+        public HttpStatusCode PostUpakNormalizer(string name, List<Detect> detects)
         {
-            return new UpakNorm().CreateDetects(normNumber, detects) ? HttpStatusCode.Created : HttpStatusCode.NotFound;
+            return new UpakNorm().CreateDetects(name, detects) ? HttpStatusCode.Created : HttpStatusCode.NotFound;
         }
 
         /// <summary>
-        /// Удалить нормализатор упаковки с указанным номером
+        /// Удалить нормализатор упаковки с указанным именем
         /// </summary>
-        /// <param name="normNumber">Номер пользовательского нормализатора</param>
+        /// <param name="name">Имя пользовательского нормализатора</param>
         /// <returns></returns>
         [HttpDelete]
-        [Route("normalizers/upak/{normNumber}", Name = nameof(DeleteUpakNormalizer) + "Route")]
-        public HttpStatusCode DeleteUpakNormalizer(string normNumber)
+        [Route("normalizers/upak/{name}", Name = nameof(DeleteUpakNormalizer) + "Route")]
+        public HttpStatusCode DeleteUpakNormalizer(string name)
         {
-            return new UpakNorm().DeleteDetects(normNumber) ? HttpStatusCode.Created : HttpStatusCode.NotFound;
+            return new UpakNorm().DeleteDetects(name) ? HttpStatusCode.Created : HttpStatusCode.NotFound;
         }
 
         #endregion //Upak
@@ -218,7 +268,7 @@ namespace Price.WebApi.Controllers
         #region Doz
 
         /// <summary>
-        /// Получить нормализатор дозировки по умолчанию
+        /// Нормализатор дозировки по умолчанию
         /// </summary>
         [HttpGet]
         [Route("normalizers/doz", Name = nameof(GetDefaultDozNormalizer) + "Route")]
@@ -228,39 +278,64 @@ namespace Price.WebApi.Controllers
         }
 
         /// <summary>
-        /// Получить нормализатор дозировки по номеру
+        /// Результат нормализатора дозировки по умолчанию
         /// </summary>
-        /// <param name="normNumber">Номер пользовательского нормализатора</param>
+        /// <param name="text">Анализируемый текст</param>
         [HttpGet]
-        [Route("normalizers/doz/{normNumber}", Name = nameof(GetDozNormalizer) + "Route")]
-        public Dictionary<string, DozDetector> GetDozNormalizer(string normNumber)
+        [Route("normalizers/doz", Name = nameof(GetDefaultDozNormalizerResult) + "Route")]
+        public string GetDefaultDozNormalizerResult(string text)
         {
-            return new DozNorm(normNumber).GetDetects();
+            var dozNorm = new DozNorm() {InitialName = text};
+            return dozNorm.NormResult;
         }
 
         /// <summary>
-        /// Создать нормализатор дозировки с указанным номером
+        /// Нормализатор дозировки по имени
         /// </summary>
-        /// <param name="normNumber">Номер пользовательского нормализатора</param>
+        /// <param name="name">Имя пользовательского нормализатора</param>
+        /// /// <param name="text">Анализируемый текст</param>
+        [HttpGet]
+        [Route("normalizers/doz/{name}", Name = nameof(GetDozNormalizerResult) + "Route")]
+        public string GetDozNormalizerResult(string name, string text)
+        {
+            var dozNorm = new DozNorm(name) {InitialName = text};
+            return dozNorm.NormResult;
+        }
+
+        /// <summary>
+        /// Результат нормализатора дозировки по имени
+        /// </summary>
+        /// <param name="name">Имя пользовательского нормализатора</param>
+        [HttpGet]
+        [Route("normalizers/doz/{name}", Name = nameof(GetDozNormalizer) + "Route")]
+        public Dictionary<string, DozDetector> GetDozNormalizer(string name)
+        {
+            return new DozNorm(name).GetDetects();
+        }
+
+        /// <summary>
+        /// Создать нормализатор дозировки с указанным именем
+        /// </summary>
+        /// <param name="name">Имя пользовательского нормализатора</param>
         /// <param name="detects">Нормализатор дозировки</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("normalizers/doz/{normNumber}", Name = nameof(PostDozNormalizer) + "Route")]
-        public HttpStatusCode PostDozNormalizer(string normNumber, Dictionary<string, DozDetector> detects)
+        [Route("normalizers/doz/{name}", Name = nameof(PostDozNormalizer) + "Route")]
+        public HttpStatusCode PostDozNormalizer(string name, Dictionary<string, DozDetector> detects)
         {
-            return new DozNorm().CreateDetects(normNumber, detects) ? HttpStatusCode.Created : HttpStatusCode.NotFound;
+            return new DozNorm().CreateDetects(name, detects) ? HttpStatusCode.Created : HttpStatusCode.NotFound;
         }
 
         /// <summary>
-        /// Удалить нормализатор дозировки с указанным номером
+        /// Удалить нормализатор дозировки с указанным именем
         /// </summary>
-        /// <param name="normNumber">Номер пользовательского нормализатора</param>
+        /// <param name="name">Имя пользовательского нормализатора</param>
         /// <returns></returns>
         [HttpDelete]
-        [Route("normalizers/doz/{normNumber}", Name = nameof(DeleteDozNormalizer) + "Route")]
-        public HttpStatusCode DeleteDozNormalizer(string normNumber)
+        [Route("normalizers/doz/{name}", Name = nameof(DeleteDozNormalizer) + "Route")]
+        public HttpStatusCode DeleteDozNormalizer(string name)
         {
-            return new DozNorm().DeleteDetects(normNumber) ? HttpStatusCode.Created : HttpStatusCode.NotFound;
+            return new DozNorm().DeleteDetects(name) ? HttpStatusCode.Created : HttpStatusCode.NotFound;
         }
 
         #endregion //Doz
