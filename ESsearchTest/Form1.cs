@@ -95,7 +95,7 @@ namespace ESsearchTest
             // get seller count
             try
             {
-                var uniqSellerResponce = _elasticClient.Search<Content>(s => s
+                var searchResponse = _elasticClient.Search<Content>(s => s
                     .Aggregations(a => a
                         .Terms("unique", te => te
                             .Field(nameof(Content.Seller).ToLower())
@@ -104,7 +104,7 @@ namespace ESsearchTest
                         )
                     )
                     );
-                var sellers = uniqSellerResponce.Aggs.Terms("unique").Buckets.Select(b => b.Key).ToList();
+                var sellers = searchResponse.Aggs.Terms("unique").Buckets.Select(b => b.Key).ToList();
                 sellers.Sort();
                 foreach (var seller in sellers)
                 {

@@ -49,8 +49,8 @@
   <ItemGroup>
     <Compile Include="Model\Content.cs" />
     <Compile Include="Model\Expert.cs" />
-    <Compile Include="Model\Gz\Content.cs" />
     <Compile Include="Model\History.cs" />
+    <Compile Include="Model\Okpd2Reverse.cs" />
     <Compile Include="Model\Syn.cs" />
     <Compile Include="Norm\IDetect.cs" />
     <Compile Include="Norm\IMedPrep.cs" />

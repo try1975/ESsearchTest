@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using Nest;
 using Norm.MedPrep;
 using PriceCommon.Model;
@@ -19,24 +18,12 @@ namespace PricePipeCore
         private INorm _norm;
         private List<Content> _founded;
 
-        public PharmacySearcher(string defaultIndex)
+        public PharmacySearcher(string source)
         {
             _maxTake = 200;
             try
             {
-                //var connectionSettings = new ConnectionSettings(new Uri(address))
-                //    .OnRequestCompleted(details =>
-                //    {
-                //        var s = details.RequestBodyInBytes != null
-                //            ? Encoding.UTF8.GetString(details.RequestBodyInBytes)
-                //            : null;
-                //        Debug.WriteLine($"{s}");
-                //    })
-                //    .DisableDirectStreaming()
-                //    .DefaultIndex(defaultIndex)
-                //    .BasicAuthentication(userName, password);
-                //_elasticClient = new ElasticClient(connectionSettings);
-                _elasticClient = ElasticClientFactory.GetElasticClient(defaultIndex);
+                _elasticClient = ElasticClientFactory.GetElasticClient(source);
             }
             catch (Exception exception)
             {

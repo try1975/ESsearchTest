@@ -8,6 +8,8 @@ using System.Web.Http.Description;
 using Price.WebApi.Logic;
 using Price.WebApi.Logic.Interfaces;
 using Price.WebApi.Models;
+using PriceCommon.Model;
+using PricePipeCore;
 
 namespace Price.WebApi.Controllers
 {
@@ -20,6 +22,10 @@ namespace Price.WebApi.Controllers
     {
         private IUpdatePriceWatcher _updatePriceWatcher;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="updatePriceWatcher"></param>
         public CommonController(IUpdatePriceWatcher updatePriceWatcher)
         {
             _updatePriceWatcher = updatePriceWatcher;
@@ -29,12 +35,12 @@ namespace Price.WebApi.Controllers
         /// Обратный поиск по ОКПД2
         /// </summary>
         /// <param name="text"></param>
-        /// <returns>Наименование ТРУ для которго будет определен ОКПД2</returns>
+        /// <returns>Наименование ТРУ для определения ОКПД2</returns>
         [HttpGet]
         [Route("Okpd2Reverse", Name = nameof(GetOkpd2Reverse) + "Route")]
-        public void GetOkpd2Reverse(string text)
+        public IEnumerable<Okpd2Reverse> GetOkpd2Reverse(string text)
         {
-            ;
+            return new Okpd2ReverseSeacher().Search(text);
         }
 
         /// <summary>
