@@ -13,19 +13,37 @@ namespace Norm.MedPrep
 {
     public class DozNorm : INorm
     {
+        private readonly Dictionary<string, DozDetector> _detects;
+
+        private readonly string _pathPrefix =
+            $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase)}\\Norm\\json\\{nameof(DozNorm)}";
+
         private readonly List<QueryContainer> _queryContainer;
         private string _initialName;
-        public readonly Dictionary<string, DozDetector> DozDictionary;
 
-        public DozNorm()
+        public DozNorm(string normNumber = "")
         {
             _queryContainer = new List<QueryContainer>();
-
-            var assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-            var path = new Uri($"{assemblyPath}\\Norm\\json\\{nameof(DozNorm)}.json").LocalPath;
+            // получить из кэша json, если нет - загрузить из файла
+            string json;
+            var cacheName = GetCacheName(normNumber);
+            if (MedPrepCache.Detects.TryGetValue(cacheName, out json))
+            {
+                _detects = JsonConvert.DeserializeObject<Dictionary<string, DozDetector>>(json);
+                return;
+            }
+            var path = new Uri($"{_pathPrefix}{normNumber}.json").LocalPath;
+            if (!File.Exists(path)) path = new Uri($"{_pathPrefix}.json").LocalPath;
             if (!File.Exists(path)) return;
-            var json = File.ReadAllText(path);
-            DozDictionary = JsonConvert.DeserializeObject<Dictionary<string, DozDetector>>(json);
+            json = File.ReadAllText(path);
+            if (string.IsNullOrEmpty(json)) return;
+            MedPrepCache.Detects[cacheName] = json;
+            _detects = JsonConvert.DeserializeObject<Dictionary<string, DozDetector>>(json);
+        }
+
+        private string GetCacheName(string normNumber)
+        {
+            return $"{nameof(DozNorm)}{nameof(_detects)}{normNumber}";
         }
 
         public string DozKey { get; set; }
@@ -55,9 +73,9 @@ namespace Norm.MedPrep
         private void Normalize()
         {
             NormResult = "";
-            if (DozDictionary == null || InitialName == null) return;
+            if (_detects == null || InitialName == null) return;
             const RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace;
-            foreach (var detect in DozDictionary)
+            foreach (var detect in _detects)
             {
                 foreach (var detector in detect.Value.RegExpDetectors)
                 {
@@ -74,7 +92,7 @@ namespace Norm.MedPrep
                             // [0-9]млн МЕ
                             if (modifier.Contains("млн"))
                             {
-                                DozValue = $"{value * 1000000}";
+                                DozValue = $"{value*1000000}";
                             }
                         }
                         catch (Exception e)
@@ -94,8 +112,8 @@ namespace Norm.MedPrep
         private void FillContainer()
         {
             _queryContainer.Clear();
-            if (string.IsNullOrEmpty(NormResult)) return;
-            var detect = DozDictionary[DozKey];
+            if (string.IsNullOrEmpty(NormResult) || NormResult == "-") return;
+            var detect = _detects[DozKey];
             var value = 0.0M;
 
             try
@@ -112,12 +130,12 @@ namespace Norm.MedPrep
             foreach (var mutate in detect.Mutates)
             {
                 if (mutate.Rate == 0) return;
-                var valueWithRate = mutate.Rate * value;
+                var valueWithRate = mutate.Rate*value;
                 var strValueWithRate = valueWithRate.ToString("0.#####");
                 // для целочисленных значений
-                if (valueWithRate % 1 == 0)
+                if (valueWithRate%1 == 0)
                 {
-                    strValueWithRate = $"{(int)valueWithRate}";
+                    strValueWithRate = $"{(int) valueWithRate}";
                 }
                 var should = string.Format(mutate.QueryString, strValueWithRate);
                 if (should.Contains(" "))
@@ -136,10 +154,10 @@ namespace Norm.MedPrep
                     //        .Query(should))
                     //    );
                     shoulds.Add(Query<Content>
-                            .QueryString(m => m
-                                .Query(should + "*")
-                                .Fields(f => f.Field(fn => fn.Name))
-                            ));
+                        .QueryString(m => m
+                            .Query(should + "*")
+                            .Fields(f => f.Field(fn => fn.Name))
+                        ));
                 }
             }
             if (shoulds.Count == 0) return;
@@ -150,21 +168,45 @@ namespace Norm.MedPrep
                 )
                 );
         }
-    }
 
-    public class DozDetector
-    {
-        public Mutate[] Mutates;
+        public Dictionary<string, DozDetector> GetDetects()
+        {
+            return _detects;
+        }
 
-        [JsonProperty("regexp")]
-        public string[] RegExpDetectors { get; set; }
-    }
+        public bool CreateDetects(string normNumber, Dictionary<string, DozDetector> detects)
+        {
+            if (string.IsNullOrEmpty(normNumber)) return false;
+            var path = new Uri($"{_pathPrefix}{normNumber}.json").LocalPath;
+            try
+            {
+                var json = JsonConvert.SerializeObject(detects);
+                File.WriteAllText(path, json);
+                MedPrepCache.Detects[GetCacheName(normNumber)] = json;
+                return true;
+            }
+            catch
+            {
+                // ignored
+            }
+            return false;
+        }
 
-    public class Mutate
-    {
-        public decimal Rate { get; set; }
-
-        [JsonProperty("query")]
-        public string QueryString { get; set; }
+        public bool DeleteDetects(string normNumber)
+        {
+            if (string.IsNullOrEmpty(normNumber)) return false;
+            var path = new Uri($"{_pathPrefix}{normNumber}.json").LocalPath;
+            try
+            {
+                File.Delete(path);
+                MedPrepCache.Detects.Remove(GetCacheName(normNumber));
+                return true;
+            }
+            catch
+            {
+                // ignored
+            }
+            return false;
+        }
     }
 }

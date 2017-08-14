@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using AutoMapper.Configuration;
 using Ninject;
+using Ninject.Web.Common;
+using Norm.MedPrep;
 using Price.WebApi.AutoMappers;
 using Price.WebApi.Logic;
 using Price.WebApi.Logic.Interfaces;
+using PriceCommon.Norm;
 
 namespace Price.WebApi.Ninject
 {
@@ -32,6 +35,7 @@ namespace Price.WebApi.Ninject
 
             //container.Bind<ITransactionApi>().To<TransactionApi>().InRequestScope();
             //container.Bind<ITransactionQuery>().To<TransactionQuery>().InRequestScope();
+            
 
             #endregion
         }
@@ -50,6 +54,7 @@ namespace Price.WebApi.Ninject
             //container.Bind<WalletContext>().ToSelf().InThreadScope();
             //container.Bind<ExchangeServiceMailSender>().ToSelf().InSingletonScope();
             container.Bind<IUpdatePriceWatcher>().To<UpdatePriceWatcher>().InSingletonScope();
+            //container.Bind<IDetect>().To<Detect>().InRequestScope();
         }
     }
 }

@@ -1,5 +1,0 @@
-1:http://apteka.farm/catalog/catgroup/lekarstva/antiagreganti/aspirin-kardio-tbl-100mg-5695-zakaz
-1:http://apteka.farm/catalog/catgroup/lekarstva/aspirin-c-ship-tbl-1079-zakaz
-1:http://apteka.farm/catalog/catgroup/lekarstva/aspirin-kardio-tbl-100mg-28-zakaz
-1:http://apteka.farm/catalog/catgroup/lekarstva/aspirin-kardio-tbl-100mg-5695-zakaz
-1:http://apteka.farm/catalog/catgroup/lekarstva/antiagreganti/aspirin-kardio-tbl-100mg-28-zakaz

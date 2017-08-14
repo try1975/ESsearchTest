@@ -1,14 +1,12 @@
 using System;
 
-
-namespace PriceCommon.Model
+namespace PriceCommon.Model.Gz
 {
     /// <summary>
     /// Результат поиска
     /// </summary>
     public class Content
     {
-        private string _uri;
         public bool Selected { get; set; }
 
         /// <summary>
@@ -30,15 +28,7 @@ namespace PriceCommon.Model
         /// <summary>
         /// Ссылка на источник
         /// </summary>
-        public string Uri
-        {
-            get { return _uri; }
-            set
-            {
-                _uri = value;
-                if (!_uri.StartsWith("http")) Uri = $"http://zakupki.gov.ru/epz/contract/contractCard/payment-info-and-target-of-order.html?reestrNumber={_uri}";
-            }
-        }
+        public string Uri { get; set; }
 
         /// <summary>
         /// Продавец
@@ -69,10 +59,5 @@ namespace PriceCommon.Model
         ///     Телефоны
         /// </summary>
         public string Phones { get; set; }
-
-        /// <summary>
-        ///     ОКПД2
-        /// </summary>
-        public string Okpd2 { get; set; }
     }
 }

@@ -116,7 +116,7 @@ namespace ESsearchTest
             {
                 Debug.WriteLine(exception);
                 MessageBox.Show($"Ошибка получения списка поставщиков. {exception}");
-                throw;
+                //throw;
             }
 
             // Last update date

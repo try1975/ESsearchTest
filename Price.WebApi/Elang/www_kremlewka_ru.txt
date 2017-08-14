@@ -1,3 +1,0 @@
-{PRICE}=([\d,])
-<h1>{NAME}</h1>{SKIP}<span class="price_front" style="font-size:15px;">Производитель: {MANUF}</span>{SKIP}<span class="price_front" style="font-size:15px;">{SKIP}<b>{PRICE}</b></span>{SKIP}<div style="padding-top:10px;">{DESCRIPT}<div style="padding-top:25px;">
-

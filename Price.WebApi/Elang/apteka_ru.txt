@@ -1,7 +1,0 @@
-<h1 class="sec-inner__title">{NAME}</h1>
-[GLOBAL]
-<div class="sec-item-alt__info-price">{SKIP}<span data-price="{SKIP}">{PRICE}</span>
-<div class="sec-item-alt__info-availability product-row-alt__availability{SKIP}">{EX}</div>
-Производитель: <a href="{SKIP}">{FIRM}</a>
-Срок годности:{DATE}</div>                                    
-Действующее вещество: <a href="{SKIP}">{COMPONENT}</a>

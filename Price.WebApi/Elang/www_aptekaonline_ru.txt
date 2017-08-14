@@ -1,7 +1,0 @@
-<h1 itemprop="name" class="hidden-xs">{NAME}</h1>{SKIP}Цена <strong>{PRICE}<span class="curr">{SKIP}Страна-производитель:{SKIP}<p>{STRANA}</p>{SKIP}Производитель:{SKIP}<p>{PROIZ}</p>{SKIP}Форма выпуска:{SKIP}<p>{FORMA}</p>{SKIP}Действующее вещество:{SKIP}<p>{VEZH}</p>{SKIP}Торговая марка:{SKIP}<p>{MARKA}</p>
-
-<h1 itemprop="name" class="hidden-xs">{NAME}</h1>{SKIP}<strong>от {PRICE}<span class="curr">{SKIP}Форма выпуска:{SKIP}<p>{FORMA}</p>{SKIP}Действующее вещество:{SKIP}<p>{VEZH}</p>{SKIP}Торговая марка:{SKIP}<p>{MARKA}</p>
-
-<h1 itemprop="name" class="hidden-xs">{NAME}</h1>{SKIP}<strong>от {PRICE}<span class="curr">{SKIP}Форма выпуска:{SKIP}<p>{FORMA}</p>{SKIP}Торговая марка:{SKIP}<p>{MARKA}</p>
-
-<h1 itemprop="name" class="hidden-xs">{NAME}</h1>{SKIP}<strong>от {PRICE}<span class="curr">

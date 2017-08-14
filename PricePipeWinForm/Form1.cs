@@ -30,11 +30,7 @@ namespace PricePipeWinForm
         private void StartCalc()
         {
             tbTrueResult.Clear();
-            var searcher = new Searcher(
-                AppSettings.DefaultIndex,
-                AppSettings.Host,
-                AppSettings.UserName,
-                AppSettings.Password);
+            var searcher = new PharmacySearcher(AppSettings.DefaultIndex);
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();

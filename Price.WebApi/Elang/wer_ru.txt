@@ -1,5 +1,0 @@
-<h1 class="h1">{SKIP}>{NAME}</span>{SKIP}Производитель:{SKIP}<dd class="col-xs-9">{PROIZ}</dd>{SKIP}Форма выпуска:{SKIP}<dd class="col-xs-9">{SKIP}<a class{SKIP}>{VEZH}</a>{SKIP}var newprice =  number_format_price({PRICE},
-
-<h1 class="h1">{SKIP}>{NAME}</span>{SKIP}Форма выпуска:{SKIP}<dd class="col-xs-9">{SKIP}<a class{SKIP}>{VEZH}</a>{SKIP}var newprice =  number_format_price({PRICE},
-
-<h1 class="h1">{SKIP}>{NAME}</span>{SKIP}var newprice =  number_format_price({PRICE},

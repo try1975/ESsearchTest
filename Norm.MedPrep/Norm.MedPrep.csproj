@@ -48,9 +48,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Detect.cs" />
+    <Compile Include="MedPrepCache.cs" />
+    <Compile Include="DozDetector.cs" />
     <Compile Include="DozNorm.cs" />
     <Compile Include="LekFormNorm.cs" />
     <Compile Include="MedPrepNorm.cs" />
+    <Compile Include="Mutate.cs" />
     <Compile Include="SynNorm.cs" />
     <Compile Include="UpakNorm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

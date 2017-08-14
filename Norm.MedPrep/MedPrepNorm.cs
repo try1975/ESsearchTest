@@ -11,25 +11,25 @@ namespace Norm.MedPrep
     {
         private readonly IMedPrepControl _controlMedPrep;
         private readonly List<QueryContainer> _queryContainer;
+        private readonly SynNorm _synNorm;
         public readonly DozNorm DozNorm;
 
         public readonly LekFormNorm LekFormNorm;
         public readonly UpakNorm UpakNorm;
-        private readonly SynNorm _synNorm;
         private string _doz;
         private string _dozEd;
         private string _firstWords;
         private string _initialName;
         private string _lekForm;
-        private string _upak;
         private string _syn;
         private string _synInitial;
+        private string _upak;
 
-        public MedPrepNorm(ElasticClient elasticClient)
+        public MedPrepNorm(ElasticClient elasticClient, string normNumber = "")
         {
             _queryContainer = new List<QueryContainer>();
-            LekFormNorm = new LekFormNorm();
-            UpakNorm = new UpakNorm();
+            LekFormNorm = new LekFormNorm(normNumber);
+            UpakNorm = new UpakNorm(normNumber);
             DozNorm = new DozNorm();
             _synNorm = new SynNorm(elasticClient);
         }
@@ -40,16 +40,16 @@ namespace Norm.MedPrep
             _queryContainer = new List<QueryContainer>();
             LekFormNorm = new LekFormNorm();
 
-            if (LekFormNorm.NormDictionary != null && _controlMedPrep != null)
+            if (LekFormNorm.GetDetects() != null && _controlMedPrep != null)
             {
-                _controlMedPrep.LekFormList = LekFormNorm.NormDictionary.Select(i => i.Key).ToList();
+                _controlMedPrep.LekFormList = LekFormNorm.GetDetects().Select(i => i.Key).ToList();
             }
 
             UpakNorm = new UpakNorm();
             DozNorm = new DozNorm();
-            if (DozNorm.DozDictionary != null && _controlMedPrep != null)
+            if (DozNorm.GetDetects() != null && _controlMedPrep != null)
             {
-                _controlMedPrep.DozEdList = DozNorm.DozDictionary.Select(i => i.Key).ToList();
+                _controlMedPrep.DozEdList = DozNorm.GetDetects().Select(i => i.Key).ToList();
             }
 
             _synNorm = new SynNorm(elasticClient);
@@ -116,7 +116,6 @@ namespace Norm.MedPrep
                 _syn = value;
                 if (_controlMedPrep != null && _synNorm != null) _controlMedPrep.Syn = _synNorm.NormResult;
             }
-
         }
 
         public string InitialName
@@ -142,6 +141,17 @@ namespace Norm.MedPrep
                 _synInitial = GetSynInitial();
                 _synNorm.InitialName = _synInitial;
                 Syn = _synNorm.NormResult;
+            }
+        }
+
+        public string NormResult { get; set; }
+
+        public List<QueryContainer> QueryContainer
+        {
+            get
+            {
+                FillContainer();
+                return _queryContainer;
             }
         }
 
@@ -191,17 +201,6 @@ namespace Norm.MedPrep
             return string.Join("+", innList);
         }
 
-        public string NormResult { get; set; }
-
-        public List<QueryContainer> QueryContainer
-        {
-            get
-            {
-                FillContainer();
-                return _queryContainer;
-            }
-        }
-
         private void FillContainer()
         {
             _queryContainer.Clear();
@@ -214,7 +213,7 @@ namespace Norm.MedPrep
                     var shoulds = new List<QueryContainer>();
                     foreach (var queryString in Syn.Split(','))
                     {
-                        var should = queryString;
+                        var should = queryString.Replace("/", "\\/");
                         if (should.Contains(" "))
                         {
                             shoulds.Add(Query<Content>
@@ -240,11 +239,11 @@ namespace Norm.MedPrep
                     //    )
                     //    );
                     _queryContainer.Add(Query<Content>
-                    .Bool(w => w
-                        .Should(shoulds.ToArray())
-                        .MinimumShouldMatch(1)
+                        .Bool(w => w
+                            .Should(shoulds.ToArray())
+                            .MinimumShouldMatch(1)
                         )
-                    );
+                        );
                 }
                 else
                 {

@@ -1,3 +1,0 @@
-<h1 itemprop="name">{NAME}</h1>{SKIP}<p class="b-descrition__item">Производитель:{SKIP}_item-text">{Proizv}</span>{SKIP}(МНН): <span class="b-descrition__item-text">{MNN}</span>{SKIP}<p class="b-good__price formatted_price " itemprop="price" {SKIP}>{PRICE}</p>{SKIP}<div class="aptek_inf_con" itemprop="description">{DESCRIPTION}</div>
-
-<h1 itemprop="name">{NAME}</h1>{SKIP}<p class="b-descrition__item">Производитель:{SKIP}_item-text">{Proizv}</span>{SKIP}<p class="b-good__price formatted_price " itemprop="price" {SKIP}>{PRICE}</p>{SKIP}<div class="aptek_inf_con" itemprop="description">{DESCRIPTION}</div>

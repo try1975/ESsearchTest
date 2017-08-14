@@ -12,21 +12,38 @@ namespace Norm.MedPrep
 {
     public class UpakNorm : INorm
     {
-        private readonly List<IDetect> _detectors;
+        private readonly List<IDetect> _detects;
+
+        private readonly string _pathPrefix =
+            $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase)}\\Norm\\json\\{nameof(UpakNorm)}";
+
         private readonly List<QueryContainer> _queryContainer;
         private string _initialName;
+        
 
-        public UpakNorm()
+        public UpakNorm(string normNumber = "")
         {
             _queryContainer = new List<QueryContainer>();
-            var path =
-                new Uri(
-                    $"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase)}\\Norm\\json\\{nameof(UpakNorm)}.json")
-                    .LocalPath;
+            // получить из кэша json, если нет - загрузить из файла
+            string json;
+            var cacheName = GetCacheName(normNumber);
+            if (MedPrepCache.Detects.TryGetValue(cacheName, out json))
+            {
+                _detects = new List<IDetect>(JsonConvert.DeserializeObject<List<Detect>>(json));
+                return;
+            }
+            var path = new Uri($"{_pathPrefix}{normNumber}.json").LocalPath;
+            if (!File.Exists(path)) path = new Uri($"{_pathPrefix}.json").LocalPath;
             if (!File.Exists(path)) return;
-            var json = File.ReadAllText(path);
-            //_list = JsonConvert.DeserializeObject<List<Detect>>(json);
-            _detectors = new List<IDetect>(JsonConvert.DeserializeObject<List<Detect>>(json));
+            json = File.ReadAllText(path);
+            if (string.IsNullOrEmpty(json)) return;
+            MedPrepCache.Detects[cacheName] = json;
+            _detects = new List<IDetect>(JsonConvert.DeserializeObject<List<Detect>>(json));
+        }
+
+        private string GetCacheName(string normNumber)
+        {
+            return $"{nameof(UpakNorm)}{nameof(_detects)}{normNumber}";
         }
 
         public string InitialName
@@ -53,9 +70,9 @@ namespace Norm.MedPrep
         private void Normalize()
         {
             NormResult = "";
-            if (_detectors == null || InitialName == null) return;
+            if (_detects == null || InitialName == null) return;
             const RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace;
-            foreach (var detect in _detectors)
+            foreach (var detect in _detects)
             {
                 foreach (var detector in detect.RegExpDetectors)
                 {
@@ -73,7 +90,7 @@ namespace Norm.MedPrep
             if (string.IsNullOrEmpty(NormResult)) return;
 
 
-            foreach (var detect in _detectors)
+            foreach (var detect in _detects)
             {
                 var shoulds = new List<QueryContainer>();
                 foreach (var queryString in detect.QueryStrings)
@@ -114,9 +131,49 @@ namespace Norm.MedPrep
                     .Bool(w => w
                         .Should(shoulds.ToArray())
                         .MinimumShouldMatch(1)
-                        )
+                    )
                     );
             }
+        }
+
+        public List<IDetect> GetDetects()
+        {
+            return _detects;
+        }
+
+        public bool CreateDetects(string normNumber, List<Detect> detects)
+        {
+            if (string.IsNullOrEmpty(normNumber)) return false;
+            var path = new Uri($"{_pathPrefix}{normNumber}.json").LocalPath;
+            try
+            {
+                var json = JsonConvert.SerializeObject(detects);
+                File.WriteAllText(path, json);
+                MedPrepCache.Detects[GetCacheName(normNumber)] = json;
+                return true;
+            }
+            catch
+            {
+                // ignored
+            }
+            return false;
+        }
+
+        public bool DeleteDetects(string normNumber)
+        {
+            if (string.IsNullOrEmpty(normNumber)) return false;
+            var path = new Uri($"{_pathPrefix}{normNumber}.json").LocalPath;
+            try
+            {
+                File.Delete(path);
+                MedPrepCache.Detects.Remove(GetCacheName(normNumber));
+                return true;
+            }
+            catch
+            {
+                // ignored
+            }
+            return false;
         }
     }
 }

@@ -1,1 +1,0 @@
-<div class="card-top__title">{NAME}</div>{SKIP}<div class="card-top__price-new">{PRICE}руб.</div>

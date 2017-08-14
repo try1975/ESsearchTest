@@ -310,6 +310,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Norm.MedPrep\Norm.MedPrep.csproj">
+      <Project>{4BAC3AC1-C876-4C4D-9CE9-541C8384F539}</Project>
+      <Name>Norm.MedPrep</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PriceCommon\PriceCommon.csproj">
       <Project>{0bdcaa8c-d511-46f0-b681-33dbed62c002}</Project>
       <Name>PriceCommon</Name>

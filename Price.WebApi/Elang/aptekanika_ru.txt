@@ -1,3 +1,0 @@
-<div class="moreInfo{SKIP}">{SKIP}</div>{SKIP}</div>{NAME}</div>{SKIP}<span class="dprice">{PRICE}&nbsp;Р.</span>
-[GLOBAL]
-<h3 class="title__h3_reservations">Интернет-бронирование в аптеке{ADDRESS}</h3>

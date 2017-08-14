@@ -1,1 +1,0 @@
-<h1 class={SKIP}>{NAME}</h1><span class="prod">Производитель: <span>{Proizv}</span>{SKIP}<span class="sum for-devices"><strong>{PRICE}</strong>{SKIP}<h2>Инструкция</h2>{Description}<h2>Отзывы</h2>

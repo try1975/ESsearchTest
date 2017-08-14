@@ -1,5 +1,0 @@
-<h1>{NAME}</h1>{SKIP}<div id="good">{SKIP}<div class="price"><b>{PRICE}</b>{SKIP}<div class="vendor"><i>Производитель:</i> {MANUF}</div>{SKIP}<strong>Фармакологическое действие<br />{DESCRIPT}<table border="0" cellpadding="0">
-<h1>{NAME}</h1>{SKIP}<div id="good">{SKIP}<div class="price"><b>{PRICE}</b>{SKIP}<div class="vendor"><i>Производитель:</i> {MANUF}</div>{SKIP}<strong>Фармакологическое действие</strong></p>{DESCRIPT}</table></div>
-<h1>{NAME}</h1>{SKIP}<div id="good">{SKIP}<div class="price"><i>{SKIP}</i>{SKIP}<b>{PRICE}</b>{SKIP}<div class="vendor"><i>Производитель:</i> {MANUF}</div>{SKIP}<strong>Фармакологическое действие</strong></p>{DESCRIPT}</table></div>
-<h1>{NAME}</h1>{SKIP}<div id="good">{SKIP}<div class="price"><i>{SKIP}</i>{SKIP}<b>{PRICE}</b>{SKIP}<div class="vendor"><i>Производитель:</i> {MANUF}</div>{SKIP}<div class="good_text"><h2>{DESCRIPT}<div style="float: left; width:100%;">
-<h1>{NAME}</h1>{SKIP}<div id="good">{SKIP}<div class="price"><b>{PRICE}</b>{SKIP}<div class="vendor"><i>Производитель:</i> {MANUF}</div>

@@ -1,1 +1,0 @@
-<div class="center_col item_block"><h1>{NAME}</h1><p>{FIRM}</p>{SKIP}<p class="price">{PRICE}<span>

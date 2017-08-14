@@ -13,11 +13,7 @@ namespace PricePipe
             var names = File.ReadAllLines(args[0]);
             if (names.Any())
             {
-                var priceCalculator = new Searcher(
-                    AppSettings.DefaultIndex,
-                    AppSettings.Host,
-                    AppSettings.UserName,
-                    AppSettings.Password);
+                var priceCalculator = new PharmacySearcher(AppSettings.DefaultIndex);
 
                 foreach (var name in names)
                 {

@@ -8,10 +8,9 @@ namespace Norm.MedPrep
 {
     public class SynNorm : INorm
     {
-
-        private readonly List<QueryContainer> _queryContainer;
-        private string _initialName;
         private readonly ElasticClient _elasticClient;
+
+        private string _initialName;
 
         //public SynNorm()
         //{
@@ -21,13 +20,10 @@ namespace Norm.MedPrep
         public SynNorm(ElasticClient elasticClient)
         {
             _elasticClient = elasticClient;
-            _queryContainer = new List<QueryContainer>();
+            QueryContainer = new List<QueryContainer>();
         }
 
-        public List<QueryContainer> QueryContainer
-        {
-            get { return _queryContainer; }
-        }
+        public List<QueryContainer> QueryContainer { get; }
 
         public string InitialName
         {
@@ -38,6 +34,8 @@ namespace Norm.MedPrep
                 Normalize();
             }
         }
+
+        public string NormResult { get; set; }
 
         private void Normalize()
         {
@@ -67,7 +65,9 @@ namespace Norm.MedPrep
                 .Size(100)
                 .Query(q => q
                     .Bool(b => b
-                        .Must(innItems.Select(innItem => Query<Syn>.Match(m => m.Field(f => f.Inn).Query(innItem))).ToArray())))
+                        .Must(
+                            innItems.Select(innItem => Query<Syn>.Match(m => m.Field(f => f.Inn).Query(innItem)))
+                                .ToArray())))
                 );
 
             //var innList = _elasticClient.Search<Syn>(s => s
@@ -88,7 +88,5 @@ namespace Norm.MedPrep
                     ;
             }
         }
-
-        public string NormResult { get; set; }
     }
 }

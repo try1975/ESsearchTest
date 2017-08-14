@@ -1,4 +1,0 @@
-{PRICE}=([\d.])
-<h1 itemprop="name" class="hl-b">{NAME}<{SKIP}Действующее вещество:{SKIP}<span>{VEZH}</span>{SKIP}Производитель:{SKIP}<span>{PROIZ}</span>{SKIP}Страна:{SKIP}<span>{STRANA}</span>{SKIP}<span itemprop="price">{PRICE}</span>
-
-<h1 itemprop="name" class="hl-b">{NAME}<{SKIP}Производитель:{SKIP}<span>{PROIZ}</span>{SKIP}Страна:{SKIP}<span>{STRANA}</span>{SKIP}<span itemprop="price">{PRICE}</span>

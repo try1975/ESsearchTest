@@ -1,2 +1,0 @@
-<h1 class="pagetitle">{NAME}</h1>{SKIP}<span class="price gen price_pdv_BASE">{PRICE}</span>{SKIP}Фирма - производитель</span>{SKIP}<div class="val">{FIRM}</div>{SKIP}Форма выпуска</span>{SKIP}<div class="val">{FORM}</div>{SKIP}МНН</span>{SKIP}<div class="val">{COMPONENT}</div>
-<h1 class="pagetitle">{NAME}</h1>{SKIP}<span class="price gen price_pdv_BASE">{PRICE}</span>{SKIP}Фирма - производитель</span>{SKIP}<div class="val">{FIRM}</div>{SKIP}Форма выпуска</span>{SKIP}<div class="val">{FORM}</div>

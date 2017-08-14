@@ -1,1 +1,0 @@
-<a href="/index.php/prajs/{SKIP}" class="product-details" title="{SKIP}">Вернуться к:{ADDRESS}</a>{SKIP}<h1 itemprop="name">Купить{NAME}</h1>{SKIP}<span class="PricesalesPrice">{PRICE}</span>

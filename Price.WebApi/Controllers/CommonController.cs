@@ -26,6 +26,18 @@ namespace Price.WebApi.Controllers
         }
 
         /// <summary>
+        /// Обратный поиск по ОКПД2
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns>Наименование ТРУ для которго будет определен ОКПД2</returns>
+        [HttpGet]
+        [Route("Okpd2Reverse", Name = nameof(GetOkpd2Reverse) + "Route")]
+        public void GetOkpd2Reverse(string text)
+        {
+            ;
+        }
+
+        /// <summary>
         /// Настройки для парсера
         /// </summary>
         /// <param name="host">Хост</param>
