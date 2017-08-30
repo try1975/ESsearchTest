@@ -37,6 +37,7 @@ namespace PricePipeCore
                            .Size(100)
                        )
                    )
+                .Size(0)
                    );
             return response.Aggs.Terms(aggs).Buckets.Select(z => new Okpd2Reverse()
             {

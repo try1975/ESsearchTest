@@ -54,6 +54,7 @@
     <Compile Include="Okpd2ReverseSeacher.cs" />
     <Compile Include="PharmacySearcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleSearcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

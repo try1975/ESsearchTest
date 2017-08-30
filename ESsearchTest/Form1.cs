@@ -122,13 +122,13 @@ namespace ESsearchTest
             // Last update date
             try
             {
-                var lastUpdatedResponce = _elasticClient.Search<Content>(s => s
+                var lastUpdatedResponse = _elasticClient.Search<Content>(s => s
                     .Query(q => q.MatchAll())
                     .Size(1)
                     .Sort(sort => sort
                         .Descending(f => f.CollectedAt))
                     );
-                var lastUpdated = lastUpdatedResponce.Hits.Select(s => s.Source).FirstOrDefault();
+                var lastUpdated = lastUpdatedResponse.Hits.Select(s => s.Source).FirstOrDefault();
                 var updatedDateText = "";
                 if (lastUpdated != null) updatedDateText = $"{lastUpdated.Collected}";
                 lblLastUpdated.Text = $"Обновлено: {updatedDateText}";
