@@ -242,3 +242,4 @@ ModelManifest.xml
 .fake/
 /ESsearchTest/Resources/Thumbs.db
 /Price.WebApi/Logs
+/AddProducer/App.AppSettings.config

@@ -1,0 +1,205 @@
+Запросы к эластику
+
+logstash grok from csv
+%{QUOTEDSTRING:uRI};%{QUOTEDSTRING:name};%{QUOTEDSTRING};%{QUOTEDSTRING};%{QUOTEDSTRING}
+
+GET md_v1/_aliases
+GET /*/_alias/md5
+
+POST /_aliases
+{
+    "actions" : [
+        { "remove" : { "index" : "md_v2", "alias" : "md5" } },
+        { "add" : { "index" : "md_v3", "alias" : "md5" } }
+    ]
+}
+
+DELETE md_v1
+GET md_v1/_settings
+GET md_v2/content/_mapping
+GET md_v2/content/_search
+{
+    "query": { "match": {"name": "№70"}}
+}
+GET md_v1/_stats
+
+53c926bcb2e3b840120fcadb52b51b27
+
+POST md5/content/_search?size=0
+{
+     "query": {
+        "query_string": {
+
+           "query": "кофеин парацетамол",
+           "default_operator": "AND"
+        }
+    },
+    "aggs" : {
+        "sellers": {
+            "terms" : { "field" : "seller" }
+        }
+    }
+}
+
+PUT md_v3
+{
+    "settings":{
+        "analysis": {
+          "analyzer": {
+            "default": {
+              "tokenizer": "whitespace",
+              "filter": [ "lowercase" ],
+              "char_filter":  [ "html_strip" ]
+            }
+          }
+        }
+    },
+    "mappings": {
+        "content": {
+          "properties": {
+            "name": { 
+              "type": "text"
+            },
+            "seller":{
+                "type": "keyword",
+    			"null_value": "NULL"
+            },
+			"price": {
+				"type": "keyword",
+				"null_value": "0"
+			},
+			"uRI": {
+				"type": "keyword",
+				"null_value": "NULL",
+				"index": false
+			},
+            "collectedAt":{
+                "type": "date"
+            }
+          }
+        }
+    }
+}
+
+"price": {
+				"type": "scaled_float",
+				"scaling_factor": 100,
+				"null_value": 0
+			},
+
+POST _reindex
+{
+  "size": 1000,
+  "source": {
+    "index": "md_v2",
+	"type": "content",
+	"_source": ["id", "seller", "collectedAt", "uRI", "price", "name", "column6", "column7", "column8", "column9" ]
+  },
+  "dest": {
+    "index": "md_v3"
+  }
+}
+
+POST _reindex
+{
+  "source": {
+    "index": "md_v2",
+	"type": "expert",
+	"_source": ["id", "comment", "comment2", "edizm", "expert_date", "expert_name", "expert_number", "kpgz_code", "kpgz_name", "name", "npp", "price_2016", "price_2017", "price_2018", "spgz_name", "tru_prim", "zakupki_link" ]
+  },
+  "dest": {
+    "index": "md_v3"
+  }
+}
+
+
+{
+	"size": 200,
+	"query": {
+		"bool": {
+			"must": [{
+				"match": {
+					"name": {
+						"query": "оби"
+					}
+				}
+			},
+			{
+				"match": {
+					"name": {
+						"query": "тамп"
+					}
+				}
+			},
+			{
+				"match": {
+					"name": {
+						"query": "нормал"
+					}
+				}
+			},
+			{
+				"query_string": {
+					"query": "про-комфорт*"
+				}
+			},
+			{
+				"query_string": {
+					"query": "№8+мини*"
+				}
+			},
+			{
+				"query_string": {
+					"query": "№8*"
+				}
+			}]
+		}
+	}
+}
+
+
+[JsonConverterAttribute(Newtonsoft.Json.Converters.StringEnumConverter)]
+public enum LicenseStatus
+{
+     Active = 0,
+     Invalid = 1,
+     Expired = 2
+}
+
+http://www.consultant.ru/document/cons_doc_LAW_203562/8d65bdecab1cf1ed66c549727f0385f31c416066/
+
+1. Аэрозоль +
+2. Газ медицинский +
+3. Гель +
+4. Гранулы +
+5. Дисперсия +
+6. Жидкость +
+7. Имплантат
+8. Капли +
+9. Капсулы +
+10. Концентрат +
+11. Крем +
+12. Линимент +
+13. Лиофилизат +
+14. Мазь +
+15. Масло +
+16. Настойка +
+17. Палочки
+18. Паста +
+19. Пена +
+20. Пластырь +
+21. Пленки +
+22. Порошок +
+23. Раствор +
+24. Сироп +
+25. Система +
+26. Спрей +
+27. Суппозитории +
+28. Суспензия +
+29. Таблетки +
+30. Тампоны лекарственные +
+31. Экстракт +
+32. Эмульсия +
+33. Другие лекарственные формы
+34. Специальные формы гомеопатических лекарственных препаратов
+35. Растворитель +
