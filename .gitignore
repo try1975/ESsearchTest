@@ -243,3 +243,5 @@ ModelManifest.xml
 /ESsearchTest/Resources/Thumbs.db
 /Price.WebApi/Logs
 /AddProducer/App.AppSettings.config
+/fetchee_key.txt
+/Price.WebApi/App.AppSettings.config

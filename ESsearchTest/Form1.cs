@@ -524,7 +524,7 @@ namespace ESsearchTest
                 }
             }
 
-            var request = new AnalyzeRequest(AppSettings.DefaultIndex)
+            var analyzeRequest = new AnalyzeRequest(AppSettings.DefaultIndex)
             {
                 /*Analyzer = "russian", /* "standard|russian", https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-analyze.html */
                 Text = new[] { text.Replace('.', ' ') /* text */}
@@ -534,7 +534,7 @@ namespace ESsearchTest
             {
                 if (!cbNorm.Checked)
                 {
-                    var result = _elasticClient.Analyze(request);
+                    var result = _elasticClient.Analyze(analyzeRequest);
 
                     tbExact.Clear();
                     tbQuery.Clear();

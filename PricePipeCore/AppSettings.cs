@@ -15,6 +15,8 @@ namespace PricePipeCore
 
         public static int MaxResultCount{ get; }
 
+        public static string FetcheeApiKey { get; }
+
         static AppSettings()
         {
             DefaultIndex = ConfigurationManager.AppSettings[nameof(DefaultIndex)];
@@ -27,6 +29,8 @@ namespace PricePipeCore
             int maxResultCount;
             int.TryParse(ConfigurationManager.AppSettings[nameof(MaxResultCount)], out maxResultCount);
             MaxResultCount = maxResultCount;
+
+            FetcheeApiKey = ConfigurationManager.AppSettings[nameof(FetcheeApiKey)];
         }
     }
 }
