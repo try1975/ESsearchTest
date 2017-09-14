@@ -1,49 +1,82 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Description;
+using Price.WebApi.Logic.Fetchee;
 using Price.WebApi.Models;
 using PricePipeCore;
 
 namespace Price.WebApi.Controllers
 {
     /// <summary>
-    /// Использование fetchee API для определения цены
+    /// Использование Fetchee API для определения цены на произвольном сайте
     /// </summary>
     [RoutePrefix("api/fetchee")]
     public class FetcheeController : ApiController
     {
-
         /// <summary>
-        /// 
+        /// Получить результат определения цены, если null - ещё в процессе
         /// </summary>
-        /// <param name="url"></param>
+        /// <param name="id">Идетификатор задачи</param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("task", Name = nameof(PostFetcheeTask) + "Route")]
-        public FetcheeTaskReturnDto PostFetcheeTask([FromBody]string url)
+        [HttpGet]
+        [Route("task/{id}", Name = nameof(GetFetcheeTask) + "Route")]
+        [ResponseType(typeof(FetcheeDto))]
+        public IHttpActionResult GetFetcheeTask(string id)
         {
-            Logger.Log.Info($"{nameof(PostFetcheeTask)}: url={url}");
-            //if (string.IsNullOrEmpty(source)) source = AppSettings.DefaultIndex;
-            //return Mapper.Map<IEnumerable<ContentDto>>(new SimpleSearcher(source).SimpleSearch(text));
-            var fetcheeTaskDto = new FetsheeTaskDto()
-            {
-                url = url,
-                api_key = AppSettings.FetcheeApiKey,
-                callback_url = "https://requestb.in/14j4ty31"
-            };
-
-            return new FetcheeTaskReturnDto();
+            Logger.Log.Info($"{nameof(GetFetcheeTask)}: id={id}");
+            return Ok(FetcheeTasks.Get(id));
         }
 
         /// <summary>
-        /// 
+        /// Для обратного вызова Fetchee API (не использовать)
         /// </summary>
         /// <param name="fetcheeDto"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("result", Name = nameof(PostFetcheeResult) + "Route")]
-        public FetcheeDto PostFetcheeResult(FetcheeDto fetcheeDto)
+        [Route("callback", Name = nameof(PostFetcheeCallback) + "Route")]
+        public IHttpActionResult PostFetcheeCallback(FetcheeDto fetcheeDto)
         {
-            Logger.Log.Info($"{nameof(PostFetcheeResult)}: url={fetcheeDto.url} title={fetcheeDto.title} price={fetcheeDto.price}");
-            return fetcheeDto;
+            Logger.Log.Info($"{nameof(PostFetcheeCallback)}: url={fetcheeDto.Url} title={fetcheeDto.Title} price={fetcheeDto.Price}");
+            FetcheeTasks.Post(fetcheeDto);
+            return Ok();
+        }
+
+        /// <summary>
+        /// Определить цену через Fetchee API
+        /// </summary>
+        /// <param name="url">Адрес страницы товара</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("task", Name = nameof(PostFetcheeTask) + "Route")]
+        public async Task<FetcheeTaskReturnDto> PostFetcheeTask([FromUri] string url)
+        {
+            var callback = "https://requestb.in/1ag7w4i1";
+            callback = $"{Request.RequestUri.Scheme}://{Request.RequestUri.Authority}{Url.Route(nameof(PostFetcheeCallback) + "Route", null)}";
+            Logger.Log.Info($"{nameof(PostFetcheeTask)}: url={url} callback={callback}");
+            
+            var fetcheeTaskDto = new FetcheeTaskDto()
+            {
+                Url = url,
+                api_key = AppSettings.FetcheeApiKey,
+                callback_url = callback
+            };
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.BaseAddress = new Uri("https://fetch.ee/api/v1/product");
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));//ACCEPT header
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");
+
+                using (var response = await httpClient.PostAsJsonAsync(httpClient.BaseAddress, fetcheeTaskDto))
+                {
+                    if (!response.IsSuccessStatusCode) return null;
+                    var result = await response.Content.ReadAsAsync<FetcheeTaskReturnDto>();
+                    return result;
+                }
+            }
         }
     }
 }

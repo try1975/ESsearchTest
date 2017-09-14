@@ -201,6 +201,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logic\AppGlobal.cs" />
+    <Compile Include="Logic\Fetchee\FetcheeTasks.cs" />
     <Compile Include="Logic\IdService.cs" />
     <Compile Include="Logic\Interfaces\IUpdatePriceWatcher.cs" />
     <Compile Include="Logic\PathService.cs" />
