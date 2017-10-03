@@ -55,14 +55,15 @@ namespace Price.WebApi.Controllers
         {
             var callback = "https://requestb.in/1ag7w4i1";
             callback = $"{Request.RequestUri.Scheme}://{Request.RequestUri.Authority}{Url.Route(nameof(PostFetcheeCallback) + "Route", null)}";
-            Logger.Log.Info($"{nameof(PostFetcheeTask)}: url={url} callback={callback}");
-            
+            Logger.Log.Info($"{nameof(PostFetcheeTask)}: {nameof(url)}={url} {nameof(callback)}={callback} {nameof(FetcheeTaskDto.api_key)}={AppSettings.FetcheeApiKey}");
+
             var fetcheeTaskDto = new FetcheeTaskDto()
             {
-                Url = url,
+                url = url,
                 api_key = AppSettings.FetcheeApiKey,
                 callback_url = callback
             };
+
 
             using (var httpClient = new HttpClient())
             {
@@ -72,7 +73,11 @@ namespace Price.WebApi.Controllers
 
                 using (var response = await httpClient.PostAsJsonAsync(httpClient.BaseAddress, fetcheeTaskDto))
                 {
-                    if (!response.IsSuccessStatusCode) return null;
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        Logger.Log.Error($"{nameof(PostFetcheeTask)}: {nameof(response.StatusCode)}={response.StatusCode} {response.ReasonPhrase}={response.ReasonPhrase}");
+                        return null;
+                    }
                     var result = await response.Content.ReadAsAsync<FetcheeTaskReturnDto>();
                     return result;
                 }

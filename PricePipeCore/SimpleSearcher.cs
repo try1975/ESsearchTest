@@ -38,11 +38,28 @@ namespace PricePipeCore
                 );
             return response.Hits.Select(s => s.Source);
         }
+        public IEnumerable<Content> MaybeSearch(string must, string should, string mustNot)
+        {
+            var containerMust = GetExactQueryContainer(must, ',');
+            var containerShould = GetExactQueryContainer(should, ',');
+            var containerMustNot = GetExactQueryContainer(mustNot, ',');
+            if ((containerMust.Count == 0) && (containerShould.Count == 0) && (containerMustNot.Count == 0)) return new List<Content>();
+            var response = _elasticClient.Search<Content>(s => s
+                .Take(_maxTake)
+                .Query(q => q
+                    .Bool(b => b
+                        .Must(containerMust.ToArray())
+                        .Should(containerShould.ToArray())
+                        .MustNot(containerMustNot.ToArray())
+                        ))
+                );
+            return response.Hits.Select(s => s.Source);
+        }
 
-        private static List<QueryContainer> GetExactQueryContainer(string text)
+        private static List<QueryContainer> GetExactQueryContainer(string text, char splitter = ' ')
         {
             var queryContainer = new List<QueryContainer>();
-            var exactRows = text.ToLower().Split(' ');
+            var exactRows = text.ToLower().Split(splitter);
             foreach (var row in exactRows)
             {
                 if (string.IsNullOrEmpty(row)) continue;

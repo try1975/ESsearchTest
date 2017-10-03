@@ -82,9 +82,9 @@ namespace Price.WebApi.Models
     }
 
 
-    public class FetcheeTaskDto
+    public class FetcheeTaskDto // именно такие имена полей, иначе апи ломается
     {
-        public string Url { get; set; }
+        public string url { get; set; } 
         public string api_key { get; set; }
         public string callback_url { get; set; }
     }

@@ -245,3 +245,5 @@ ModelManifest.xml
 /AddProducer/App.AppSettings.config
 /fetchee_key.txt
 /Price.WebApi/App.AppSettings.config
+/Price.WebApi/Web.AppSettings.config
+/Price.WebApi/Web.Connections.config

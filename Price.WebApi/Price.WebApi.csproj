@@ -261,7 +261,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="GetFiles\GetFile.ashx" />
-    <Content Include="App.AppSettings.config" />
+    <Content Include="Web.AppSettings.config" />
     <None Include="ProductParser\config.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -313,6 +313,9 @@
     <Content Include="siteshoter\SiteShoter_lng.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Web.Connections.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Norm.MedPrep\Norm.MedPrep.csproj">
