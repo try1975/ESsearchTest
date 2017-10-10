@@ -216,6 +216,10 @@
     <Compile Include="Models\ContentNmckDto.cs" />
     <Compile Include="Models\ErrorDto.cs" />
     <Compile Include="Models\FetcheeDto.cs" />
+    <Compile Include="Models\MaybeDto.cs" />
+    <Compile Include="Models\SearchItem.cs" />
+    <Compile Include="Models\SearchItemProperty.cs" />
+    <Compile Include="Models\SearchPacketResultDto.cs" />
     <Compile Include="Models\SourceDto.cs" />
     <Compile Include="Models\TaskDto.cs" />
     <Compile Include="Models\UpdatePriceDto.cs" />

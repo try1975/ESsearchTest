@@ -33,7 +33,7 @@ namespace PricePipeCore
         }
 
         public IEnumerable<Content> Search(string name = "", string firstWords = ""
-            , string lekForm = "", string upak = "", string dozValue = "", string dozKey = "", string normNumber = "")
+            , string lekForm = "", string upak = "", string dozValue = "", string dozKey = "", string normNumber = "", string syn="")
         {
             var medPrepNorm = new MedPrepNorm(_elasticClient, normNumber);
             _norm = medPrepNorm;
@@ -47,6 +47,7 @@ namespace PricePipeCore
                 medPrepNorm.DozNorm.DozKey = dozKey;
                 medPrepNorm.DozNorm.DozValue = dozValue;
             }
+            if (!string.IsNullOrEmpty(syn)) medPrepNorm.Syn = syn;
 
             var container = GetQueryContainer();
             if (container.Count == 0) return new List<Content>();
