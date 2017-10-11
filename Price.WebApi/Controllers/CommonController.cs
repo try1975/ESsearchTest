@@ -7,7 +7,9 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using Price.WebApi.Logic;
 using Price.WebApi.Logic.Interfaces;
+using Price.WebApi.Logic.UpdatePrice;
 using Price.WebApi.Models;
+using Price.WebApi.Models.UpdatePrice;
 using PriceCommon.Model;
 using PricePipeCore;
 
@@ -63,38 +65,11 @@ namespace Price.WebApi.Controllers
         /// <returns>Объект задачи обновления цен</returns>
         [HttpGet]
         [Route("updatePriceTask/{id}", Name = nameof(GetUpdatePriceTask) + "Route")]
-        [ResponseType(typeof(TaskDto))]
+        [ResponseType(typeof(UpdatePriceTaskDto))]
         public IHttpActionResult GetUpdatePriceTask(string id)
         {
-            return Ok(UpdatePriceTasks.Get(id)); //StatusCode(HttpStatusCode.Accepted);
+            return Ok(UpdatePriceTaskStore.Get(id)); //StatusCode(HttpStatusCode.Accepted);
         }
-
-        ///// <summary>
-        ///// Обновление цен по одному ТРУ
-        ///// </summary>
-        ///// <param name="uri">URL ТРУ</param>
-        ///// <returns>Если обновление успешно - код 200</returns>
-        //[HttpGet]
-        //[Route("updatePrice", Name = nameof(GetUpdatePrice) + "Route")]
-        //public IHttpActionResult GetUpdatePrice(Uri uri)
-        //{
-        //    var host = uri.Host;
-        //    var elangPath = PathService.GetElangPath(host);
-        //    var sourceName = SourceNames.GetSourceName(host);
-        //    if (string.IsNullOrEmpty(elangPath) || string.IsNullOrEmpty(sourceName))
-        //        return BadRequest("not found in source database");
-        //    var taskId = IdService.GenerateId();
-
-        //    //var partialFileName = PathService.GetFileNameFromHostName(host);
-        //    //var csvPath = PathService.GetCsvPath(partialFileName, taskId);
-        //    //var urlPath = PathService.GetUrlPath(partialFileName, taskId);
-        //    //File.WriteAllText(urlPath, $"{uri}");
-        //    //ProductParser.Run(elangPath, sourceName, urlPath, "", csvPath);
-        //    ProductParser.PrepareAndRun(host, taskId, new[] {$"{uri}"}, elangPath, sourceName);
-        //    //var screenshotFilename = Path.GetFullPath("screenshot_" + DateTime.Now.Ticks + ".png");
-
-        //    return Ok(); //StatusCode(HttpStatusCode.Accepted);
-        //}
 
         /// <summary>
         /// Обновление цен по списку ТРУ
@@ -104,7 +79,7 @@ namespace Price.WebApi.Controllers
         /// <returns>Задача обновления цен</returns>
         [HttpPost]
         [Route("updatePrices", Name = nameof(PostUpdatePrices) + "Route")]
-        [ResponseType(typeof(TaskDto))]
+        [ResponseType(typeof(UpdatePriceTaskDto))]
         public HttpResponseMessage PostUpdatePrices(List<Uri> uriList, [FromUri] bool createScreenshots = false)
         {
             #region check input parameter
@@ -122,8 +97,8 @@ namespace Price.WebApi.Controllers
             var hosts = uriList.Select(h => h.Host).Distinct().ToList();
             var baseUri = $"{Request.RequestUri.Scheme}://{Request.RequestUri.Host}:{Request.RequestUri.Port}";
             var taskId = IdService.GenerateId();
-            var taskDto = new TaskDto(uriList.Count) { Id = taskId, CreateScreenshots = createScreenshots, BaseUri = baseUri };
-            UpdatePriceTasks.Post(taskDto);
+            var taskDto = new UpdatePriceTaskDto(uriList.Count) { Id = taskId, CreateScreenshots = createScreenshots, BaseUri = baseUri };
+            UpdatePriceTaskStore.Post(taskDto);
 
             foreach (var host in hosts)
             {
@@ -144,7 +119,7 @@ namespace Price.WebApi.Controllers
                             Status = UpdatePriceStatus.ElangError
                         };
                         taskDto.UpdatePrices.Add(updatePriceDto);
-                        UpdatePrices.Post(updatePriceDto);
+                        UpdatePriceStore.Post(updatePriceDto);
                     }
                     taskDto.UpdateStatistics();
                     continue;
@@ -155,7 +130,7 @@ namespace Price.WebApi.Controllers
                 var uriListByHost = uriList.Where(h => h.Host == host).Distinct();
                 foreach (var uri in uriListByHost)
                 {
-                    var updatePriceDto = UpdatePrices.Get(uri);
+                    var updatePriceDto = UpdatePriceStore.Get(uri);
                     // if not found elang earlier
                     if (updatePriceDto.Status == UpdatePriceStatus.ElangError)
                     {

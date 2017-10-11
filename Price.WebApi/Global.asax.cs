@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Newtonsoft.Json;
+using Price.WebApi.Jobs;
 
 namespace Price.WebApi
 {
@@ -22,6 +23,9 @@ namespace Price.WebApi
             config.Formatters.JsonFormatter
                 .SerializerSettings
                 .ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+
+            // запуск выполнения работы
+            PacketSearchScheduler.Start();
         }
     }
 }

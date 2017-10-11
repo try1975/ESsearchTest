@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Price.WebApi.Models
+namespace Price.WebApi.Models.Packet
 {
     /// <summary>
     /// свойство искомой позиции

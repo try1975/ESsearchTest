@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace Price.WebApi.Models
+namespace Price.WebApi.Models.Packet
 {
     /// <summary>
     /// искомая позиция
     /// </summary>
-    public class SearchItem
+    public class SearchItemParam
     {
         /// <summary>
         /// id позиции

@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Concurrent;
-using Price.WebApi.Models;
+using Price.WebApi.Models.UpdatePrice;
 
-namespace Price.WebApi.Logic
+namespace Price.WebApi.Logic.UpdatePrice
 {
-    public static class UpdatePrices
+    public static class UpdatePriceStore
     {
         private static readonly ConcurrentDictionary<int, UpdatePriceDto> Dictionary;
 
-        static UpdatePrices()
+        static UpdatePriceStore()
         {
             Dictionary = new ConcurrentDictionary<int, UpdatePriceDto>();
         }

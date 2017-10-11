@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Price.WebApi.Models
+namespace Price.WebApi.Models.Packet
 {
     /// <summary>
     /// Результат пакетного поиска

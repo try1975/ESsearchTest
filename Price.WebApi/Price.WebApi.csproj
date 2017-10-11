@@ -54,6 +54,14 @@
       <HintPath>..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -77,6 +85,10 @@
     </Reference>
     <Reference Include="Ninject.Web.WebApi, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.Web.WebApi.3.2.4.0\lib\net45-full\Ninject.Web.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Quartz, Version=2.6.1.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.2.6.1\lib\net40\Quartz.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -200,29 +212,36 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Jobs\PacketSearchJob.cs" />
+    <Compile Include="Jobs\PacketSearchScheduler.cs" />
     <Compile Include="Logic\AppGlobal.cs" />
     <Compile Include="Logic\Fetchee\FetcheeTasks.cs" />
     <Compile Include="Logic\IdService.cs" />
     <Compile Include="Logic\Interfaces\IUpdatePriceWatcher.cs" />
+    <Compile Include="Logic\Packet\SearchItemStore.cs" />
+    <Compile Include="Models\Packet\SearchItemDto.cs" />
+    <Compile Include="Models\Packet\SearchPacketTaskDto.cs" />
+    <Compile Include="Logic\Packet\SearchPacketTaskStore.cs" />
     <Compile Include="Logic\PathService.cs" />
     <Compile Include="Logic\ProductParser.cs" />
     <Compile Include="Logic\Screenshotter.cs" />
     <Compile Include="Logic\SourceNames.cs" />
-    <Compile Include="Logic\UpdatePrices.cs" />
-    <Compile Include="Logic\UpdatePriceTasks.cs" />
-    <Compile Include="Logic\UpdatePriceWatcher.cs" />
+    <Compile Include="Logic\UpdatePrice\UpdatePriceStore.cs" />
+    <Compile Include="Logic\UpdatePrice\UpdatePriceTaskStore.cs" />
+    <Compile Include="Logic\UpdatePrice\UpdatePriceWatcher.cs" />
     <Compile Include="Logic\StateFiles.cs" />
     <Compile Include="Models\ContentDto.cs" />
     <Compile Include="Models\ContentNmckDto.cs" />
     <Compile Include="Models\ErrorDto.cs" />
     <Compile Include="Models\FetcheeDto.cs" />
     <Compile Include="Models\MaybeDto.cs" />
-    <Compile Include="Models\SearchItem.cs" />
-    <Compile Include="Models\SearchItemProperty.cs" />
-    <Compile Include="Models\SearchPacketResultDto.cs" />
+    <Compile Include="Models\Packet\SearchItemParam.cs" />
+    <Compile Include="Models\Packet\SearchItemProperty.cs" />
+    <Compile Include="Models\Packet\SearchPacketResultDto.cs" />
+    <Compile Include="Models\Packet\TaskStatus.cs" />
     <Compile Include="Models\SourceDto.cs" />
-    <Compile Include="Models\TaskDto.cs" />
-    <Compile Include="Models\UpdatePriceDto.cs" />
+    <Compile Include="Models\UpdatePrice\UpdatePriceTaskDto.cs" />
+    <Compile Include="Models\UpdatePrice\UpdatePriceDto.cs" />
     <Compile Include="Ninject\Configurator.cs" />
     <Compile Include="Ninject\DependencyResolver.cs" />
     <Compile Include="Ninject\WebCommon.cs" />
@@ -266,6 +285,9 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="GetFiles\GetFile.ashx" />
     <Content Include="Web.AppSettings.config" />
+    <None Include="job_scheduling_data_2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ProductParser\config.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

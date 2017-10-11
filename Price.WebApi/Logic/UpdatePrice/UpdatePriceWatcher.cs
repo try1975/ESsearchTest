@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Price.WebApi.GetFiles;
 using Price.WebApi.Logic.Interfaces;
-using Price.WebApi.Models;
+using Price.WebApi.Models.UpdatePrice;
 using PriceCommon.Utils;
 
-namespace Price.WebApi.Logic
+namespace Price.WebApi.Logic.UpdatePrice
 {
     public class UpdatePriceWatcher : IUpdatePriceWatcher
     {
@@ -42,7 +42,7 @@ namespace Price.WebApi.Logic
 
                 var taskId =
                     $"{RegexObj.Match(e.FullPath).Groups[1].Value}_{RegexObj.Match(e.FullPath).Groups[2].Value}";
-                var taskDto = UpdatePriceTasks.Get(taskId);
+                var taskDto = UpdatePriceTaskStore.Get(taskId);
                 if (taskDto == null) return;
 
                 var key = e.FullPath.GetHashCode();
@@ -66,7 +66,7 @@ namespace Price.WebApi.Logic
                 {
                     Debug.WriteLine(newLine);
                     var uri = newLine.Substring(2, newLine.Length - 2);
-                    var updatePriceDto = UpdatePrices.Get(new Uri(uri));
+                    var updatePriceDto = UpdatePriceStore.Get(new Uri(uri));
                     updatePriceDto.ProcessedAt = processedAt;
                     updatePriceDto.Status = newLine[0].Equals('1') ? UpdatePriceStatus.Ok : UpdatePriceStatus.Error;
                     // сделать скриншот

@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using AutoMapper.Configuration;
 using Ninject;
-using Ninject.Web.Common;
-using Norm.MedPrep;
 using Price.WebApi.AutoMappers;
-using Price.WebApi.Logic;
 using Price.WebApi.Logic.Interfaces;
-using PriceCommon.Norm;
+using Price.WebApi.Logic.UpdatePrice;
 
 namespace Price.WebApi.Ninject
 {

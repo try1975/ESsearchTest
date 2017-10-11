@@ -2,28 +2,23 @@
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace Price.WebApi.Models
+namespace Price.WebApi.Models.Packet
 {
-    /// <summary>
-    /// Задача обновления цен
-    /// </summary>
-    public class TaskDto
+    public class SearchPacketTaskDto
     {
-        public TaskDto(int capacity = 200)
+        public SearchPacketTaskDto(int capacity = 200)
         {
-            UpdatePrices = new List<UpdatePriceDto>(capacity);
+            SearchItems = new List<SearchItemDto>(capacity);
         }
-
-        [JsonIgnore]
-        public bool CreateScreenshots { get; set; }
 
         [JsonIgnore]
         public string BaseUri { get; set; }
 
-        /// <summary>
-        /// Идентификатор задачи
-        /// </summary>
+        public long? ProcessedAt { get; set; }
+
         public string Id { get; set; }
+        public string Source { get; set; }
+
         /// <summary>
         /// Всего объектов в задаче
         /// </summary>
@@ -36,12 +31,12 @@ namespace Price.WebApi.Models
         /// <summary>
         /// Список объектов в задаче
         /// </summary>
-        public List<UpdatePriceDto> UpdatePrices { get; }
+        public List<SearchItemDto> SearchItems { get; }
 
         public void UpdateStatistics()
         {
-            TotalCount = UpdatePrices.Count;
-            ProcessedCount = UpdatePrices.Count(z => z.ProcessedAt != null);
+            TotalCount = SearchItems.Count;
+            ProcessedCount = SearchItems.Count(z => z.ProcessedAt != null);
         }
     }
 }
