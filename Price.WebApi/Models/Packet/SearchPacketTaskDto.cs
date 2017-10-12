@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Price.WebApi.Logic;
 
 namespace Price.WebApi.Models.Packet
 {
@@ -33,10 +34,14 @@ namespace Price.WebApi.Models.Packet
         /// </summary>
         public List<SearchItemDto> SearchItems { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void UpdateStatistics()
         {
             TotalCount = SearchItems.Count;
             ProcessedCount = SearchItems.Count(z => z.ProcessedAt != null);
+            if(TotalCount>0 && TotalCount==ProcessedCount) ProcessedAt = Utils.GetUtcNow();
         }
     }
 }

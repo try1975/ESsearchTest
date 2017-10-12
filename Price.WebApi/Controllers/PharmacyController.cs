@@ -8,7 +8,6 @@ using Norm.MedPrep;
 using Price.WebApi.Models;
 using Price.WebApi.Logic;
 using PriceCommon.Norm;
-using PriceCommon.Utils;
 using PricePipeCore;
 
 namespace Price.WebApi.Controllers
@@ -37,11 +36,11 @@ namespace Price.WebApi.Controllers
         [HttpGet]
         [Route("contents", Name = nameof(GetPharmacyContents) + "Route")]
         public IEnumerable<ContentDto> GetPharmacyContents(string text = "", string firstWords = "",
-            string lekForm = "", string upak = "", string doz = "", string dozEd = "", string normNumber = "", string source="")
+            string lekForm = "", string upak = "", string doz = "", string dozEd = "", string normNumber = "", string source = "")
         {
             Logger.Log.Info($"{nameof(GetPharmacyContents)}: {text}");
             if (string.IsNullOrEmpty(source)) source = AppSettings.DefaultIndex;
-            var seacher = new PharmacySearcher(source); 
+            var seacher = new PharmacySearcher(source);
             var contents = seacher.Search(text, firstWords, lekForm, upak, doz, dozEd, normNumber);
             // add phones: left join SourceNames.Names and contents
             var contentsWithPhones = from o in contents
@@ -106,7 +105,7 @@ namespace Price.WebApi.Controllers
             if (!dto.Contents.Any()) return dto;
             string calcText;
             var prices = dto.Contents.Select(z => z.Nprice).ToList();
-            dto.Nmck = (decimal)Utils.GetPriceCalculation(prices, out calcText);
+            dto.Nmck = (decimal)PriceCommon.Utils.Utils.GetPriceCalculation(prices, out calcText);
             dto.CalcText = calcText;
             return dto;
         }
@@ -135,7 +134,7 @@ namespace Price.WebApi.Controllers
         [Route("normalizers/lekForm", Name = nameof(GetDefaultLekFormNormalizerResult) + "Route")]
         public string GetDefaultLekFormNormalizerResult(string text)
         {
-            var lekFormNorm = new LekFormNorm {InitialName = text};
+            var lekFormNorm = new LekFormNorm { InitialName = text };
             return lekFormNorm.NormResult;
         }
 
@@ -210,7 +209,7 @@ namespace Price.WebApi.Controllers
         [Route("normalizers/upak", Name = nameof(GetDefaultUpakNormalizerResult) + "Route")]
         public string GetDefaultUpakNormalizerResult(string text)
         {
-            var upakNorm = new UpakNorm() {InitialName = text};
+            var upakNorm = new UpakNorm() { InitialName = text };
             return upakNorm.NormResult;
         }
 
@@ -285,7 +284,7 @@ namespace Price.WebApi.Controllers
         [Route("normalizers/doz", Name = nameof(GetDefaultDozNormalizerResult) + "Route")]
         public string GetDefaultDozNormalizerResult(string text)
         {
-            var dozNorm = new DozNorm() {InitialName = text};
+            var dozNorm = new DozNorm() { InitialName = text };
             return dozNorm.NormResult;
         }
 
@@ -298,7 +297,7 @@ namespace Price.WebApi.Controllers
         [Route("normalizers/doz/{name}", Name = nameof(GetDozNormalizerResult) + "Route")]
         public string GetDozNormalizerResult(string name, string text)
         {
-            var dozNorm = new DozNorm(name) {InitialName = text};
+            var dozNorm = new DozNorm(name) { InitialName = text };
             return dozNorm.NormResult;
         }
 

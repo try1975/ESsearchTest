@@ -93,7 +93,7 @@ namespace Price.WebApi.Controllers
 
             #endregion
 
-            var processedAt = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            var processedAt = Utils.GetUtcNow();
             var hosts = uriList.Select(h => h.Host).Distinct().ToList();
             var baseUri = $"{Request.RequestUri.Scheme}://{Request.RequestUri.Host}:{Request.RequestUri.Port}";
             var taskId = IdService.GenerateId();

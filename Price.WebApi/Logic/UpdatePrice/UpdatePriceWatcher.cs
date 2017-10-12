@@ -6,10 +6,12 @@ using System.Text.RegularExpressions;
 using Price.WebApi.GetFiles;
 using Price.WebApi.Logic.Interfaces;
 using Price.WebApi.Models.UpdatePrice;
-using PriceCommon.Utils;
 
 namespace Price.WebApi.Logic.UpdatePrice
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class UpdatePriceWatcher : IUpdatePriceWatcher
     {
         private static readonly Regex RegexObj;
@@ -20,6 +22,9 @@ namespace Price.WebApi.Logic.UpdatePrice
                 RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public UpdatePriceWatcher()
         {
             var watcher = new FileSystemWatcher
@@ -56,12 +61,12 @@ namespace Price.WebApi.Logic.UpdatePrice
                     StateFiles.Dictionary[key] = readedCount;
                 }
 
-                var allLines = Utils.ReadLines(e.FullPath).ToArray();
+                var allLines = PriceCommon.Utils.Utils.ReadLines(e.FullPath).ToArray();
                 var newLines = readedCount == 0
                     ? allLines
                     : allLines.Skip(readedCount).Take(allLines.Length - readedCount);
                 StateFiles.Dictionary[key] = allLines.Length;
-                var processedAt = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+                var processedAt = Utils.GetUtcNow();
                 foreach (var newLine in newLines)
                 {
                     Debug.WriteLine(newLine);

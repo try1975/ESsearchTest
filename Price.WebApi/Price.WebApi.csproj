@@ -218,7 +218,9 @@
     <Compile Include="Logic\Fetchee\FetcheeTasks.cs" />
     <Compile Include="Logic\IdService.cs" />
     <Compile Include="Logic\Interfaces\IUpdatePriceWatcher.cs" />
+    <Compile Include="Logic\Packet\PacketItemSeacher.cs" />
     <Compile Include="Logic\Packet\SearchItemStore.cs" />
+    <Compile Include="Logic\Utils.cs" />
     <Compile Include="Models\Packet\SearchItemDto.cs" />
     <Compile Include="Models\Packet\SearchPacketTaskDto.cs" />
     <Compile Include="Logic\Packet\SearchPacketTaskStore.cs" />
