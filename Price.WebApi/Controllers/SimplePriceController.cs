@@ -114,7 +114,7 @@ namespace Price.WebApi.Controllers
             {
                 var searchItemDto = GetSearchItemDto(searchItem, searchPacketTaskDto);
                 searchPacketTaskDto.SearchItems.Add(searchItemDto);
-                if (!GreaterOneDayAge(searchItemDto, processedAt)) continue;
+                if (SkipSearch(searchItemDto, processedAt)) continue;
                 PacketItemSeacher.Search(searchItem, searchItemDto);
             }
             searchPacketTaskDto.UpdateStatistics();
@@ -152,19 +152,21 @@ namespace Price.WebApi.Controllers
             {
                 var searchItemDto = GetSearchItemDto(searchItem, searchPacketTaskDto);
                 searchPacketTaskDto.SearchItems.Add(searchItemDto);
-                GreaterOneDayAge(searchItemDto, processedAt);
+                SkipSearch(searchItemDto, processedAt);
             }
             searchPacketTaskDto.UpdateStatistics();
 
             return Request.CreateResponse(HttpStatusCode.OK, searchPacketTaskDto);
         }
 
-        private static bool GreaterOneDayAge(SearchItemDto searchItemDto, long processedAt)
+        private static bool SkipSearch(SearchItemDto searchItemDto, long processedAt)
         {
-            if (searchItemDto.ProcessedAt == null || !(processedAt - searchItemDto.ProcessedAt > 86400)) return false;
-            searchItemDto.ProcessedAt = null;
-            searchItemDto.Status = TaskStatus.NotProcessed;
-            return true;
+            if (searchItemDto.ProcessedAt != null && processedAt - searchItemDto.ProcessedAt > 86400)
+            {
+                searchItemDto.ProcessedAt = null;
+                searchItemDto.Status = TaskStatus.NotProcessed;
+            }
+            return searchItemDto.ProcessedAt != null;
         }
 
         private static SearchItemDto GetSearchItemDto(SearchItemParam searchItem, SearchPacketTaskDto searchPacketTaskDto)
@@ -179,6 +181,7 @@ namespace Price.WebApi.Controllers
 
         private SearchPacketTaskDto GetSearchPacketTaskDto(string source, int cnt)
         {
+            //SearchPacketTaskStore.Get()
             var searchPacketTaskDto = new SearchPacketTaskDto(cnt)
             {
                 Id = IdService.GenerateId(),

@@ -3,20 +3,30 @@ using Price.WebApi.Models.Packet;
 
 namespace Price.WebApi.Logic.Packet
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class SearchPacketTaskStore
     {
-        public static readonly ConcurrentDictionary<string, SearchPacketTaskDto> Dictionary;
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly ConcurrentDictionary<string, SearchPacketTaskDto> Dictionary= new ConcurrentDictionary<string, SearchPacketTaskDto>();
 
-        static SearchPacketTaskStore()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aKey"></param>
+        /// <returns></returns>
+        public static SearchPacketTaskDto Get(string aKey)
         {
-            Dictionary = new ConcurrentDictionary<string, SearchPacketTaskDto>();
+            return !Dictionary.ContainsKey(aKey) ? null : Dictionary[aKey];
         }
 
-        public static SearchPacketTaskDto Get(string id)
-        {
-            return !Dictionary.ContainsKey(id) ? null : Dictionary[id];
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dto"></param>
         public static void Post(SearchPacketTaskDto dto)
         {
             if (dto == null) return;

@@ -212,6 +212,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Jobs\DeleteDefaultEsIndexOldRecordsScheduler.cs" />
     <Compile Include="Jobs\PacketSearchJob.cs" />
     <Compile Include="Jobs\PacketSearchScheduler.cs" />
     <Compile Include="Logic\AppGlobal.cs" />

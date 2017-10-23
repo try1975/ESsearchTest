@@ -4,15 +4,18 @@ using Price.WebApi.Models.UpdatePrice;
 
 namespace Price.WebApi.Logic.UpdatePrice
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class UpdatePriceStore
     {
-        private static readonly ConcurrentDictionary<int, UpdatePriceDto> Dictionary;
+        private static readonly ConcurrentDictionary<int, UpdatePriceDto> Dictionary = new ConcurrentDictionary<int, UpdatePriceDto>();
 
-        static UpdatePriceStore()
-        {
-            Dictionary = new ConcurrentDictionary<int, UpdatePriceDto>();
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
         public static UpdatePriceDto Get(Uri uri)
         {
             var key = uri.GetHashCode();
@@ -22,6 +25,10 @@ namespace Price.WebApi.Logic.UpdatePrice
             return dto;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dto"></param>
         public static void Post(UpdatePriceDto dto)
         {
             if (dto == null) return;

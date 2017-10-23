@@ -3,14 +3,21 @@ using Price.WebApi.Models.Packet;
 
 namespace Price.WebApi.Logic.Packet
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class SearchItemStore
     {
-        public static readonly ConcurrentDictionary<int, SearchItemDto> Dictionary;
-        static SearchItemStore()
-        {
-            Dictionary = new ConcurrentDictionary<int, SearchItemDto>();
-        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly ConcurrentDictionary<int, SearchItemDto> Dictionary= new ConcurrentDictionary<int, SearchItemDto>();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="aKey"></param>
+        /// <returns></returns>
         public static SearchItemDto Get(string aKey)
         {
             var key = aKey.GetHashCode();

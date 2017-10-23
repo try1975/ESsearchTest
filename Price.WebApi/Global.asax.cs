@@ -26,6 +26,7 @@ namespace Price.WebApi
 
             // запуск выполнения работы
             PacketSearchScheduler.Start();
+            //DeleteDefaultEsIndexOldRecordsScheduler.Start();
         }
     }
 }

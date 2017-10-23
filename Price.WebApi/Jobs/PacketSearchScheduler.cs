@@ -22,7 +22,7 @@ namespace Price.WebApi.Jobs
                 .StartNow()                            // запуск сразу после начала выполнения
                 .WithSimpleSchedule(x => x
                 //.WithRepeatCount(1))            // настраиваем выполнение действия
-                .WithIntervalInSeconds(2)          // через 1 минуту
+                .WithIntervalInSeconds(2)          // через 2 секунды
                 .RepeatForever())                   // бесконечное повторение
                 .Build();                               // создаем триггер
 
