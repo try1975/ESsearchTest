@@ -47,6 +47,20 @@ function getCurrentTabUrl(callback) {
   // alert(url); // Shows "undefined", because chrome.tabs.query is async.
 }
 
+function getCurrentTabDocument(callback) {
+  var queryInfo = {
+    active: true,
+    currentWindow: true
+  };
+
+  chrome.tabs.query(queryInfo, (tabs) => {
+    var tab = tabs[0];
+    var tabDocument = tab.name;
+    console.assert(typeof tabDocument == 'string', 'tabDocument should be a string');
+    callback(tabDocument);
+  });
+}
+
 /**
  * Change the background color of the current page.
  *
@@ -106,9 +120,57 @@ function saveBackgroundColor(url, color) {
 document.addEventListener('DOMContentLoaded', () => {
   getCurrentTabUrl((url) => {
 
-    var spanUrl  = document.getElementById('spanUrl');
+    /*
+    var link = tab.url;
+    var x = new XMLHttpRequest();
+    x.open('GET', 'http://example.com/?whatever=' + link);
+    x.onload = function() {
+        alert(x.responseText);
+    };
+    x.send();
+    
+    */
+
+    /* var spanUrl = document.getElementById('spanUrl');
     spanUrl.innerText = url;
-    console.log(url);
+    console.log(url); */
+
+    // call localhost api
+    xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4) {
+        if (xhr.responseText) {
+          var spanUrl = document.getElementById('spanUrl');
+          spanUrl.innerText = xhr.responseText;
+          console.log(xhr.responseText);
+        }
+      }
+    }
+    xhr.open("GET", "http://localhost:53949/Api/Values/?link=" + url, true);
+    xhr.send(null);
+
+    // save button
+    var saveButton = document.getElementById('Save');
+    saveButton.addEventListener('click', function () {
+      chrome.tabs.getSelected(null, function (tab) {
+        d = document;
+
+        var f = d.createElement('form');
+        f.action = 'http://gtmetrix.com/analyze.html?bm';
+        f.method = 'post';
+        var i = d.createElement('input');
+        i.type = 'hidden';
+        i.name = 'url';
+        i.value = tab.url;
+        f.appendChild(i);
+        d.body.appendChild(f);
+        f.submit();
+      });
+    }, false);
+
+    // xpath evalute
+    // document.evaluate('//*[@id="panel"]/section[1]/div[1]/div[4]/div/div[2]/h4', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerText
+
 
     var dropdown = document.getElementById('dropdown');
 
@@ -127,5 +189,18 @@ document.addEventListener('DOMContentLoaded', () => {
       changeBackgroundColor(dropdown.value);
       saveBackgroundColor(url, dropdown.value);
     });
+
+    var xpath_input_01 = document.getElementById('xpath_input_01');
+    var xpath_result_01 = document.getElementById('xpath_result_01');
+    xpath_input_01.addEventListener('change', () => {
+      //alert(document.title);
+      getCurrentTabDocument((tabDocument) => {
+        //xpath_result_01.value = tabDocument.evaluate(xpath_input_01.value, tabDocument, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerText;
+        //xpath_result_01.value = tabDocument.title;
+
+        alert(tabDocument);
+      });
+    });
+
   });
 });

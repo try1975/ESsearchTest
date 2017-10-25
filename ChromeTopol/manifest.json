@@ -12,6 +12,7 @@
   },
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "http://localhost:53949/api/*"
   ]
 }

@@ -1,0 +1,81 @@
+
+@import 'partials/vars';
+@import 'partials/font';
+
+.hidden {
+  display: none !important;
+}
+
+.error {
+  background-color: $bg-error;
+  color: $text-error;
+  padding: 15px 10px;
+}
+
+.small {
+  font-size: $small-text;
+}
+
+@import 'partials/loader';
+
+body {
+  font-family: $font;
+  font-size: $normal-text;
+  margin: 0;
+  padding: 5px;
+  width: 360px;
+}
+
+h1 {
+  font-size: 20px;
+  font-weight: normal;
+}
+
+h2 {
+  font-size: 16px;
+  font-weight: normal;
+  margin: 4px 0;
+}
+
+a {
+  border-bottom: 2px solid #6498D8;
+  color: #6498D8;
+  display: inline-block;
+  padding: 0 0 2px;
+  text-decoration: none;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+input {
+  box-sizing: border-box;
+  padding: 5px;
+  width: 100%;
+}
+
+.result {
+  margin: 8px 0 0 0;
+  h2 {
+    word-break: break-all;
+  }
+  code {
+    background-color: #eee;
+    border-radius: 3px;
+    box-sizing: border-box;
+    display: block;
+    font-family: monospace;
+    font-weight: bold;
+    padding: 2px 6px;
+    width: 100%;
+  }
+}
+
+@import 'partials/slider';
+@import 'partials/nav';
+
+.final-note {
+  font-size: 12px;
+}

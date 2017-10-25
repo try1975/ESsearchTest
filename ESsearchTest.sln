@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Price.WebApi", "Price.WebAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddProducer", "AddProducer\AddProducer.csproj", "{687879FF-CFC5-4FF2-90F0-BF110567CAFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chrome.XPathApi", "Chrome.XPathApi\Chrome.XPathApi.csproj", "{5590897F-5388-4A9A-B8A3-11712F7CB1B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{687879FF-CFC5-4FF2-90F0-BF110567CAFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{687879FF-CFC5-4FF2-90F0-BF110567CAFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{687879FF-CFC5-4FF2-90F0-BF110567CAFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5590897F-5388-4A9A-B8A3-11712F7CB1B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5590897F-5388-4A9A-B8A3-11712F7CB1B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5590897F-5388-4A9A-B8A3-11712F7CB1B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5590897F-5388-4A9A-B8A3-11712F7CB1B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
