@@ -54,6 +54,10 @@ function hideXPather() {
 		'sidebarVisible': $sidebar.is(":visible")
 	});
 	$sidebar.hide();
+	chrome.storage.sync.set({
+		'apisidebarVisible': $apisidebar.is(":visible")
+	});
+	$apisidebar.hide();
 	$xpather.hide();
 	$sidebarToggler.removeClass('xpather-sidebar-toggler-active');
 	clearHighlight();
@@ -206,6 +210,10 @@ function toggleSidebar() {
 		$sidebar.toggle();
 		chrome.storage.sync.set({
 			'sidebarVisible': $sidebar.is(':visible')
+		});
+		$apisidebar.toggle();
+		chrome.storage.sync.set({
+			'apisidebarVisible': $apisidebar.is(':visible')
 		});
 	}
 }
@@ -372,8 +380,16 @@ if (isDocumentValid) {
 	var $xpather = $('#xpather');
 	var $resultBox = $('#xpather-result');
 	var $xpathInput = $('#xpather-xpath');
+
+	var $xpathNameInput = $('#xpather-name');
+	var $xpathNameResult = $('#xpather-name-result');
+	var $xpathPriceInput = $('#xpather-price');
+	var $xpathPriceResult = $('#xpather-price-result');
+	var $xpathSave = $('#xpather-save');
+
 	var $xpathForm = $('#xpather-form');
 	var $sidebar = $('#xpather-sidebar');
+	var $apisidebar = $('#xpather-apisidebar');
 	var $sidebarEntries = $('#xpather-sidebar-entries');
 	var $sidebarToggler = $('#xpather-sidebar-toggler');
 
@@ -410,4 +426,98 @@ if (isDocumentValid) {
 			}
 		}
 	});
+
+	$xpathNameInput.change(function (e) {
+		var result;
+		var xpath = $xpathNameInput.val();
+		try {
+			result = $doc.xpath(xpath);
+		} catch(e) {
+			$resultBox.addClass('xpather-no-results').text('Invalid XPath');
+			$sidebarEntries.empty().append(createSidebarErrorEntry(e.message));
+			return;
+		}
+		if (result.length !== 0) {
+			if (result[0] instanceof Object) {
+				var entries = [];
+				$.each(result, function (index, element) {
+					var node = $(element);
+					var nodeType = getNodeType(node);
+	
+					if (nodeType === 'text') {
+						node.wrap('<xpather class="xpather-text-hightlight"/>');
+					} else if (nodeType === 'element') {
+						node.safeAddClass('xpather-highlight');
+					}
+					/*alert('First ' + node.text());*/
+					$xpathNameResult.val(node.text());
+					return false;
+				});
+			} else {
+				/*alert('Second ' + result[0]);*/
+				$xpathNameResult.val(result[0]);
+				/*$resultBox.removeClass('xpather-no-results').text(result[0]);*/
+			}
+		}
+
+	});
+
+
+	$xpathPriceInput.change(function (e) {
+		var result;
+		var xpath = $xpathPriceInput.val();
+		try {
+			result = $doc.xpath(xpath);
+		} catch(e) {
+			$resultBox.addClass('xpather-no-results').text('Invalid XPath');
+			$sidebarEntries.empty().append(createSidebarErrorEntry(e.message));
+			return;
+		}
+		if (result.length !== 0) {
+			if (result[0] instanceof Object) {
+				var entries = [];
+				$.each(result, function (index, element) {
+					var node = $(element);
+					var nodeType = getNodeType(node);
+	
+					if (nodeType === 'text') {
+						node.wrap('<xpather class="xpather-text-hightlight"/>');
+					} else if (nodeType === 'element') {
+						node.safeAddClass('xpather-highlight');
+					}
+					/*alert('First ' + node.text());*/
+					$xpathPriceResult.val(node.text());
+					return false;
+				});
+			} else {
+				/*alert('Second ' + result[0]);*/
+				$xpathPriceResult.val(result[0]);
+				/*$resultBox.removeClass('xpather-no-results').text(result[0]);*/
+			}
+		}
+
+	});
+
+	/*document.addEventListener('DOMContentLoaded', () => {
+
+	});*/
 }
+
+
+function apiSave() {
+	
+	var url="https://localhost/Chrome.XPathApi/api/values/";
+	var data = {};
+
+	data["xPathName"] = $xpathNameInput.val();
+	data["xPathPrice"] = $xpathPriceInput.val();
+	data["xPathUrl"] = window.location.href;
+	
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: JSON.stringify(data),
+		contentType: "application/json; charset=utf-8",
+		dataType: "json"
+	  });
+  };

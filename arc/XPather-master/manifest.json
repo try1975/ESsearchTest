@@ -46,6 +46,15 @@
 				"default": "Alt+Z"
 			},
 			"description": "Autocomplete XPather input"
+		},
+		"api-save": {
+			"suggested_key": {
+				"windows": "Alt+S",
+				"mac": "Alt+S",
+				"linux": "Alt+S",
+				"default": "Alt+S"
+			},
+			"description": "XPather save by api"
 		}
 	},
 
@@ -67,7 +76,7 @@
 	],
 
 	"permissions": [
-		"activeTab", "contextMenus", "storage", "<all_urls>"
+		"activeTab", "contextMenus", "storage", "<all_urls>", "http://localhost:53949/api/*", "https://localhost/*"
 	],
 
 	"icons": {

@@ -13,6 +13,10 @@ chrome.commands.onCommand.addListener(function(command) {
 		chrome.tabs.executeScript({
 			code: 'inputAutocomplete()'
 		});
+	} else if (command === 'api-save') {
+		chrome.tabs.executeScript({
+			code: 'apiSave()'
+		});
 	}
 });
 

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Web.Http;
 
 namespace Chrome.XPathApi.Controllers
@@ -13,7 +15,9 @@ namespace Chrome.XPathApi.Controllers
 
         public string Get(string link)
         {
+            Debug.WriteLine(link);
             return link;
+            
         }
 
         // GET api/values/5
@@ -23,8 +27,20 @@ namespace Chrome.XPathApi.Controllers
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public void Post(xPathDto dto)
         {
+            if (Request.Headers.Contains("Origin"))
+            {
+                var values = Request.Headers.GetValues("Origin");
+                if (values != null)
+                {
+                    Debug.WriteLine(values.FirstOrDefault());
+                }
+                // Do stuff with the values... probably .FirstOrDefault()
+            }
+            Debug.WriteLine(dto.xPathName);
+            Debug.WriteLine(dto.xPathPrice);
+            Debug.WriteLine(dto.xPathUrl);
         }
 
         // PUT api/values/5
@@ -36,5 +52,13 @@ namespace Chrome.XPathApi.Controllers
         public void Delete(int id)
         {
         }
+    }
+
+    public class xPathDto
+    {
+        public string xPathName { get; set; }
+        public string xPathPrice { get; set; }
+
+        public string xPathUrl { get; set; }
     }
 }

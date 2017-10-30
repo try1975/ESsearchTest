@@ -9,6 +9,18 @@ var xpatherHTML = '\
 	<xpather id="xpather-sidebar">\
 		<xpather id="xpather-sidebar-spacer"></xpather>\
 		<xpather id="xpather-sidebar-entries"></xpather>\
+	</xpather>\
+	<xpather id="xpather-apisidebar">\
+			<fieldset>\
+				<legend>Настройки парсинга:</legend>\
+				<div><label for="xpather-name">Наименование ТРУ</label><br>\
+				<input type="text" name="xpather-name" id="xpather-name" placeholder="enter XPath…" autocomplete="off" spellcheck="false" /><br>\
+				<input type="text" name="xpather-name-result" id="xpather-name-result" placeholder="XPath result…" autocomplete="off" spellcheck="false"/></div>\
+				<div><label for="xpather-name">Стоимость ТРУ</label><br>\
+				<input type="text" name="xpather-price" id="xpather-price" placeholder="enter XPath…" autocomplete="off" spellcheck="false" /><br>\
+				<input type="text" name="xpather-price-result" id="xpather-price-result" placeholder="XPath result…" autocomplete="off" spellcheck="false"/></div>\
+				<button id="xpather-save">Save</button>\
+			</fieldset>\
 	</xpather>';
 
 var functionsWithShortcuts = {
