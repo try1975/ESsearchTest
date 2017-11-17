@@ -1,5 +1,5 @@
 ﻿using System.Collections.Concurrent;
-using Price.WebApi.Models.Packet;
+using Common.Dto.Model.Packet;
 
 namespace Price.WebApi.Logic.Packet
 {

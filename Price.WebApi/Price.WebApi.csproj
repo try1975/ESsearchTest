@@ -221,9 +221,6 @@
     <Compile Include="Logic\Interfaces\IUpdatePriceWatcher.cs" />
     <Compile Include="Logic\Packet\PacketItemSeacher.cs" />
     <Compile Include="Logic\Packet\SearchItemStore.cs" />
-    <Compile Include="Logic\Utils.cs" />
-    <Compile Include="Models\Packet\SearchItemDto.cs" />
-    <Compile Include="Models\Packet\SearchPacketTaskDto.cs" />
     <Compile Include="Logic\Packet\SearchPacketTaskStore.cs" />
     <Compile Include="Logic\PathService.cs" />
     <Compile Include="Logic\ProductParser.cs" />
@@ -233,16 +230,6 @@
     <Compile Include="Logic\UpdatePrice\UpdatePriceTaskStore.cs" />
     <Compile Include="Logic\UpdatePrice\UpdatePriceWatcher.cs" />
     <Compile Include="Logic\StateFiles.cs" />
-    <Compile Include="Models\ContentDto.cs" />
-    <Compile Include="Models\ContentNmckDto.cs" />
-    <Compile Include="Models\ErrorDto.cs" />
-    <Compile Include="Models\FetcheeDto.cs" />
-    <Compile Include="Models\MaybeDto.cs" />
-    <Compile Include="Models\Packet\SearchItemParam.cs" />
-    <Compile Include="Models\Packet\SearchItemProperty.cs" />
-    <Compile Include="Models\Packet\SearchPacketResultDto.cs" />
-    <Compile Include="Models\Packet\TaskStatus.cs" />
-    <Compile Include="Models\SourceDto.cs" />
     <Compile Include="Models\UpdatePrice\UpdatePriceTaskDto.cs" />
     <Compile Include="Models\UpdatePrice\UpdatePriceDto.cs" />
     <Compile Include="Ninject\Configurator.cs" />
@@ -347,6 +334,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common.Dto\Common.Dto.csproj">
+      <Project>{ed2886fc-f692-44b5-9328-8013183a2402}</Project>
+      <Name>Common.Dto</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Norm.MedPrep\Norm.MedPrep.csproj">
       <Project>{4BAC3AC1-C876-4C4D-9CE9-541C8384F539}</Project>
       <Name>Norm.MedPrep</Name>
@@ -368,6 +359,17 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugNotebook|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>bin\Price.WebApi.XML</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

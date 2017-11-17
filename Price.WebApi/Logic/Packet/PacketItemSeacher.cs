@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using AutoMapper;
+using Common.Dto.Model;
+using Common.Dto.Model.Packet;
 using Norm.MedPrep;
 using Price.WebApi.Models;
-using Price.WebApi.Models.Packet;
 using PricePipeCore;
 
 namespace Price.WebApi.Logic.Packet

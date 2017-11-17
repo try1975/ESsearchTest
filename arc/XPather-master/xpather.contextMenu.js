@@ -190,7 +190,7 @@ function tryWithParent($node, $parent, iteration) {
 	return result;
 }
 
-function findXPath() {
+function findXPath(menuItemId) {
 	if (!isDocumentValid) {
 		return;
 	}
@@ -243,6 +243,14 @@ function findXPath() {
 
 	$xpathInput.val(result);
 	find(true);
+	if (menuItemId==='getXPathName'){
+		$xpathNameInput.val(result);
+		$xpathNameInput.change();
+	}
+	if (menuItemId==='getXPathPrice'){
+		$xpathPriceInput.val(result);
+		$xpathPriceInput.change();
+	}
 
 	clearUserSelection();
 

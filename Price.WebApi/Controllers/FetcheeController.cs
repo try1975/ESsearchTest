@@ -4,8 +4,8 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Common.Dto.Model;
 using Price.WebApi.Logic.Fetchee;
-using Price.WebApi.Models;
 using PricePipeCore;
 
 namespace Price.WebApi.Controllers

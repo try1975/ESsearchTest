@@ -13,21 +13,30 @@ chrome.commands.onCommand.addListener(function(command) {
 		chrome.tabs.executeScript({
 			code: 'inputAutocomplete()'
 		});
-	} else if (command === 'api-save') {
-		chrome.tabs.executeScript({
-			code: 'apiSave()'
-		});
 	}
 });
 
 chrome.contextMenus.onClicked.addListener(function(info, tab) {
 	chrome.tabs.executeScript(null, {
-		code: 'currentSelection = \'' + info.selectionText.replace(/'/g, '[XPATHER]') + '\'; findXPath()'
+		code: 'currentSelection = \'' + info.selectionText.replace(/'/g, '[XPATHER]') + '\'; findXPath("' + info.menuItemId +'");'
 	});
 });
-
+/*
 chrome.contextMenus.create({
 	id: 'getXPath',
 	title: 'Get unique XPath',
+	contexts: ['selection']
+});
+*/
+chrome.contextMenus.create({
+	id: 'getXPathName',
+	title: 'Получить XPath для наименования',
+	contexts: ['selection']
+}, 
+);
+
+chrome.contextMenus.create({
+	id: 'getXPathPrice',
+	title: 'Получить XPath для цены',
 	contexts: ['selection']
 });

@@ -75,7 +75,7 @@ namespace ESsearchTest
             catch (Exception exception)
             {
                 Debug.WriteLine(exception);
-                MessageBox.Show($"Ошибка создания клиента ES. {exception}");
+                MessageBox.Show($@"Ошибка создания клиента ES. {exception}");
                 throw;
             }
 

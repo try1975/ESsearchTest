@@ -1,5 +1,5 @@
 ﻿using AutoMapper.Configuration;
-using Price.WebApi.Models;
+using Common.Dto.Model;
 using PriceCommon.Model;
 
 namespace Price.WebApi.AutoMappers

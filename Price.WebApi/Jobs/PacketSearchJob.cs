@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using Common.Dto.Model.Packet;
 using Price.WebApi.Logic.Packet;
-using Price.WebApi.Models.Packet;
 using Quartz;
 
 namespace Price.WebApi.Jobs

@@ -70,12 +70,12 @@ function find(force) {
 	if (previousXPath === xpath && force !== true) {
 		return;
 	}
-	
+
 	previousXPath = xpath;
 
 	$sidebarEntries.empty();
 	clearHighlight();
-	
+
 	if (xpath.length === 0) {
 		$resultBox.addClass('xpather-no-results').text('');
 		return;
@@ -85,7 +85,7 @@ function find(force) {
 
 	try {
 		result = $doc.xpath(xpath);
-	} catch(e) {
+	} catch (e) {
 		$resultBox.addClass('xpather-no-results').text('Invalid XPath');
 		$sidebarEntries.empty().append(createSidebarErrorEntry(e.message));
 		return;
@@ -195,7 +195,7 @@ function createSidebarEntry(index, node, type) {
 
 	if (!isAttribute) {
 		$entry.bind('click', function () {
-			$.scrollTo(node, 500, {offset: -80});
+			$.scrollTo(node, 500, { offset: -80 });
 			clearImportantHighlight();
 			node.safeAddClass('xpath-important-highlight');
 		});
@@ -206,6 +206,25 @@ function createSidebarEntry(index, node, type) {
 
 function toggleSidebar() {
 	if ($xpather.is(':visible')) {
+		
+		/*var url = "https://localhost/Chrome.XPathApi/api/values/";*/
+		var url="https://144.76.54.166:44300/api/values/";
+		$.ajax({
+			type: 'GET',
+			url: url,  //url адрес файла обработчика
+			data: { link: window.location.href },//параметры запроса
+			dataType: 'json',
+			success: function (data) {//возвращаемый результат от сервера
+				$xpathNameInput.val(data["XPathName"]);
+				$xpathPriceInput.val(data["XPathPrice"]);
+				$xpathNameInput.change();
+				$xpathPriceInput.change();
+			},
+			error: function (data) {
+				alert('Ошибка. Данные от сервера не получены.');
+			}
+		});
+
 		$sidebarToggler.toggleClass('xpather-sidebar-toggler-active');
 		$sidebar.toggle();
 		chrome.storage.sync.set({
@@ -298,7 +317,7 @@ function getNodeText(node) {
 	} else {
 		texts.push(node.textContent);
 	}
-	return  $.trim(texts.join(' ').replace(/\s+/g, ' '));
+	return $.trim(texts.join(' ').replace(/\s+/g, ' '));
 }
 
 function inputAutocomplete() {
@@ -395,7 +414,7 @@ if (isDocumentValid) {
 
 	$doc.mousedown(function (e) {
 		'use strict';
-		if (e.button === 2) { 
+		if (e.button === 2) {
 			clickedNode = e.target;
 		}
 	});
@@ -432,7 +451,7 @@ if (isDocumentValid) {
 		var xpath = $xpathNameInput.val();
 		try {
 			result = $doc.xpath(xpath);
-		} catch(e) {
+		} catch (e) {
 			$resultBox.addClass('xpather-no-results').text('Invalid XPath');
 			$sidebarEntries.empty().append(createSidebarErrorEntry(e.message));
 			return;
@@ -443,7 +462,7 @@ if (isDocumentValid) {
 				$.each(result, function (index, element) {
 					var node = $(element);
 					var nodeType = getNodeType(node);
-	
+
 					if (nodeType === 'text') {
 						node.wrap('<xpather class="xpather-text-hightlight"/>');
 					} else if (nodeType === 'element') {
@@ -468,7 +487,7 @@ if (isDocumentValid) {
 		var xpath = $xpathPriceInput.val();
 		try {
 			result = $doc.xpath(xpath);
-		} catch(e) {
+		} catch (e) {
 			$resultBox.addClass('xpather-no-results').text('Invalid XPath');
 			$sidebarEntries.empty().append(createSidebarErrorEntry(e.message));
 			return;
@@ -479,7 +498,7 @@ if (isDocumentValid) {
 				$.each(result, function (index, element) {
 					var node = $(element);
 					var nodeType = getNodeType(node);
-	
+
 					if (nodeType === 'text') {
 						node.wrap('<xpather class="xpather-text-hightlight"/>');
 					} else if (nodeType === 'element') {
@@ -498,26 +517,37 @@ if (isDocumentValid) {
 
 	});
 
+	$xpathSave.click(function (e) {
+
+		if ($xpathNameInput.val() == null || $xpathNameInput.val() == "", $xpathPriceInput.val() == null || $xpathPriceInput.val() == "") {
+			alert("Заполните настройки парсинга.");
+			return false;
+		}
+
+		/*var url = "https://localhost/Chrome.XPathApi/api/values/";*/
+		var url="https://144.76.54.166:44300/api/values/";
+		var data = {};
+
+		data["XPathName"] = $xpathNameInput.val();
+		data["XPathPrice"] = $xpathPriceInput.val();
+		data["XPathUrl"] = window.location.href;
+
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: JSON.stringify(data),
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			success: function (data) {
+				alert('Настройки сохранены.');
+			},
+			error: function (data) {
+				alert('Ошибка. Настройки не сохранены.');
+			}
+		});
+	});
+
 	/*document.addEventListener('DOMContentLoaded', () => {
 
 	});*/
 }
-
-
-function apiSave() {
-	
-	var url="https://localhost/Chrome.XPathApi/api/values/";
-	var data = {};
-
-	data["xPathName"] = $xpathNameInput.val();
-	data["xPathPrice"] = $xpathPriceInput.val();
-	data["xPathUrl"] = window.location.href;
-	
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: JSON.stringify(data),
-		contentType: "application/json; charset=utf-8",
-		dataType: "json"
-	  });
-  };

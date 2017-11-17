@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
+using Common.Dto.Logic;
+using Common.Dto.Model;
+using Common.Dto.Model.Packet;
 using Newtonsoft.Json;
-using Norm.MedPrep;
-using Price.WebApi.Jobs;
 using Price.WebApi.Logic;
 using Price.WebApi.Logic.Packet;
 using Price.WebApi.Models;
-using Price.WebApi.Models.Packet;
 using PricePipeCore;
 
 namespace Price.WebApi.Controllers
