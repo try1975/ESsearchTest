@@ -6,7 +6,6 @@ using AutoMapper;
 using Common.Dto.Model;
 using Common.Dto.Model.Packet;
 using Norm.MedPrep;
-using Price.WebApi.Models;
 using PricePipeCore;
 
 namespace Price.WebApi.Logic.Packet

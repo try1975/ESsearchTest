@@ -162,7 +162,7 @@ namespace Price.WebApi.Controllers
             if (searchItemDto.ProcessedAt != null && processedAt - searchItemDto.ProcessedAt > 86400)
             {
                 searchItemDto.ProcessedAt = null;
-                searchItemDto.Status = TaskStatus.NotProcessed;
+                searchItemDto.Status = TaskStatus.InQueue;
             }
             return searchItemDto.ProcessedAt != null;
         }

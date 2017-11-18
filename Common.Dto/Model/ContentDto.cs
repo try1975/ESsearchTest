@@ -21,7 +21,7 @@ namespace Common.Dto.Model
         /// <summary>
         ///     Цена позиции
         /// </summary>
-        [JsonIgnore]
+        //[JsonIgnore]
         public string Price { get; set; }
 
         /// <summary>

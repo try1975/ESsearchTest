@@ -36,12 +36,15 @@
             this.btnLoad = new System.Windows.Forms.Button();
             this.tbFileName = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.cbElasticIndexName = new System.Windows.Forms.ComboBox();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvPacketItems = new ADGV.AdvancedDataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.dgvContentItems = new ADGV.AdvancedDataGridView();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -85,6 +88,7 @@
             this.tbTruItems.Size = new System.Drawing.Size(1222, 73);
             this.tbTruItems.TabIndex = 1;
             this.tbTruItems.Text = resources.GetString("tbTruItems.Text");
+            this.tbTruItems.WordWrap = false;
             // 
             // panel5
             // 
@@ -117,12 +121,27 @@
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.cbElasticIndexName);
             this.panel3.Controls.Add(this.button2);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel3.Location = new System.Drawing.Point(0, 134);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1228, 43);
             this.panel3.TabIndex = 2;
+            // 
+            // cbElasticIndexName
+            // 
+            this.cbElasticIndexName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbElasticIndexName.FormattingEnabled = true;
+            this.cbElasticIndexName.Items.AddRange(new object[] {
+            "md5",
+            "md_med",
+            "md_prod",
+            "gz"});
+            this.cbElasticIndexName.Location = new System.Drawing.Point(308, 7);
+            this.cbElasticIndexName.Name = "cbElasticIndexName";
+            this.cbElasticIndexName.Size = new System.Drawing.Size(243, 21);
+            this.cbElasticIndexName.TabIndex = 1;
             // 
             // button2
             // 
@@ -165,10 +184,11 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.dgvContentItems);
+            this.groupBox3.Controls.Add(this.panel4);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox3.Location = new System.Drawing.Point(0, 315);
+            this.groupBox3.Location = new System.Drawing.Point(0, 318);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1228, 277);
+            this.groupBox3.Size = new System.Drawing.Size(1228, 274);
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Результаты поиска по ТРУ";
@@ -183,12 +203,20 @@
             this.dgvContentItems.Cursor = System.Windows.Forms.Cursors.Default;
             this.dgvContentItems.DateWithTime = false;
             this.dgvContentItems.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvContentItems.Location = new System.Drawing.Point(3, 16);
+            this.dgvContentItems.Location = new System.Drawing.Point(3, 70);
             this.dgvContentItems.Name = "dgvContentItems";
             this.dgvContentItems.ReadOnly = true;
-            this.dgvContentItems.Size = new System.Drawing.Size(1222, 258);
+            this.dgvContentItems.Size = new System.Drawing.Size(1222, 201);
             this.dgvContentItems.TabIndex = 2;
             this.dgvContentItems.TimeFilter = true;
+            // 
+            // panel4
+            // 
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel4.Location = new System.Drawing.Point(3, 16);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(1222, 54);
+            this.panel4.TabIndex = 3;
             // 
             // panel2
             // 
@@ -200,12 +228,22 @@
             this.panel2.Size = new System.Drawing.Size(1228, 315);
             this.panel2.TabIndex = 6;
             // 
+            // splitter1
+            // 
+            this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.splitter1.Location = new System.Drawing.Point(0, 315);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(1228, 3);
+            this.splitter1.TabIndex = 3;
+            this.splitter1.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1228, 592);
             this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.splitter1);
             this.Controls.Add(this.panel2);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -239,6 +277,9 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private ADGV.AdvancedDataGridView dgvContentItems;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ComboBox cbElasticIndexName;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Splitter splitter1;
     }
 }
 

@@ -5,7 +5,7 @@
         /// <summary>
         /// Обработка не начата
         /// </summary>
-        NotProcessed = 0,
+        InQueue = 0,
         /// <summary>
         /// Ошибка при обработке
         /// </summary>
@@ -17,6 +17,6 @@
         /// <summary>
         /// 
         /// </summary>
-        Inprocess = 3
+        InProcess = 3
     }
 }

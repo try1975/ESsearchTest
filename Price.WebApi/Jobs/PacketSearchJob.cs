@@ -24,10 +24,10 @@ namespace Price.WebApi.Jobs
 
             Debug.WriteLine($"{nameof(PacketSearchJob)}---{DateTime.Now}----------------------------------------------");
 
-            var searchItemDtos = SearchItemStore.Dictionary.Values.Where(z => z.Status == TaskStatus.NotProcessed).ToList();
+            var searchItemDtos = SearchItemStore.Dictionary.Values.Where(z => z.Status == TaskStatus.InQueue).ToList();
             foreach (var searchItemDto in searchItemDtos)
             {
-                searchItemDto.Status = TaskStatus.Inprocess;
+                searchItemDto.Status = TaskStatus.InProcess;
                 Debug.WriteLine($"{searchItemDto.Id}--------------------------------------------------------------------");
                 PacketItemSeacher.Search(searchItemDto.SearchItem, searchItemDto);
             }

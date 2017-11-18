@@ -11,26 +11,33 @@ namespace PricePipeCore
     {
         private static readonly Dictionary<string, ElasticClient> ClientsPool = new Dictionary<string, ElasticClient>();
 
-        public static ElasticClient GetElasticClient(string name = "")
+        public static ElasticClient GetElasticClient(string source = "")
         {
             ElasticClient elasticClient;
-            ClientsPool.TryGetValue(name, out elasticClient);
-            if (elasticClient != null) return ClientsPool[name];
+            ClientsPool.TryGetValue(source, out elasticClient);
+            if (elasticClient != null) return ClientsPool[source];
             string address = null;
             string defaultIndex = null;
             string userName = null;
             string password = null;
-            if (name.Equals(nameof(ElacticIndexName.Md5), StringComparison.InvariantCultureIgnoreCase) || string.IsNullOrEmpty(name))
+            if (source.Equals(nameof(ElacticIndexName.Md5), StringComparison.InvariantCultureIgnoreCase) || string.IsNullOrEmpty(source))
             {
                 address = AppSettings.Host;
                 defaultIndex = AppSettings.DefaultIndex.ToLower();
                 userName = AppSettings.UserName;
                 password = AppSettings.Password;
             }
-            if (name.Equals(nameof(ElacticIndexName.Gz), StringComparison.InvariantCultureIgnoreCase))
+            else if (source.Equals(nameof(ElacticIndexName.Gz), StringComparison.InvariantCultureIgnoreCase))
             {
                 address = AppSettings.Host;
                 defaultIndex = nameof(ElacticIndexName.Gz).ToLower();
+                userName = AppSettings.UserName;
+                password = AppSettings.Password;
+            }
+            else
+            {
+                address = AppSettings.Host;
+                defaultIndex = source.Trim().ToLower();
                 userName = AppSettings.UserName;
                 password = AppSettings.Password;
             }
@@ -47,8 +54,8 @@ namespace PricePipeCore
                 .DisableDirectStreaming()
                 .DefaultIndex(defaultIndex)
                 .BasicAuthentication(userName, password);
-            ClientsPool[name] = new ElasticClient(connectionSettings);
-            return ClientsPool[name];
+            ClientsPool[source] = new ElasticClient(connectionSettings);
+            return ClientsPool[source];
         }
     }
 }
