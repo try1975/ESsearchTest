@@ -94,5 +94,20 @@ namespace Common.Dto.Model
         ///     Валюта
         /// </summary>
         public string Currency { get; set; }
+
+
+        public static ContentDto FromCsv(string csvLine)
+        {
+            var values = csvLine.Split(';');
+            var contentDto = new ContentDto
+            {
+                Uri = values[0].Replace("\"", ""),
+                Name = values[1].Replace("\"", ""),
+                Price = values[2].Replace("\"", ""),
+                CollectedAt = Convert.ToInt64(values[8].Replace("\"", ""))
+            };
+
+            return contentDto;
+        }
     }
 }

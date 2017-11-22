@@ -28,6 +28,11 @@ namespace Price.WebApi.Logic
             UrlStatePath = Path.Combine(HttpRuntime.AppDomainAppPath, UrlStatePath);
             Directory.CreateDirectory(UrlStatePath);
 
+            InternetSearchResultPath = WebConfigurationManager.AppSettings[nameof(InternetSearchResultPath)];
+            if (string.IsNullOrEmpty(InternetSearchResultPath)) InternetSearchResultPath = nameof(InternetSearchResultPath);
+            InternetSearchResultPath = Path.Combine(HttpRuntime.AppDomainAppPath, InternetSearchResultPath);
+            Directory.CreateDirectory(InternetSearchResultPath);
+
             ScreenshotPath = WebConfigurationManager.AppSettings[nameof(ScreenshotPath)];
             if (string.IsNullOrEmpty(ScreenshotPath)) UrlStatePath = nameof(ScreenshotPath);
             ScreenshotPath = Path.Combine(HttpRuntime.AppDomainAppPath, ScreenshotPath);
@@ -37,6 +42,7 @@ namespace Price.WebApi.Logic
 
             ProductParser = Path.Combine(HttpRuntime.AppDomainAppPath, @"ProductParser\ProductParserCon.exe");
             Screenshotter = Path.Combine(HttpRuntime.AppDomainAppPath, @"SiteShoter\SiteShoter.exe");
+            AnalystCon = Path.Combine(HttpRuntime.AppDomainAppPath, @"AnalystCon\AnalystCon.exe");
         }
 
         public static string ElangPath { get; }
@@ -49,5 +55,7 @@ namespace Price.WebApi.Logic
 
         public static string ProductParser { get; }
         public static string Screenshotter { get; }
+        public static string AnalystCon { get; }
+        public static string InternetSearchResultPath { get; set; }
     }
 }

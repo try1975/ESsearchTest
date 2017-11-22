@@ -137,7 +137,8 @@
             "md5",
             "md_med",
             "md_prod",
-            "gz"});
+            "gz",
+            "internet"});
             this.cbElasticIndexName.Location = new System.Drawing.Point(308, 7);
             this.cbElasticIndexName.Name = "cbElasticIndexName";
             this.cbElasticIndexName.Size = new System.Drawing.Size(243, 21);

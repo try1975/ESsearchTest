@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Common.Dto;
 using Common.Dto.Model;
 using Common.Dto.Model.Packet;
 using Newtonsoft.Json;
@@ -19,6 +20,8 @@ namespace Topol.UseApi
         private readonly List<SearchItemDto> _listSearchItem = new List<SearchItemDto>();
         private BindingSource PacketItemsBindingSource { get; }
         private BindingSource ContentItemsBindingSource { get; }
+        private BackgroundWorker bw = new BackgroundWorker();
+
 
         public Form1()
         {
@@ -33,6 +36,40 @@ namespace Topol.UseApi
             dgvContentItems.FilterStringChanged += dgvContentItems_FilterStringChanged;
             dgvContentItems.SortStringChanged += dgvContentItems_SortStringChanged;
             dgvContentItems.CellContentDoubleClick += dgvContentItems_CellContentDoubleClick;
+
+            bw.WorkerSupportsCancellation = false;
+            bw.WorkerReportsProgress = true;
+            bw.DoWork += bw_DoWork;
+            bw.ProgressChanged += bw_ProgressChanged;
+
+        }
+
+        private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            var searchPacketTaskDto = (SearchPacketTaskDto)e.UserState;
+            AddPacketItemsToList(searchPacketTaskDto);
+            SearchPacketTaskStore.Post(searchPacketTaskDto);
+        }
+
+        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var cnt = 1;
+            while (cnt > 0)
+            {
+                var tasks = SearchPacketTaskStore.Dictionary.Values.Where(z => z.ProcessedAt == null).ToList();
+                cnt = tasks.Count;
+                foreach (var item in tasks)
+                {
+                    var searchPacketTaskDto = _dataManager.GetPacketStatus(item.Id, item.Source).Result;
+                    if (searchPacketTaskDto == null) continue;
+                    ((BackgroundWorker)sender).ReportProgress(0, searchPacketTaskDto);
+                    //else
+                    //{
+                    //    MessageBox.Show(@"Ошибка запроса.");
+                    //}
+                }
+                System.Threading.Thread.Sleep(1000);
+            }
         }
 
         private void dgvContentItems_SortStringChanged(object sender, EventArgs e)
@@ -150,7 +187,12 @@ namespace Topol.UseApi
             var searchPacketTaskDto = await _dataManager.PostPacket2(dto, cbElasticIndexName.SelectedItem as string);
             if (searchPacketTaskDto != null)
             {
-                AddPaketItemsToList(searchPacketTaskDto);
+                SearchPacketTaskStore.Post(searchPacketTaskDto);
+                AddPacketItemsToList(searchPacketTaskDto);
+                if (bw.IsBusy != true)
+                {
+                    bw.RunWorkerAsync();
+                }
             }
             else
             {
@@ -158,7 +200,7 @@ namespace Topol.UseApi
             }
         }
 
-        private void AddPaketItemsToList(SearchPacketTaskDto searchPacketTaskDto)
+        private void AddPacketItemsToList(SearchPacketTaskDto searchPacketTaskDto)
         {
             if (searchPacketTaskDto.SearchItems == null) return;
             foreach (var searchItemDto in searchPacketTaskDto.SearchItems)

@@ -5,13 +5,14 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
+using Common.Dto;
 using Common.Dto.Logic;
 using Common.Dto.Model;
 using Common.Dto.Model.Packet;
 using Newtonsoft.Json;
 using Price.WebApi.Logic;
+using Price.WebApi.Logic.Interfaces;
 using Price.WebApi.Logic.Packet;
-using Price.WebApi.Models;
 using PricePipeCore;
 
 namespace Price.WebApi.Controllers
@@ -22,6 +23,13 @@ namespace Price.WebApi.Controllers
     //[Authorize]
     public class SimplePriceController : ApiController
     {
+        private IInternetSearchWatcher _internetSearchWatcher;
+
+        public SimplePriceController(IInternetSearchWatcher internetSearchWatcher)
+        {
+            _internetSearchWatcher = internetSearchWatcher;
+        }
+
         /// <summary>
         ///     Получение списка результатов поиска без нормализации
         /// </summary>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Common.Dto.Logic;
 using Newtonsoft.Json;
@@ -39,9 +40,32 @@ namespace Common.Dto.Model.Packet
         /// </summary>
         public void UpdateStatistics()
         {
+            if (Source.ToLower().Contains("internet") && ProcessedAt == null)
+            {
+                foreach (var searchItem in SearchItems)
+                {
+                    if (searchItem.Status != TaskStatus.InProcess) continue;
+                    var span = Utils.GetUtcNow() - searchItem.StartProcessed;
+                    // 2 minute
+                    if (span >= 120)
+                    {
+                        searchItem.ProcessedAt = Utils.GetUtcNow();
+                        searchItem.Status = TaskStatus.Ok;
+                        continue;
+                    }
+                    if (searchItem.Content == null) continue;
+                    var cnt = searchItem.Content.Count();
+                    if (cnt == 0) continue;
+                    if (cnt >= 60)
+                    {
+                        searchItem.ProcessedAt = Utils.GetUtcNow();
+                        searchItem.Status = TaskStatus.Ok;
+                    }
+                }
+            }
             TotalCount = SearchItems.Count;
             ProcessedCount = SearchItems.Count(z => z.ProcessedAt != null);
-            if(TotalCount>0 && TotalCount==ProcessedCount) ProcessedAt = Utils.GetUtcNow();
+            if (TotalCount > 0 && TotalCount == ProcessedCount) ProcessedAt = Utils.GetUtcNow();
         }
     }
 }

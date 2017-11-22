@@ -3,6 +3,7 @@ using AutoMapper.Configuration;
 using Ninject;
 using Price.WebApi.AutoMappers;
 using Price.WebApi.Logic.Interfaces;
+using Price.WebApi.Logic.Internet;
 using Price.WebApi.Logic.UpdatePrice;
 
 namespace Price.WebApi.Ninject
@@ -51,6 +52,7 @@ namespace Price.WebApi.Ninject
             //container.Bind<WalletContext>().ToSelf().InThreadScope();
             //container.Bind<ExchangeServiceMailSender>().ToSelf().InSingletonScope();
             container.Bind<IUpdatePriceWatcher>().To<UpdatePriceWatcher>().InSingletonScope();
+            container.Bind<IInternetSearchWatcher>().To<InternetSearchWatcher>().InSingletonScope();
             //container.Bind<IDetect>().To<Detect>().InRequestScope();
         }
     }

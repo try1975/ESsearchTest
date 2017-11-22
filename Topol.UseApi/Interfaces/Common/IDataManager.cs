@@ -9,6 +9,7 @@ namespace Topol.UseApi.Interfaces.Common
         #region SearchPacket
 
         Task<SearchPacketTaskDto> PostPacket2(List<SearchItemParam> searchItemsParam, string source = "");
+        Task<SearchPacketTaskDto> GetPacketStatus(string id, string source = "");
 
         #endregion //SearchPacket
 

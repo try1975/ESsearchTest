@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using Common.Dto;
+using Common.Dto.Logic;
 using Common.Dto.Model.Packet;
 using Price.WebApi.Logic.Packet;
 using Quartz;
@@ -27,6 +29,7 @@ namespace Price.WebApi.Jobs
             var searchItemDtos = SearchItemStore.Dictionary.Values.Where(z => z.Status == TaskStatus.InQueue).ToList();
             foreach (var searchItemDto in searchItemDtos)
             {
+                searchItemDto.StartProcessed = Utils.GetUtcNow();
                 searchItemDto.Status = TaskStatus.InProcess;
                 Debug.WriteLine($"{searchItemDto.Id}--------------------------------------------------------------------");
                 PacketItemSeacher.Search(searchItemDto.SearchItem, searchItemDto);

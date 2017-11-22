@@ -10,7 +10,6 @@ using Common.Dto.Model;
 using Price.WebApi.Logic;
 using Price.WebApi.Logic.Interfaces;
 using Price.WebApi.Logic.UpdatePrice;
-using Price.WebApi.Models;
 using Price.WebApi.Models.UpdatePrice;
 using PriceCommon.Model;
 using PricePipeCore;
@@ -44,6 +43,7 @@ namespace Price.WebApi.Controllers
         [Route("Okpd2Reverse", Name = nameof(GetOkpd2Reverse) + "Route")]
         public IEnumerable<Okpd2Reverse> GetOkpd2Reverse(string text)
         {
+            //TODO сделать поиск ОКПД2 пока не появится результат путем удаления слов текста с конца
             return new Okpd2ReverseSeacher().Search(text);
         }
 

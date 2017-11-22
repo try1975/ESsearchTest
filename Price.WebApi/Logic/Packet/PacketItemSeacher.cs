@@ -6,6 +6,7 @@ using AutoMapper;
 using Common.Dto.Model;
 using Common.Dto.Model.Packet;
 using Norm.MedPrep;
+using Price.WebApi.Logic.Internet;
 using PricePipeCore;
 
 namespace Price.WebApi.Logic.Packet
@@ -22,6 +23,11 @@ namespace Price.WebApi.Logic.Packet
         /// <param name="searchItemDto"></param>
         public static void Search(SearchItemParam searchItem, SearchItemDto searchItemDto)
         {
+            if (searchItemDto.Source.Contains("internet"))
+            {
+                InternetSearcher.Search(searchItem,searchItemDto);
+                return;
+            }
             try
             {
                 var delimiter = SimpleSearcher.ListDelimiter.FirstOrDefault();
@@ -39,18 +45,18 @@ namespace Price.WebApi.Logic.Packet
                         if (property.Key.Equals("МНН")) firstWords = property.Value.Trim();
                         if (property.Key.Equals("Форма выпуска"))
                         {
-                            var lekFormNorm = new LekFormNorm {InitialName = property.Value.Trim()};
+                            var lekFormNorm = new LekFormNorm { InitialName = property.Value.Trim() };
                             lekForm = lekFormNorm.NormResult;
                         }
                         if (property.Key.Equals("Дозировка"))
                         {
-                            var dozNorm = new DozNorm() {InitialName = property.Value.Trim()};
+                            var dozNorm = new DozNorm() { InitialName = property.Value.Trim() };
                             dozValue = dozNorm.DozValue;
                             dozKey = dozNorm.DozKey;
                         }
                         if (property.Key.Equals("Фасовка"))
                         {
-                            var upakNorm = new UpakNorm(name) {InitialName = property.Value.Trim()};
+                            var upakNorm = new UpakNorm(name) { InitialName = property.Value.Trim() };
                             upak = upakNorm.NormResult;
                         }
                     }
@@ -60,9 +66,9 @@ namespace Price.WebApi.Logic.Packet
                         syn = firstWords + "," + string.Join(",", searchItem.Syn.Select(p => p.Trim()));
                     }
 
-                    searchItemDto.Content =
-                        Mapper.Map<IEnumerable<ContentDto>>(new PharmacySearcher(searchItemDto.Source).Search(name, firstWords, lekForm, upak,
-                            dozValue, dozKey, syn: syn));
+                    var pharmacySearcher = new PharmacySearcher(searchItemDto.Source);
+                    var listContentDto = pharmacySearcher.Search(name, firstWords, lekForm, upak, dozValue, dozKey, syn);
+                    searchItemDto.Content = Mapper.Map<IEnumerable<ContentDto>>(listContentDto);
                 }
                 else
                 {
@@ -74,19 +80,19 @@ namespace Price.WebApi.Logic.Packet
                         {
                             should = string.Join(delimiter, splitResult.Skip(1).Select(p => p.Trim()));
                         }
-                        searchItemDto.Content =
-                            Mapper.Map<IEnumerable<ContentDto>>(
-                                new SimpleSearcher(searchItemDto.Source).MaybeSearch(must, should, string.Empty));
+                        var simpleSearcher = new SimpleSearcher(searchItemDto.Source);
+                        var listContentDto = simpleSearcher.MaybeSearch(must, should, string.Empty);
+                        searchItemDto.Content = Mapper.Map<IEnumerable<ContentDto>>(listContentDto);
                     }
                 }
-                searchItemDto.ProcessedAt = (long) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+                searchItemDto.ProcessedAt = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
                 searchItemDto.Status = TaskStatus.Ok;
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e);
                 Logger.Log.Error($"{e}");
-                searchItemDto.ProcessedAt = (long) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+                searchItemDto.ProcessedAt = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
                 searchItemDto.Status = TaskStatus.Error;
             }
         }

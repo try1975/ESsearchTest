@@ -204,7 +204,6 @@
     <Compile Include="Controllers\FetcheeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PharmacyController.cs" />
-    <Compile Include="Controllers\ScreenController.cs" />
     <Compile Include="Controllers\SimplePriceController.cs" />
     <Compile Include="GetFiles\GetFile.ashx.cs">
       <DependentUpon>GetFile.ashx</DependentUpon>
@@ -218,10 +217,12 @@
     <Compile Include="Logic\AppGlobal.cs" />
     <Compile Include="Logic\Fetchee\FetcheeTasks.cs" />
     <Compile Include="Logic\IdService.cs" />
+    <Compile Include="Logic\Interfaces\IInternetSearchWatcher.cs" />
     <Compile Include="Logic\Interfaces\IUpdatePriceWatcher.cs" />
+    <Compile Include="Logic\Internet\InternetSearcher.cs" />
+    <Compile Include="Logic\Internet\InternetSearchWatcher.cs" />
     <Compile Include="Logic\Packet\PacketItemSeacher.cs" />
     <Compile Include="Logic\Packet\SearchItemStore.cs" />
-    <Compile Include="Logic\Packet\SearchPacketTaskStore.cs" />
     <Compile Include="Logic\PathService.cs" />
     <Compile Include="Logic\ProductParser.cs" />
     <Compile Include="Logic\Screenshotter.cs" />
@@ -238,6 +239,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AnalystCon\AnalystCon.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -275,6 +279,18 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="GetFiles\GetFile.ashx" />
     <Content Include="Web.AppSettings.config" />
+    <None Include="AnalystCon\Analyst.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="AnalystCon\AnalystNorm.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="AnalystCon\test.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="AnalystCon\test.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>

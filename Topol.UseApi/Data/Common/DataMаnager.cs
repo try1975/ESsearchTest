@@ -39,5 +39,15 @@ namespace Topol.UseApi.Data.Common
                 return result;
             }
         }
+
+        public async Task<SearchPacketTaskDto> GetPacketStatus(string id, string source = "")
+        {
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointPostPacket2}{id}/?source={source}"))
+            {
+                if (!response.IsSuccessStatusCode) return null;
+                var result = await response.Content.ReadAsAsync<SearchPacketTaskDto>();
+                return result;
+            }
+        }
     }
 }

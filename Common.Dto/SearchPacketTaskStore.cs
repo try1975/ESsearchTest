@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using Common.Dto.Model.Packet;
 
-namespace Price.WebApi.Logic.Packet
+namespace Common.Dto
 {
     /// <summary>
     /// 

@@ -28,6 +28,7 @@ namespace Common.Dto.Model.Packet
         /// 
         /// </summary>
         public string Name { get; set; }
+        public long? StartProcessed { get; set; }
         public long? ProcessedAt { get; set; }
 
         /// <summary>
