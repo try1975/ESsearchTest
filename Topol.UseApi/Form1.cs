@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
@@ -11,6 +12,7 @@ using Common.Dto.Model;
 using Common.Dto.Model.Packet;
 using Newtonsoft.Json;
 using Topol.UseApi.Data.Common;
+using Topol.UseApi.Logic;
 
 namespace Topol.UseApi
 {
@@ -42,6 +44,9 @@ namespace Topol.UseApi
             bw.DoWork += bw_DoWork;
             bw.ProgressChanged += bw_ProgressChanged;
 
+
+            var baseApi = ConfigurationManager.AppSettings["BaseApi"];
+            linkLabel1.Text = $@"Описание API - {baseApi}help";
         }
 
         private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -72,30 +77,8 @@ namespace Topol.UseApi
             }
         }
 
-        private void dgvContentItems_SortStringChanged(object sender, EventArgs e)
-        {
-            ContentItemsBindingSource.Sort = dgvContentItems.SortString;
-            ContentGridColumnSettings();
-        }
 
-        private void dgvContentItems_FilterStringChanged(object sender, EventArgs e)
-        {
-
-            ContentItemsBindingSource.Filter = dgvContentItems.FilterString;
-            ContentGridColumnSettings();
-        }
-
-        private void dgvPacketItems_SortStringChanged(object sender, EventArgs e)
-        {
-            PacketItemsBindingSource.Sort = dgvPacketItems.SortString;
-            PacketGridColumnSettings();
-        }
-
-        private void dgvPacketItems_FilterStringChanged(object sender, EventArgs e)
-        {
-            PacketItemsBindingSource.Filter = dgvPacketItems.FilterString;
-            PacketGridColumnSettings();
-        }
+        #region Grid Settings
 
         private void PacketGridColumnSettings()
         {
@@ -158,6 +141,40 @@ namespace Topol.UseApi
             }
         }
 
+        #endregion //Grid Settings
+
+        #region Event handlers
+
+        private void dgvContentItems_SortStringChanged(object sender, EventArgs e)
+        {
+            ContentItemsBindingSource.Sort = dgvContentItems.SortString;
+            ContentGridColumnSettings();
+        }
+
+        private void dgvContentItems_FilterStringChanged(object sender, EventArgs e)
+        {
+
+            ContentItemsBindingSource.Filter = dgvContentItems.FilterString;
+            ContentGridColumnSettings();
+        }
+
+        private void dgvPacketItems_SortStringChanged(object sender, EventArgs e)
+        {
+            PacketItemsBindingSource.Sort = dgvPacketItems.SortString;
+            PacketGridColumnSettings();
+        }
+
+        private void dgvPacketItems_FilterStringChanged(object sender, EventArgs e)
+        {
+            PacketItemsBindingSource.Filter = dgvPacketItems.FilterString;
+            PacketGridColumnSettings();
+        }
+
+        #endregion //Event handlers
+
+
+
+
         private void dgvContentItems_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             var dgv = (DataGridView)sender;
@@ -174,16 +191,33 @@ namespace Topol.UseApi
             var openFileDialog = new OpenFileDialog(); if (openFileDialog.ShowDialog() != DialogResult.OK) return;
             tbFileName.Text = openFileDialog.FileName;
             tbTruItems.Lines = File.ReadAllLines(openFileDialog.FileName);
-            SearchPacket();
+            SearchPacket(tbTruItems.Text);
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            SearchPacket();
+            SearchPacket(tbTruItems.Text);
         }
 
-        private async void SearchPacket()
+        private async void SearchPacket(string json)
         {
-            var dto = JsonConvert.DeserializeObject<List<SearchItemParam>>(tbTruItems.Text);
+            var dto = JsonConvert.DeserializeObject<List<SearchItemParam>>(json);
+            var searchPacketTaskDto = await _dataManager.PostPacket2(dto, cbElasticIndexName.SelectedItem as string);
+            if (searchPacketTaskDto != null)
+            {
+                SearchPacketTaskStore.Post(searchPacketTaskDto);
+                AddPacketItemsToList(searchPacketTaskDto);
+                if (bw.IsBusy != true)
+                {
+                    bw.RunWorkerAsync();
+                }
+            }
+            else
+            {
+                MessageBox.Show(@"Ошибка запроса.");
+            }
+        }
+        private async void SearchPacket(List<SearchItemParam> dto)
+        {
             var searchPacketTaskDto = await _dataManager.PostPacket2(dto, cbElasticIndexName.SelectedItem as string);
             if (searchPacketTaskDto != null)
             {
@@ -213,11 +247,20 @@ namespace Topol.UseApi
                 else
                 {
                     if (item.Status == searchItemDto.Status) continue;
+                    var idx = _listSearchItem.IndexOf(item);
                     _listSearchItem.Remove(item);
-                    AddSeacrhItemToList(searchPacketTaskDto, searchItemDto);
+                    AddSeacrhItemToList(searchPacketTaskDto, searchItemDto, idx);
                 }
             }
             List2Grid();
+        }
+
+        private void AddSeacrhItemToList(SearchPacketTaskDto searchPacketTaskDto, SearchItemDto searchItemDto, int index = 0)
+        {
+            searchItemDto.Source = searchPacketTaskDto.Source;
+            _listSearchItem.Add(searchItemDto);
+            //if (index < 0 || index > _listSearchItem.Count - 1) index = 0;
+            //_listSearchItem.Insert(index, searchItemDto);
         }
 
         private void List2Grid()
@@ -226,13 +269,6 @@ namespace Topol.UseApi
             PacketItemsBindingSource.DataSource = dt;
             dgvPacketItems.DataSource = PacketItemsBindingSource;
             PacketGridColumnSettings();
-        }
-
-
-        private void AddSeacrhItemToList(SearchPacketTaskDto searchPacketTaskDto, SearchItemDto searchItemDto)
-        {
-            searchItemDto.Source = searchPacketTaskDto.Source;
-            _listSearchItem.Add(searchItemDto);
         }
 
         private static DataTable ConvertToDataTable<T>(IEnumerable<T> data)
@@ -269,6 +305,26 @@ namespace Topol.UseApi
             {
                 //throw;
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var dto = new List<SearchItemParam>
+            {
+                new SearchItemParam
+                {
+                    Id = Md5Logstah.GetDefaultId("",textBox2.Text),
+                    Name = textBox2.Text,
+                    Norm = comboBox1.SelectedItem as string
+                }
+            };
+            SearchPacket(dto);
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var baseApi = ConfigurationManager.AppSettings["BaseApi"];
+            Process.Start($"{baseApi}help");
         }
     }
 }

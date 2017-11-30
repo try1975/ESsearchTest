@@ -40,24 +40,27 @@ namespace Price.WebApi.Logic.Packet
                     var upak = string.Empty;
                     var dozValue = string.Empty;
                     var dozKey = string.Empty;
-                    foreach (var property in searchItem.SearchItemProperties)
+                    if (searchItem.SearchItemProperties != null)
                     {
-                        if (property.Key.Equals("МНН")) firstWords = property.Value.Trim();
-                        if (property.Key.Equals("Форма выпуска"))
+                        foreach (var property in searchItem.SearchItemProperties)
                         {
-                            var lekFormNorm = new LekFormNorm { InitialName = property.Value.Trim() };
-                            lekForm = lekFormNorm.NormResult;
-                        }
-                        if (property.Key.Equals("Дозировка"))
-                        {
-                            var dozNorm = new DozNorm() { InitialName = property.Value.Trim() };
-                            dozValue = dozNorm.DozValue;
-                            dozKey = dozNorm.DozKey;
-                        }
-                        if (property.Key.Equals("Фасовка"))
-                        {
-                            var upakNorm = new UpakNorm(name) { InitialName = property.Value.Trim() };
-                            upak = upakNorm.NormResult;
+                            if (property.Key.Equals("МНН")) firstWords = property.Value.Trim();
+                            if (property.Key.Equals("Форма выпуска"))
+                            {
+                                var lekFormNorm = new LekFormNorm {InitialName = property.Value.Trim()};
+                                lekForm = lekFormNorm.NormResult;
+                            }
+                            if (property.Key.Equals("Дозировка"))
+                            {
+                                var dozNorm = new DozNorm() {InitialName = property.Value.Trim()};
+                                dozValue = dozNorm.DozValue;
+                                dozKey = dozNorm.DozKey;
+                            }
+                            if (property.Key.Equals("Фасовка"))
+                            {
+                                var upakNorm = new UpakNorm(name) {InitialName = property.Value.Trim()};
+                                upak = upakNorm.NormResult;
+                            }
                         }
                     }
                     var syn = string.Empty;

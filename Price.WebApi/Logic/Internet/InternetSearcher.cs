@@ -38,10 +38,11 @@ namespace Price.WebApi.Logic.Internet
                     Logger.Log.Info($"{AppGlobal.AnalystCon} do not start");
                     return;
                 }
-                var arguments = $"-inp:\"{inpFileFullPath}\" -out:\"{outFileFullPath}\"";
+                var arguments = $"-inp:\"{inpFileFullPath}\" -out:\"{outFileFullPath}\" -debug_log";
                 Logger.Log.Info($"{AppGlobal.AnalystCon}");
                 Logger.Log.Info($"{arguments}");
                 Process.Start(AppGlobal.AnalystCon, arguments);
+                Logger.Log.Info("Process.Start called.");
             }
             catch (Exception exception)
             {

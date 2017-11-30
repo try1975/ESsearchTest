@@ -43,6 +43,7 @@ namespace Price.WebApi.Logic
             ProductParser = Path.Combine(HttpRuntime.AppDomainAppPath, @"ProductParser\ProductParserCon.exe");
             Screenshotter = Path.Combine(HttpRuntime.AppDomainAppPath, @"SiteShoter\SiteShoter.exe");
             AnalystCon = Path.Combine(HttpRuntime.AppDomainAppPath, @"AnalystCon\AnalystCon.exe");
+            //AnalystCon = WebConfigurationManager.AppSettings[nameof(AnalystCon)];
         }
 
         public static string ElangPath { get; }
