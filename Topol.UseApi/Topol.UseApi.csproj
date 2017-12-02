@@ -103,6 +103,10 @@
       <Project>{ed2886fc-f692-44b5-9328-8013183a2402}</Project>
       <Name>Common.Dto</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PriceCommon\PriceCommon.csproj">
+      <Project>{0BDCAA8C-D511-46F0-B681-33DBED62C002}</Project>
+      <Name>PriceCommon</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

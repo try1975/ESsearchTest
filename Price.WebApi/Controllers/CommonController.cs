@@ -43,8 +43,26 @@ namespace Price.WebApi.Controllers
         [Route("Okpd2Reverse", Name = nameof(GetOkpd2Reverse) + "Route")]
         public IEnumerable<Okpd2Reverse> GetOkpd2Reverse(string text)
         {
-            //TODO сделать поиск ОКПД2 пока не появится результат путем удаления слов текста с конца
-            return new Okpd2ReverseSeacher().Search(text);
+            //поиск ОКПД2 пока не появится результат путем удаления слов текста с конца
+            text = text.Replace("/", "//");
+            var words = text.ToLower().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+            var list = new Okpd2ReverseSeacher().Search(text);
+            if (list == null) return new List<Okpd2Reverse>();
+            if (!list.Any() && words.Length == 1) return list;
+            var i = 1;
+            var notEnd = true;
+            do
+            {
+                var newWords = words.Take(words.Length - i);
+                var enumerable = newWords as string[] ?? newWords.ToArray();
+                list = new Okpd2ReverseSeacher().Search(string.Join(" ", enumerable));
+                if (list.Any() || enumerable.Length == 1)
+                {
+                    notEnd = false;
+                }
+                i = i + 1;
+            } while (notEnd);
+            return list;
         }
 
         /// <summary>

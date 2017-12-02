@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Common.Dto.Model;
 using Common.Dto.Model.Packet;
+using PriceCommon.Model;
 using Topol.UseApi.Interfaces.Common;
 
 namespace Topol.UseApi.Data.Common
@@ -13,6 +14,7 @@ namespace Topol.UseApi.Data.Common
     {
         private readonly string _endpointPostPacket2;
         private readonly string _endpointMaybe;
+        private readonly string _endpointOkpd2;
         private readonly HttpClient _apiHttpClient;
 
         public DataMаnager()
@@ -23,7 +25,8 @@ namespace Topol.UseApi.Data.Common
             var token = ConfigurationManager.AppSettings["ExternalToken"];
 
             _endpointPostPacket2 = $"{baseApi}api/simpleprice/packet/";
-            _endpointMaybe = $"{baseApi}api/maybe";
+            _endpointMaybe = $"{baseApi}api/simpleprice/maybe/";
+            _endpointOkpd2 = $"{baseApi}api/common/okpd2reverse/";
 
             #endregion
 
@@ -55,10 +58,20 @@ namespace Topol.UseApi.Data.Common
 
         public async Task<IEnumerable<ContentDto>> GetMaybe(string must = "", string should = "", string mustNot = "", string source = "")
         {
-            using (var response = await _apiHttpClient.GetAsync($"{_endpointMaybe}/?must={must}&should={should}&mustNot={mustNot}&source={source}"))
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointMaybe}?must={must}&should={should}&mustNot={mustNot}&source={source}"))
             {
                 if (!response.IsSuccessStatusCode) return null;
                 var result = await response.Content.ReadAsAsync<IEnumerable<ContentDto>>();
+                return result;
+            }
+        }
+
+        public async Task<IEnumerable<Okpd2Reverse>> GetOkpd2Reverse(string text)
+        {
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointOkpd2}?text={text}"))
+            {
+                if (!response.IsSuccessStatusCode) return null;
+                var result = await response.Content.ReadAsAsync<IEnumerable<Okpd2Reverse>>();
                 return result;
             }
         }

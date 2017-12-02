@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using ADGV;
 using Common.Dto;
 using Common.Dto.Model;
 using Common.Dto.Model.Packet;
@@ -22,7 +23,9 @@ namespace Topol.UseApi
         private readonly List<SearchItemDto> _listSearchItem = new List<SearchItemDto>();
         private BindingSource PacketItemsBindingSource { get; }
         private BindingSource ContentItemsBindingSource { get; }
-        private BackgroundWorker bw = new BackgroundWorker();
+        private BindingSource MaybeItemsBindingSource { get; }
+        private BindingSource Okpd2ItemsBindingSource { get; }
+        private readonly BackgroundWorker _bw = new BackgroundWorker();
 
 
         public Form1()
@@ -30,24 +33,42 @@ namespace Topol.UseApi
             InitializeComponent();
             cbElasticIndexName.SelectedIndex = 0;
             _dataManager = new DataMаnager();
+
             PacketItemsBindingSource = new BindingSource();
             ContentItemsBindingSource = new BindingSource();
+            MaybeItemsBindingSource = new BindingSource();
+            Okpd2ItemsBindingSource = new BindingSource();
+
             PacketItemsBindingSource.CurrentChanged += BindingSourceOnCurrentChanged;
             dgvPacketItems.FilterStringChanged += dgvPacketItems_FilterStringChanged;
             dgvPacketItems.SortStringChanged += dgvPacketItems_SortStringChanged;
+
             dgvContentItems.FilterStringChanged += dgvContentItems_FilterStringChanged;
             dgvContentItems.SortStringChanged += dgvContentItems_SortStringChanged;
-            dgvContentItems.CellContentDoubleClick += dgvContentItems_CellContentDoubleClick;
 
-            bw.WorkerSupportsCancellation = false;
-            bw.WorkerReportsProgress = true;
-            bw.DoWork += bw_DoWork;
-            bw.ProgressChanged += bw_ProgressChanged;
+            dgvMaybe.FilterStringChanged += dgvMaybe_FilterStringChanged;
+            dgvMaybe.SortStringChanged += dgvMaybe_SortStringChanged;
+
+            dgvOkpd2.FilterStringChanged += dgvOkpd2_FilterStringChanged;
+            dgvOkpd2.SortStringChanged += dgvOkpd2_SortStringChanged;
+
+            dgvContentItems.CellContentDoubleClick += dgv_CellContentDoubleClick;
+            dgvMaybe.CellContentDoubleClick += dgv_CellContentDoubleClick;
+
+            _bw.WorkerSupportsCancellation = false;
+            _bw.WorkerReportsProgress = true;
+            _bw.DoWork += bw_DoWork;
+            _bw.ProgressChanged += bw_ProgressChanged;
 
 
             var baseApi = ConfigurationManager.AppSettings["BaseApi"];
             linkLabel1.Text = $@"Описание API - {baseApi}help";
+
+            btnCallMaybe.Click += btnCallMaybe_Click;
+            btnOkpd2.Click += btnOkpd2_Click;
         }
+
+        #region BackgroundWorker
 
         private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
@@ -77,6 +98,7 @@ namespace Topol.UseApi
             }
         }
 
+        #endregion //BackgroundWorker
 
         #region Grid Settings
 
@@ -91,9 +113,8 @@ namespace Topol.UseApi
             if (column != null) column.Visible = false;
         }
 
-        private void ContentGridColumnSettings()
+        private void ContentGridColumnSettings(AdvancedDataGridView dgv)
         {
-            var dgv = dgvContentItems;
             // установить видимость полей
             var column = dgv.Columns[nameof(ContentDto.Price)];
             if (column != null) column.Visible = false;
@@ -148,14 +169,14 @@ namespace Topol.UseApi
         private void dgvContentItems_SortStringChanged(object sender, EventArgs e)
         {
             ContentItemsBindingSource.Sort = dgvContentItems.SortString;
-            ContentGridColumnSettings();
+            ContentGridColumnSettings(dgvContentItems);
         }
 
         private void dgvContentItems_FilterStringChanged(object sender, EventArgs e)
         {
 
             ContentItemsBindingSource.Filter = dgvContentItems.FilterString;
-            ContentGridColumnSettings();
+            ContentGridColumnSettings(dgvContentItems);
         }
 
         private void dgvPacketItems_SortStringChanged(object sender, EventArgs e)
@@ -170,12 +191,104 @@ namespace Topol.UseApi
             PacketGridColumnSettings();
         }
 
+        private void dgvMaybe_SortStringChanged(object sender, EventArgs e)
+        {
+            MaybeItemsBindingSource.Sort = dgvMaybe.SortString;
+            ContentGridColumnSettings(dgvMaybe);
+        }
+
+        private void dgvMaybe_FilterStringChanged(object sender, EventArgs e)
+        {
+            MaybeItemsBindingSource.Filter = dgvMaybe.FilterString;
+            ContentGridColumnSettings(dgvMaybe);
+        }
+
+        private void dgvOkpd2_SortStringChanged(object sender, EventArgs e)
+        {
+            Okpd2ItemsBindingSource.Sort = dgvOkpd2.SortString;
+        }
+
+        private void dgvOkpd2_FilterStringChanged(object sender, EventArgs e)
+        {
+            Okpd2ItemsBindingSource.Filter = dgvOkpd2.FilterString;
+        }
+
+        private void btnCallMaybe_Click(object sender, EventArgs e)
+        {
+            var mustRows = tbExact.Text.ToLower()
+                .Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            //TODO: change ";" to common constant
+            var must = string.Join(";", mustRows);
+            var shouldRows = tbQuery.Text.ToLower()
+                .Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var should = string.Join(";", shouldRows);
+            var mustNotdRows = tbExclude.Text.ToLower()
+                .Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var mustNot = string.Join(";", mustNotdRows);
+            var source = cbElasticIndexName.SelectedItem as string;
+            SearchMaybe(must, should, mustNot, source);
+        }
+
+        private void btnOkpd2_Click(object sender, EventArgs e)
+        {
+            SearchOkpd2(tbOkpd2.Text.ToLower());
+        }
+
         #endregion //Event handlers
 
+        #region Api calls
+        private async void SearchMaybe(string must, string should, string mustNot, string source)
+        {
+            var contentItems = await _dataManager.GetMaybe(must, should, mustNot, source);
+            if (contentItems != null)
+            {
+                var dt = ConvertToDataTable(contentItems);
+                MaybeItemsBindingSource.DataSource = dt;
+                dgvMaybe.DataSource = MaybeItemsBindingSource;
+                ContentGridColumnSettings(dgvMaybe);
+            }
+            else
+            {
+                MessageBox.Show(@"Ошибка запроса.");
+            }
+        }
 
+        private async void SearchOkpd2(string text)
+        {
+            var contentItems = await _dataManager.GetOkpd2Reverse(text);
+            if (contentItems != null)
+            {
+                var dt = ConvertToDataTable(contentItems);
+                Okpd2ItemsBindingSource.DataSource = dt;
+                dgvOkpd2.DataSource = Okpd2ItemsBindingSource;
+            }
+            else
+            {
+                MessageBox.Show(@"Ошибка запроса.");
+            }
+        }
 
+        private async void SearchPacket(string json)
+        {
+            var dto = JsonConvert.DeserializeObject<List<SearchItemParam>>(json);
+            var searchPacketTaskDto = await _dataManager.PostPacket2(dto, cbElasticIndexName.SelectedItem as string);
+            if (searchPacketTaskDto != null)
+            {
+                SearchPacketTaskStore.Post(searchPacketTaskDto);
+                AddPacketItemsToList(searchPacketTaskDto);
+                if (_bw.IsBusy != true)
+                {
+                    _bw.RunWorkerAsync();
+                }
+            }
+            else
+            {
+                MessageBox.Show(@"Ошибка запроса.");
+            }
+        }
+        #endregion //Api calls
 
-        private void dgvContentItems_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void dgv_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             var dgv = (DataGridView)sender;
             var dataGridViewColumn = dgv.Columns[nameof(ContentDto.Uri)];
@@ -198,24 +311,7 @@ namespace Topol.UseApi
             SearchPacket(tbTruItems.Text);
         }
 
-        private async void SearchPacket(string json)
-        {
-            var dto = JsonConvert.DeserializeObject<List<SearchItemParam>>(json);
-            var searchPacketTaskDto = await _dataManager.PostPacket2(dto, cbElasticIndexName.SelectedItem as string);
-            if (searchPacketTaskDto != null)
-            {
-                SearchPacketTaskStore.Post(searchPacketTaskDto);
-                AddPacketItemsToList(searchPacketTaskDto);
-                if (bw.IsBusy != true)
-                {
-                    bw.RunWorkerAsync();
-                }
-            }
-            else
-            {
-                MessageBox.Show(@"Ошибка запроса.");
-            }
-        }
+
         private async void SearchPacket(List<SearchItemParam> dto)
         {
             var searchPacketTaskDto = await _dataManager.PostPacket2(dto, cbElasticIndexName.SelectedItem as string);
@@ -223,9 +319,9 @@ namespace Topol.UseApi
             {
                 SearchPacketTaskStore.Post(searchPacketTaskDto);
                 AddPacketItemsToList(searchPacketTaskDto);
-                if (bw.IsBusy != true)
+                if (_bw.IsBusy != true)
                 {
-                    bw.RunWorkerAsync();
+                    _bw.RunWorkerAsync();
                 }
             }
             else
@@ -299,7 +395,7 @@ namespace Topol.UseApi
                 var dt = ConvertToDataTable(contentItems);
                 ContentItemsBindingSource.DataSource = dt;
                 dgvContentItems.DataSource = ContentItemsBindingSource;
-                ContentGridColumnSettings();
+                ContentGridColumnSettings(dgvContentItems);
             }
             catch (Exception)
             {

@@ -9,7 +9,7 @@ namespace PricePipeCore
 {
     public class SimpleSearcher
     {
-        public static string[] ListDelimiter = {";"};
+        public static readonly string[] ListDelimiter = {";"};
         private readonly ElasticClient _elasticClient;
         private readonly int _maxTake;
 
@@ -60,8 +60,9 @@ namespace PricePipeCore
         private static List<QueryContainer> GetExactQueryContainer(string text, string[] splitter)
         {
             var queryContainer = new List<QueryContainer>();
-            var exactRows = text.ToLower().Split(splitter, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var row in exactRows)
+            if (text == null) return queryContainer;
+            var rows = text.ToLower().Split(splitter, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var row in rows)
             {
                 if (string.IsNullOrEmpty(row)) continue;
                 queryContainer.Add(Query<Content>

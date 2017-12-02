@@ -95,6 +95,11 @@ namespace Common.Dto.Model
         /// </summary>
         public string Currency { get; set; }
 
+        /// <summary>
+        ///     Варианты цен
+        /// </summary>
+        public string PriceVariants { get; set; }
+
 
         public static ContentDto FromCsv(string csvLine)
         {
@@ -104,10 +109,13 @@ namespace Common.Dto.Model
                 Uri = values[0].Replace("\"", ""),
                 Name = values[1].Replace("\"", ""),
                 Price = values[2].Replace("\"", ""),
-                CollectedAt = Convert.ToInt64(values[8].Replace("\"", ""))
+                CollectedAt = Convert.ToInt64(values[8].Replace("\"", "")),
+                PriceVariants = values[10].Replace("\"", "")
             };
 
             return contentDto;
         }
+
+        
     }
 }
