@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Topol.UseApi.Logic
+namespace Common.Dto
 {
     public static class Md5Logstah
     {

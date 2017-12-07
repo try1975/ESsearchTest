@@ -68,7 +68,6 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Common\IDataManager.cs" />
-    <Compile Include="Logic\Md5Logstah.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -97,7 +96,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Logic\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common.Dto\Common.Dto.csproj">
       <Project>{ed2886fc-f692-44b5-9328-8013183a2402}</Project>

@@ -3,20 +3,24 @@
     public enum TaskStatus
     {
         /// <summary>
+        /// Не инициализирован
+        /// </summary>
+        NotInitialized = 0,
+        /// <summary>
         /// Обработка не начата
         /// </summary>
-        InQueue = 0,
+        InQueue = 1,
         /// <summary>
         /// Ошибка при обработке
         /// </summary>
-        Error = 1,
+        Error = 2,
         /// <summary>
         /// Обработка успешно завершена
         /// </summary>
-        Ok = 2,
+        Ok = 3,
         /// <summary>
         /// 
         /// </summary>
-        InProcess = 3
+        InProcess = 4
     }
 }

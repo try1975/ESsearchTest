@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Web;
 using System.Web.Configuration;
 
@@ -44,6 +45,8 @@ namespace Price.WebApi.Logic
             Screenshotter = Path.Combine(HttpRuntime.AppDomainAppPath, @"SiteShoter\SiteShoter.exe");
             AnalystCon = Path.Combine(HttpRuntime.AppDomainAppPath, @"AnalystCon\AnalystCon.exe");
             //AnalystCon = WebConfigurationManager.AppSettings[nameof(AnalystCon)];
+
+            CashSeconds = Convert.ToInt32(WebConfigurationManager.AppSettings[nameof(CashSeconds)]); 
         }
 
         public static string ElangPath { get; }
@@ -58,5 +61,7 @@ namespace Price.WebApi.Logic
         public static string Screenshotter { get; }
         public static string AnalystCon { get; }
         public static string InternetSearchResultPath { get; set; }
+
+        public static int CashSeconds { get; set; }
     }
 }

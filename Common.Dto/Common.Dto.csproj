@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Md5Logstah.cs" />
+    <Compile Include="Model\BasicContentDto.cs" />
     <Compile Include="SearchPacketTaskStore.cs" />
     <Compile Include="Logic\Utils.cs" />
     <Compile Include="Model\ContentDto.cs" />

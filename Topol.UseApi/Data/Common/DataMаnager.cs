@@ -15,6 +15,7 @@ namespace Topol.UseApi.Data.Common
         private readonly string _endpointPostPacket2;
         private readonly string _endpointMaybe;
         private readonly string _endpointOkpd2;
+        private readonly string _endpointInternet;
         private readonly HttpClient _apiHttpClient;
 
         public DataMаnager()
@@ -27,6 +28,7 @@ namespace Topol.UseApi.Data.Common
             _endpointPostPacket2 = $"{baseApi}api/simpleprice/packet/";
             _endpointMaybe = $"{baseApi}api/simpleprice/maybe/";
             _endpointOkpd2 = $"{baseApi}api/common/okpd2reverse/";
+            _endpointInternet = $"{baseApi}api/internet/";
 
             #endregion
 
@@ -73,6 +75,15 @@ namespace Topol.UseApi.Data.Common
                 if (!response.IsSuccessStatusCode) return null;
                 var result = await response.Content.ReadAsAsync<IEnumerable<Okpd2Reverse>>();
                 return result;
+            }
+        }
+
+        public async Task Post2InternetIndex(IEnumerable<BasicContentDto> list)
+        {
+            using (var response = await _apiHttpClient.PostAsJsonAsync($"{_endpointInternet}", list))
+            {
+                if (!response.IsSuccessStatusCode) return;
+                await response.Content.ReadAsAsync<SearchPacketTaskDto>();
             }
         }
     }

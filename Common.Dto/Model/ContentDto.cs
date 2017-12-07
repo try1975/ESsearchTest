@@ -1,8 +1,17 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Common.Dto.Model
 {
+
+    public enum PriceType
+    {
+        
+        Check,
+        Trusted
+    }
+
     /// <summary>
     ///     Результат поиска
     /// </summary>
@@ -11,6 +20,9 @@ namespace Common.Dto.Model
 
         [JsonIgnore]
         public bool Selected { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public PriceType PriceType { get; set; }
 
         /// <summary>
         ///     Наименование позиции

@@ -123,7 +123,7 @@ namespace Price.WebApi.Controllers
                 if (SkipSearch(searchItemDto, processedAt)) continue;
                 PacketItemSeacher.Search(searchItem, searchItemDto);
             }
-            searchPacketTaskDto.UpdateStatistics();
+            searchPacketTaskDto.UpdateStatistics(AppGlobal.CashSeconds);
             return searchPacketTaskDto;
         }
 
@@ -159,15 +159,17 @@ namespace Price.WebApi.Controllers
                 var searchItemDto = GetSearchItemDto(searchItem, searchPacketTaskDto);
                 searchPacketTaskDto.SearchItems.Add(searchItemDto);
                 SkipSearch(searchItemDto, processedAt);
+                if (searchItemDto.Status == TaskStatus.NotInitialized) searchItemDto.Status = TaskStatus.InQueue;
             }
-            searchPacketTaskDto.UpdateStatistics();
+            searchPacketTaskDto.UpdateStatistics(AppGlobal.CashSeconds);
 
             return Request.CreateResponse(HttpStatusCode.OK, searchPacketTaskDto);
         }
 
         private static bool SkipSearch(SearchItemDto searchItemDto, long processedAt)
         {
-            if (searchItemDto.ProcessedAt != null && processedAt - searchItemDto.ProcessedAt > 86400)
+            //if (searchItemDto.ProcessedAt != null && processedAt - searchItemDto.ProcessedAt > 86400)
+            if (searchItemDto.ProcessedAt != null && processedAt - searchItemDto.ProcessedAt > AppGlobal.CashSeconds)
             {
                 searchItemDto.ProcessedAt = null;
                 searchItemDto.Status = TaskStatus.InQueue;

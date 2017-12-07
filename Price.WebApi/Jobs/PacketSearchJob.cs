@@ -4,6 +4,7 @@ using System.Linq;
 using Common.Dto;
 using Common.Dto.Logic;
 using Common.Dto.Model.Packet;
+using Price.WebApi.Logic;
 using Price.WebApi.Logic.Packet;
 using Quartz;
 
@@ -37,7 +38,7 @@ namespace Price.WebApi.Jobs
             var tasks = SearchPacketTaskStore.Dictionary.Values.Where(z => z.ProcessedAt == null).ToList();
             foreach (var searchPacketTaskDto in tasks)
             {
-                searchPacketTaskDto.UpdateStatistics();
+                searchPacketTaskDto.UpdateStatistics(AppGlobal.CashSeconds);
             }
         }
     }

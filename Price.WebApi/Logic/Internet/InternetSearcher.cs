@@ -24,19 +24,37 @@ namespace Price.WebApi.Logic.Internet
             try
             {
                 var inpFileFullPath = Path.Combine(AppGlobal.InternetSearchResultPath, $"_{searchItemDto.Key}.json");
-                var list = new List<SearchItemParam>() { searchItem };
+                var list = new List<SearchItemParam> { searchItem };
                 File.WriteAllText(inpFileFullPath, JsonConvert.SerializeObject(list));
                 // save searchItem to json file
                 var outFileFullPath = Path.Combine(AppGlobal.InternetSearchResultPath, $"_{searchItemDto.Key}.csv");
                 // check if file exists and not old
-                var dedlineTime = DateTime.Now.AddMinutes(-60);
-                if (File.Exists(outFileFullPath) && File.GetLastWriteTime(outFileFullPath) >= dedlineTime)
+                var dedlineTime = DateTime.Now.AddSeconds(-1000);
+                if (File.Exists(outFileFullPath))
                 {
-                    searchItemDto.Content = File.ReadAllLines(outFileFullPath, Encoding.Default)
-                        .Select(ContentDto.FromCsv)
-                        .ToList();
-                    Logger.Log.Info($"{AppGlobal.AnalystCon} do not start");
-                    return;
+                    if (File.GetLastWriteTime(outFileFullPath) >= dedlineTime)
+                    {
+                        var listContentDto = File.ReadAllLines(outFileFullPath, Encoding.Default)
+                            .Select(ContentDto.FromCsv)
+                            .ToList();
+                        if (searchItemDto.Content == null)
+                        {
+                            searchItemDto.Content = listContentDto;
+                        }
+                        else
+                        {
+                            searchItemDto.Content = searchItemDto.Content.Where(z => z.PriceType == PriceType.Trusted);
+                            searchItemDto.Content = searchItemDto.Content.Concat(listContentDto);
+                        }
+                        //searchItemDto.ProcessedAt = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+                        //searchItemDto.Status = TaskStatus.Ok;
+                        Logger.Log.Info($"{AppGlobal.AnalystCon} do not start");
+                        return;
+                    }
+                    //else
+                    //{
+                    //    File.Delete(outFileFullPath);
+                    //}
                 }
                 var arguments = $"-inp:\"{inpFileFullPath}\" -out:\"{outFileFullPath}\" -debug_log";
                 Logger.Log.Info($"{AppGlobal.AnalystCon}");

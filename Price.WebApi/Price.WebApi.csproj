@@ -62,6 +62,10 @@
       <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Elasticsearch.Net, Version=6.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elasticsearch.Net.6.0.0-alpha1\lib\net45\Elasticsearch.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -69,6 +73,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nest, Version=6.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NEST.6.0.0-alpha1\lib\net45\Nest.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -203,8 +211,10 @@
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\FetcheeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InternetController.cs" />
     <Compile Include="Controllers\PharmacyController.cs" />
     <Compile Include="Controllers\SimplePriceController.cs" />
+    <Compile Include="Controllers\XpathController.cs" />
     <Compile Include="GetFiles\GetFile.ashx.cs">
       <DependentUpon>GetFile.ashx</DependentUpon>
     </Compile>
@@ -231,6 +241,8 @@
     <Compile Include="Logic\UpdatePrice\UpdatePriceTaskStore.cs" />
     <Compile Include="Logic\UpdatePrice\UpdatePriceWatcher.cs" />
     <Compile Include="Logic\StateFiles.cs" />
+    <Compile Include="Models\Xpath\XPathDto.cs" />
+    <Compile Include="Logic\Xpath\XPathStore.cs" />
     <Compile Include="Models\UpdatePrice\UpdatePriceTaskDto.cs" />
     <Compile Include="Models\UpdatePrice\UpdatePriceDto.cs" />
     <Compile Include="Ninject\Configurator.cs" />

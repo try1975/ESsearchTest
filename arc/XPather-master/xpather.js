@@ -208,7 +208,7 @@ function toggleSidebar() {
 	if ($xpather.is(':visible')) {
 		
 		/*var url = "https://localhost/Chrome.XPathApi/api/values/";*/
-		var url="https://144.76.54.166:44300/api/values/";
+		var url="https://144.76.54.166:44300/api/xpath/";
 		$.ajax({
 			type: 'GET',
 			url: url,  //url адрес файла обработчика
@@ -525,12 +525,14 @@ if (isDocumentValid) {
 		}
 
 		/*var url = "https://localhost/Chrome.XPathApi/api/values/";*/
-		var url="https://144.76.54.166:44300/api/values/";
+		var url="https://144.76.54.166:44300/api/xpath/";
 		var data = {};
 
 		data["XPathName"] = $xpathNameInput.val();
 		data["XPathPrice"] = $xpathPriceInput.val();
-		data["XPathUrl"] = window.location.href;
+		data["Uri"] = window.location.href;
+		data["Name"] = $xpathNameResult.val();
+		data["Price"] = $xpathPriceResult.val();
 
 		$.ajax({
 			type: "POST",

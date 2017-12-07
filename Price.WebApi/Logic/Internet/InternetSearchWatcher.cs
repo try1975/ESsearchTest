@@ -55,8 +55,17 @@ namespace Price.WebApi.Logic.Internet
                 var searchItemDtoKey = $"{RegexObj.Match(e.FullPath).Groups[1].Value}";
                 var searchItemDto = SearchItemStore.Dictionary.Values.FirstOrDefault(z => z.Key.Equals(searchItemDtoKey, StringComparison.OrdinalIgnoreCase) && z.Status == TaskStatus.InProcess);
 
-                if (searchItemDto==null) return;
-                searchItemDto.Content = ReadContentDtosFromFile(e.FullPath);
+                if (searchItemDto == null) return;
+                var listContentDto = ReadContentDtosFromFile(e.FullPath);
+                if (searchItemDto.Content == null)
+                {
+                    searchItemDto.Content = listContentDto;
+                }
+                else
+                {
+                    searchItemDto.Content = searchItemDto.Content.Where(z => z.PriceType == PriceType.Trusted);
+                    searchItemDto.Content = searchItemDto.Content.Concat(listContentDto);
+                }
             }
             catch (ArgumentException exception)
             {
@@ -70,10 +79,10 @@ namespace Price.WebApi.Logic.Internet
             // read from scv to list
             try
             {
-               list =  File.ReadAllLines(fullPath, Encoding.Default)
-                    //.Skip(1)
-                    .Select(ContentDto.FromCsv)
-                    .ToList();
+                list = File.ReadAllLines(fullPath, Encoding.Default)
+                     //.Skip(1)
+                     .Select(ContentDto.FromCsv)
+                     .ToList();
             }
             catch (Exception e)
             {

@@ -60,7 +60,6 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="ElacticIndexName.cs" />
     <Compile Include="ElasticClientFactory.cs" />
-    <Compile Include="Md5Logstah.cs" />
     <Compile Include="Okpd2ReverseSeacher.cs" />
     <Compile Include="PharmacySearcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

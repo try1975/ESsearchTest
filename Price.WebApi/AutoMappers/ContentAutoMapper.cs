@@ -1,5 +1,6 @@
 ﻿using AutoMapper.Configuration;
 using Common.Dto.Model;
+using Price.WebApi.Models.Xpath;
 using PriceCommon.Model;
 
 namespace Price.WebApi.AutoMappers
@@ -11,6 +12,10 @@ namespace Price.WebApi.AutoMappers
             cfg.CreateMap<Content, ContentDto>()
                 ;
             cfg.CreateMap<ContentDto, Content>()
+                ;
+            cfg.CreateMap<ContentDto, XPathDto>()
+                ;
+            cfg.CreateMap<XPathDto, ContentDto>()
                 ;
         }
     }
