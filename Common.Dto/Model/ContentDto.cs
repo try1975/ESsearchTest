@@ -7,7 +7,7 @@ namespace Common.Dto.Model
 
     public enum PriceType
     {
-        
+
         Check,
         Trusted
     }
@@ -23,6 +23,7 @@ namespace Common.Dto.Model
 
         [JsonConverter(typeof(StringEnumConverter))]
         public PriceType PriceType { get; set; }
+        //public string PriceType { get; set; }
 
         /// <summary>
         ///     Наименование позиции
@@ -124,6 +125,7 @@ namespace Common.Dto.Model
                 CollectedAt = Convert.ToInt64(values[8].Replace("\"", "")),
                 PriceVariants = values[10].Replace("\"", "")
             };
+            contentDto.Id = Md5Logstah.GetDefaultId(contentDto.Uri, contentDto.Name);
 
             return contentDto;
         }

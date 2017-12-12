@@ -91,7 +91,8 @@ namespace Price.WebApi.Controllers
         [ResponseType(typeof(SearchPacketTaskDto))]
         public IHttpActionResult GetPacket2(string id)
         {
-            return Ok(SearchPacketTaskStore.Get(id));
+            var dto = SearchPacketTaskStore.Get(id);
+            return Ok(dto);
         }
 
         /// <summary>
@@ -101,8 +102,8 @@ namespace Price.WebApi.Controllers
         /// <param name="source">Источник, в котором осуществляется поиск (пусто - источник по умолчанию, gz - госзакупки)</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("packet_sync", Name = nameof(PostPacket) + "Route")]
-        public SearchPacketTaskDto PostPacket(List<SearchItemParam> searchItemsParam, [FromUri]string source = "")
+        [Route("packet_sync", Name = nameof(PostPacketSync) + "Route")]
+        public SearchPacketTaskDto PostPacketSync(List<SearchItemParam> searchItemsParam, [FromUri]string source = "")
         {
             #region check input parameter
 
@@ -111,19 +112,17 @@ namespace Price.WebApi.Controllers
 
             #endregion
 
-            Logger.Log.Info($"{nameof(PostPacket)}: {JsonConvert.SerializeObject(searchItemsParam)}");
+            Logger.Log.Info($"{nameof(PostPacketSync)}: {JsonConvert.SerializeObject(searchItemsParam)}");
 
-            var processedAt = Utils.GetUtcNow();
             var searchPacketTaskDto = GetSearchPacketTaskDto(source, searchItemsParam.Count);
-
             foreach (var searchItem in searchItemsParam)
             {
                 var searchItemDto = GetSearchItemDto(searchItem, searchPacketTaskDto);
                 searchPacketTaskDto.SearchItems.Add(searchItemDto);
-                if (SkipSearch(searchItemDto, processedAt)) continue;
+                if (SkipSearch(searchItemDto)) continue;
                 PacketItemSeacher.Search(searchItem, searchItemDto);
             }
-            searchPacketTaskDto.UpdateStatistics(AppGlobal.CashSeconds);
+            searchPacketTaskDto.UpdateStatistics(AppGlobal.WaitUpdateSeconds);
             return searchPacketTaskDto;
         }
 
@@ -134,9 +133,9 @@ namespace Price.WebApi.Controllers
         /// <param name="source">Источник, в котором осуществляется поиск (пусто - источник по умолчанию, gz - госзакупки)</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("packet", Name = nameof(PostPacket2) + "Route")]
+        [Route("packet", Name = nameof(PostPacketAsync) + "Route")]
         [ResponseType(typeof(SearchPacketTaskDto))]
-        public HttpResponseMessage PostPacket2(List<SearchItemParam> searchItemsParam, [FromUri] string source = "")
+        public HttpResponseMessage PostPacketAsync(List<SearchItemParam> searchItemsParam, [FromUri] string source = "")
         {
             #region check input parameter
 
@@ -149,31 +148,24 @@ namespace Price.WebApi.Controllers
 
             #endregion
 
-            Logger.Log.Info($"{nameof(PostPacket2)}: {JsonConvert.SerializeObject(searchItemsParam)}");
+            Logger.Log.Info($"{nameof(PostPacketAsync)}: {JsonConvert.SerializeObject(searchItemsParam)}");
 
-            var processedAt = Utils.GetUtcNow();
             var searchPacketTaskDto = GetSearchPacketTaskDto(source, searchItemsParam.Count);
-
             foreach (var searchItem in searchItemsParam)
             {
                 var searchItemDto = GetSearchItemDto(searchItem, searchPacketTaskDto);
                 searchPacketTaskDto.SearchItems.Add(searchItemDto);
-                SkipSearch(searchItemDto, processedAt);
-                if (searchItemDto.Status == TaskStatus.NotInitialized) searchItemDto.Status = TaskStatus.InQueue;
+                SkipSearch(searchItemDto);
+                //if (searchItemDto.Status == TaskStatus.NotInitialized) searchItemDto.SetInQueue();
             }
-            searchPacketTaskDto.UpdateStatistics(AppGlobal.CashSeconds);
+            searchPacketTaskDto.UpdateStatistics(AppGlobal.WaitUpdateSeconds);
 
             return Request.CreateResponse(HttpStatusCode.OK, searchPacketTaskDto);
         }
 
-        private static bool SkipSearch(SearchItemDto searchItemDto, long processedAt)
+        private static bool SkipSearch(SearchItemDto searchItemDto)
         {
-            //if (searchItemDto.ProcessedAt != null && processedAt - searchItemDto.ProcessedAt > 86400)
-            if (searchItemDto.ProcessedAt != null && processedAt - searchItemDto.ProcessedAt > AppGlobal.CashSeconds)
-            {
-                searchItemDto.ProcessedAt = null;
-                searchItemDto.Status = TaskStatus.InQueue;
-            }
+            if (!searchItemDto.InCash(AppGlobal.CashSeconds)) searchItemDto.SetInQueue();
             return searchItemDto.ProcessedAt != null;
         }
 

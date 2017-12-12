@@ -29,9 +29,9 @@ namespace Price.WebApi.Logic.Internet
                 // save searchItem to json file
                 var outFileFullPath = Path.Combine(AppGlobal.InternetSearchResultPath, $"_{searchItemDto.Key}.csv");
                 // check if file exists and not old
-                var dedlineTime = DateTime.Now.AddSeconds(-1000);
                 if (File.Exists(outFileFullPath))
                 {
+                    var dedlineTime = DateTime.Now.AddSeconds(-AppGlobal.WaitUpdateSeconds);
                     if (File.GetLastWriteTime(outFileFullPath) >= dedlineTime)
                     {
                         var listContentDto = File.ReadAllLines(outFileFullPath, Encoding.Default)
@@ -39,26 +39,23 @@ namespace Price.WebApi.Logic.Internet
                             .ToList();
                         if (searchItemDto.Content == null)
                         {
-                            searchItemDto.Content = listContentDto;
+                            searchItemDto.SetContent(listContentDto);
                         }
                         else
                         {
-                            searchItemDto.Content = searchItemDto.Content.Where(z => z.PriceType == PriceType.Trusted);
-                            searchItemDto.Content = searchItemDto.Content.Concat(listContentDto);
+                            searchItemDto.SetContent(searchItemDto.Content.Where(z => z.PriceType == PriceType.Trusted));
+                            searchItemDto.SetContent(searchItemDto.Content.Concat(listContentDto));
                         }
-                        //searchItemDto.ProcessedAt = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-                        //searchItemDto.Status = TaskStatus.Ok;
                         Logger.Log.Info($"{AppGlobal.AnalystCon} do not start");
                         return;
                     }
-                    //else
-                    //{
-                    //    File.Delete(outFileFullPath);
-                    //}
+                    File.Delete(outFileFullPath);
+
                 }
                 var arguments = $"-inp:\"{inpFileFullPath}\" -out:\"{outFileFullPath}\" -debug_log";
                 Logger.Log.Info($"{AppGlobal.AnalystCon}");
                 Logger.Log.Info($"{arguments}");
+                Debug.WriteLine($"{arguments}");
                 Process.Start(AppGlobal.AnalystCon, arguments);
                 Logger.Log.Info("Process.Start called.");
             }

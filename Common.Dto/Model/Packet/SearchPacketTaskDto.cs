@@ -37,29 +37,28 @@ namespace Common.Dto.Model.Packet
         /// <summary>
         /// 
         /// </summary>
-        public void UpdateStatistics(int cashSeconds, int recordCount=60)
+        public void UpdateStatistics(int cashSeconds, int recordCount = 200)
         {
             //if (Source.ToLower().Contains("internet") && ProcessedAt == null)
             //{
-                foreach (var searchItem in SearchItems)
+            foreach (var searchItem in SearchItems)
+            {
+                if (searchItem.Status != TaskStatus.InProcess) continue;
+                //var span = Utils.GetUtcNow() - searchItem.StartProcessed;
+                var span = Utils.GetUtcNow() - searchItem.LastUpdate;
+                if (span >= cashSeconds)
                 {
-                    if (searchItem.Status != TaskStatus.InProcess) continue;
-                    var span = Utils.GetUtcNow() - searchItem.StartProcessed;
-                    if (span >= cashSeconds)
-                    {
-                        searchItem.ProcessedAt = Utils.GetUtcNow();
-                        searchItem.Status = TaskStatus.Ok;
-                        continue;
-                    }
-                    if (searchItem.Content == null) continue;
-                    var cnt = searchItem.Content.Count();
-                    if (cnt == 0) continue;
-                    if (cnt >= recordCount)
-                    {
-                        searchItem.ProcessedAt = Utils.GetUtcNow();
-                        searchItem.Status = TaskStatus.Ok;
-                    }
+                    searchItem.SuccessEndProcess(Utils.GetUtcNow());
+                    continue;
                 }
+                if (searchItem.Content == null) continue;
+                var cnt = searchItem.Content.Count();
+                if (cnt == 0) continue;
+                if (cnt >= recordCount)
+                {
+                    searchItem.SuccessEndProcess(Utils.GetUtcNow());
+                }
+            }
             //}
             TotalCount = SearchItems.Count;
             ProcessedCount = SearchItems.Count(z => z.ProcessedAt != null);

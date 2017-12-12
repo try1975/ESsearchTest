@@ -25,20 +25,23 @@ namespace Price.WebApi.Jobs
 
             #endregion
 
-            Debug.WriteLine($"{nameof(PacketSearchJob)}---{DateTime.Now}----------------------------------------------");
+            Debug.WriteLine($"Job start---{DateTime.Now}", $"{nameof(PacketSearchJob)}");
 
             var searchItemDtos = SearchItemStore.Dictionary.Values.Where(z => z.Status == TaskStatus.InQueue).ToList();
             foreach (var searchItemDto in searchItemDtos)
             {
-                searchItemDto.StartProcessed = Utils.GetUtcNow();
-                searchItemDto.Status = TaskStatus.InProcess;
-                Debug.WriteLine($"{searchItemDto.Id}--------------------------------------------------------------------");
+                searchItemDto.BeginProcess(Utils.GetUtcNow());
+                Debug.WriteLine($"Mark {searchItemDto.Id}", $"{nameof(PacketSearchJob)}");
+            }
+            foreach (var searchItemDto in searchItemDtos)
+            {
+                Debug.WriteLine($"Search {searchItemDto.Id}", $"{nameof(PacketSearchJob)}");
                 PacketItemSeacher.Search(searchItemDto.SearchItem, searchItemDto);
             }
             var tasks = SearchPacketTaskStore.Dictionary.Values.Where(z => z.ProcessedAt == null).ToList();
             foreach (var searchPacketTaskDto in tasks)
             {
-                searchPacketTaskDto.UpdateStatistics(AppGlobal.CashSeconds);
+                searchPacketTaskDto.UpdateStatistics(AppGlobal.WaitUpdateSeconds);
             }
         }
     }

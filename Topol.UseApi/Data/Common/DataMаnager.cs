@@ -12,7 +12,7 @@ namespace Topol.UseApi.Data.Common
 {
     public class DataMаnager : IDataMаnager
     {
-        private readonly string _endpointPostPacket2;
+        private readonly string _endpointPostPacketAsync;
         private readonly string _endpointMaybe;
         private readonly string _endpointOkpd2;
         private readonly string _endpointInternet;
@@ -25,7 +25,7 @@ namespace Topol.UseApi.Data.Common
             var baseApi = ConfigurationManager.AppSettings["BaseApi"];
             var token = ConfigurationManager.AppSettings["ExternalToken"];
 
-            _endpointPostPacket2 = $"{baseApi}api/simpleprice/packet/";
+            _endpointPostPacketAsync = $"{baseApi}api/simpleprice/packet/";
             _endpointMaybe = $"{baseApi}api/simpleprice/maybe/";
             _endpointOkpd2 = $"{baseApi}api/common/okpd2reverse/";
             _endpointInternet = $"{baseApi}api/internet/";
@@ -38,9 +38,9 @@ namespace Topol.UseApi.Data.Common
             _apiHttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(token);
         }
 
-        public async Task<SearchPacketTaskDto> PostPacket2(List<SearchItemParam> searchItemsParam, string source = "")
+        public async Task<SearchPacketTaskDto> PostPacketAsync(List<SearchItemParam> searchItemsParam, string source = "")
         {
-            using (var response = await _apiHttpClient.PostAsJsonAsync($"{_endpointPostPacket2}?source={source}", searchItemsParam))
+            using (var response = await _apiHttpClient.PostAsJsonAsync($"{_endpointPostPacketAsync}?source={source}", searchItemsParam))
             {
                 if (!response.IsSuccessStatusCode) return null;
                 var result = await response.Content.ReadAsAsync<SearchPacketTaskDto>();
@@ -50,7 +50,7 @@ namespace Topol.UseApi.Data.Common
 
         public async Task<SearchPacketTaskDto> GetPacketStatus(string id, string source = "")
         {
-            using (var response = await _apiHttpClient.GetAsync($"{_endpointPostPacket2}{id}/?source={source}"))
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointPostPacketAsync}{id}/?source={source}"))
             {
                 if (!response.IsSuccessStatusCode) return null;
                 var result = await response.Content.ReadAsAsync<SearchPacketTaskDto>();

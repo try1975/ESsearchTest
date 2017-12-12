@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net;
 using System.Web.Http;
 using Common.Dto.Model;
 using PricePipeCore;
@@ -14,7 +12,6 @@ namespace Price.WebApi.Controllers
     {
         public IHttpActionResult Post(IEnumerable<BasicContentDto> dtos)
         {
-            //TODO:записать в базу эластика напрямую md_internet
             var success = true;
             var elasticClient = ElasticClientFactory.GetElasticClient("md_internet");
             foreach (var dto in dtos)

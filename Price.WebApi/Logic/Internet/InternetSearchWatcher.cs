@@ -5,14 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Common.Dto.Logic;
 using Common.Dto.Model;
 using Common.Dto.Model.Packet;
-using Price.WebApi.GetFiles;
 using Price.WebApi.Logic.Interfaces;
 using Price.WebApi.Logic.Packet;
-using Price.WebApi.Logic.UpdatePrice;
-using Price.WebApi.Models.UpdatePrice;
 
 namespace Price.WebApi.Logic.Internet
 {
@@ -59,12 +55,12 @@ namespace Price.WebApi.Logic.Internet
                 var listContentDto = ReadContentDtosFromFile(e.FullPath);
                 if (searchItemDto.Content == null)
                 {
-                    searchItemDto.Content = listContentDto;
+                    searchItemDto.SetContent(listContentDto);
                 }
                 else
                 {
-                    searchItemDto.Content = searchItemDto.Content.Where(z => z.PriceType == PriceType.Trusted);
-                    searchItemDto.Content = searchItemDto.Content.Concat(listContentDto);
+                    searchItemDto.SetContent(searchItemDto.Content.Where(z => z.PriceType == PriceType.Trusted));
+                    searchItemDto.SetContent(searchItemDto.Content.Concat(listContentDto));
                 }
             }
             catch (ArgumentException exception)

@@ -46,7 +46,8 @@ namespace Price.WebApi.Logic
             AnalystCon = Path.Combine(HttpRuntime.AppDomainAppPath, @"AnalystCon\AnalystCon.exe");
             //AnalystCon = WebConfigurationManager.AppSettings[nameof(AnalystCon)];
 
-            CashSeconds = Convert.ToInt32(WebConfigurationManager.AppSettings[nameof(CashSeconds)]); 
+            CashSeconds = Convert.ToInt32(WebConfigurationManager.AppSettings[nameof(CashSeconds)]);
+            WaitUpdateSeconds = Convert.ToInt32(WebConfigurationManager.AppSettings[nameof(WaitUpdateSeconds)]);
         }
 
         public static string ElangPath { get; }
@@ -63,5 +64,6 @@ namespace Price.WebApi.Logic
         public static string InternetSearchResultPath { get; set; }
 
         public static int CashSeconds { get; set; }
+        public static int WaitUpdateSeconds { get; set; }
     }
 }

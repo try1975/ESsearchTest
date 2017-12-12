@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using AutoMapper;
+using Common.Dto.Logic;
 using Common.Dto.Model;
 using Common.Dto.Model.Packet;
 using Norm.MedPrep;
@@ -125,26 +126,14 @@ namespace Price.WebApi.Logic.Packet
                     {
                         dto.PriceType = PriceType.Trusted;
                     }
-                    if (searchItemDto.Content == null)
-                    {
-                        searchItemDto.Content = listContentDto;
-                    }
-                    else
-                    {
-                        searchItemDto.Content = searchItemDto.Content.Concat(listContentDto);
-                    }
-                    if (sources.Length == 1)
-                    {
-                        searchItemDto.ProcessedAt = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-                        searchItemDto.Status = TaskStatus.Ok;
-                    }
+                    searchItemDto.SetContent(searchItemDto.Content?.Concat(listContentDto) ?? listContentDto);
+                    if (sources.Length == 1) searchItemDto.SuccessEndProcess(Utils.GetUtcNow());
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine(e);
                     Logger.Log.Error($"{e}");
-                    searchItemDto.ProcessedAt = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-                    searchItemDto.Status = TaskStatus.Error;
+                    searchItemDto.ErrorEndProcess(Utils.GetUtcNow());
                 }
             }
         }

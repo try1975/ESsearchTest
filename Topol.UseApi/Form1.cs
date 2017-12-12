@@ -20,6 +20,8 @@ namespace Topol.UseApi
     {
         private readonly DataMаnager _dataManager;
         private readonly List<SearchItemDto> _listSearchItem = new List<SearchItemDto>();
+        private DataTable _datatableSearchItem;
+
 
         private bool EnableResultButtons
         {
@@ -355,7 +357,7 @@ namespace Topol.UseApi
         private async void SearchPacket(string json)
         {
             var dto = JsonConvert.DeserializeObject<List<SearchItemParam>>(json);
-            var searchPacketTaskDto = await _dataManager.PostPacket2(dto, cmbElasticIndexName.SelectedItem as string);
+            var searchPacketTaskDto = await _dataManager.PostPacketAsync(dto, cmbElasticIndexName.SelectedItem as string);
             if (searchPacketTaskDto != null)
             {
                 SearchPacketTaskStore.Post(searchPacketTaskDto);
@@ -403,7 +405,7 @@ namespace Topol.UseApi
 
         private async void SearchPacket(List<SearchItemParam> dto)
         {
-            var searchPacketTaskDto = await _dataManager.PostPacket2(dto, cmbElasticIndexName.SelectedItem as string);
+            var searchPacketTaskDto = await _dataManager.PostPacketAsync(dto, cmbElasticIndexName.SelectedItem as string);
             if (searchPacketTaskDto != null)
             {
                 SearchPacketTaskStore.Post(searchPacketTaskDto);
@@ -431,13 +433,13 @@ namespace Topol.UseApi
                 }
                 else
                 {
-                    if (item.Status == searchItemDto.Status) continue;
+                    //if (item.Status == searchItemDto.Status) continue;
                     var idx = _listSearchItem.IndexOf(item);
                     _listSearchItem.Remove(item);
                     AddSeacrhItemToList(searchPacketTaskDto, searchItemDto, idx);
                 }
             }
-            List2Grid();
+            List2Grid(ref _datatableSearchItem);
         }
 
         private void AddSeacrhItemToList(SearchPacketTaskDto searchPacketTaskDto, SearchItemDto searchItemDto, int index = 0)
@@ -448,12 +450,45 @@ namespace Topol.UseApi
             //_listSearchItem.Insert(index, searchItemDto);
         }
 
-        private void List2Grid()
+        private void List2Grid(ref DataTable dataTable)
         {
-            var dt = ConvertToDataTable(_listSearchItem);
-            PacketItemsBindingSource.DataSource = dt;
-            dgvPacketItems.DataSource = PacketItemsBindingSource;
-            PacketGridColumnSettings();
+            if (dataTable == null)
+            {
+                dataTable = ConvertToDataTable(_listSearchItem);
+                PacketItemsBindingSource.DataSource = dataTable;
+                dgvPacketItems.DataSource = PacketItemsBindingSource;
+                PacketGridColumnSettings();
+            }
+            else
+            {
+                var properties = TypeDescriptor.GetProperties(typeof(SearchItemDto));
+                foreach (var searchItemDto in _listSearchItem)
+                {
+                    var foundRows = dataTable.Select($"{nameof(searchItemDto.Key)}='{searchItemDto.Key}'");
+                    if (foundRows.Any())
+                    {
+                        foreach (var dataRow in foundRows)
+                        {
+                            dataRow.SetField(nameof(searchItemDto.StartProcessed), searchItemDto.StartProcessed);
+                            dataRow.SetField(nameof(searchItemDto.LastUpdate), searchItemDto.LastUpdate);
+                            dataRow.SetField(nameof(searchItemDto.ProcessedAt), searchItemDto.ProcessedAt);
+                            dataRow.SetField(nameof(searchItemDto.Status), searchItemDto.Status);
+                            dataRow.SetField(nameof(searchItemDto.ContentCount), searchItemDto.ContentCount);
+                        }
+                    }
+                    else
+                    {
+                        var row = dataTable.NewRow();
+                        foreach (PropertyDescriptor prop in properties)
+                            row[prop.Name] = prop.GetValue(searchItemDto) ?? DBNull.Value;
+                        dataTable.Rows.Add(row);
+                    }
+                }
+                //    var dt = ConvertToDataTable(_listSearchItem);
+                //PacketItemsBindingSource.DataSource = dt;
+                //dgvPacketItems.DataSource = PacketItemsBindingSource;
+                //PacketItemsBindingSource.ResetBindings(metadataChanged: false);
+            }
         }
 
         private static DataTable ConvertToDataTable<T>(IEnumerable<T> data)

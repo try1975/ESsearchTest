@@ -10,7 +10,7 @@ namespace Topol.UseApi.Interfaces.Common
     {
         #region SearchPacket
 
-        Task<SearchPacketTaskDto> PostPacket2(List<SearchItemParam> searchItemsParam, string source = "");
+        Task<SearchPacketTaskDto> PostPacketAsync(List<SearchItemParam> searchItemsParam, string source = "");
         Task<SearchPacketTaskDto> GetPacketStatus(string id, string source = "");
 
         Task<IEnumerable<ContentDto>> GetMaybe(string must = "", string should = "", string mustNot = "", string source = "");
