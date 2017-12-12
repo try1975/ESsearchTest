@@ -23,7 +23,9 @@ namespace Common.Dto.Model
 
         [JsonConverter(typeof(StringEnumConverter))]
         public PriceType PriceType { get; set; }
-        //public string PriceType { get; set; }
+
+        [JsonIgnore]
+        public string PriceTypeRus => PriceType == PriceType.Check ? "Проверять" : "Доверять";
 
         /// <summary>
         ///     Наименование позиции

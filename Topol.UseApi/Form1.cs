@@ -138,6 +138,8 @@ namespace Topol.UseApi
             if (column != null) column.Visible = false;
             column = dgv.Columns[nameof(ContentDto.CollectedAt)];
             if (column != null) column.Visible = false;
+            column = dgv.Columns[nameof(ContentDto.PriceType)];
+            if (column != null) column.Visible = false;
 
             column = dgv.Columns[nameof(ContentDto.Selected)];
             if (column != null)
@@ -147,16 +149,16 @@ namespace Topol.UseApi
                 column.Width = 60;
                 column.DisplayIndex = 1;
             }
-
-            column = dgv.Columns[nameof(ContentDto.PriceType)];
+            column = dgv.Columns[nameof(ContentDto.PriceTypeRus)];
             if (column != null)
             {
                 column.SortMode = DataGridViewColumnSortMode.Automatic;
                 column.HeaderText = @"Тип цены";
                 column.Width = 60;
+                column.ReadOnly = true;
                 column.DisplayIndex = 2;
+                column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-
             column = dgv.Columns[nameof(ContentDto.Name)];
             if (column != null)
             {
@@ -174,19 +176,26 @@ namespace Topol.UseApi
                 column.DefaultCellStyle.Format = "N2";
                 column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             }
+            column = dgv.Columns[nameof(ContentDto.PriceVariants)];
+            if (column != null)
+            {
+                column.HeaderText = @"Варианты цены";
+                column.ReadOnly = true;
+                column.DisplayIndex = 5;
+            }
             column = dgv.Columns[nameof(ContentDto.Uri)];
             if (column != null)
             {
                 column.Width = 500;
                 column.HeaderText = @"Ссылка на ТРУ";
                 column.ReadOnly = true;
-                column.DisplayIndex = 5;
+                column.DisplayIndex = 6;
             }
             column = dgv.Columns[nameof(ContentDto.Collected)];
             if (column != null)
             {
                 column.HeaderText = @"Дата";
-                column.DisplayIndex = 6;
+                column.DisplayIndex = 7;
             }
         }
 
