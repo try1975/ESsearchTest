@@ -221,9 +221,11 @@ function toggleSidebar() {
 				$xpathPriceInput.change();
 			},
 			error: function (data) {
-				alert('Ошибка. Данные от сервера не получены.');
+				alert('Ошибка. Данные от сервера не получены '+ data.status +'.');
 			}
 		});
+
+		
 
 		$sidebarToggler.toggleClass('xpather-sidebar-toggler-active');
 		$sidebar.toggle();

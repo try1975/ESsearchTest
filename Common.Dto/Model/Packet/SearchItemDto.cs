@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Common.Dto.Logic;
 using Newtonsoft.Json;
@@ -34,6 +35,34 @@ namespace Common.Dto.Model.Packet
         public long? LastUpdate { get; set; }
         public long? ProcessedAt { get; set; }
 
+        [JsonIgnore]
+        public DateTime? StartProcessedDateTime
+        {
+            get
+            {
+                var unixTimeStamp = StartProcessed ?? 0;
+                return Utils.UnixTimeStampToDateTime(unixTimeStamp);
+            }
+        }
+        [JsonIgnore]
+        public DateTime? LastUpdateDateTime
+        {
+            get
+            {
+                var unixTimeStamp = LastUpdate ?? 0;
+                return Utils.UnixTimeStampToDateTime(unixTimeStamp);
+            }
+        }
+        [JsonIgnore]
+        public DateTime? ProcessedAtDateTime
+        {
+            get
+            {
+                var unixTimeStamp = ProcessedAt ?? 0;
+                return Utils.UnixTimeStampToDateTime(unixTimeStamp);
+            }
+        }
+
         /// <summary>
         /// Статус объекта обработки
         /// </summary>
@@ -52,6 +81,8 @@ namespace Common.Dto.Model.Packet
                 return cnt;
             }
         }
+
+        //public string Okpd2 { get; set; }
 
         public void SetContent(IEnumerable<ContentDto> content)
         {

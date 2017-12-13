@@ -49,7 +49,15 @@ namespace Price.WebApi.Logic.Internet
                         Logger.Log.Info($"{AppGlobal.AnalystCon} do not start");
                         return;
                     }
-                    //File.Delete(outFileFullPath);
+                    try
+                    {
+                        File.Delete(outFileFullPath);
+                    }
+                    catch (Exception exception)
+                    {
+                        Debug.WriteLine(exception);
+                        //throw;
+                    }
                 }
                 var arguments = $"-inp:\"{inpFileFullPath}\" -out:\"{outFileFullPath}\" -debug_log";
                 Logger.Log.Info($"{AppGlobal.AnalystCon}");

@@ -27,7 +27,19 @@ namespace Price.WebApi.Jobs
 
             Debug.WriteLine($"Job start---{DateTime.Now}", $"{nameof(PacketSearchJob)}");
 
-            var searchItemDtos = SearchItemStore.Dictionary.Values.Where(z => z.Status == TaskStatus.InQueue).ToList();
+            var cnt = SearchItemStore.Dictionary.Values.Count(z => z.Status == TaskStatus.InProcess) - 4;
+            if (cnt < 0)
+            {
+                cnt = -1 * cnt;
+            }
+            else
+            {
+                cnt = 0;
+            }
+
+            var searchItemDtos = SearchItemStore.Dictionary.Values.Where(z => z.Status == TaskStatus.InQueue)
+                .Take(cnt)
+                .ToList();
             foreach (var searchItemDto in searchItemDtos)
             {
                 searchItemDto.BeginProcess(Utils.GetUtcNow());
@@ -38,6 +50,7 @@ namespace Price.WebApi.Jobs
                 Debug.WriteLine($"Search {searchItemDto.Id}", $"{nameof(PacketSearchJob)}");
                 PacketItemSeacher.Search(searchItemDto.SearchItem, searchItemDto);
             }
+
             var tasks = SearchPacketTaskStore.Dictionary.Values.Where(z => z.ProcessedAt == null).ToList();
             foreach (var searchPacketTaskDto in tasks)
             {

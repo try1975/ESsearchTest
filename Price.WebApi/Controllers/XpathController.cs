@@ -16,6 +16,13 @@ namespace Price.WebApi.Controllers
     {
         public XPathDto Get(string link)
         {
+            //TODO:брать из эластика напрямую md_xpath
+
+            //var elasticClient = ElasticClientFactory.GetElasticClient("md_xpath");
+            //var response = elasticClient.Search(dto, z => z
+            //    .Type(nameof(PriceCommon.Model.Content).ToLower())
+            //);
+
             Debug.WriteLine(link);
             var dto = XPathStore.Get(link);
             return dto;
@@ -37,12 +44,13 @@ namespace Price.WebApi.Controllers
             Debug.WriteLine($"{nameof(dto.Uri)}={dto.Uri}");
 
             XPathStore.Post(dto);
-            //TODO:записать в базу эластика напрямую md_xpath
+            
             // обновление по триггеру и с использованием HTML Agility Pack
             dto.CollectedAt= (long?)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
             var elangPath = PathService.GetXpathPath();
             var json = JsonConvert.SerializeObject(XPathStore.Dictionary);
             File.WriteAllText(elangPath, json);
+
             var elasticClient = ElasticClientFactory.GetElasticClient("md_xpath");
             var response = elasticClient.Index(dto, z => z
                 .Type(nameof(PriceCommon.Model.Content).ToLower())

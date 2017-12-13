@@ -7,11 +7,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using ADGV;
 using Common.Dto;
 using Common.Dto.Model;
 using Common.Dto.Model.Packet;
 using Newtonsoft.Json;
+using PriceCommon.Model;
 using Topol.UseApi.Data.Common;
 
 namespace Topol.UseApi
@@ -122,6 +122,8 @@ namespace Topol.UseApi
 
         private void PacketGridColumnSettings()
         {
+            var dgv = dgvPacketItems;
+
             // установить видимость полей
             var column = dgvPacketItems.Columns[nameof(SearchItemDto.Key)];
             if (column != null) column.Visible = false;
@@ -129,10 +131,94 @@ namespace Topol.UseApi
             if (column != null) column.Visible = false;
             column = dgvPacketItems.Columns[nameof(SearchItemDto.Content)];
             if (column != null) column.Visible = false;
+            column = dgvPacketItems.Columns[nameof(SearchItemDto.StartProcessed)];
+            if (column != null) column.Visible = false;
+            column = dgvPacketItems.Columns[nameof(SearchItemDto.LastUpdate)];
+            if (column != null) column.Visible = false;
+            column = dgvPacketItems.Columns[nameof(SearchItemDto.ProcessedAt)];
+            if (column != null) column.Visible = false;
+
+            column = dgv.Columns[nameof(SearchItemDto.Source)];
+            if (column != null)
+            {
+                column.HeaderText = @"Источник";
+            }
+            column = dgv.Columns[nameof(SearchItemDto.Id)];
+            if (column != null)
+            {
+                column.HeaderText = @"Идентификатор";
+            }
+            column = dgv.Columns[nameof(SearchItemDto.Name)];
+            if (column != null)
+            {
+                column.HeaderText = @"Наименование ТРУ";
+            }
+            column = dgv.Columns[nameof(SearchItemDto.StartProcessedDateTime)];
+            if (column != null)
+            {
+                column.HeaderText = @"Время старта";
+                column.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss.fff";
+            }
+            column = dgv.Columns[nameof(SearchItemDto.LastUpdateDateTime)];
+            if (column != null)
+            {
+                column.HeaderText = @"Время обновления";
+                column.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss.fff";
+            }
+            column = dgv.Columns[nameof(SearchItemDto.ProcessedAtDateTime)];
+            if (column != null)
+            {
+                column.HeaderText = @"Время финиша";
+                column.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss.fff";
+            }
+            column = dgv.Columns[nameof(SearchItemDto.Status)];
+            if (column != null)
+            {
+                column.HeaderText = @"Состояние";
+            }
+            column = dgv.Columns[nameof(SearchItemDto.ContentCount)];
+            if (column != null)
+            {
+                column.HeaderText = @"Найдено цен";
+            }
         }
 
-        private void ContentGridColumnSettings(AdvancedDataGridView dgv)
+
+        private void ContentGridPriceVariants(DataGridView dgv)
         {
+            const string cmbName = nameof(ContentDto.PriceVariants);
+            var column = dgv.Columns[cmbName];
+            if (column == null) return;
+            var cmbName2 = $"{cmbName}2";
+            column = dgv.Columns[cmbName2];
+            if (column == null)
+            {
+                var cmb = new DataGridViewComboBoxColumn
+                {
+                    HeaderText = @"Select Data",
+                    Name = cmbName2,
+                    MaxDropDownItems = 7,
+                    ValueMember = cmbName
+                };
+                dgv.Columns.Add(cmb);
+            }
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                var value = row.Cells[cmbName].Value.ToString();
+                //if (string.IsNullOrEmpty(value)) continue;
+                var combo = row.Cells[cmbName2] as DataGridViewComboBoxCell;
+                if (combo == null) continue;
+                var data = value.Split(new[] { "  " }, StringSplitOptions.RemoveEmptyEntries);
+                combo.DataSource = data;
+                combo.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+
+            }
+        }
+
+        private void ContentGridColumnSettings(DataGridView dgv)
+        {
+            //ContentGridPriceVariants(dgv);
+
             // установить видимость полей
             var column = dgv.Columns[nameof(ContentDto.Price)];
             if (column != null) column.Visible = false;
@@ -194,7 +280,8 @@ namespace Topol.UseApi
             column = dgv.Columns[nameof(ContentDto.Collected)];
             if (column != null)
             {
-                column.HeaderText = @"Дата";
+                column.HeaderText = @"Время сбора";
+                column.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm";
                 column.DisplayIndex = 7;
             }
         }
@@ -464,6 +551,12 @@ namespace Topol.UseApi
             if (dataTable == null)
             {
                 dataTable = ConvertToDataTable(_listSearchItem);
+                //foreach (DataRow row in dataTable.Rows)
+                //{
+                //    var text = row[nameof(SearchItemDto.Name)].ToString();
+                //    var okpd2List = await _dataManager.GetOkpd2Reverse(text.Replace(";",""));
+                //    if (okpd2List!=null && okpd2List.Any()) row[nameof(SearchItemDto.Okpd2)] = okpd2List.FirstOrDefault().Okpd2;
+                //}
                 PacketItemsBindingSource.DataSource = dataTable;
                 dgvPacketItems.DataSource = PacketItemsBindingSource;
                 PacketGridColumnSettings();
@@ -481,6 +574,9 @@ namespace Topol.UseApi
                             dataRow.SetField(nameof(searchItemDto.StartProcessed), searchItemDto.StartProcessed);
                             dataRow.SetField(nameof(searchItemDto.LastUpdate), searchItemDto.LastUpdate);
                             dataRow.SetField(nameof(searchItemDto.ProcessedAt), searchItemDto.ProcessedAt);
+                            dataRow.SetField(nameof(searchItemDto.StartProcessedDateTime), searchItemDto.StartProcessedDateTime);
+                            dataRow.SetField(nameof(searchItemDto.LastUpdateDateTime), searchItemDto.LastUpdateDateTime);
+                            dataRow.SetField(nameof(searchItemDto.ProcessedAtDateTime), searchItemDto.ProcessedAtDateTime);
                             dataRow.SetField(nameof(searchItemDto.Status), searchItemDto.Status);
                             dataRow.SetField(nameof(searchItemDto.ContentCount), searchItemDto.ContentCount);
                         }
@@ -490,6 +586,10 @@ namespace Topol.UseApi
                         var row = dataTable.NewRow();
                         foreach (PropertyDescriptor prop in properties)
                             row[prop.Name] = prop.GetValue(searchItemDto) ?? DBNull.Value;
+
+                        //var text = searchItemDto.Name;
+                        //var okpd2List = await _dataManager.GetOkpd2Reverse(text.Replace(";", ""));
+                        //if (okpd2List != null && okpd2List.Any()) row[nameof(SearchItemDto.Okpd2)] = okpd2List.FirstOrDefault().Okpd2;
                         dataTable.Rows.Add(row);
                     }
                 }
@@ -531,8 +631,9 @@ namespace Topol.UseApi
                 dgvContentItems.DataSource = ContentItemsBindingSource;
                 ContentGridColumnSettings(dgvContentItems);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                Debug.WriteLine(exception);
                 //throw;
             }
         }

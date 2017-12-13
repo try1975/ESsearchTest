@@ -15,5 +15,14 @@ namespace Common.Dto.Logic
         {
             return (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
         }
+
+        public static DateTime? UnixTimeStampToDateTime(long unixTimeStamp)
+        {
+            if (unixTimeStamp == 0) return null;
+            // Unix timestamp is seconds past epoch
+            var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            return dtDateTime;
+        }
     }
 }
