@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Common.Dto.Logic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -7,8 +9,9 @@ namespace Common.Dto.Model
 
     public enum PriceType
     {
-
+        [EnumLocalizeAttribite("Требует проверки")]
         Check,
+        [EnumLocalizeAttribite("Доверять")]
         Trusted
     }
 
@@ -17,6 +20,7 @@ namespace Common.Dto.Model
     /// </summary>
     public class ContentDto
     {
+        private string _priceVariants;
 
         [JsonIgnore]
         public bool Selected { get; set; }
@@ -25,7 +29,7 @@ namespace Common.Dto.Model
         public PriceType PriceType { get; set; }
 
         [JsonIgnore]
-        public string PriceTypeRus => PriceType == PriceType.Check ? "Проверять" : "Доверять";
+        public string PriceTypeString => Utils.GetDescription(PriceType);
 
         /// <summary>
         ///     Наименование позиции
@@ -113,10 +117,23 @@ namespace Common.Dto.Model
         /// <summary>
         ///     Варианты цен
         /// </summary>
-        public string PriceVariants { get; set; }
+        public string PriceVariants
+        {
+            get { return _priceVariants; }
+            set
+            {
+                _priceVariants = value;
+                if(string.IsNullOrEmpty(_priceVariants)) return;
+                PriceVariant = _priceVariants.Split(new[] {"  "}, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+            }
+        }
+
+        [JsonIgnore]
+        public string PriceVariant { get; set; }
 
 
-        public static ContentDto FromCsv(string csvLine)
+
+        public static ContentDto FromAnalystCsv(string csvLine)
         {
             var values = csvLine.Split(';');
             var contentDto = new ContentDto

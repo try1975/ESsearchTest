@@ -11,7 +11,6 @@ using Common.Dto;
 using Common.Dto.Model;
 using Common.Dto.Model.Packet;
 using Newtonsoft.Json;
-using PriceCommon.Model;
 using Topol.UseApi.Data.Common;
 
 namespace Topol.UseApi
@@ -137,6 +136,8 @@ namespace Topol.UseApi
             if (column != null) column.Visible = false;
             column = dgvPacketItems.Columns[nameof(SearchItemDto.ProcessedAt)];
             if (column != null) column.Visible = false;
+            column = dgvPacketItems.Columns[nameof(SearchItemDto.Status)];
+            if (column != null) column.Visible = false;
 
             column = dgv.Columns[nameof(SearchItemDto.Source)];
             if (column != null)
@@ -157,21 +158,21 @@ namespace Topol.UseApi
             if (column != null)
             {
                 column.HeaderText = @"Время старта";
-                column.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss.fff";
+                column.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss";
             }
             column = dgv.Columns[nameof(SearchItemDto.LastUpdateDateTime)];
             if (column != null)
             {
                 column.HeaderText = @"Время обновления";
-                column.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss.fff";
+                column.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss";
             }
             column = dgv.Columns[nameof(SearchItemDto.ProcessedAtDateTime)];
             if (column != null)
             {
                 column.HeaderText = @"Время финиша";
-                column.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss.fff";
+                column.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm:ss";
             }
-            column = dgv.Columns[nameof(SearchItemDto.Status)];
+            column = dgv.Columns[nameof(SearchItemDto.StatusString)];
             if (column != null)
             {
                 column.HeaderText = @"Состояние";
@@ -186,7 +187,7 @@ namespace Topol.UseApi
 
         private void ContentGridPriceVariants(DataGridView dgv)
         {
-            const string cmbName = nameof(ContentDto.PriceVariants);
+            const string cmbName = nameof(ContentDto.PriceVariant);
             var column = dgv.Columns[cmbName];
             if (column == null) return;
             var cmbName2 = $"{cmbName}2";
@@ -198,13 +199,13 @@ namespace Topol.UseApi
                     HeaderText = @"Select Data",
                     Name = cmbName2,
                     MaxDropDownItems = 7,
-                    ValueMember = cmbName
+                    DataPropertyName = cmbName
                 };
                 dgv.Columns.Add(cmb);
             }
             foreach (DataGridViewRow row in dgv.Rows)
             {
-                var value = row.Cells[cmbName].Value.ToString();
+                var value = row.Cells[nameof(ContentDto.PriceVariants)].Value.ToString();
                 //if (string.IsNullOrEmpty(value)) continue;
                 var combo = row.Cells[cmbName2] as DataGridViewComboBoxCell;
                 if (combo == null) continue;
@@ -217,27 +218,30 @@ namespace Topol.UseApi
 
         private void ContentGridColumnSettings(DataGridView dgv)
         {
-            //ContentGridPriceVariants(dgv);
+            ContentGridPriceVariants(dgv);
 
-            // установить видимость полей
-            var column = dgv.Columns[nameof(ContentDto.Price)];
-            if (column != null) column.Visible = false;
-            column = dgv.Columns[nameof(ContentDto.CollectedAt)];
-            if (column != null) column.Visible = false;
-            column = dgv.Columns[nameof(ContentDto.PriceType)];
-            if (column != null) column.Visible = false;
+            // hide all columns
+            foreach (DataGridViewColumn dgvColumn in dgv.Columns) dgvColumn.Visible = false;
 
-            column = dgv.Columns[nameof(ContentDto.Selected)];
+            //var column = dgv.Columns[$"{nameof(ContentDto.PriceVariant)}2"];
+            //if (column != null)
+            //{
+            //    column.Visible = true;
+            //}
+
+            var column = dgv.Columns[nameof(ContentDto.Selected)];
             if (column != null)
             {
+                column.Visible = true;
                 column.SortMode = DataGridViewColumnSortMode.Automatic;
                 column.HeaderText = @"Отмечен";
                 column.Width = 60;
                 column.DisplayIndex = 1;
             }
-            column = dgv.Columns[nameof(ContentDto.PriceTypeRus)];
+            column = dgv.Columns[nameof(ContentDto.PriceTypeString)];
             if (column != null)
             {
+                column.Visible = true;
                 column.SortMode = DataGridViewColumnSortMode.Automatic;
                 column.HeaderText = @"Тип цены";
                 column.Width = 60;
@@ -248,6 +252,7 @@ namespace Topol.UseApi
             column = dgv.Columns[nameof(ContentDto.Name)];
             if (column != null)
             {
+                column.Visible = true;
                 column.Width = 500;
                 column.HeaderText = @"Наименование ТРУ";
                 column.ReadOnly = true;
@@ -256,15 +261,17 @@ namespace Topol.UseApi
             column = dgv.Columns[nameof(ContentDto.Nprice)];
             if (column != null)
             {
+                column.Visible = true;
                 column.HeaderText = @"Цена";
                 column.ReadOnly = true;
                 column.DisplayIndex = 4;
                 column.DefaultCellStyle.Format = "N2";
                 column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             }
-            column = dgv.Columns[nameof(ContentDto.PriceVariants)];
+            column = dgv.Columns[$"{nameof(ContentDto.PriceVariant)}2"];
             if (column != null)
             {
+                column.Visible = true;
                 column.HeaderText = @"Варианты цены";
                 column.ReadOnly = true;
                 column.DisplayIndex = 5;
@@ -272,6 +279,7 @@ namespace Topol.UseApi
             column = dgv.Columns[nameof(ContentDto.Uri)];
             if (column != null)
             {
+                column.Visible = true;
                 column.Width = 500;
                 column.HeaderText = @"Ссылка на ТРУ";
                 column.ReadOnly = true;
@@ -280,9 +288,16 @@ namespace Topol.UseApi
             column = dgv.Columns[nameof(ContentDto.Collected)];
             if (column != null)
             {
+                column.Visible = true;
                 column.HeaderText = @"Время сбора";
                 column.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm";
                 column.DisplayIndex = 7;
+            }
+            column = dgv.Columns[nameof(ContentDto.Id)];
+            if (column != null)
+            {
+                column.Visible = true;
+                column.HeaderText = @"Идентификатор";
             }
         }
 
@@ -578,6 +593,7 @@ namespace Topol.UseApi
                             dataRow.SetField(nameof(searchItemDto.LastUpdateDateTime), searchItemDto.LastUpdateDateTime);
                             dataRow.SetField(nameof(searchItemDto.ProcessedAtDateTime), searchItemDto.ProcessedAtDateTime);
                             dataRow.SetField(nameof(searchItemDto.Status), searchItemDto.Status);
+                            dataRow.SetField(nameof(searchItemDto.StatusString), searchItemDto.StatusString);
                             dataRow.SetField(nameof(searchItemDto.ContentCount), searchItemDto.ContentCount);
                         }
                     }

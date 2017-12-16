@@ -77,7 +77,7 @@ namespace Price.WebApi.Logic.Internet
             {
                 list = File.ReadAllLines(fullPath, Encoding.Default)
                      //.Skip(1)
-                     .Select(ContentDto.FromCsv)
+                     .Select(ContentDto.FromAnalystCsv)
                      .ToList();
             }
             catch (Exception e)

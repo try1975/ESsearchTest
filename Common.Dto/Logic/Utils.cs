@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace Common.Dto.Logic
 {
@@ -23,6 +24,31 @@ namespace Common.Dto.Logic
             var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
+        }
+
+        public static string GetDescription(Enum en)
+
+        {
+
+            Type type = en.GetType();
+
+            MemberInfo[] memInfo = type.GetMember(en.ToString());
+
+            if (memInfo != null && memInfo.Length > 0)
+
+            {
+
+                object[] attrs = memInfo[0].GetCustomAttributes(typeof(EnumLocalizeAttribite),
+                    false);
+
+                if (attrs != null && attrs.Length > 0)
+
+                    return ((EnumLocalizeAttribite)attrs[0]).Text;
+
+            }
+
+            return en.ToString();
+
         }
     }
 }

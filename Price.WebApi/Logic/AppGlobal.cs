@@ -48,6 +48,7 @@ namespace Price.WebApi.Logic
 
             CashSeconds = Convert.ToInt32(WebConfigurationManager.AppSettings[nameof(CashSeconds)]);
             WaitUpdateSeconds = Convert.ToInt32(WebConfigurationManager.AppSettings[nameof(WaitUpdateSeconds)]);
+            MaxItemsCount = Convert.ToInt32(WebConfigurationManager.AppSettings[nameof(MaxItemsCount)]);
         }
 
         public static string ElangPath { get; }
@@ -65,5 +66,6 @@ namespace Price.WebApi.Logic
 
         public static int CashSeconds { get; set; }
         public static int WaitUpdateSeconds { get; set; }
+        public static int MaxItemsCount { get; set; }
     }
 }

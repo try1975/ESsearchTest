@@ -68,6 +68,10 @@ namespace Common.Dto.Model.Packet
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public TaskStatus Status { get; set; }
+
+        [JsonIgnore]
+        public string StatusString => Utils.GetDescription(Status);
+
         [JsonIgnore]
         public SearchItemParam SearchItem { get; set; }
         public IEnumerable<ContentDto> Content { get; set; }
@@ -117,7 +121,10 @@ namespace Common.Dto.Model.Packet
 
         public bool InCash(long cashSeconds)
         {
-            return ProcessedAt != null && Utils.GetUtcNow() - ProcessedAt <= cashSeconds;
+            var inCash = ProcessedAt != null && Utils.GetUtcNow() - ProcessedAt <= cashSeconds;
+            return inCash;
         }
+
+
     }
 }

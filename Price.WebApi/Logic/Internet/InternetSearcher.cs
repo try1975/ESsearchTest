@@ -28,6 +28,7 @@ namespace Price.WebApi.Logic.Internet
                 File.WriteAllText(inpFileFullPath, JsonConvert.SerializeObject(list));
                 // save searchItem to json file
                 var outFileFullPath = Path.Combine(AppGlobal.InternetSearchResultPath, $"_{searchItemDto.Key}.csv");
+                var logFileFullPath = Path.Combine(AppGlobal.InternetSearchResultPath, $"_{searchItemDto.Key}.log");
                 // check if file exists and not old
                 if (File.Exists(outFileFullPath))
                 {
@@ -35,7 +36,7 @@ namespace Price.WebApi.Logic.Internet
                     if (File.GetLastWriteTime(outFileFullPath) >= dedlineTime)
                     {
                         var listContentDto = File.ReadAllLines(outFileFullPath, Encoding.Default)
-                            .Select(ContentDto.FromCsv)
+                            .Select(ContentDto.FromAnalystCsv)
                             .ToList();
                         if (searchItemDto.Content == null)
                         {
@@ -59,11 +60,27 @@ namespace Price.WebApi.Logic.Internet
                         //throw;
                     }
                 }
-                var arguments = $"-inp:\"{inpFileFullPath}\" -out:\"{outFileFullPath}\" -debug_log";
+                var arguments = $"-inp:\"{inpFileFullPath}\" -out:\"{outFileFullPath}\"";// > \"{logFileFullPath}\"";
                 Logger.Log.Info($"{AppGlobal.AnalystCon}");
                 Logger.Log.Info($"{arguments}");
                 Debug.WriteLine($"{arguments}");
-                Process.Start(AppGlobal.AnalystCon, arguments);
+
+                var analystProcess = new Process
+                {
+                    StartInfo =
+                    {
+                        FileName = AppGlobal.AnalystCon,
+                        Arguments = arguments,
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        CreateNoWindow = true,
+                        StandardOutputEncoding = Encoding.GetEncoding(866)
+            }
+                };
+                analystProcess.OutputDataReceived += AnaystOutputHandler;
+                analystProcess.Start();
+                analystProcess.BeginOutputReadLine();
+                //Process.Start(AppGlobal.AnalystCon, arguments);
                 Logger.Log.Info("Process.Start called.");
             }
             catch (Exception exception)
@@ -72,6 +89,17 @@ namespace Price.WebApi.Logic.Internet
             }
             // in File Watcher  - put result in searchItemDto.Content
             // in job trigger - Mark searchItemDto.Status and searchItemDto.ProcessedAt when result file not change 5 minutes or over 60 links in result
+        }
+
+        private static void AnaystOutputHandler(object sender, DataReceivedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.Data)) return;
+
+            //var data = Encoding.UTF8.GetString(Encoding.GetEncoding(866).GetBytes(e.Data));
+            //var data = Encoding.GetEncoding(866).GetBytes(e.Data);
+            //var utf8String = Encoding.UTF8.GetString(Encoding.Convert(Encoding.GetEncoding(866), Encoding.UTF8, data));
+            var logFileFullPath = Path.Combine(AppGlobal.InternetSearchResultPath, $"AnalystCon_{DateTime.Today:yyyy-MM-dd}_.log");
+            File.AppendAllLines(logFileFullPath, new[] { e.Data }, Encoding.GetEncoding(866));
         }
     }
 }
