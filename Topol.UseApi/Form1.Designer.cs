@@ -279,7 +279,6 @@
             this.dgvContentItems.Size = new System.Drawing.Size(743, 213);
             this.dgvContentItems.TabIndex = 2;
             this.dgvContentItems.TimeFilter = true;
-            this.dgvContentItems.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvContentItems_CellContentClick);
             // 
             // panel4
             // 

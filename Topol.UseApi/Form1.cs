@@ -65,6 +65,8 @@ namespace Topol.UseApi
             dgvOkpd2.SortStringChanged += dgvOkpd2_SortStringChanged;
 
             dgvContentItems.CellContentDoubleClick += dgv_CellContentDoubleClick;
+            dgvContentItems.CellContentClick += dgvContentItems_CellContentClick;
+
             dgvMaybe.CellContentDoubleClick += dgv_CellContentDoubleClick;
 
             _bw.WorkerSupportsCancellation = false;
@@ -84,6 +86,8 @@ namespace Topol.UseApi
             btnInvertSelected.Click += btnInvertSelected_Click;
             btnDeleteSelected.Click += btnDeleteSelected_Click;
         }
+
+       
 
         #region BackgroundWorker
 
@@ -184,7 +188,6 @@ namespace Topol.UseApi
             }
         }
 
-
         private void ContentGridPriceVariants(DataGridView dgv)
         {
             const string cmbName = nameof(ContentDto.PriceVariant);
@@ -198,8 +201,11 @@ namespace Topol.UseApi
                 {
                     HeaderText = @"Select Data",
                     Name = cmbName2,
+                    //DataSource = new string[] { "a", "b", "c" },
                     MaxDropDownItems = 7,
-                    DataPropertyName = cmbName
+                    //DisplayMember = cmbName,
+                    DataPropertyName = "PriceVariant",
+                    //ValueMember =  cmbName
                 };
                 dgv.Columns.Add(cmb);
             }
@@ -207,12 +213,18 @@ namespace Topol.UseApi
             {
                 var value = row.Cells[nameof(ContentDto.PriceVariants)].Value.ToString();
                 //if (string.IsNullOrEmpty(value)) continue;
-                var combo = row.Cells[cmbName2] as DataGridViewComboBoxCell;
-                if (combo == null) continue;
+                var comboBoxCell = row.Cells[cmbName2] as DataGridViewComboBoxCell;
+                if (comboBoxCell == null) continue;
                 var data = value.Split(new[] { "  " }, StringSplitOptions.RemoveEmptyEntries);
-                combo.DataSource = data;
-                combo.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
 
+
+                //comboBoxCell.Items.AddRange(data);
+                //comboBoxCell.Value = row.Cells[nameof(ContentDto.PriceVariant)].Value.ToString();
+                comboBoxCell.DataSource = data;
+                // comboBoxCell.ValueMember = cmbName;
+                // comboBoxCell.DisplayMember = cmbName;
+
+                comboBoxCell.DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton;
             }
         }
 
@@ -222,12 +234,6 @@ namespace Topol.UseApi
 
             // hide all columns
             foreach (DataGridViewColumn dgvColumn in dgv.Columns) dgvColumn.Visible = false;
-
-            //var column = dgv.Columns[$"{nameof(ContentDto.PriceVariant)}2"];
-            //if (column != null)
-            //{
-            //    column.Visible = true;
-            //}
 
             var column = dgv.Columns[nameof(ContentDto.Selected)];
             if (column != null)
@@ -273,7 +279,7 @@ namespace Topol.UseApi
             {
                 column.Visible = true;
                 column.HeaderText = @"Варианты цены";
-                column.ReadOnly = true;
+                //column.ReadOnly = true;
                 column.DisplayIndex = 5;
             }
             column = dgv.Columns[nameof(ContentDto.Uri)];
