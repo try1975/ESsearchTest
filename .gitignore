@@ -242,6 +242,7 @@ ModelManifest.xml
 .fake/
 /ESsearchTest/Resources/Thumbs.db
 /Price.WebApi/Logs
+/Price.WebApi/InternetSearchResultPath
 /AddProducer/App.AppSettings.config
 /fetchee_key.txt
 /Price.WebApi/App.AppSettings.config
