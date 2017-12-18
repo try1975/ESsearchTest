@@ -66,6 +66,8 @@ namespace Topol.UseApi
 
             dgvContentItems.CellContentDoubleClick += dgv_CellContentDoubleClick;
             dgvContentItems.CellContentClick += dgvContentItems_CellContentClick;
+            dgvContentItems.DataError += dgvContentItems_DataError;
+            
 
             dgvMaybe.CellContentDoubleClick += dgv_CellContentDoubleClick;
 
@@ -87,7 +89,11 @@ namespace Topol.UseApi
             btnDeleteSelected.Click += btnDeleteSelected_Click;
         }
 
-       
+        private void dgvContentItems_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.ThrowException = false;
+        }
+
 
         #region BackgroundWorker
 
@@ -107,13 +113,20 @@ namespace Topol.UseApi
                 cnt = tasks.Count;
                 foreach (var item in tasks)
                 {
-                    var searchPacketTaskDto = _dataManager.GetPacketStatus(item.Id, item.Source).Result;
-                    if (searchPacketTaskDto == null) continue;
-                    ((BackgroundWorker)sender).ReportProgress(0, searchPacketTaskDto);
-                    //else
-                    //{
-                    //    MessageBox.Show(@"Ошибка запроса.");
-                    //}
+                    try
+                    {
+                        var searchPacketTaskDto = _dataManager.GetPacketStatus(item.Id, item.Source).Result;
+                        if (searchPacketTaskDto == null) continue;
+                        ((BackgroundWorker)sender).ReportProgress(0, searchPacketTaskDto);
+                        //else
+                        //{
+                        //    MessageBox.Show(@"Ошибка запроса.");
+                        //}
+                    }
+                    catch (Exception exception)
+                    {
+                        Debug.WriteLine(exception);
+                    }
                 }
                 System.Threading.Thread.Sleep(1000);
             }
@@ -212,7 +225,7 @@ namespace Topol.UseApi
             foreach (DataGridViewRow row in dgv.Rows)
             {
                 var value = row.Cells[nameof(ContentDto.PriceVariants)].Value.ToString();
-                //if (string.IsNullOrEmpty(value)) continue;
+                if (string.IsNullOrEmpty(value)) continue;
                 var comboBoxCell = row.Cells[cmbName2] as DataGridViewComboBoxCell;
                 if (comboBoxCell == null) continue;
                 var data = value.Split(new[] { "  " }, StringSplitOptions.RemoveEmptyEntries);
@@ -682,6 +695,7 @@ namespace Topol.UseApi
 
         private void dgvContentItems_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            return;
             ((DataGridView)sender).CommitEdit(DataGridViewDataErrorContexts.Commit);
         }
     }
