@@ -14,9 +14,14 @@ namespace Price.WebApi.Controllers
     [RoutePrefix("api/xpath")]
     public class XpathController : ApiController
     {
-        public XPathDto Get(string link)
+
+        [HttpGet]
+        [Route("", Name = nameof(XpathGet) + "Route")]
+        public XPathDto XpathGet(string link)
         {
             //TODO:брать из эластика напрямую md_xpath
+
+
 
             //var elasticClient = ElasticClientFactory.GetElasticClient("md_xpath");
             //var response = elasticClient.Search(dto, z => z
@@ -28,7 +33,20 @@ namespace Price.WebApi.Controllers
             return dto;
         }
 
-        public void Post(XPathDto dto)
+        //[HttpGet]
+        //[Route("domain", Name = nameof(XpathGetDomain) + "Route")]
+        //public XPathDto XpathGetDomain(string link)
+        //{
+        //    //TODO:брать из эластика напрямую md_xpath
+
+        //    Debug.WriteLine(link);
+        //    var dto = XPathStore.Get(link);
+        //    return dto;
+        //}
+
+        [HttpPost]
+        [Route("", Name = nameof(XpathPost) + "Route")]
+        public void XpathPost(XPathDto dto)
         {
             if (Request.Headers.Contains("Origin"))
             {

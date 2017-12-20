@@ -67,7 +67,7 @@ namespace Topol.UseApi
             dgvContentItems.CellContentDoubleClick += dgv_CellContentDoubleClick;
             dgvContentItems.CellContentClick += dgvContentItems_CellContentClick;
             dgvContentItems.DataError += dgvContentItems_DataError;
-            
+
 
             dgvMaybe.CellContentDoubleClick += dgv_CellContentDoubleClick;
 
@@ -613,6 +613,17 @@ namespace Topol.UseApi
                             dataRow.SetField(nameof(searchItemDto.ProcessedAtDateTime), searchItemDto.ProcessedAtDateTime);
                             dataRow.SetField(nameof(searchItemDto.Status), searchItemDto.Status);
                             dataRow.SetField(nameof(searchItemDto.StatusString), searchItemDto.StatusString);
+                            
+                            // refresh datagrid
+                            if (dgvPacketItems.CurrentRow != null && dgvPacketItems.CurrentRow.Cells[nameof(searchItemDto.Key)].Value.ToString() ==
+                                dataRow.Field<string>(nameof(searchItemDto.Key)))
+                            {
+                                if (dataRow.Field<int>(nameof(searchItemDto.ContentCount)) != searchItemDto.ContentCount)
+                                {
+                                    BindingSourceOnCurrentChanged(null, null);
+                                }
+
+                            }
                             dataRow.SetField(nameof(searchItemDto.ContentCount), searchItemDto.ContentCount);
                         }
                     }

@@ -8,7 +8,6 @@ using System.Linq;
 using Common.Dto.Model;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
-using Price.WebApi.Models;
 
 namespace Price.WebApi.Logic
 {

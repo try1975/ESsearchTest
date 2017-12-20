@@ -42,7 +42,7 @@ namespace Price.WebApi.Logic.Packet
                     var delimiter = SimpleSearcher.ListDelimiter.FirstOrDefault();
                     var splitResult = searchItem.Name.Split(SimpleSearcher.ListDelimiter,
                         StringSplitOptions.RemoveEmptyEntries);
-                    if (searchItem.Norm != null && searchItem.Norm.Equals("лек_средства:основной"))
+                    if (searchItem.Norm != null && searchItem.Norm.ToLower().Contains("лек_средства:основной"))
                     {
                         var name = string.Join(" ", splitResult.Select(p => p.Trim()));
                         var firstWords = string.Empty;
@@ -54,23 +54,28 @@ namespace Price.WebApi.Logic.Packet
                         {
                             foreach (var property in searchItem.SearchItemProperties)
                             {
-                                if (property.Key.Equals("МНН")) firstWords = property.Value.Trim();
-                                if (property.Key.Equals("Форма выпуска"))
+                                if (property.Key.ToLower().Contains("мнн")) firstWords = property.Value.Trim();
+                                if (property.Key.ToLower().Contains("форма выпуска"))
                                 {
                                     var lekFormNorm = new LekFormNorm { InitialName = property.Value.Trim() };
                                     lekForm = lekFormNorm.NormResult;
                                 }
-                                if (property.Key.Equals("Дозировка"))
+                                if (property.Key.ToLower().Contains("дозировка"))
                                 {
                                     var dozNorm = new DozNorm() { InitialName = property.Value.Trim() };
                                     dozValue = dozNorm.DozValue;
                                     dozKey = dozNorm.DozKey;
                                 }
-                                if (property.Key.Equals("Фасовка"))
+                                if (property.Key.ToLower().Contains("фасовка"))
                                 {
                                     var upakNorm = new UpakNorm(name) { InitialName = property.Value.Trim() };
                                     upak = upakNorm.NormResult;
                                 }
+                                //if (property.Key.ToLower().Contains("ед.объём"))
+                                //{
+                                //    var upakNorm = new UpakNorm(name) { InitialName = property.Value.Trim() };
+                                //    upak = upakNorm.NormResult;
+                                //}
                             }
                         }
                         var syn = string.Empty;

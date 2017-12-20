@@ -19,7 +19,7 @@ var xpatherHTML = '\
 				<div><label for="xpather-name">Стоимость ТРУ</label><br>\
 				<input type="text" name="xpather-price" id="xpather-price" placeholder="enter XPath…" autocomplete="off" spellcheck="false" /><br>\
 				<input type="text" name="xpather-price-result" id="xpather-price-result" placeholder="XPath result…" autocomplete="off" spellcheck="false"/></div>\
-				<button id="xpather-save">Save</button>\
+				<button id="xpather-save">Сохранить</button>\
 			</fieldset>\
 	</xpather>';
 

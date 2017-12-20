@@ -9,7 +9,7 @@ namespace PricePipeCore
 {
     public class SimpleSearcher
     {
-        public static readonly string[] ListDelimiter = {"; "};
+        public static readonly string[] ListDelimiter = {";"," "};
         private readonly ElasticClient _elasticClient;
         private readonly int _maxTake;
 
