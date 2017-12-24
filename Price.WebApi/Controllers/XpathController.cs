@@ -6,7 +6,7 @@ using System.Web.Http;
 using Newtonsoft.Json;
 using Price.WebApi.Logic;
 using Price.WebApi.Logic.Xpath;
-using Price.WebApi.Models.Xpath;
+using Price.WebApi.Model.Xpath;
 using PricePipeCore;
 
 namespace Price.WebApi.Controllers
@@ -48,15 +48,6 @@ namespace Price.WebApi.Controllers
         [Route("", Name = nameof(XpathPost) + "Route")]
         public void XpathPost(XPathDto dto)
         {
-            if (Request.Headers.Contains("Origin"))
-            {
-                var values = Request.Headers.GetValues("Origin");
-                if (values != null)
-                {
-                    Debug.WriteLine(values.FirstOrDefault());
-                }
-                // Do stuff with the values... probably .FirstOrDefault()
-            }
             Debug.WriteLine($"{nameof(dto.XPathName)}={dto.XPathName}");
             Debug.WriteLine($"{nameof(dto.XPathPrice)}={dto.XPathPrice}");
             Debug.WriteLine($"{nameof(dto.Uri)}={dto.Uri}");

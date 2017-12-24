@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using Common.Dto.Logic;
 using Price.WebApi.GetFiles;
 using Price.WebApi.Logic.Interfaces;
-using Price.WebApi.Models.UpdatePrice;
+using Price.WebApi.Model.UpdatePrice;
 
 namespace Price.WebApi.Logic.UpdatePrice
 {

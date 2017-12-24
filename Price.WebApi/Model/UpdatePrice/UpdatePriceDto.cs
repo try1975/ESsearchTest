@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Price.WebApi.Models.UpdatePrice
+namespace Price.WebApi.Model.UpdatePrice
 {
     /// <summary>
     /// Объекьт обработки

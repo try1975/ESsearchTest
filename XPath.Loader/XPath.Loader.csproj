@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ED2886FC-F692-44B5-9328-8013183A2402}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{BB2FFC82-FE73-4C4A-950E-EA9D08337645}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Common.Dto</RootNamespace>
-    <AssemblyName>Common.Dto</AssemblyName>
+    <RootNamespace>XPath.Loader</RootNamespace>
+    <AssemblyName>XPath.Loader</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,6 +33,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Elasticsearch.Net, Version=6.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elasticsearch.Net.6.0.0-alpha1\lib\net45\Elasticsearch.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.6.10.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.6.10\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nest, Version=6.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NEST.6.0.0-alpha1\lib\net45\Nest.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -44,28 +59,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logic\EnumLocalizeAttribite.cs" />
-    <Compile Include="Md5Logstah.cs" />
-    <Compile Include="Model\BasicContentDto.cs" />
-    <Compile Include="Model\PriceType.cs" />
-    <Compile Include="SearchPacketTaskStore.cs" />
-    <Compile Include="Logic\Utils.cs" />
-    <Compile Include="Model\ContentDto.cs" />
-    <Compile Include="Model\ContentNmckDto.cs" />
-    <Compile Include="Model\ErrorDto.cs" />
-    <Compile Include="Model\FetcheeDto.cs" />
-    <Compile Include="Model\MaybeDto.cs" />
-    <Compile Include="Model\Packet\SearchItemDto.cs" />
-    <Compile Include="Model\Packet\SearchItemParam.cs" />
-    <Compile Include="Model\Packet\SearchItemProperty.cs" />
-    <Compile Include="Model\Packet\SearchPacketResultDto.cs" />
-    <Compile Include="Model\Packet\SearchPacketTaskDto.cs" />
-    <Compile Include="Model\Packet\TaskStatus.cs" />
-    <Compile Include="Model\SourceDto.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

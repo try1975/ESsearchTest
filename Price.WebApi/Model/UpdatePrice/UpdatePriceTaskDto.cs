@@ -2,7 +2,7 @@
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace Price.WebApi.Models.UpdatePrice
+namespace Price.WebApi.Model.UpdatePrice
 {
     /// <summary>
     /// Задача обновления цен

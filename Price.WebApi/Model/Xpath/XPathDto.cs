@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using Common.Dto;
 using Newtonsoft.Json;
 
-namespace Price.WebApi.Models.Xpath
+namespace Price.WebApi.Model.Xpath
 {
     /// <summary>
     /// 

@@ -44,7 +44,7 @@ namespace Price.WebApi.Logic.Internet
                         }
                         else
                         {
-                            searchItemDto.SetContent(searchItemDto.Content.Where(z => z.PriceType == PriceType.Trusted));
+                            searchItemDto.SetContent(searchItemDto.Content.Where(z => z.PriceType != PriceType.Check));
                             searchItemDto.SetContent(searchItemDto.Content.Concat(listContentDto));
                         }
                         Logger.Log.Info($"{AppGlobal.AnalystCon} do not start");

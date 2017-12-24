@@ -127,10 +127,10 @@ namespace Price.WebApi.Logic.Packet
                         }
                     }
                     var listContentDto = Mapper.Map<IEnumerable<ContentDto>>(listContent ?? new List<Content>());
-                    foreach (var dto in listContentDto)
-                    {
-                        dto.PriceType = PriceType.Trusted;
-                    }
+                    //foreach (var dto in listContentDto)
+                    //{
+                    //    dto.PriceType = PriceType.Trusted;
+                    //}
                     searchItemDto.SetContent(searchItemDto.Content?.Concat(listContentDto) ?? listContentDto);
                     if (sources.Length == 1) searchItemDto.SuccessEndProcess(Utils.GetUtcNow());
                 }

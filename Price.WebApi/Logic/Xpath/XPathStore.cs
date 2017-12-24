@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.IO;
 using Newtonsoft.Json;
-using Price.WebApi.Models.Xpath;
+using Price.WebApi.Model.Xpath;
 
 namespace Price.WebApi.Logic.Xpath
 {

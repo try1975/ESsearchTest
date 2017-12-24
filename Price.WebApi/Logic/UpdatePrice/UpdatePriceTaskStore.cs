@@ -1,5 +1,5 @@
 ﻿using System.Collections.Concurrent;
-using Price.WebApi.Models.UpdatePrice;
+using Price.WebApi.Model.UpdatePrice;
 
 namespace Price.WebApi.Logic.UpdatePrice
 {

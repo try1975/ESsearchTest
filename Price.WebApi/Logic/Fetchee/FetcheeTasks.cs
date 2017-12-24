@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using Common.Dto.Model;
-using Price.WebApi.Models;
 
 namespace Price.WebApi.Logic.Fetchee
 {

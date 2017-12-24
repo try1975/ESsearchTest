@@ -10,7 +10,7 @@ using Common.Dto.Model;
 using Price.WebApi.Logic;
 using Price.WebApi.Logic.Interfaces;
 using Price.WebApi.Logic.UpdatePrice;
-using Price.WebApi.Models.UpdatePrice;
+using Price.WebApi.Model.UpdatePrice;
 using PriceCommon.Model;
 using PricePipeCore;
 
