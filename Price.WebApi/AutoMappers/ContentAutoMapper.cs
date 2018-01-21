@@ -1,6 +1,6 @@
 ﻿using AutoMapper.Configuration;
 using Common.Dto.Model;
-using Price.WebApi.Model.Xpath;
+using Common.Dto.Model.XPath;
 using PriceCommon.Model;
 
 namespace Price.WebApi.AutoMappers

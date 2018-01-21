@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.IO;
+using Common.Dto.Model.XPath;
 using Newtonsoft.Json;
-using Price.WebApi.Model.Xpath;
 
 namespace Price.WebApi.Logic.Xpath
 {
@@ -29,7 +29,6 @@ namespace Price.WebApi.Logic.Xpath
             if (dto == null) return;
             var key = dto.Uri.GetHashCode();
             Dictionary[key] = dto;
-            
         }
     }
 }

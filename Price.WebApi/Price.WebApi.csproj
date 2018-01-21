@@ -241,9 +241,8 @@
     <Compile Include="Logic\UpdatePrice\UpdatePriceTaskStore.cs" />
     <Compile Include="Logic\UpdatePrice\UpdatePriceWatcher.cs" />
     <Compile Include="Logic\StateFiles.cs" />
+    <Compile Include="Logic\XPath\XPathStore.cs" />
     <Compile Include="Model\ContentDto.cs" />
-    <Compile Include="Model\Xpath\XPathDto.cs" />
-    <Compile Include="Logic\Xpath\XPathStore.cs" />
     <Compile Include="Model\UpdatePrice\UpdatePriceTaskDto.cs" />
     <Compile Include="Model\UpdatePrice\UpdatePriceDto.cs" />
     <Compile Include="Ninject\Configurator.cs" />

@@ -1,71 +1,90 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
+using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Web.Http;
-using Newtonsoft.Json;
-using Price.WebApi.Logic;
 using Price.WebApi.Logic.Xpath;
-using Price.WebApi.Model.Xpath;
 using PricePipeCore;
+using Common.Dto;
+using Common.Dto.Logic;
+using Common.Dto.Model.XPath;
+using Nest;
 
 namespace Price.WebApi.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [RoutePrefix("api/xpath")]
     public class XpathController : ApiController
     {
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="link"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("", Name = nameof(XpathGet) + "Route")]
         public XPathDto XpathGet(string link)
         {
-            //TODO:брать из эластика напрямую md_xpath
-
-
-
-            //var elasticClient = ElasticClientFactory.GetElasticClient("md_xpath");
-            //var response = elasticClient.Search(dto, z => z
-            //    .Type(nameof(PriceCommon.Model.Content).ToLower())
-            //);
-
-            Debug.WriteLine(link);
             var dto = XPathStore.Get(link);
+            if (dto != null) return dto;
+            var elasticClient = ElasticClientFactory.GetElasticClient("md_xpath");
+            var response = elasticClient.Search<XPathDto>(z => z
+                .Type(nameof(PriceCommon.Model.Content).ToLower())
+                .Size(1)
+                .Query(q => q.Match(m => m.Field(f => f.Uri).Query(link)))
+            );
+            dto = response.Hits.Select(s => s.Source).FirstOrDefault();
+            if (dto != null) return dto;
+            response = elasticClient.Search<XPathDto>(z => z
+                    .Type(nameof(PriceCommon.Model.Content).ToLower())
+                    .Size(1)
+                    .Query(q => q.Term(t => t.Field(f => f.Domain).Value(new Uri(link).Host)))
+                );
+            dto = response.Hits.Select(s => s.Source).FirstOrDefault();
             return dto;
         }
 
-        //[HttpGet]
-        //[Route("domain", Name = nameof(XpathGetDomain) + "Route")]
-        //public XPathDto XpathGetDomain(string link)
-        //{
-        //    //TODO:брать из эластика напрямую md_xpath
-
-        //    Debug.WriteLine(link);
-        //    var dto = XPathStore.Get(link);
-        //    return dto;
-        //}
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dto"></param>
         [HttpPost]
         [Route("", Name = nameof(XpathPost) + "Route")]
-        public void XpathPost(XPathDto dto)
+        public HttpStatusCode XpathPost(XPathDto dto)
         {
-            Debug.WriteLine($"{nameof(dto.XPathName)}={dto.XPathName}");
-            Debug.WriteLine($"{nameof(dto.XPathPrice)}={dto.XPathPrice}");
-            Debug.WriteLine($"{nameof(dto.Uri)}={dto.Uri}");
+            try
+            {
+                //рекламное-производство.рф
+                //http://xn----7sbhajcbriqlnnocdckjk1aw.xn--p1ai/
+                var uri = new Uri(dto.Uri);
+                dto.Domain = uri.Host;
+                var idn = new IdnMapping();
+                dto.IdnDomain = idn.GetUnicode(uri.Host);
+                dto.Name = dto.Name.Trim();
+                dto.Price = string.IsNullOrEmpty(dto.Price) ? "0" : Regex.Replace(dto.Price.Replace(".", ","), "[^0-9,]", "");
+                dto.CollectedAt = Utils.GetUtcNow();
+                if (string.IsNullOrEmpty(dto.Id)) dto.Id = Md5Logstah.GetDefaultId(dto.Uri, dto.Name);
 
-            XPathStore.Post(dto);
-            
-            // обновление по триггеру и с использованием HTML Agility Pack
-            dto.CollectedAt= (long?)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-            var elangPath = PathService.GetXpathPath();
-            var json = JsonConvert.SerializeObject(XPathStore.Dictionary);
-            File.WriteAllText(elangPath, json);
+                XPathStore.Post(dto);
 
-            var elasticClient = ElasticClientFactory.GetElasticClient("md_xpath");
-            var response = elasticClient.Index(dto, z => z
-                .Type(nameof(PriceCommon.Model.Content).ToLower())
-                .Id(dto.Id)
-            );
-            Debug.WriteLine($"{response}");
+                var elasticClient = ElasticClientFactory.GetElasticClient("md_xpath");
+                var response = elasticClient.Index(dto, z => z
+                    .Type(nameof(PriceCommon.Model.Content).ToLower())
+                    .Id(dto.Id)
+                );
+                return response.Result == Result.Created || response.Result == Result.Updated
+                    ? HttpStatusCode.Created
+                    : HttpStatusCode.BadRequest;
+            }
+            catch (Exception exception)
+            {
+                Logger.Log.Error($"{nameof(XpathPost)} {dto} {exception}");
+                return HttpStatusCode.InternalServerError;
+            }
         }
     }
 }
