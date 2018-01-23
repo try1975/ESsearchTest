@@ -1,7 +1,5 @@
 ﻿using System.Collections.Concurrent;
-using System.IO;
 using Common.Dto.Model.XPath;
-using Newtonsoft.Json;
 
 namespace Price.WebApi.Logic.Xpath
 {
@@ -11,17 +9,17 @@ namespace Price.WebApi.Logic.Xpath
 
         static XPathStore()
         {
-            var storePath = PathService.GetXpathPath();
-            if (File.Exists(storePath)) Dictionary = JsonConvert.DeserializeObject<ConcurrentDictionary<int, XPathDto>>(File.ReadAllText(storePath));
+            //var storePath = PathService.GetXpathPath();
+            //if (File.Exists(storePath)) Dictionary = JsonConvert.DeserializeObject<ConcurrentDictionary<int, XPathDto>>(File.ReadAllText(storePath));
         }
 
         public static XPathDto Get(string uri)
         {
             var key = uri.GetHashCode();
-            if (Dictionary.ContainsKey(key)) return Dictionary[key];
-            var dto = new XPathDto { Uri = uri };
-            Dictionary[key] = dto;
-            return dto;
+            return Dictionary.ContainsKey(key) ? Dictionary[key] : null;
+            //var dto = new XPathDto { Uri = uri };
+            //Dictionary[key] = dto;
+            //return dto;
         }
 
         public static void Post(XPathDto dto)

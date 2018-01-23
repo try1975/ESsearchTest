@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Common.Dto.Logic;
 using Common.Dto.Model.XPath;
 using HtmlAgilityPack;
-using Nest;
+using PricePipeCore;
 
 namespace XPath.Loader
 {
@@ -13,169 +15,179 @@ namespace XPath.Loader
     {
         private static void Main()
         {
-            #region elastic
-            // использовать api
+            Logger.InitLogger();
+            var elasticClient = ElasticClientFactory.GetElasticClient(AppSettings.DefaultIndex);
+            int updatePacketSize;
+            int.TryParse(ConfigurationManager.AppSettings[nameof(updatePacketSize)], out updatePacketSize);
+            if (updatePacketSize == 0) updatePacketSize = 100;
+            int daysBeforeUpdate;
+            int.TryParse(ConfigurationManager.AppSettings[nameof(daysBeforeUpdate)], out daysBeforeUpdate);
+            if (daysBeforeUpdate == 0) daysBeforeUpdate = 3;
+            var lowerBound = (long)DateTime.UtcNow.AddDays(-1 * daysBeforeUpdate).Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            var isContinue = true;
 
-            //POST md_xpath/ content / _search
-            //{
-            //    "from": 0,
-            //    "size": 10,
-            //    "query": {
-            //        "range": {
-            //            "collectedAt": {
-            //                "lt": "now-20d/d"
-            //            }
-            //        }
-            //    }
-            //}
-
-            //"hits": [
-            //{
-            //    "_index": "md_xpath_v01",
-            //    "_type": "content",
-            //    "_id": "ee7ba7b3bab38583091b924538cf9c7f",
-            //    "_score": 1,
-            //    "_source": {
-            //        "xPathName": "//h1",
-            //        "xPathPrice": "//p[@class='product__price    ']",
-            //        "uri": "https://leroymerlin.ru/product/emal-pf-115-vybor-mastera-cvet-goluboy-0-9-kg-14713474/",
-            //        "name": "Эмаль ПФ-115 Выбор Мастера цвет голубой 0.9 кг",
-            //        "price": "127,00",
-            //        "collectedAt": 1513770839,
-            //        "id": "ee7ba7b3bab38583091b924538cf9c7f"
-            //    }
-            //},
-            //{
-            //    "_index": "md_xpath_v01",
-            //    "_type": "content",
-            //    "_id": "825a2e93bd041bc3e7531fce0bb6b8ff",
-            //    "_score": 1,
-            //    "_source": {
-            //        "xPathName": "//h1",
-            //        "xPathPrice": "/html/body/div[2]/footer/p",
-            //        "uri": "https://144.76.54.166:44300/",
-            //        "name": "ASP.NET",
-            //        "price": "2017,",
-            //        "collectedAt": 1513163982,
-            //        "id": "825a2e93bd041bc3e7531fce0bb6b8ff"
-            //    }
-            //},
-
-            var connectionSettings = new ConnectionSettings(new Uri(@"http://d69e484ce622e0f735b3af79e820d1ae.us-east-1.aws.found.io:9200/"))
-                .OnRequestCompleted(details =>
-                {
-                    var s = details.RequestBodyInBytes != null
-                        ? Encoding.UTF8.GetString(details.RequestBodyInBytes)
-                        : null;
-                    Debug.WriteLine($"{s}");
-                })
-                .DisableDirectStreaming()
-                .DefaultIndex("md_xpath")
-                .BasicAuthentication("md5_reader", "Fynbkjgf777");
-            var elasticClient = new ElasticClient(connectionSettings);
-
-            var lowerBound = DateTime.Today.AddDays(-20);
-            var lastUpdatedResponse = elasticClient.Search<XPathDto>(s => s
-            .Type("content")
-            .Query(q => q.DateRange(r => r
-                            .Field(p => p.CollectedAt)
-                            .LessThan(lowerBound)
-                            )
-                   //&& q.QueryString(qs=>qs.DefaultField(nameof(XPathDto.name)).Query("мука пшеничная").DefaultOperator(Operator.And))
-                   )
-                .Size(100)
-                .Sort(sort => sort
-                    .Descending(f => f.CollectedAt))
-            );
-            var lastUpdated = lastUpdatedResponse.Hits.Select(s => s.Source);
-
-            #endregion
-
-            #region json
-
-            //https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Linq_JObject.htm
-            //JArray array = new JArray();
-            //array.Add("Manual text");
-            //array.Add(new DateTime(2000, 5, 23));
-
-            // var o = new JObject();
-            ////o.SelectToken()
-            ////foreach (JProperty property in o.Properties()){ Console.WriteLine(property.Name + " - " + property.Value);}
-            //o["MyArray"] = array;
-
-            //string json = o.ToString();
-            // {
-            //   "MyArray": [
-            //     "Manual text",
-            //     "2000-05-23T00:00:00"
-            //   ]
-            // }
-
-            #endregion
-
-            //http://html-agility-pack.net/from-web
-            foreach (var dto in lastUpdated)
+            while (isContinue)
             {
-                //var url = @"https://leroymerlin.ru/product/emal-pf-115-vybor-mastera-cvet-goluboy-0-9-kg-14713474/";
-                var url = dto.Uri;
-                Console.WriteLine(url);
-                var web = new HtmlWeb();
+                #region elastic
 
-                HtmlDocument htmlDoc;
-                try
-                {
-                    htmlDoc = web.Load(url);
-                }
-                catch (Exception exception)
-                {
-                    Debug.WriteLine(exception);
-                    continue;
-                }
+                var searchResponse = elasticClient.Search<XPathDto>(s => s
+                    .Type("content")
+                    .Query(q =>
+                            q.Range(r => r
+                                        .Field(p => p.CollectedAt)
+                                        .LessThan(lowerBound)
+                                        )
+                    //&& q.QueryString(qs=>qs.DefaultField(nameof(XPathDto.Name)).Query("приправа").DefaultOperator(Operator.And))
+                    //q.MatchAll()
+                    )
+                    .Size(updatePacketSize)
+                    .Sort(sort => sort
+                        .Ascending(f => f.CollectedAt))
+                );
+                var xPathDtos = searchResponse.Hits.Select(s => s.Source);
+                isContinue = searchResponse.Hits.Any();
+                //searchResponse = elasticClient.Search<XPathDto>(s => s
+                //    .Type("content")
+                //    .Query(q => q
+                //        .Term(t => t
+                //            .Field(nameof(XPathDto.Id).ToLower())
+                //            .Value("da0b491773f0a24679b3bcadabf3328c")))
+                //);
+                //xPathDtos = searchResponse.Hits.Select(s => s.Source);
+                //isContinue = false;
 
-                var classNodes = htmlDoc.DocumentNode.SelectNodes("//*[@class]");
-                foreach (var classNode in classNodes)
+
+
+                #endregion
+
+                #region json
+
+                //https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Linq_JObject.htm
+                //JArray array = new JArray();
+                //array.Add("Manual text");
+                //array.Add(new DateTime(2000, 5, 23));
+
+                // var o = new JObject();
+                ////o.SelectToken()
+                ////foreach (JProperty property in o.Properties()){ Console.WriteLine(property.Name + " - " + property.Value);}
+                //o["MyArray"] = array;
+
+                //string json = o.ToString();
+                // {
+                //   "MyArray": [
+                //     "Manual text",
+                //     "2000-05-23T00:00:00"
+                //   ]
+                // }
+
+                #endregion
+
+                foreach (var dto in xPathDtos)
                 {
-                    var classValue = classNode.GetAttributeValue("class", null);
-                    if (!classValue.Equals(classValue.Trim()))
+                    #region HAP
+
+                    var url = dto.Uri;
+                    Console.WriteLine(url);
+
+                    var downloader = new HttpDownloader(url, null, null);
+
+                    //var web = new HtmlWeb();
+
+                    //HtmlDocument htmlDoc;
+                    var htmlDoc = new HtmlDocument();
+                    try
                     {
-                        classNode.SetAttributeValue("class", classValue.Trim());
+                        //htmlDoc = web.Load(url);
+                        htmlDoc.LoadHtml(downloader.GetPage());
                     }
-                }
+                    catch (Exception exception)
+                    {
+                        Debug.WriteLine(exception);
+                        Logger.Log.Error($"{exception}");
+                        continue;
+                    }
 
-                //var location = Assembly.GetEntryAssembly().GetName().CodeBase;
-                //var directoryName = Path.GetDirectoryName(location);
-                //if (directoryName != null)
-                //{
-                //    var filePath = Path.Combine(directoryName, $"{url.GetHashCode()}.html");
-                //    File.WriteAllText(new Uri(filePath).LocalPath, htmlDoc.DocumentNode.WriteContentTo());
-                //    //File.WriteAllText(new Uri(filePath).LocalPath, cleanHtml, Encoding.UTF8);
-                //}
+                    // trim spaces in class name
+                    if (dto.XPathName.Contains("class") || dto.XPathPrice.Contains("class"))
+                    {
+                        var classNodes = htmlDoc.DocumentNode.SelectNodes("//*[@class]");
+                        foreach (var classNode in classNodes)
+                        {
+                            var classValue = classNode.GetAttributeValue("class", null);
+                            if (!classValue.Equals(classValue.Trim()))
+                            {
+                                classNode.SetAttributeValue("class", classValue.Trim());
+                            }
+                        }
+                    }
 
-                var node = htmlDoc.DocumentNode.SelectSingleNode(dto.XPathName);
-                if (node != null)
-                {
-                    //Console.WriteLine("Node Name: " + node.Name + "\n" + node.OuterHtml);
-                    Console.WriteLine(node.InnerText);
-                }
-                node = htmlDoc.DocumentNode.SelectSingleNode(dto.XPathPrice);
-                if (node != null)
-                {
-                    var tempo = node.InnerText;
-                    Console.WriteLine(tempo);
+                    //var location = Assembly.GetEntryAssembly().GetName().CodeBase;
+                    //var directoryName = Path.GetDirectoryName(location);
+                    //if (directoryName != null)
+                    //{
+                    //    var filePath = Path.Combine(directoryName, $"{url.GetHashCode()}.html");
+                    //    File.WriteAllText(new Uri(filePath).LocalPath, htmlDoc.DocumentNode.WriteContentTo());
+                    //    //File.WriteAllText(new Uri(filePath).LocalPath, cleanHtml, Encoding.UTF8);
+                    //}
 
-                    var digits = new Regex(@"^\D*?((-?(\d+(\.,\d+)?))|(-?\.,\d+)).*");
-                    var mx = digits.Match(tempo);
-                    //Console.WriteLine("Input {0} - Digits {1} {2}", str, mx.Success, mx.Groups);
+                    var success = true;
+                    var node = htmlDoc.DocumentNode.SelectSingleNode(dto.XPathName);
+                    var dtoName = dto.Name;
+                    if (node != null)
+                    {
+                        dtoName = node.InnerText;
+                        Console.WriteLine($"XPathName found: {dtoName}");
+                    }
+                    else
+                    {
+                        var message = $"id: {dto.Id} url: {url}  XPathName not found: {dto.XPathName}";
+                        Console.WriteLine(message);
+                        Logger.Log.Error(message);
+                        success = false;
+                    }
+                    var dtoPrice = dto.Price;
+                    node = htmlDoc.DocumentNode.SelectSingleNode(dto.XPathPrice);
+                    if (node != null)
+                    {
+                        var tempo = node.InnerText;
+                        var digits = new Regex(@"^\D*?((-?(\d+(\.,\d+)?))|(-?\.,\d+)).*");
+                        var mx = digits.Match(tempo);
+                        //Console.WriteLine("Input {0} - Digits {1} {2}", str, mx.Success, mx.Groups);
 
-                    Console.WriteLine(mx.Success ? Convert.ToDecimal(mx.Groups[1].Value.Replace(',', '.')) : 0);
+                        var price = mx.Success ? Convert.ToDecimal(mx.Groups[1].Value.Replace(',', '.')) : 0;
+                        dtoPrice = $"{price}";
+
+                        Console.WriteLine($"XPathPrice found: {dtoPrice}");
 
 
-                    //const RegexOptions options = RegexOptions.None;
-                    //var regex = new Regex("[ ]{2,}", options);
-                    //tempo = regex.Replace(tempo, " ");
-                    //tempo = tempo.Replace("\r\n", string.Empty).Replace("\n", string.Empty).Replace("\r", string.Empty);
-                    //Console.WriteLine(tempo);
-                    //Console.WriteLine(double.Parse(tempo));
+                        //const RegexOptions options = RegexOptions.None;
+                        //var regex = new Regex("[ ]{2,}", options);
+                        //tempo = regex.Replace(tempo, " ");
+                        //tempo = tempo.Replace("\r\n", string.Empty).Replace("\n", string.Empty).Replace("\r", string.Empty);
+                        //Console.WriteLine(tempo);
+                        //Console.WriteLine(double.Parse(tempo));
+                    }
+                    else
+                    {
+                        var message = $"id: {dto.Id} url: {url}  XPathPrice not found: {dto.XPathPrice}";
+                        Console.WriteLine(message);
+                        Logger.Log.Error(message);
+                        success = false;
+                    }
+
+                    #endregion
+
+                    if (success)
+                    {
+                        dto.Name = dtoName;
+                        dto.Price = dtoPrice;
+                        dto.Normalize();
+                    }
+                    dto.CollectedAt = Utils.GetUtcNow();
+
+                    //write in elastic
+                    var response = elasticClient.Index(dto, z => z.Type("content").Id(dto.Id));
+                    Console.WriteLine($"response.Result = {response.Result}");
                 }
             }
             Console.WriteLine("Press any key...");

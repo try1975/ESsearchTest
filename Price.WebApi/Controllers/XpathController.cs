@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Web.Http;
 using Price.WebApi.Logic.Xpath;
 using PricePipeCore;
-using Common.Dto;
 using Common.Dto.Logic;
 using Common.Dto.Model.XPath;
 using Nest;
@@ -58,17 +55,8 @@ namespace Price.WebApi.Controllers
         {
             try
             {
-                //рекламное-производство.рф
-                //http://xn----7sbhajcbriqlnnocdckjk1aw.xn--p1ai/
-                var uri = new Uri(dto.Uri);
-                dto.Domain = uri.Host;
-                var idn = new IdnMapping();
-                dto.IdnDomain = idn.GetUnicode(uri.Host);
-                dto.Name = dto.Name.Trim();
-                dto.Price = string.IsNullOrEmpty(dto.Price) ? "0" : Regex.Replace(dto.Price.Replace(".", ","), "[^0-9,]", "");
+                dto.Normalize();
                 dto.CollectedAt = Utils.GetUtcNow();
-                if (string.IsNullOrEmpty(dto.Id)) dto.Id = Md5Logstah.GetDefaultId(dto.Uri, dto.Name);
-
                 XPathStore.Post(dto);
 
                 var elasticClient = ElasticClientFactory.GetElasticClient("md_xpath");
