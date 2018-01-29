@@ -15,7 +15,7 @@ namespace XPath.Loader
     {
         private static void Main()
         {
-            Logger.InitLogger();
+            //Logger.InitLogger();
             var elasticClient = ElasticClientFactory.GetElasticClient(AppSettings.DefaultIndex);
             int updatePacketSize;
             int.TryParse(ConfigurationManager.AppSettings[nameof(updatePacketSize)], out updatePacketSize);
@@ -51,7 +51,7 @@ namespace XPath.Loader
                 //    .Query(q => q
                 //        .Term(t => t
                 //            .Field(nameof(XPathDto.Id).ToLower())
-                //            .Value("da0b491773f0a24679b3bcadabf3328c")))
+                //            .Value("30ab8e11a5e0cd3449d1535783abd6b1")))
                 //);
                 //xPathDtos = searchResponse.Hits.Select(s => s.Source);
                 //isContinue = false;
@@ -103,7 +103,7 @@ namespace XPath.Loader
                     catch (Exception exception)
                     {
                         Debug.WriteLine(exception);
-                        Logger.Log.Error($"{exception}");
+                        //Logger.Log.Error($"{exception}");
                         continue;
                     }
 
@@ -142,13 +142,14 @@ namespace XPath.Loader
                     {
                         var message = $"id: {dto.Id} url: {url}  XPathName not found: {dto.XPathName}";
                         Console.WriteLine(message);
-                        Logger.Log.Error(message);
+                        //Logger.Log.Error(message);
                         success = false;
                     }
                     var dtoPrice = dto.Price;
                     node = htmlDoc.DocumentNode.SelectSingleNode(dto.XPathPrice);
                     if (node != null)
                     {
+                        //TODO: рассмотреть варианты когда инфа не в тексте
                         var tempo = node.InnerText;
                         var digits = new Regex(@"^\D*?((-?(\d+(\.,\d+)?))|(-?\.,\d+)).*");
                         var mx = digits.Match(tempo);
@@ -171,7 +172,7 @@ namespace XPath.Loader
                     {
                         var message = $"id: {dto.Id} url: {url}  XPathPrice not found: {dto.XPathPrice}";
                         Console.WriteLine(message);
-                        Logger.Log.Error(message);
+                        //Logger.Log.Error(message);
                         success = false;
                     }
 
