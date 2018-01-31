@@ -6,12 +6,17 @@ namespace Common.Dto
     /// <summary>
     /// 
     /// </summary>
-    public static class SearchPacketTaskStore
+    public static class SearchPacketTaskStore 
     {
         /// <summary>
         /// 
         /// </summary>
-        public static readonly ConcurrentDictionary<string, SearchPacketTaskDto> Dictionary= new ConcurrentDictionary<string, SearchPacketTaskDto>();
+        public static readonly ConcurrentDictionary<string, SearchPacketTaskDto> Dictionary;
+
+        static SearchPacketTaskStore()
+        {
+            Dictionary = new ConcurrentDictionary<string, SearchPacketTaskDto>();
+        }
 
         /// <summary>
         /// 

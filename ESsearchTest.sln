@@ -45,6 +45,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NLP", "NLP", "{DE9D5147-D4A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pos01", "pos01\pos01.csproj", "{5DF8CBE2-0D68-431E-B1B9-7079D6A63205}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ElasticScripts", "ElasticScripts", "{B7E6C0B5-A100-4979-B1BB-F3499764FCA9}"
+	ProjectSection(SolutionItems) = preProject
+		es_20180131.txt = es_20180131.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

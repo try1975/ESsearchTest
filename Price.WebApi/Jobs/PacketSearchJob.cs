@@ -1,9 +1,8 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
+using System.Web.Http;
 using Common.Dto;
 using Common.Dto.Logic;
-using Common.Dto.Model.Packet;
 using Price.WebApi.Logic;
 using Price.WebApi.Logic.Packet;
 using Quartz;
@@ -12,6 +11,8 @@ namespace Price.WebApi.Jobs
 {
     public class PacketSearchJob : IJob
     {
+        private readonly ISearchItemStore _searchItemStore = (ISearchItemStore)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(ISearchItemStore));
+
         public void Execute(IJobExecutionContext context)
         {
             #region MyRegion
@@ -25,9 +26,10 @@ namespace Price.WebApi.Jobs
 
             #endregion
 
-            Debug.WriteLine($"Job start---{DateTime.Now}", $"{nameof(PacketSearchJob)}");
+            //Debug.WriteLine($"Job start---{DateTime.Now}", $"{nameof(PacketSearchJob)}");
 
-            var cnt = SearchItemStore.Dictionary.Values.Count(z => z.Status == TaskStatus.InProcess) - 4;
+            //var cnt = SearchItemStore.Dictionary.Values.Count(z => z.Status == TaskStatus.InProcess) - 4;
+            var cnt = _searchItemStore.GetInProcessCount() - AppGlobal.MaxItemsCount;
             if (cnt < 0)
             {
                 cnt = -1 * cnt;
@@ -37,9 +39,10 @@ namespace Price.WebApi.Jobs
                 cnt = 0;
             }
 
-            var searchItemDtos = SearchItemStore.Dictionary.Values.Where(z => z.Status == TaskStatus.InQueue)
-                .Take(cnt)
-                .ToList();
+            //var searchItemDtos = SearchItemStore.Dictionary.Values.Where(z => z.Status == TaskStatus.InQueue)
+            //    .Take(cnt)
+            //    .ToList();
+            var searchItemDtos = _searchItemStore.TakeCountInQueue(cnt);
             foreach (var searchItemDto in searchItemDtos)
             {
                 searchItemDto.BeginProcess(Utils.GetUtcNow());

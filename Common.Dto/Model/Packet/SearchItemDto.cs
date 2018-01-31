@@ -86,12 +86,15 @@ namespace Common.Dto.Model.Packet
             }
         }
 
+        public int AnalystProcessId{ get; set; }
+
         //public string Okpd2 { get; set; }
 
         public void SetContent(IEnumerable<ContentDto> content)
         {
             Content = content;
             LastUpdate = Utils.GetUtcNow();
+            OnChanged(new EventArgs());
         }
         public void BeginProcess(long tick)
         {
@@ -99,16 +102,21 @@ namespace Common.Dto.Model.Packet
             LastUpdate = tick;
             ProcessedAt = null;
             Status = TaskStatus.InProcess;
+            OnChanged(new EventArgs());
         }
         public void SuccessEndProcess(long tick)
         {
             ProcessedAt = tick;
             Status = TaskStatus.Ok;
+            OnChanged(new EventArgs());
+            OnEnded(new EventArgs());
         }
         public void ErrorEndProcess(long tick)
         {
             ProcessedAt = tick;
             Status = TaskStatus.Error;
+            OnChanged(new EventArgs());
+            OnEnded(new EventArgs());
         }
 
         public void SetInQueue()
@@ -117,6 +125,7 @@ namespace Common.Dto.Model.Packet
             ProcessedAt = null;
             Status = TaskStatus.InQueue;
             Content = null;
+            OnChanged(new EventArgs());
         }
 
         public bool InCash(long cashSeconds)
@@ -125,6 +134,17 @@ namespace Common.Dto.Model.Packet
             return inCash;
         }
 
+        public event EventHandler Changed;
+        protected virtual void OnChanged(EventArgs e)
+        {
+            if (Changed != null) Changed(this, e);
+        }
+
+        public event EventHandler Ended;
+        protected virtual void OnEnded(EventArgs e)
+        {
+            if (Ended != null) Ended(this, e);
+        }
 
     }
 }

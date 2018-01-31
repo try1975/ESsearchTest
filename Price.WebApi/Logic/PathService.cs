@@ -20,6 +20,11 @@ namespace Price.WebApi.Logic
             return Path.Combine(AppGlobal.ElangPath, "XPathStore.json");
         }
 
+        public static string GetSearchItemStorePath()
+        {
+            return Path.Combine(AppGlobal.ElangPath, "SearchItemStore.json");
+        }
+
         public static string GetUrlStatePath(string partialFileName, string taskId)
         {
             return Path.Combine(AppGlobal.UrlStatePath, $"{partialFileName}_{taskId}.txt");

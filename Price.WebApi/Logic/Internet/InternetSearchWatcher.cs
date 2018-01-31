@@ -18,6 +18,7 @@ namespace Price.WebApi.Logic.Internet
     public class InternetSearchWatcher : IInternetSearchWatcher
     {
         private static readonly Regex RegexObj;
+        private ISearchItemStore _searchItemStore;
 
         static InternetSearchWatcher()
         {
@@ -28,8 +29,9 @@ namespace Price.WebApi.Logic.Internet
         /// <summary>
         /// 
         /// </summary>
-        public InternetSearchWatcher()
+        public InternetSearchWatcher(ISearchItemStore searchItemStore)
         {
+            _searchItemStore = searchItemStore;
             var watcher = new FileSystemWatcher
             {
                 Path = AppGlobal.InternetSearchResultPath,
@@ -41,7 +43,7 @@ namespace Price.WebApi.Logic.Internet
             watcher.EnableRaisingEvents = true;
         }
 
-        private static void OnChanged(object sender, FileSystemEventArgs e)
+        private void OnChanged(object sender, FileSystemEventArgs e)
         {
             if (e.ChangeType != WatcherChangeTypes.Changed) return;
             try
@@ -49,7 +51,8 @@ namespace Price.WebApi.Logic.Internet
                 if (string.IsNullOrEmpty(e.FullPath) || !RegexObj.IsMatch(e.FullPath)) return;
 
                 var searchItemDtoKey = $"{RegexObj.Match(e.FullPath).Groups[1].Value}";
-                var searchItemDto = SearchItemStore.Dictionary.Values.FirstOrDefault(z => z.Key.Equals(searchItemDtoKey, StringComparison.OrdinalIgnoreCase) && z.Status == TaskStatus.InProcess);
+                //var searchItemDto = SearchItemStore.Dictionary.Values.FirstOrDefault(z => z.Key.Equals(searchItemDtoKey, StringComparison.OrdinalIgnoreCase) && z.Status == TaskStatus.InProcess);
+                var searchItemDto = _searchItemStore.GetOneByKeyInProcess(searchItemDtoKey);
 
                 if (searchItemDto == null) return;
                 var listContentDto = ReadContentDtosFromFile(e.FullPath);

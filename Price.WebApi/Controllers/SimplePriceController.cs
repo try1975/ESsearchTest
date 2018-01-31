@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
@@ -23,11 +24,13 @@ namespace Price.WebApi.Controllers
     //[Authorize]
     public class SimplePriceController : ApiController
     {
-        private IInternetSearchWatcher _internetSearchWatcher;
+        private readonly IInternetSearchWatcher _internetSearchWatcher;
+        private readonly ISearchItemStore _searchItemStore;
 
-        public SimplePriceController(IInternetSearchWatcher internetSearchWatcher)
+        public SimplePriceController(IInternetSearchWatcher internetSearchWatcher, ISearchItemStore searchItemStore)
         {
             _internetSearchWatcher = internetSearchWatcher;
+            _searchItemStore = searchItemStore;
         }
 
         /// <summary>
@@ -169,9 +172,9 @@ namespace Price.WebApi.Controllers
             return searchItemDto.ProcessedAt != null;
         }
 
-        private static SearchItemDto GetSearchItemDto(SearchItemParam searchItem, SearchPacketTaskDto searchPacketTaskDto)
+        private SearchItemDto GetSearchItemDto(SearchItemParam searchItem, SearchPacketTaskDto searchPacketTaskDto)
         {
-            var searchItemDto = SearchItemStore.Get($"{searchItem.Id}{searchPacketTaskDto.Source}");
+            var searchItemDto = _searchItemStore.Get($"{searchItem.Id}{searchPacketTaskDto.Source}");
             searchItemDto.Id = searchItem.Id;
             searchItemDto.Name = searchItem.Name;
             searchItemDto.Source = searchPacketTaskDto.Source;

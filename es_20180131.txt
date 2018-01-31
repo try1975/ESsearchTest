@@ -1,0 +1,329 @@
+GET md_med/content/fb12fb7e7bfc3020bef318b93e5713a7/_termvectors
+{
+  "fields" : ["name"],
+  "offsets" : true,
+  "payloads" : true,
+  "positions" : false,
+  "term_statistics" : true,
+  "field_statistics" : true,
+  "filter" : {
+      "max_num_terms" : 3,
+      "min_term_freq" : 1,
+      "min_doc_freq" : 1
+    }
+}
+
+DELETE md_xpath/content/4adf38915138e575ea18b212ab4fa4f9
+
+GET md_xpath/content/30ab8e11a5e0cd3449d1535783abd6b1
+
+POST md_xpath/content/_search
+{
+  "query": {
+    "term": {
+      "domain": {
+        "value": "www.xn--80aal4acid5c.xn--p1ai"
+      }
+    }
+  }
+}
+
+POST md_xpath/_search
+{
+  "size": 20,
+  "query": {
+    "match_all": {}
+  },
+  "sort": [
+    {
+      "collectedAt": {
+        "order": "desc"
+      }
+    }
+  ]
+}
+
+
+POST md_prod/content/_search
+{
+"query": {"match": {
+  "name": "колбаса краковская"
+}}  
+}
+
+
+POST md_xpath/content/_search
+{
+  "size": 100,
+  "sort": [
+    {
+      "collectedAt": {
+        "order": "asc"
+      }
+    }
+  ],
+  "query": {
+    "range": {
+      "collectedAt": {
+        "lt": 1505500000
+      }
+    }
+  }
+}
+POST /_aliases
+{
+    "actions" : [
+        { "add" : { "index" : "md_xpath_v01", "alias" : "md5" } }
+    ]
+}
+
+POST md_xpath/content/_search
+{
+  "from": 0,
+  "size": 10,
+  "query": {
+    "range": {
+      "collectedAt": {
+        "lt": "now-20d/d"
+      }
+    }
+  }
+}
+
+DELETE md_xpath/content/fa86d307043430a5aaec0e15ad327e1f
+
+POST md_xpath/content/_search
+{
+  "size": 1,
+  "query": {
+    "match": {
+      "uri": "leroymerlin.ru"
+    }
+  }
+}
+
+POST md5/content/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "seller": "Озерки"
+          }
+        },
+        {
+          "term": {
+            "price": "375"
+          }
+        }
+      ]
+    }
+  }
+}
+
+get md5/_alias
+
+get md_xpath/content/WdohdGAB-4XJiYwMNDJw
+
+GET md_xpath/_search
+{
+  "size": 1,
+  "query": {
+    "term": {
+      "domain": {
+        "value": "apteka.ru"
+      }
+    }
+  }
+}
+
+POST md5/_search
+{
+  "query": {
+    "term": {
+      "id": {
+        "value": "e0d2d933b4cd132397e1678cfe611dbe"
+      }
+    }
+    }
+  }
+}
+
+
+GET md_xpath/_search
+{
+  "query": {
+    "match": {
+      "uri.keyword": "apteka.ru"
+    }
+  }
+}
+
+GET gz/content/_search
+{
+  "query": {"match_all": {}}
+}
+
+
+get md_xpath_v01/_mapping
+
+PUT md_xpath_v01
+{
+  "settings": {
+    "index": {
+      "analysis": {
+        "analyzer": {
+          "default": {
+            "filter": [
+              "lowercase"
+            ],
+            "char_filter": [
+              "html_strip"
+            ],
+            "tokenizer": "whitespace"
+          }
+        }
+      }
+    }
+  },
+  "aliases": {
+    "md_xpath": {}
+  },
+  "mappings": {
+    "content": {
+      "properties": {
+        "collectedAt": {
+          "type": "date"
+        },
+        "id": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "name": {
+          "type": "text"
+        },
+        "price": {
+          "type": "keyword",
+          "null_value": "0"
+        },
+        "uRI": {
+          "type": "keyword",
+          "index": false,
+          "null_value": "NULL"
+        }
+      }
+    }
+  }
+}
+
+
+
+GET md5/content/_search
+{
+  "query": {
+    "term": {
+      "seller": {
+        "value": "Карьер88"
+      }
+    }
+  }
+}
+
+GET md_xpath/content/_delete_by_query
+{
+  "query": {
+    "mat"
+  }
+}
+
+POST md5/content/_search
+{
+  "from": 0,
+  "size": 10,
+  "query": {
+    "range": {
+      "@timestamp": {
+        "lt": "now-20d/d"
+      }
+    }
+  }
+}
+
+GET md_v4/_settings
+GET md_v4/_mapping
+GET _analyze
+{
+   "tokenizer" : "whitespace",
+  "filter" : ["lowercase"],
+  "char_filter": ["html_strip"],
+  "explain" : true,
+  "attributes" : ["keyword", "position"],
+  "text": "Бактериофаг <b>клебсиелл. полив.жидкий</b> очищ, фл 20мл 2.2%  №4"
+}
+
+GET /_cat/indices?v
+
+DELETE /.watcher-history-6-2018.01.12
+
+GET _stats
+
+GET /_snapshot/_all
+
+GET /_snapshot/found-snapshots/_all
+
+GET /_snapshot/found-snapshots/scheduled-1510153008-instance-0000000005/_status
+
+POST /_snapshot/found-snapshots/scheduled-1510153008-instance-0000000005/_restore
+{
+  "indices": "gz*,md*",
+  "ignore_unavailable": false,
+  "include_global_state": true
+}
+
+GET md*/_recovery/
+
+GET /_aliases
+
+
+POST gz_v2/_forcemerge?only_expunge_deletes=true
+
+GET gz/content/_search
+{
+  "size": 1,
+  "sort": [
+    {
+      "@timestamp": {
+        "order": "desc"
+      }
+    }
+  ],
+  "query": {
+    "match_all": {}
+  }
+}
+GET gz/content/_search
+{
+  "query": {
+    "match": {
+      "uRI.keyword": "0176100001214000020"
+    }
+  }
+}
+
+
+
+GET _cluster/health?pretty
+
+GET /_cat/health?v
+
+GET /_cat/nodes?v
+
+GET /_cat/shards?v
+
+GET md5/_mapping

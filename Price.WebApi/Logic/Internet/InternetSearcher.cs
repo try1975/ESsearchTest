@@ -80,8 +80,10 @@ namespace Price.WebApi.Logic.Internet
                 analystProcess.OutputDataReceived += AnaystOutputHandler;
                 analystProcess.Start();
                 analystProcess.BeginOutputReadLine();
+                searchItemDto.AnalystProcessId = analystProcess.Id;
                 //Process.Start(AppGlobal.AnalystCon, arguments);
                 Logger.Log.Info("Process.Start called.");
+
             }
             catch (Exception exception)
             {
