@@ -1,3 +1,18 @@
+input {
+  jdbc {
+    jdbc_driver_library => "etc/logstash/bin/sqljdbc42.jar"
+    jdbc_driver_class => "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+    jdbc_connection_string => "connection string"
+    jdbc_user => "user"
+    jdbc_password => "password"
+    statement => "SELECT id, name, timestamp FROM [TableName] WHERE timestamp > :sql_last_value"
+     schedule => "* * * * *"
+   tracking_column => "timestamp"
+   tracking_column_type => "timestamp"
+   use_column_value => true
+  }
+}
+
 Запросы к эластику
 
 logstash grok from csv

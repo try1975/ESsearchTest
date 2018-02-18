@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using Common.Dto.Model.Packet;
 using Newtonsoft.Json;
+using PriceCommon.Enums;
 
 namespace Price.WebApi.Logic.Packet
 {
@@ -18,10 +19,9 @@ namespace Price.WebApi.Logic.Packet
             var storePath = PathService.GetSearchItemStorePath();
             if (File.Exists(storePath))
             {
-                _dictionary =
-                    JsonConvert.DeserializeObject<ConcurrentDictionary<int, SearchItemDto>>(
-                        File.ReadAllText(storePath));
+                _dictionary = JsonConvert.DeserializeObject<ConcurrentDictionary<int, SearchItemDto>>(File.ReadAllText(storePath));
                 Logger.Log.Error($"Load {nameof(SearchItemStore)}");
+                var itemsToRemove = new List<int>(_dictionary.Count);
                 foreach (var dto in _dictionary.Values)
                 {
                     if (dto.InCash(AppGlobal.CashSeconds))
@@ -31,10 +31,16 @@ namespace Price.WebApi.Logic.Packet
                     }
                     else
                     {
-                        SearchItemDto ignored;
-                        _dictionary.TryRemove(dto.Key.GetHashCode(), out ignored);
+                        itemsToRemove.Add(dto.Key.GetHashCode());
                     }
                 }
+                foreach (var i in itemsToRemove)
+                {
+                    // ReSharper disable once NotAccessedVariable
+                    SearchItemDto ignored;
+                    _dictionary.TryRemove(i, out ignored);
+                }
+                if (itemsToRemove.Any()) SaveDictionary(null, null);
             }
             else
             {
@@ -64,18 +70,17 @@ namespace Price.WebApi.Logic.Packet
 
         private static void KillAnalystProcess(object sender, EventArgs e)
         {
-            var dto = sender as SearchItemDto;
-            if (dto == null) return;
-            if (dto.AnalystProcessId <= 0) return;
             try
             {
+                var dto = (SearchItemDto)sender;
+                if (dto == null) return;
+                if (dto.AnalystProcessId <= 0) return;
                 var p = Process.GetProcessById(dto.AnalystProcessId);
                 p.Kill();
             }
             catch (Exception exception)
             {
                 Logger.Log.Error($"Process kill {exception}");
-                throw;
             }
         }
 
@@ -88,7 +93,7 @@ namespace Price.WebApi.Logic.Packet
 
         public IEnumerable<SearchItemDto> TakeCountInQueue(int count)
         {
-            return _dictionary.Values.Where(x => x.Status == TaskStatus.InQueue).Take(count).ToList();
+            return _dictionary.Values.Where(x => x.Status == TaskStatus.InQueue).Take(count);
         }
 
         public SearchItemDto GetOneByKeyInProcess(string aKey)

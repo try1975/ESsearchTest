@@ -9,6 +9,7 @@ using Common.Dto.Model;
 using Common.Dto.Model.Packet;
 using Price.WebApi.Logic.Interfaces;
 using Price.WebApi.Logic.Packet;
+using PriceCommon.Enums;
 
 namespace Price.WebApi.Logic.Internet
 {

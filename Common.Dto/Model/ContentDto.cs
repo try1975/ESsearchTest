@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Common.Dto.Logic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using PriceCommon.Enums;
 
 namespace Common.Dto.Model
 {
@@ -20,7 +20,7 @@ namespace Common.Dto.Model
         public PriceType PriceType { get; set; }
 
         [JsonIgnore]
-        public string PriceTypeString => Utils.GetDescription(PriceType);
+        public string PriceTypeString => PriceCommon.Utils.Utils.GetDescription(PriceType);
 
         /// <summary>
         ///     Наименование позиции

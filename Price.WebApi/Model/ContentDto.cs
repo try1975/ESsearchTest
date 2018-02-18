@@ -5,6 +5,7 @@ using Common.Dto.Logic;
 using Common.Dto.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using PriceCommon.Enums;
 
 namespace Price.WebApi.Model
 {
@@ -22,7 +23,7 @@ namespace Price.WebApi.Model
         public PriceType PriceType { get; set; }
 
         [JsonIgnore]
-        public string PriceTypeString => Utils.GetDescription(PriceType);
+        public string PriceTypeString => PriceCommon.Utils.Utils.GetDescription(PriceType);
 
         /// <summary>
         ///     Наименование позиции

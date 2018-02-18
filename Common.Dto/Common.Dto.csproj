@@ -44,11 +44,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDto.cs" />
     <Compile Include="ISearchPacketTaskStore.cs" />
-    <Compile Include="Logic\EnumLocalizeAttribite.cs" />
     <Compile Include="Md5Logstah.cs" />
     <Compile Include="Model\BasicContentDto.cs" />
-    <Compile Include="Model\PriceType.cs" />
+    <Compile Include="Model\NewApi\ContentExtDto.cs" />
+    <Compile Include="Model\NewApi\InternetContentDto.cs" />
+    <Compile Include="Model\NewApi\PacketDto.cs" />
+    <Compile Include="Model\NewApi\SearchItemCondition.cs" />
+    <Compile Include="Model\NewApi\SearchItemExtDto.cs" />
     <Compile Include="Model\XPath\XPathDto.cs" />
     <Compile Include="SearchPacketTaskStore.cs" />
     <Compile Include="Logic\Utils.cs" />
@@ -62,11 +66,15 @@
     <Compile Include="Model\Packet\SearchItemProperty.cs" />
     <Compile Include="Model\Packet\SearchPacketResultDto.cs" />
     <Compile Include="Model\Packet\SearchPacketTaskDto.cs" />
-    <Compile Include="Model\Packet\TaskStatus.cs" />
     <Compile Include="Model\SourceDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\PriceCommon\PriceCommon.csproj">
+      <Project>{0bdcaa8c-d511-46f0-b681-33dbed62c002}</Project>
+      <Name>PriceCommon</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

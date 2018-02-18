@@ -4,6 +4,7 @@ using System.Linq;
 using Common.Dto.Logic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using PriceCommon.Enums;
 
 namespace Common.Dto.Model.Packet
 {
@@ -70,10 +71,11 @@ namespace Common.Dto.Model.Packet
         public TaskStatus Status { get; set; }
 
         [JsonIgnore]
-        public string StatusString => Utils.GetDescription(Status);
+        public string StatusString => PriceCommon.Utils.Utils.GetDescription(Status);
 
         [JsonIgnore]
         public SearchItemParam SearchItem { get; set; }
+
         public IEnumerable<ContentDto> Content { get; set; }
 
         public int ContentCount

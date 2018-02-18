@@ -2,6 +2,7 @@
 using System.Linq;
 using Common.Dto.Logic;
 using Newtonsoft.Json;
+using PriceCommon.Enums;
 
 namespace Common.Dto.Model.Packet
 {

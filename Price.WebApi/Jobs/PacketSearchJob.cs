@@ -42,7 +42,7 @@ namespace Price.WebApi.Jobs
             //var searchItemDtos = SearchItemStore.Dictionary.Values.Where(z => z.Status == TaskStatus.InQueue)
             //    .Take(cnt)
             //    .ToList();
-            var searchItemDtos = _searchItemStore.TakeCountInQueue(cnt);
+            var searchItemDtos = _searchItemStore.TakeCountInQueue(cnt).ToList();
             foreach (var searchItemDto in searchItemDtos)
             {
                 searchItemDto.BeginProcess(Utils.GetUtcNow());

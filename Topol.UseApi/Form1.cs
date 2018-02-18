@@ -11,6 +11,7 @@ using Common.Dto;
 using Common.Dto.Model;
 using Common.Dto.Model.Packet;
 using Newtonsoft.Json;
+using PriceCommon.Enums;
 using Topol.UseApi.Data.Common;
 
 namespace Topol.UseApi

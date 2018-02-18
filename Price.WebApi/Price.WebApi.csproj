@@ -66,13 +66,25 @@
       <HintPath>..\packages\Elasticsearch.Net.6.0.0-alpha1\lib\net45\Elasticsearch.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+    <Reference Include="MySql.Data, Version=6.9.11.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.11\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.11.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.Entity.6.9.11\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Nest, Version=6.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
@@ -210,11 +222,13 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="AutoMappers\ContentAutoMapper.cs" />
     <Compile Include="Controllers\CommonController.cs" />
-    <Compile Include="Controllers\FetcheeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InternetController.cs" />
+    <Compile Include="Controllers\PacketController.cs" />
     <Compile Include="Controllers\PharmacyController.cs" />
+    <Compile Include="Controllers\SearchItemController.cs" />
     <Compile Include="Controllers\SimplePriceController.cs" />
+    <Compile Include="Controllers\TypedController.cs" />
     <Compile Include="Controllers\XpathController.cs" />
     <Compile Include="GetFiles\GetFile.ashx.cs">
       <DependentUpon>GetFile.ashx</DependentUpon>
@@ -226,12 +240,12 @@
     <Compile Include="Jobs\PacketSearchJob.cs" />
     <Compile Include="Jobs\PacketSearchScheduler.cs" />
     <Compile Include="Logic\AppGlobal.cs" />
-    <Compile Include="Logic\Fetchee\FetcheeTasks.cs" />
     <Compile Include="Logic\IdService.cs" />
     <Compile Include="Logic\Interfaces\IInternetSearchWatcher.cs" />
     <Compile Include="Logic\Interfaces\IUpdatePriceWatcher.cs" />
     <Compile Include="Logic\Internet\InternetSearcher.cs" />
     <Compile Include="Logic\Internet\InternetSearchWatcher.cs" />
+    <Compile Include="Logic\Packet\ElasticSeacher.cs" />
     <Compile Include="Logic\Packet\ISearchItemStore.cs" />
     <Compile Include="Logic\Packet\PacketItemSeacher.cs" />
     <Compile Include="Logic\Packet\SearchItemStore.cs" />
@@ -244,6 +258,16 @@
     <Compile Include="Logic\UpdatePrice\UpdatePriceWatcher.cs" />
     <Compile Include="Logic\StateFiles.cs" />
     <Compile Include="Logic\XPath\XPathStore.cs" />
+    <Compile Include="Maintenance\Classes\ContentApi.cs" />
+    <Compile Include="Maintenance\Classes\InternetContentApi.cs" />
+    <Compile Include="Maintenance\Classes\PacketApi.cs" />
+    <Compile Include="Maintenance\Classes\SearchItemApi.cs" />
+    <Compile Include="Maintenance\Interfaces\IContentApi.cs" />
+    <Compile Include="Maintenance\Interfaces\IInternetContentApi.cs" />
+    <Compile Include="Maintenance\Interfaces\IPacketApi.cs" />
+    <Compile Include="Maintenance\Interfaces\ISearchItemApi.cs" />
+    <Compile Include="Maintenance\ITypedApi.cs" />
+    <Compile Include="Maintenance\TypedApi.cs" />
     <Compile Include="Model\ContentDto.cs" />
     <Compile Include="Model\UpdatePrice\UpdatePriceTaskDto.cs" />
     <Compile Include="Model\UpdatePrice\UpdatePriceDto.cs" />
@@ -371,6 +395,14 @@
     <ProjectReference Include="..\Norm.MedPrep\Norm.MedPrep.csproj">
       <Project>{4BAC3AC1-C876-4C4D-9CE9-541C8384F539}</Project>
       <Name>Norm.MedPrep</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Price.Db.Entities\Price.Db.Entities.csproj">
+      <Project>{b03942a6-d277-4bf7-b349-c490756565af}</Project>
+      <Name>Price.Db.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Price.Db.MysSql\Price.Db.MySql.csproj">
+      <Project>{11655a71-29f2-4782-a08f-2af6f002d5bf}</Project>
+      <Name>Price.Db.MySql</Name>
     </ProjectReference>
     <ProjectReference Include="..\PriceCommon\PriceCommon.csproj">
       <Project>{0bdcaa8c-d511-46f0-b681-33dbed62c002}</Project>

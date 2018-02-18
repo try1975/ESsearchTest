@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Common.Dto.Logic
+namespace PriceCommon.Enums
 {
     public class EnumLocalizeAttribite : Attribute
     {

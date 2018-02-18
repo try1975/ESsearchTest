@@ -11,6 +11,10 @@ namespace Price.WebApi.GetFiles
     public class GetFile : IHttpHandler
     {
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public void ProcessRequest(HttpContext context)
         {
             //if (!context.User.Identity.IsAuthenticated)

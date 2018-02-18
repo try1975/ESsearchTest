@@ -7,6 +7,7 @@ using System.Text;
 using Common.Dto.Model;
 using Common.Dto.Model.Packet;
 using Newtonsoft.Json;
+using PriceCommon.Enums;
 
 namespace Price.WebApi.Logic.Internet
 {

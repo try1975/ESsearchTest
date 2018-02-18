@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
+using PriceCommon.Enums;
 
 namespace PriceCommon.Utils
 {
@@ -119,6 +121,31 @@ namespace PriceCommon.Utils
                     yield return line;
                 }
             }
+        }
+
+        public static string GetDescription(Enum en)
+
+        {
+
+            Type type = en.GetType();
+
+            MemberInfo[] memInfo = type.GetMember(en.ToString());
+
+            if (memInfo != null && memInfo.Length > 0)
+
+            {
+
+                object[] attrs = memInfo[0].GetCustomAttributes(typeof(EnumLocalizeAttribite),
+                    false);
+
+                if (attrs != null && attrs.Length > 0)
+
+                    return ((EnumLocalizeAttribite)attrs[0]).Text;
+
+            }
+
+            return en.ToString();
+
         }
     }
 }

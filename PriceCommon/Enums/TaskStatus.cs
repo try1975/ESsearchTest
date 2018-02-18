@@ -1,6 +1,4 @@
-﻿using Common.Dto.Logic;
-
-namespace Common.Dto.Model.Packet
+﻿namespace PriceCommon.Enums
 {
     public enum TaskStatus
     {

@@ -56,6 +56,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\EnumLocalizeAttribite.cs" />
+    <Compile Include="Enums\PriceType.cs" />
+    <Compile Include="Enums\TaskStatus.cs" />
     <Compile Include="Model\Content.cs" />
     <Compile Include="Model\Expert.cs" />
     <Compile Include="Model\History.cs" />
@@ -73,6 +76,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

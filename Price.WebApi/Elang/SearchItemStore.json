@@ -263,7 +263,37 @@
         "PriceVariants": null
       }
     ],
-    "ContentCount": 15
+    "ContentCount": 15,
+    "AnalystProcessId": 0
+  },
+  "-485444843": {
+    "Id": "30573",
+    "Name": "Верапамил; раствор для внутривенного введения; дозировка: 2.5 мг/мл; фасовка: 5 шт.; ед.объём: 2 мл",
+    "StartProcessed": 1518709152,
+    "LastUpdate": 1518709180,
+    "ProcessedAt": 1518709180,
+    "Status": "Ok",
+    "Content": [
+      {
+        "PriceType": "Trusted",
+        "Name": "Верапамил, ампулы 5 мг, 2 мл, 10 шт.",
+        "Price": "51",
+        "Nprice": 51.0,
+        "Uri": "http://www.eapteka.ru/goods/id205815/",
+        "Seller": "ЕАптека",
+        "CollectedAt": 1511204146,
+        "Collected": "2017-11-20T18:55:46",
+        "Id": "a82790775c312f18edabd36e99787300",
+        "Producer": null,
+        "Phones": null,
+        "Okpd2": null,
+        "Okei": null,
+        "Currency": null,
+        "PriceVariants": null
+      }
+    ],
+    "ContentCount": 1,
+    "AnalystProcessId": 0
   },
   "-782288934": {
     "Id": "22109",
@@ -3674,7 +3704,8 @@
         "PriceVariants": null
       }
     ],
-    "ContentCount": 200
+    "ContentCount": 200,
+    "AnalystProcessId": 0
   },
   "-782288933": {
     "Id": "22108",
@@ -3684,6 +3715,7 @@
     "ProcessedAt": 1517386631,
     "Status": "Ok",
     "Content": [],
-    "ContentCount": 0
+    "ContentCount": 0,
+    "AnalystProcessId": 0
   }
 }
