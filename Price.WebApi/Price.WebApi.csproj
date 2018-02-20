@@ -236,6 +236,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Jobs\CheckInternetSearchJob.cs" />
     <Compile Include="Jobs\DeleteDefaultEsIndexOldRecordsScheduler.cs" />
     <Compile Include="Jobs\PacketSearchJob.cs" />
     <Compile Include="Jobs\PacketSearchScheduler.cs" />
@@ -245,10 +246,11 @@
     <Compile Include="Logic\Interfaces\IUpdatePriceWatcher.cs" />
     <Compile Include="Logic\Internet\InternetSearcher.cs" />
     <Compile Include="Logic\Internet\InternetSearchWatcher.cs" />
-    <Compile Include="Logic\Packet\ElasticSeacher.cs" />
+    <Compile Include="Logic\Packet\ElasticSeacherAndDbWriter.cs" />
     <Compile Include="Logic\Packet\ISearchItemStore.cs" />
     <Compile Include="Logic\Packet\PacketItemSeacher.cs" />
     <Compile Include="Logic\Packet\SearchItemStore.cs" />
+    <Compile Include="Logic\Packet\ThreadUtil.cs" />
     <Compile Include="Logic\PathService.cs" />
     <Compile Include="Logic\ProductParser.cs" />
     <Compile Include="Logic\Screenshotter.cs" />

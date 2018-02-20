@@ -85,7 +85,7 @@ namespace Price.WebApi.Logic.Packet
                         }
 
                         var pharmacySearcher = new PharmacySearcher(source);
-                        listContent = pharmacySearcher.Search(name, firstWords, lekForm, upak, dozValue, dozKey, syn);
+                        //listContent = pharmacySearcher.Search(name, firstWords, lekForm, upak, dozValue, dozKey, syn);
 
                         //// add xpath results
                         //var xpathSearcher = new PharmacySearcher("md_xpath");

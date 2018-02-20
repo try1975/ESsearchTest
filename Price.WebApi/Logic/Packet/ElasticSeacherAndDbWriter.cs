@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using AutoMapper;
-using Common.Dto.Model;
 using Common.Dto.Model.Packet;
 using Norm.MedPrep;
+using Price.Db.Entities.Entities;
+using Price.Db.MysSql;
+using Price.Db.MysSql.QueryProcessors;
 using PriceCommon.Model;
 using PricePipeCore;
 
 namespace Price.WebApi.Logic.Packet
 {
-    public static class ElasticSeacher
+    public static class ElasticSeacherAndDbWriter
     {
-        public static IEnumerable<ContentDto> Search(SearchItemParam searchItem, string allSources)
+        public static void Execute(SearchItemParam searchItem, string allSources, string searchItemId)
         {
-            var content = new List<ContentDto>();
             var sources = allSources.ToLower().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
+            var dbContext = new PriceContext();
+            var contentQuery = new ContentQuery(dbContext);
             foreach (var source in sources)
             {
                 try
@@ -70,6 +71,18 @@ namespace Price.WebApi.Logic.Packet
 
                         var pharmacySearcher = new PharmacySearcher(source);
                         listContent = pharmacySearcher.Search(name, firstWords, lekForm, upak, dozValue, dozKey, syn);
+                        contentQuery.InsertEntities(listContent.Select(contentDto => new ContentEntity()
+                            {
+                                ElasticId = contentDto.Id,
+                                Name = contentDto.Name,
+                                Price = contentDto.Price,
+                                Uri = contentDto.Uri,
+                                SearchItemId = searchItemId,
+                                CollectedAt = contentDto.CollectedAt,
+                                Okpd2 = contentDto.Okpd2
+                            })
+                            .ToList()
+                        );
                     }
                     else
                     {
@@ -94,10 +107,20 @@ namespace Price.WebApi.Logic.Packet
                             }
                             var simpleSearcher = new SimpleSearcher(source);
                             listContent = simpleSearcher.MaybeSearch(must, should, string.Empty);
+                            contentQuery.InsertEntities(listContent.Select(contentDto => new ContentEntity()
+                                {
+                                    ElasticId = contentDto.Id,
+                                    Name = contentDto.Name,
+                                    Price = contentDto.Price,
+                                    Uri = contentDto.Uri,
+                                    SearchItemId = searchItemId,
+                                    CollectedAt = contentDto.CollectedAt,
+                                    Okpd2 = contentDto.Okpd2
+                                })
+                                .ToList()
+                            );
                         }
                     }
-                    var listContentDto = Mapper.Map<IEnumerable<ContentDto>>(listContent ?? new List<Content>());
-                    content.AddRange(listContentDto);
                 }
                 catch (Exception e)
                 {
@@ -105,7 +128,6 @@ namespace Price.WebApi.Logic.Packet
                     Logger.Log.Error($"{e}");
                 }
             }
-            return content;
         }
     }
 }

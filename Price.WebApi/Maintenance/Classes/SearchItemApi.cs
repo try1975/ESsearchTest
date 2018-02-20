@@ -71,6 +71,14 @@ namespace Price.WebApi.Maintenance.Classes
                 queryCondition = queryCondition
                     .Where(z => z.ExtId == searchItemCondition.ExtId)
                     ;
+            if (searchItemCondition.IsInternet)
+                queryCondition = queryCondition
+                        .Where(z => !string.IsNullOrEmpty(z.InternetSessionId))
+                    ;
+            if (searchItemCondition.Status!=null)
+                queryCondition = queryCondition
+                        .Where(z => z.Status== searchItemCondition.Status)
+                    ;
             var list = queryCondition.ToList();
             return Mapper.Map<List<SearchItemExtDto>>(list);
         }

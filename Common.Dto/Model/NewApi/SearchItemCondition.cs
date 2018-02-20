@@ -7,8 +7,10 @@ namespace Common.Dto.Model.NewApi
     {
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
-        public TaskStatus Status { get; set; }
+        public TaskStatus? Status { get; set; }
         public string Name { get; set; }
         public string ExtId { get; set; }
+
+        public bool IsInternet { get; set; }
     }
 }

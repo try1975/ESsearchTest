@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Common.Dto;
@@ -26,6 +27,8 @@ namespace Price.WebApi.Controllers
     {
         private readonly ISearchItemApi _searchItemApi;
         private readonly IContentApi _contentApi;
+
+        delegate void ElasticDelegate(SearchItemParam searchItem, string allSources, string searchItemId);
 
         /// <summary>
         /// 
@@ -57,6 +60,8 @@ namespace Price.WebApi.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     new ErrorDto { Message = $"not found {nameof(searchItemsParam)} in parameters" });
             #endregion
+
+            Delegate dWrite = new ElasticDelegate(ElasticSeacherAndDbWriter.Execute);
 
             string internet;
             internet = $"{nameof(internet)}";
@@ -91,21 +96,25 @@ namespace Price.WebApi.Controllers
                         Normalizer = searchItem.Norm
                     };
                     dto.BeginProcess(Utils.GetUtcNow());
+                    
                     if (searchInInternet) CallInternetSearchService(json, dto);
                     _searchItemApi.AddItem(dto);
-                    var listContentDto = ElasticSeacher.Search(searchItem, searchItemDto.Source);
-                    var listContenExtDto = listContentDto.Select(contentDto => new ContentExtDto()
-                        {
-                            ElasticId = contentDto.Id,
-                            Name = contentDto.Name,
-                            Price = contentDto.Price,
-                            Uri = contentDto.Uri,
-                            SearchItemId = id,
-                            CollectedAt = contentDto.CollectedAt,
-                            Okpd2 = contentDto.Okpd2
-                        })
-                        .ToList();
-                    _contentApi.AddItems(listContenExtDto);
+
+                    ThreadUtil.FireAndForget(dWrite, new object[] { searchItem, searchItemDto.Source, id });
+
+                    //var listContentDto = ElasticSeacher.Search(searchItem, searchItemDto.Source);
+                    //var listContenExtDto = listContentDto.Select(contentDto => new ContentExtDto()
+                    //{
+                    //    ElasticId = contentDto.Id,
+                    //    Name = contentDto.Name,
+                    //    Price = contentDto.Price,
+                    //    Uri = contentDto.Uri,
+                    //    SearchItemId = id,
+                    //    CollectedAt = contentDto.CollectedAt,
+                    //    Okpd2 = contentDto.Okpd2
+                    //})
+                    //    .ToList();
+                    //_contentApi.AddItems(listContenExtDto);
 
                 }
                 searchPacketTaskDto.SearchItems.Add(searchItemDto);

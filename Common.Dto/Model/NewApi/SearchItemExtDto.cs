@@ -21,12 +21,12 @@ namespace Common.Dto.Model.NewApi
 
         public string Source { get; set; }
         public string ExtId { get; set; }
-        [JsonIgnore]
+        //[JsonIgnore]
         public string InternetSessionId { get; set; }
 
         public string Normalizer { get; set; }
 
-        [JsonIgnore]
+        //[JsonIgnore]
         public string JsonText { get; set; }
         //public int ContentCount
         //{

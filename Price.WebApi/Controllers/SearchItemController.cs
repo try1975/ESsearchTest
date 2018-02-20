@@ -6,6 +6,7 @@ using Price.WebApi.Maintenance.Interfaces;
 
 namespace Price.WebApi.Controllers
 {
+    //[RoutePrefix("api/test")]
     public class SearchItemController : TypedController<SearchItemExtDto, string>
     {
         public SearchItemController(ISearchItemApi api) : base(api)

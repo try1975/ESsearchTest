@@ -168,7 +168,7 @@ GET gz/content/_search
 
 get md_xpath_v01/_mapping
 
-PUT md_xpath_v01
+PUT md_v5
 {
   "settings": {
     "index": {
@@ -188,8 +188,10 @@ PUT md_xpath_v01
     }
   },
   "aliases": {
-    "md_xpath": {}
-  },
+      "md5": {},
+      "md_history": {},
+      "md_med": {}
+    },
   "mappings": {
     "content": {
       "properties": {
@@ -208,6 +210,10 @@ PUT md_xpath_v01
         "name": {
           "type": "text"
         },
+		"seller": {
+            "type": "keyword",
+            "null_value": "NULL"
+          },
         "price": {
           "type": "keyword",
           "null_value": "0"
