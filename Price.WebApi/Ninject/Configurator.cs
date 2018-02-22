@@ -39,8 +39,6 @@ namespace Price.WebApi.Ninject
 
             #region Api and Query
 
-            container.Bind<IPacketApi>().To<PacketApi>().InRequestScope();
-            container.Bind<IPacketQuery>().To<PacketQuery>().InRequestScope();
             container.Bind<ISearchItemApi>().To<SearchItemApi>().InRequestScope();
             container.Bind<ISearchItemQuery>().To<SearchItemQuery>().InRequestScope();
             container.Bind<IInternetContentApi>().To<InternetContentApi>().InRequestScope();

@@ -31,8 +31,7 @@ namespace Price.WebApi
                 .ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 
             // запуск выполнения работы
-            PacketSearchScheduler.Start();
-            //DeleteDefaultEsIndexOldRecordsScheduler.Start();
+            TopolScheduler.Start();
         }
     }
 }

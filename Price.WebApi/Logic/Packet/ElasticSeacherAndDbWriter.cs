@@ -2,28 +2,45 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Common.Dto.Logic;
 using Common.Dto.Model.Packet;
 using Norm.MedPrep;
 using Price.Db.Entities.Entities;
 using Price.Db.MysSql;
 using Price.Db.MysSql.QueryProcessors;
+using PriceCommon.Enums;
 using PriceCommon.Model;
 using PricePipeCore;
 
 namespace Price.WebApi.Logic.Packet
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class ElasticSeacherAndDbWriter
     {
-        public static void Execute(SearchItemParam searchItem, string allSources, string searchItemId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="searchItem"></param>
+        /// <param name="allSources"></param>
+        /// <param name="id"></param>
+        public static void Execute(SearchItemParam searchItem, string allSources, string id)
         {
             var sources = allSources.ToLower().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            if (sources.Length == 0) return;
             var dbContext = new PriceContext();
             var contentQuery = new ContentQuery(dbContext);
-            foreach (var source in sources)
+            var searchItemQuery = new SearchItemQuery(dbContext);
+            string internet;
+            internet = $"{nameof(internet)}";
+            var inInternet= false;
+            try
             {
-                try
+                foreach (var source in sources)
                 {
-                    IEnumerable<Content> listContent = null;
+                    if (source == internet) { inInternet = true; continue; }
+                    IEnumerable<Content> listContent;
                     var delimiter = SimpleSearcher.ListDelimiter.FirstOrDefault();
                     var splitResult = searchItem.Name.Split(SimpleSearcher.ListDelimiter,
                         StringSplitOptions.RemoveEmptyEntries);
@@ -68,65 +85,57 @@ namespace Price.WebApi.Logic.Packet
                         {
                             syn = firstWords + "," + string.Join(",", searchItem.Syn.Select(p => p.Trim()));
                         }
-
-                        var pharmacySearcher = new PharmacySearcher(source);
-                        listContent = pharmacySearcher.Search(name, firstWords, lekForm, upak, dozValue, dozKey, syn);
-                        contentQuery.InsertEntities(listContent.Select(contentDto => new ContentEntity()
-                            {
-                                ElasticId = contentDto.Id,
-                                Name = contentDto.Name,
-                                Price = contentDto.Price,
-                                Uri = contentDto.Uri,
-                                SearchItemId = searchItemId,
-                                CollectedAt = contentDto.CollectedAt,
-                                Okpd2 = contentDto.Okpd2
-                            })
-                            .ToList()
-                        );
+                        listContent = new PharmacySearcher(source).Search(name, firstWords, lekForm, upak, dozValue, dozKey, syn);
                     }
                     else
                     {
-                        if (splitResult.Length > 0)
+                        if (splitResult.Length <= 0) continue;
+                        var must = splitResult[0].Trim().Replace(" ", delimiter);
+                        var i = 1;
+                        if (splitResult.Length > 1)
                         {
-                            var must = splitResult[0].Trim().Replace(" ", delimiter);
-                            var i = 1;
-                            if (splitResult.Length > 1)
-                            {
-                                must = $"{must}{delimiter}{splitResult[1].Trim().Replace(" ", delimiter)}";
-                                i = 2;
-                            }
-                            if (splitResult.Length > 2)
-                            {
-                                must = $"{must}{delimiter}{splitResult[2].Trim().Replace(" ", delimiter)}";
-                                i = 3;
-                            }
-                            var should = string.Empty;
-                            if (splitResult.Length > i)
-                            {
-                                should = string.Join(delimiter, splitResult.Skip(i).Select(p => p.Trim()));
-                            }
-                            var simpleSearcher = new SimpleSearcher(source);
-                            listContent = simpleSearcher.MaybeSearch(must, should, string.Empty);
-                            contentQuery.InsertEntities(listContent.Select(contentDto => new ContentEntity()
-                                {
-                                    ElasticId = contentDto.Id,
-                                    Name = contentDto.Name,
-                                    Price = contentDto.Price,
-                                    Uri = contentDto.Uri,
-                                    SearchItemId = searchItemId,
-                                    CollectedAt = contentDto.CollectedAt,
-                                    Okpd2 = contentDto.Okpd2
-                                })
-                                .ToList()
-                            );
+                            must = $"{must}{delimiter}{splitResult[1].Trim().Replace(" ", delimiter)}";
+                            i = 2;
                         }
+                        if (splitResult.Length > 2)
+                        {
+                            must = $"{must}{delimiter}{splitResult[2].Trim().Replace(" ", delimiter)}";
+                            i = 3;
+                        }
+                        var should = string.Empty;
+                        if (splitResult.Length > i)
+                        {
+                            should = string.Join(delimiter, splitResult.Skip(i).Select(p => p.Trim()));
+                        }
+                        listContent = new SimpleSearcher(source).MaybeSearch(must, should, string.Empty);
                     }
+                    contentQuery.InsertEntities(listContent.Select(contentDto => new ContentEntity
+                    {
+                        ElasticId = contentDto.Id,
+                        Name = contentDto.Name,
+                        Price = contentDto.Price,
+                        Uri = contentDto.Uri,
+                        SearchItemId = id,
+                        CollectedAt = contentDto.CollectedAt,
+                        Okpd2 = contentDto.Okpd2
+                    }).ToList());
                 }
-                catch (Exception e)
+                if (inInternet == false)
                 {
-                    Debug.WriteLine(e);
-                    Logger.Log.Error($"{e}");
+                    var entity= searchItemQuery.GetEntity(id);
+                    entity.ProcessedAt = Utils.GetUtcNow();
+                    entity.Status = TaskStatus.Ok;
+                    searchItemQuery.UpdateEntity(entity);
                 }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                Logger.Log.Error($"{e}");
+                var entity = searchItemQuery.GetEntity(id);
+                entity.ProcessedAt = Utils.GetUtcNow();
+                entity.Status = TaskStatus.Error;
+                searchItemQuery.UpdateEntity(entity);
             }
         }
     }

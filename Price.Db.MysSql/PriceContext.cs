@@ -18,7 +18,6 @@ namespace Price.Db.MysSql
         {
         }
 
-        public virtual DbSet<PacketEntity> Packets { get; set; }
         public virtual DbSet<SearchItemEntity> SearchItems { get; set; }
         public virtual DbSet<InternetContentEntity> InternetContents { get; set; }
         public virtual DbSet<ContentEntity> Contents { get; set; }
@@ -26,7 +25,6 @@ namespace Price.Db.MysSql
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             const string prefix = "";
-            modelBuilder.Configurations.Add(new PacketMySqlMap($"{prefix}{nameof(Packets)}"));
             modelBuilder.Configurations.Add(new SearchItemMySqlMap($"{prefix}{nameof(SearchItems)}"));
             modelBuilder.Configurations.Add(new InternetContentMySqlMap($"{prefix}history"));
             modelBuilder.Configurations.Add(new ContentMySqlMap($"{prefix}{nameof(Contents)}"));

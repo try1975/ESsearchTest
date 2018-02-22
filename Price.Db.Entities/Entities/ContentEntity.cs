@@ -11,5 +11,6 @@
         public string Okpd2 { get; set; }
         public string SearchItemId { get; set; }
         public SearchItemEntity SearchItem { get; set; }
+        public string Screenshot { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Common.Dto.Model;
+using Common.Dto.Model.NewApi;
 using Common.Dto.Model.Packet;
 using PriceCommon.Model;
 using Topol.UseApi.Interfaces.Common;
@@ -13,6 +14,8 @@ namespace Topol.UseApi.Data.Common
     public class DataMаnager : IDataMаnager
     {
         private readonly string _endpointPostPacketAsync;
+        private readonly string _endpointSearchItemStatus;
+        private readonly string _endpointSearchItemContent;
         private readonly string _endpointMaybe;
         private readonly string _endpointOkpd2;
         private readonly string _endpointInternet;
@@ -25,7 +28,10 @@ namespace Topol.UseApi.Data.Common
             var baseApi = ConfigurationManager.AppSettings["BaseApi"];
             var token = ConfigurationManager.AppSettings["ExternalToken"];
 
-            _endpointPostPacketAsync = $"{baseApi}api/simpleprice/packet/";
+            //_endpointPostPacketAsync = $"{baseApi}api/simpleprice/packet/";
+            _endpointPostPacketAsync = $"{baseApi}api/packet/";
+            _endpointSearchItemStatus = $"{baseApi}api/searchitem/status/";
+            _endpointSearchItemContent = $"{baseApi}api/searchitem/content/";
             _endpointMaybe = $"{baseApi}api/simpleprice/maybe/";
             _endpointOkpd2 = $"{baseApi}api/common/okpd2reverse/";
             _endpointInternet = $"{baseApi}api/internet/";
@@ -38,22 +44,32 @@ namespace Topol.UseApi.Data.Common
             _apiHttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(token);
         }
 
-        public async Task<SearchPacketTaskDto> PostPacketAsync(List<SearchItemParam> searchItemsParam, string source = "")
+        public async Task<List<SearchItemHeaderDto>> PostPacketAsync(List<SearchItemParam> searchItemsParam, string source = "", string keywords="")
         {
-            using (var response = await _apiHttpClient.PostAsJsonAsync($"{_endpointPostPacketAsync}?source={source}", searchItemsParam))
+            using (var response = await _apiHttpClient.PostAsJsonAsync($"{_endpointPostPacketAsync}?source={source}&keywords={keywords}", searchItemsParam))
             {
                 if (!response.IsSuccessStatusCode) return null;
-                var result = await response.Content.ReadAsAsync<SearchPacketTaskDto>();
+                var result = await response.Content.ReadAsAsync<List<SearchItemHeaderDto>>();
                 return result;
             }
         }
 
-        public async Task<SearchPacketTaskDto> GetPacketStatus(string id, string source = "")
+        public async Task<SearchItemHeaderDto> GetSearchItemStatus(string id)
         {
-            using (var response = await _apiHttpClient.GetAsync($"{_endpointPostPacketAsync}{id}/?source={source}"))
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointSearchItemStatus}{id}"))
             {
                 if (!response.IsSuccessStatusCode) return null;
-                var result = await response.Content.ReadAsAsync<SearchPacketTaskDto>();
+                var result = await response.Content.ReadAsAsync<SearchItemHeaderDto>();
+                return result;
+            }
+        }
+
+        public async Task<List<ContentExtDto>> GetSearchItemContent(string id)
+        {
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointSearchItemContent}{id}"))
+            {
+                if (!response.IsSuccessStatusCode) return null;
+                var result = await response.Content.ReadAsAsync<List<ContentExtDto>>();
                 return result;
             }
         }

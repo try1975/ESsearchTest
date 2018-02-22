@@ -84,6 +84,7 @@
     </Compile>
     <Compile Include="Interfaces\Common\IDataManager.cs" />
     <Compile Include="Model\ContentUseApi.cs" />
+    <Compile Include="Model\SearchItemsStore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -110,7 +111,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

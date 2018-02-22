@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http;
-using System.Web.Http.Description;
+using System.Web.Mvc;
 using AutoMapper;
+using Common.Dto.Logic;
 using Common.Dto.Model.NewApi;
 using Price.Db.Entities.Entities;
 using Price.Db.Entities.QueryProcessors;
+using Price.WebApi.GetFiles;
 using Price.WebApi.Maintenance.Interfaces;
 using PriceCommon.Enums;
+
 
 namespace Price.WebApi.Maintenance.Classes
 {
@@ -16,6 +18,19 @@ namespace Price.WebApi.Maintenance.Classes
     {
         private readonly IInternetContentQuery _internetContentQuery;
         private readonly IContentQuery _contentQuery;
+
+        public string BaseUrl
+        {
+            get { return _baseUrl; }
+            set
+            {
+                _baseUrl = value;
+                _getUrl = $"{_baseUrl}/GetFiles/{nameof(GetFile)}.ashx?id=";
+            }
+        }
+
+        private string _getUrl;
+        private string _baseUrl;
 
         public SearchItemApi(ISearchItemQuery query, IInternetContentQuery internetContentQuery, IContentQuery contentQuery) : base(query)
         {
@@ -41,6 +56,7 @@ namespace Price.WebApi.Maintenance.Classes
                     .Where(z => z.session_id == entity.InternetSessionId)
                     .ToList()
                 ;
+
             dto.Contents.AddRange(internetResults.Select(z => new ContentExtDto()
             {
                 Id = z.Id,
@@ -49,15 +65,11 @@ namespace Price.WebApi.Maintenance.Classes
                 Uri = z.url,
                 SearchItemId = id,
                 CollectedAt = (long)z.dt.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
-                PriceType = PriceType.Check
+                PriceType = PriceType.Check,
+                Screenshot = string.IsNullOrEmpty(z.contact_url) ? null : $"{_getUrl}{z.contact_url}"
             })
                 .ToList());
             return dto;
-        }
-
-        public bool Exists(string id)
-        {
-            return Query.GetEntity(id) != null;
         }
 
         public IEnumerable<SearchItemExtDto> GetItemsByCondition(SearchItemCondition searchItemCondition)
@@ -75,12 +87,74 @@ namespace Price.WebApi.Maintenance.Classes
                 queryCondition = queryCondition
                         .Where(z => !string.IsNullOrEmpty(z.InternetSessionId))
                     ;
-            if (searchItemCondition.Status!=null)
+            if (searchItemCondition.Status != null)
                 queryCondition = queryCondition
-                        .Where(z => z.Status== searchItemCondition.Status)
+                        .Where(z => z.Status == searchItemCondition.Status)
                     ;
             var list = queryCondition.ToList();
             return Mapper.Map<List<SearchItemExtDto>>(list);
         }
+
+        public SearchItemHeaderDto GetItemHeader(string id)
+        {
+            var entity = Query.GetEntity(id);
+            return Mapper.Map<SearchItemHeaderDto>(entity);
+        }
+
+        public List<ContentExtDto> GetItemContents(string id)
+        {
+            var entity = Query.GetEntity(id);
+            if (entity == null) return null;
+
+            var contentResults = _contentQuery
+                .GetEntities()
+                .Where(z => z.SearchItemId == entity.Id)
+                .ToList();
+            //var list = Mapper.Map<List<ContentExtDto>>(contentResults);
+            var list = contentResults.Select(z => new ContentExtDto
+            {
+                Id = z.Id,
+                Name = z.Name,
+                Price = z.Price,
+                Uri = z.Uri,
+                SearchItemId = z.SearchItemId,
+                CollectedAt = z.CollectedAt,
+                PriceType = PriceType.Trusted,
+                ElasticId = z.ElasticId,
+                Screenshot = string.IsNullOrEmpty(z.Screenshot) ? null : $"{_getUrl}{z.Screenshot}"
+            })
+                .ToList();
+            if (string.IsNullOrEmpty(entity.InternetSessionId)) return list;
+
+            var internetResults = _internetContentQuery
+                    .GetEntities()
+                    .Where(z => z.session_id == entity.InternetSessionId)
+                    .ToList()
+                ;
+
+            list.AddRange(internetResults.Select(z => new ContentExtDto()
+            {
+                Id = z.Id,
+                Name = z.preview,
+                Price = z.price.ToString(),
+                Uri = z.url,
+                SearchItemId = id,
+                CollectedAt = (long)z.dt.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
+                PriceType = PriceType.Check,
+                Screenshot = string.IsNullOrEmpty(z.contact_url) ? null : $"{_getUrl}{z.contact_url}"
+            })
+                .ToList());
+            return list;
+        }
+
+        public bool SetCompleted(string id)
+        {
+            var entity = Query.GetEntity(id);
+            entity.ProcessedAt = Utils.GetUtcNow();
+            entity.Status = TaskStatus.Ok;
+            return Query.UpdateEntity(entity) != null;
+        }
+
+
     }
 }

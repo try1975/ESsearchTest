@@ -46,6 +46,11 @@ namespace Price.Db.MysSql.Mappings
                 .HasMaxLength(128)
                 ;
 
+            Property(e => e.Screenshot)
+                .IsOptional()
+                .HasMaxLength(128)
+                ;
+
             ToTable($"{tableName}");
 
         }

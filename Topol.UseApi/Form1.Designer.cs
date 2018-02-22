@@ -92,8 +92,14 @@
             this.panel16 = new System.Windows.Forms.Panel();
             this.tbOkpd2 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.splitter5 = new System.Windows.Forms.Splitter();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.gbSource = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.tbExtId = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.pnlPacket.SuspendLayout();
             this.gbPacketText.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -128,6 +134,7 @@
             this.panel10.SuspendLayout();
             this.panel15.SuspendLayout();
             this.panel16.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.gbSource.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -139,7 +146,7 @@
             this.pnlPacket.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlPacket.Location = new System.Drawing.Point(3, 3);
             this.pnlPacket.Name = "pnlPacket";
-            this.pnlPacket.Size = new System.Drawing.Size(735, 177);
+            this.pnlPacket.Size = new System.Drawing.Size(810, 177);
             this.pnlPacket.TabIndex = 0;
             // 
             // gbPacketText
@@ -148,7 +155,7 @@
             this.gbPacketText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbPacketText.Location = new System.Drawing.Point(0, 42);
             this.gbPacketText.Name = "gbPacketText";
-            this.gbPacketText.Size = new System.Drawing.Size(735, 92);
+            this.gbPacketText.Size = new System.Drawing.Size(810, 92);
             this.gbPacketText.TabIndex = 5;
             this.gbPacketText.TabStop = false;
             this.gbPacketText.Text = "Пакет ТРУ";
@@ -160,7 +167,7 @@
             this.tbTruItems.Multiline = true;
             this.tbTruItems.Name = "tbTruItems";
             this.tbTruItems.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbTruItems.Size = new System.Drawing.Size(729, 73);
+            this.tbTruItems.Size = new System.Drawing.Size(804, 73);
             this.tbTruItems.TabIndex = 1;
             this.tbTruItems.Text = resources.GetString("tbTruItems.Text");
             this.tbTruItems.WordWrap = false;
@@ -172,7 +179,7 @@
             this.pnlLoadPacket.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlLoadPacket.Location = new System.Drawing.Point(0, 0);
             this.pnlLoadPacket.Name = "pnlLoadPacket";
-            this.pnlLoadPacket.Size = new System.Drawing.Size(735, 42);
+            this.pnlLoadPacket.Size = new System.Drawing.Size(810, 42);
             this.pnlLoadPacket.TabIndex = 4;
             // 
             // btnLoad
@@ -191,7 +198,7 @@
             this.tbFileName.Enabled = false;
             this.tbFileName.Location = new System.Drawing.Point(281, 12);
             this.tbFileName.Name = "tbFileName";
-            this.tbFileName.Size = new System.Drawing.Size(442, 20);
+            this.tbFileName.Size = new System.Drawing.Size(517, 20);
             this.tbFileName.TabIndex = 0;
             // 
             // pnlCallPacket
@@ -200,7 +207,7 @@
             this.pnlCallPacket.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlCallPacket.Location = new System.Drawing.Point(0, 134);
             this.pnlCallPacket.Name = "pnlCallPacket";
-            this.pnlCallPacket.Size = new System.Drawing.Size(735, 43);
+            this.pnlCallPacket.Size = new System.Drawing.Size(810, 43);
             this.pnlCallPacket.TabIndex = 2;
             // 
             // btnSearchPacket
@@ -231,7 +238,7 @@
             this.gbPacketItems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbPacketItems.Location = new System.Drawing.Point(0, 0);
             this.gbPacketItems.Name = "gbPacketItems";
-            this.gbPacketItems.Size = new System.Drawing.Size(749, 115);
+            this.gbPacketItems.Size = new System.Drawing.Size(824, 115);
             this.gbPacketItems.TabIndex = 4;
             this.gbPacketItems.TabStop = false;
             this.gbPacketItems.Text = "Список ТРУ";
@@ -248,7 +255,7 @@
             this.dgvPacketItems.Location = new System.Drawing.Point(3, 16);
             this.dgvPacketItems.Name = "dgvPacketItems";
             this.dgvPacketItems.ReadOnly = true;
-            this.dgvPacketItems.Size = new System.Drawing.Size(743, 96);
+            this.dgvPacketItems.Size = new System.Drawing.Size(818, 96);
             this.dgvPacketItems.TabIndex = 2;
             this.dgvPacketItems.TimeFilter = true;
             // 
@@ -259,7 +266,7 @@
             this.gbContentItems.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gbContentItems.Location = new System.Drawing.Point(0, 118);
             this.gbContentItems.Name = "gbContentItems";
-            this.gbContentItems.Size = new System.Drawing.Size(749, 274);
+            this.gbContentItems.Size = new System.Drawing.Size(824, 274);
             this.gbContentItems.TabIndex = 5;
             this.gbContentItems.TabStop = false;
             this.gbContentItems.Text = "Результаты поиска";
@@ -276,7 +283,7 @@
             this.dgvContentItems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvContentItems.Location = new System.Drawing.Point(3, 58);
             this.dgvContentItems.Name = "dgvContentItems";
-            this.dgvContentItems.Size = new System.Drawing.Size(743, 213);
+            this.dgvContentItems.Size = new System.Drawing.Size(818, 213);
             this.dgvContentItems.TabIndex = 2;
             this.dgvContentItems.TimeFilter = true;
             // 
@@ -288,7 +295,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(3, 16);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(743, 42);
+            this.panel4.Size = new System.Drawing.Size(818, 42);
             this.panel4.TabIndex = 3;
             // 
             // btnDeleteSelected
@@ -321,11 +328,13 @@
             // panel2
             // 
             this.panel2.Controls.Add(this.panel11);
+            this.panel2.Controls.Add(this.splitter5);
+            this.panel2.Controls.Add(this.pictureBox1);
             this.panel2.Controls.Add(this.gbSource);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(763, 684);
+            this.panel2.Size = new System.Drawing.Size(1231, 684);
             this.panel2.TabIndex = 6;
             // 
             // panel11
@@ -334,7 +343,7 @@
             this.panel11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel11.Location = new System.Drawing.Point(0, 50);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(763, 634);
+            this.panel11.Size = new System.Drawing.Size(838, 634);
             this.panel11.TabIndex = 3;
             // 
             // tabControl1
@@ -346,7 +355,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(763, 634);
+            this.tabControl1.Size = new System.Drawing.Size(838, 634);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
@@ -357,7 +366,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(755, 608);
+            this.tabPage1.Size = new System.Drawing.Size(830, 608);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Поиск";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -370,7 +379,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(3, 210);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(749, 392);
+            this.panel3.Size = new System.Drawing.Size(824, 392);
             this.panel3.TabIndex = 3;
             // 
             // splitter2
@@ -378,7 +387,7 @@
             this.splitter2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.splitter2.Location = new System.Drawing.Point(0, 115);
             this.splitter2.Name = "splitter2";
-            this.splitter2.Size = new System.Drawing.Size(749, 3);
+            this.splitter2.Size = new System.Drawing.Size(824, 3);
             this.splitter2.TabIndex = 0;
             this.splitter2.TabStop = false;
             // 
@@ -387,7 +396,7 @@
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.splitter1.Location = new System.Drawing.Point(3, 602);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(749, 3);
+            this.splitter1.Size = new System.Drawing.Size(824, 3);
             this.splitter1.TabIndex = 3;
             this.splitter1.TabStop = false;
             // 
@@ -399,7 +408,7 @@
             this.tcApiSelect.Location = new System.Drawing.Point(3, 3);
             this.tcApiSelect.Name = "tcApiSelect";
             this.tcApiSelect.SelectedIndex = 0;
-            this.tcApiSelect.Size = new System.Drawing.Size(749, 207);
+            this.tcApiSelect.Size = new System.Drawing.Size(824, 207);
             this.tcApiSelect.TabIndex = 2;
             // 
             // tpPacketTru
@@ -408,7 +417,7 @@
             this.tpPacketTru.Location = new System.Drawing.Point(4, 22);
             this.tpPacketTru.Name = "tpPacketTru";
             this.tpPacketTru.Padding = new System.Windows.Forms.Padding(3);
-            this.tpPacketTru.Size = new System.Drawing.Size(741, 181);
+            this.tpPacketTru.Size = new System.Drawing.Size(816, 181);
             this.tpPacketTru.TabIndex = 0;
             this.tpPacketTru.Text = "Пакет ТРУ";
             this.tpPacketTru.UseVisualStyleBackColor = true;
@@ -419,7 +428,7 @@
             this.tpSingleTru.Location = new System.Drawing.Point(4, 22);
             this.tpSingleTru.Name = "tpSingleTru";
             this.tpSingleTru.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSingleTru.Size = new System.Drawing.Size(741, 181);
+            this.tpSingleTru.Size = new System.Drawing.Size(816, 181);
             this.tpSingleTru.TabIndex = 1;
             this.tpSingleTru.Text = "Один ТРУ";
             this.tpSingleTru.UseVisualStyleBackColor = true;
@@ -431,7 +440,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(735, 131);
+            this.panel1.Size = new System.Drawing.Size(810, 131);
             this.panel1.TabIndex = 5;
             // 
             // panel6
@@ -440,7 +449,7 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(0, 83);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(735, 43);
+            this.panel6.Size = new System.Drawing.Size(810, 43);
             this.panel6.TabIndex = 3;
             // 
             // button1
@@ -460,7 +469,7 @@
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel7.Location = new System.Drawing.Point(0, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(735, 83);
+            this.panel7.Size = new System.Drawing.Size(810, 83);
             this.panel7.TabIndex = 4;
             // 
             // panel8
@@ -470,7 +479,7 @@
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel8.Location = new System.Drawing.Point(0, 32);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(735, 32);
+            this.panel8.Size = new System.Drawing.Size(810, 32);
             this.panel8.TabIndex = 0;
             // 
             // cmbNorm
@@ -494,12 +503,14 @@
             // 
             // panel9
             // 
+            this.panel9.Controls.Add(this.tbExtId);
+            this.panel9.Controls.Add(this.label8);
             this.panel9.Controls.Add(this.textBox2);
             this.panel9.Controls.Add(this.label2);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel9.Location = new System.Drawing.Point(0, 0);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(735, 32);
+            this.panel9.Size = new System.Drawing.Size(810, 32);
             this.panel9.TabIndex = 1;
             // 
             // textBox2
@@ -527,7 +538,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(755, 608);
+            this.tabPage2.Size = new System.Drawing.Size(830, 608);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Maybe";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -537,7 +548,7 @@
             this.splitter3.Dock = System.Windows.Forms.DockStyle.Top;
             this.splitter3.Location = new System.Drawing.Point(3, 243);
             this.splitter3.Name = "splitter3";
-            this.splitter3.Size = new System.Drawing.Size(749, 3);
+            this.splitter3.Size = new System.Drawing.Size(824, 3);
             this.splitter3.TabIndex = 2;
             this.splitter3.TabStop = false;
             // 
@@ -548,7 +559,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 243);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(749, 362);
+            this.groupBox1.Size = new System.Drawing.Size(824, 362);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Результаты поиска";
@@ -566,7 +577,7 @@
             this.dgvMaybe.Location = new System.Drawing.Point(3, 33);
             this.dgvMaybe.Name = "dgvMaybe";
             this.dgvMaybe.ReadOnly = true;
-            this.dgvMaybe.Size = new System.Drawing.Size(743, 326);
+            this.dgvMaybe.Size = new System.Drawing.Size(818, 326);
             this.dgvMaybe.TabIndex = 2;
             this.dgvMaybe.TimeFilter = true;
             // 
@@ -575,7 +586,7 @@
             this.panel14.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel14.Location = new System.Drawing.Point(3, 16);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(743, 17);
+            this.panel14.Size = new System.Drawing.Size(818, 17);
             this.panel14.TabIndex = 3;
             // 
             // panel5
@@ -585,7 +596,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel5.Location = new System.Drawing.Point(3, 3);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(749, 240);
+            this.panel5.Size = new System.Drawing.Size(824, 240);
             this.panel5.TabIndex = 0;
             // 
             // panel13
@@ -594,7 +605,7 @@
             this.panel13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel13.Location = new System.Drawing.Point(0, 203);
             this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(749, 37);
+            this.panel13.Size = new System.Drawing.Size(824, 37);
             this.panel13.TabIndex = 44;
             // 
             // btnCallMaybe
@@ -617,7 +628,7 @@
             this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel12.Location = new System.Drawing.Point(0, 0);
             this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(749, 203);
+            this.panel12.Size = new System.Drawing.Size(824, 203);
             this.panel12.TabIndex = 43;
             // 
             // label4
@@ -689,7 +700,7 @@
             this.tabPage3.Controls.Add(this.panel10);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(755, 608);
+            this.tabPage3.Size = new System.Drawing.Size(830, 608);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "ОКПД2";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -699,7 +710,7 @@
             this.splitter4.Dock = System.Windows.Forms.DockStyle.Top;
             this.splitter4.Location = new System.Drawing.Point(0, 240);
             this.splitter4.Name = "splitter4";
-            this.splitter4.Size = new System.Drawing.Size(755, 3);
+            this.splitter4.Size = new System.Drawing.Size(830, 3);
             this.splitter4.TabIndex = 8;
             this.splitter4.TabStop = false;
             // 
@@ -710,7 +721,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 240);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(755, 368);
+            this.groupBox2.Size = new System.Drawing.Size(830, 368);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Результаты поиска";
@@ -728,7 +739,7 @@
             this.dgvOkpd2.Location = new System.Drawing.Point(3, 33);
             this.dgvOkpd2.Name = "dgvOkpd2";
             this.dgvOkpd2.ReadOnly = true;
-            this.dgvOkpd2.Size = new System.Drawing.Size(749, 332);
+            this.dgvOkpd2.Size = new System.Drawing.Size(824, 332);
             this.dgvOkpd2.TabIndex = 2;
             this.dgvOkpd2.TimeFilter = true;
             // 
@@ -737,7 +748,7 @@
             this.panel17.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel17.Location = new System.Drawing.Point(3, 16);
             this.panel17.Name = "panel17";
-            this.panel17.Size = new System.Drawing.Size(749, 17);
+            this.panel17.Size = new System.Drawing.Size(824, 17);
             this.panel17.TabIndex = 3;
             // 
             // panel10
@@ -747,7 +758,7 @@
             this.panel10.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel10.Location = new System.Drawing.Point(0, 0);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(755, 240);
+            this.panel10.Size = new System.Drawing.Size(830, 240);
             this.panel10.TabIndex = 1;
             // 
             // panel15
@@ -756,7 +767,7 @@
             this.panel15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel15.Location = new System.Drawing.Point(0, 203);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(755, 37);
+            this.panel15.Size = new System.Drawing.Size(830, 37);
             this.panel15.TabIndex = 44;
             // 
             // btnOkpd2
@@ -775,7 +786,7 @@
             this.panel16.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel16.Location = new System.Drawing.Point(0, 0);
             this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(755, 203);
+            this.panel16.Size = new System.Drawing.Size(830, 203);
             this.panel16.TabIndex = 43;
             // 
             // tbOkpd2
@@ -795,22 +806,58 @@
             this.label7.TabIndex = 38;
             this.label7.Text = "Наименование ТРУ:";
             // 
+            // splitter5
+            // 
+            this.splitter5.Dock = System.Windows.Forms.DockStyle.Right;
+            this.splitter5.Location = new System.Drawing.Point(838, 50);
+            this.splitter5.Name = "splitter5";
+            this.splitter5.Size = new System.Drawing.Size(3, 634);
+            this.splitter5.TabIndex = 5;
+            this.splitter5.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pictureBox1.Location = new System.Drawing.Point(841, 50);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(390, 634);
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
+            // 
             // gbSource
             // 
+            this.gbSource.Controls.Add(this.label5);
+            this.gbSource.Controls.Add(this.tbKeywords);
             this.gbSource.Controls.Add(this.linkLabel1);
             this.gbSource.Controls.Add(this.cmbElasticIndexName);
             this.gbSource.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbSource.Location = new System.Drawing.Point(0, 0);
             this.gbSource.Name = "gbSource";
-            this.gbSource.Size = new System.Drawing.Size(763, 50);
+            this.gbSource.Size = new System.Drawing.Size(1231, 50);
             this.gbSource.TabIndex = 2;
             this.gbSource.TabStop = false;
             this.gbSource.Text = "Выбор источника";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(298, 22);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(92, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Ключевые слова";
+            // 
+            // tbKeywords
+            // 
+            this.tbKeywords.Location = new System.Drawing.Point(413, 19);
+            this.tbKeywords.Name = "tbKeywords";
+            this.tbKeywords.Size = new System.Drawing.Size(280, 20);
+            this.tbKeywords.TabIndex = 3;
+            // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(288, 22);
+            this.linkLabel1.Location = new System.Drawing.Point(730, 22);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(241, 13);
             this.linkLabel1.TabIndex = 2;
@@ -818,11 +865,27 @@
             this.linkLabel1.Text = "Описание API: http://144.76.54.166:52620/help";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
+            // tbExtId
+            // 
+            this.tbExtId.Location = new System.Drawing.Point(588, 6);
+            this.tbExtId.Name = "tbExtId";
+            this.tbExtId.Size = new System.Drawing.Size(120, 20);
+            this.tbExtId.TabIndex = 4;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(566, 10);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(16, 13);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "Id";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(763, 684);
+            this.ClientSize = new System.Drawing.Size(1231, 684);
             this.Controls.Add(this.panel2);
             this.Name = "Form1";
             this.Text = "Система поиска и анализа ценовой  информации \"Тополь\": рабочее место оператора";
@@ -867,6 +930,7 @@
             this.panel15.ResumeLayout(false);
             this.panel16.ResumeLayout(false);
             this.panel16.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.gbSource.ResumeLayout(false);
             this.gbSource.PerformLayout();
             this.ResumeLayout(false);
@@ -940,6 +1004,12 @@
         private System.Windows.Forms.Button btnSaveInternetResults;
         private System.Windows.Forms.Button btnInvertSelected;
         private System.Windows.Forms.Button btnDeleteSelected;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Splitter splitter5;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox tbKeywords;
+        private System.Windows.Forms.TextBox tbExtId;
+        private System.Windows.Forms.Label label8;
     }
 }
 

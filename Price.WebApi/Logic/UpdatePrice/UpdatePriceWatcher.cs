@@ -80,7 +80,7 @@ namespace Price.WebApi.Logic.UpdatePrice
                     {
                         var screenshotLink = $"{taskDto.BaseUri}/GetFiles/{nameof(GetFile)}.ashx?id={updatePriceDto.Uri.GetHashCode()}";
                         updatePriceDto.ScreenshotLink = new Uri(screenshotLink);
-                        Screenshotter.Run(updatePriceDto.Uri);
+                        Screenshotter.RunByUri(updatePriceDto.Uri);
                     }
                 }
                 taskDto.UpdateStatistics();

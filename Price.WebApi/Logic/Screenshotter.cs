@@ -6,7 +6,7 @@ namespace Price.WebApi.Logic
 {
     public class Screenshotter
     {
-        public static void Run(Uri uri)
+        public static void RunByUri(Uri uri)
         {
             if (!File.Exists(AppGlobal.Screenshotter))
             {
@@ -16,10 +16,10 @@ namespace Price.WebApi.Logic
             try
             {
                 var filename = Path.Combine(AppGlobal.ScreenshotPath, $"{uri.GetHashCode()}.png");
-                var arguments = $"/URL {uri.AbsoluteUri} /Filename \"{filename}\" /OpenImageAfterSave 0 /MaxBrowserWidth 2000 /MaxBrowserHeight 20000";
+                var arguments = $"/URL {uri.AbsoluteUri} /Filename \"{filename}\" /OpenImageAfterSave 0 /MaxBrowserWidth 2000 /MaxBrowserHeight 20000 /BrowserTimeout 2000";
                 Logger.Log.Info($"{AppGlobal.Screenshotter}");
                 Logger.Log.Info($"{arguments}");
-                Process.Start(AppGlobal.Screenshotter, arguments);
+                if(!File.Exists(filename)) Process.Start(AppGlobal.Screenshotter, arguments);
             }
             catch (Exception exception)
             {

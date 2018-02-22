@@ -21,19 +21,24 @@ namespace Price.WebApi.AutoMappers
             cfg.CreateMap<XPathDto, ContentDto>()
                 ;
 
-            cfg.CreateMap<PacketEntity, PacketDto>()
-                ;
-            cfg.CreateMap<PacketDto, PacketEntity>()
-                ;
             cfg.CreateMap<SearchItemEntity, SearchItemExtDto>()
                 ;
             cfg.CreateMap<SearchItemExtDto, SearchItemEntity>()
                 ;
-
             cfg.CreateMap<SearchItemDto, SearchItemExtDto>()
                 ;
             cfg.CreateMap<SearchItemExtDto, SearchItemDto>()
                 ;
+            cfg.CreateMap<SearchItemHeaderDto, SearchItemEntity>()
+                ;
+            cfg.CreateMap<SearchItemEntity, SearchItemHeaderDto>()
+                ;
+            cfg.CreateMap<SearchItemHeaderDto, SearchItemExtDto>()
+                ;
+            cfg.CreateMap<SearchItemExtDto, SearchItemHeaderDto>()
+                ;
+
+
 
             cfg.CreateMap<InternetContentDto, InternetContentEntity>()
                 ;

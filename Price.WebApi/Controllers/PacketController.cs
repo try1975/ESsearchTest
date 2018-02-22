@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using AutoMapper;
 using Common.Dto;
 using Common.Dto.Logic;
 using Common.Dto.Model;
@@ -26,19 +26,17 @@ namespace Price.WebApi.Controllers
     public class PacketController : ApiController
     {
         private readonly ISearchItemApi _searchItemApi;
-        private readonly IContentApi _contentApi;
 
-        delegate void ElasticDelegate(SearchItemParam searchItem, string allSources, string searchItemId);
+        private delegate void ElasticDelegate(SearchItemParam searchItem, string allSources, string searchItemId);
 
+        private readonly Delegate _elasticDelegate = new ElasticDelegate(ElasticSeacherAndDbWriter.Execute);
         /// <summary>
         /// 
         /// </summary>
         /// <param name="searchItemApi"></param>
-        /// <param name="contentApi"></param>
-        public PacketController(ISearchItemApi searchItemApi, IContentApi contentApi)
+        public PacketController(ISearchItemApi searchItemApi)
         {
             _searchItemApi = searchItemApi;
-            _contentApi = contentApi;
         }
 
         /// <summary>
@@ -46,10 +44,10 @@ namespace Price.WebApi.Controllers
         /// </summary>
         /// <param name="searchItemsParam">Состав пакета</param>
         /// <param name="source">Наименование источника для поиска</param>
-        /// <param name="keyword">Дополнительные слова для поиска через пробел</param>
+        /// <param name="keywords">Дополнительные слова для поиска через пробел</param>
         /// <returns></returns>
-        [ResponseType(typeof(SearchPacketTaskDto))]
-        public HttpResponseMessage Post(List<SearchItemParam> searchItemsParam, [FromUri] string source = "", [FromUri] string keyword = "")
+        [ResponseType(typeof(List<SearchItemHeaderDto>))]
+        public HttpResponseMessage Post(List<SearchItemParam> searchItemsParam, [FromUri] string source = "", [FromUri] string keywords = "")
         {
             #region check input parameter
 
@@ -59,34 +57,28 @@ namespace Price.WebApi.Controllers
             if (!searchItemsParam.Any())
                 return Request.CreateResponse(HttpStatusCode.BadRequest,
                     new ErrorDto { Message = $"not found {nameof(searchItemsParam)} in parameters" });
+            source = source.ToLower();
+
             #endregion
 
-            Delegate dWrite = new ElasticDelegate(ElasticSeacherAndDbWriter.Execute);
-
+           
             string internet;
             internet = $"{nameof(internet)}";
 
-            var searchPacketTaskDto = new SearchPacketTaskDto();
+            var resultList = new List<SearchItemHeaderDto>();
             var searchInInternet = source.Contains(internet);
             foreach (var searchItem in searchItemsParam)
             {
-                if (!string.IsNullOrEmpty(keyword)) searchItem.Name = $"{searchItem.Name} {keyword}";
+                if (!string.IsNullOrEmpty(keywords)) searchItem.Name = $"{searchItem.Name} {keywords}";
                 searchItem.Name = searchItem.Name.ToLower();
                 var json = JsonConvert.SerializeObject(searchItem);
-                //TODO: из конфига частоту поиска вычислять
-                //var searchRate = $"{DateTime.Today:yyyyMMdd}";
+                // Calc search rate
                 var searchRate = $"{Utils.GetUtcNow()/AppGlobal.CashSeconds}";
                 var id = Md5Logstah.GetDefaultId($"{source}{searchRate}", json);
-                var dto = _searchItemApi.GetItem(id);
-                var searchItemDto = new SearchItemDto
+                var dtoHeader = _searchItemApi.GetItemHeader(id);
+                if (dtoHeader == null)
                 {
-                    Id = id,
-                    Source = source.Replace(internet, ""),
-                    Name = searchItem.Name
-                };
-                if (dto == null)
-                {
-                    dto = new SearchItemExtDto
+                    var dto = new SearchItemExtDto
                     {
                         Id = id,
                         Source = source,
@@ -96,45 +88,36 @@ namespace Price.WebApi.Controllers
                         Normalizer = searchItem.Norm
                     };
                     dto.BeginProcess(Utils.GetUtcNow());
-                    
-                    if (searchInInternet) CallInternetSearchService(json, dto);
+                    if (searchInInternet) dto.InternetSessionId = GetInternetSessionId(json);
                     _searchItemApi.AddItem(dto);
-
-                    ThreadUtil.FireAndForget(dWrite, new object[] { searchItem, searchItemDto.Source, id });
-
-                    //var listContentDto = ElasticSeacher.Search(searchItem, searchItemDto.Source);
-                    //var listContenExtDto = listContentDto.Select(contentDto => new ContentExtDto()
-                    //{
-                    //    ElasticId = contentDto.Id,
-                    //    Name = contentDto.Name,
-                    //    Price = contentDto.Price,
-                    //    Uri = contentDto.Uri,
-                    //    SearchItemId = id,
-                    //    CollectedAt = contentDto.CollectedAt,
-                    //    Okpd2 = contentDto.Okpd2
-                    //})
-                    //    .ToList();
-                    //_contentApi.AddItems(listContenExtDto);
-
+                    ThreadUtil.FireAndForget(_elasticDelegate, new object[] { searchItem, source, id });
+                    resultList.Add(Mapper.Map<SearchItemHeaderDto>(dto));
                 }
-                searchPacketTaskDto.SearchItems.Add(searchItemDto);
+                else resultList.Add(dtoHeader);
             }
-
-
-            return Request.CreateResponse(HttpStatusCode.OK, searchPacketTaskDto);
+            return Request.CreateResponse(HttpStatusCode.OK, resultList);
         }
 
-        private static void CallInternetSearchService(string json, SearchItemExtDto dto)
+        private static string GetInternetSessionId(string json)
         {
             using (var client = new WebClient())
             {
                 var en = Encoding.UTF8;
                 var data = en.GetBytes($"{{\"items\":[{json}]}}");
                 var uri = new Uri(AppGlobal.InternetSearchHost);
-                var result = client.UploadData(uri, "PUT", data);
-                var text = en.GetString(result);
-                var o = JsonConvert.DeserializeObject<AnalystNewSearchResult>(text);
-                dto.InternetSessionId = o.result[0].sessions[0];
+                try
+                {
+                    var result = client.UploadData(uri, "PUT", data);
+                    var text = en.GetString(result);
+                    var o = JsonConvert.DeserializeObject<AnalystNewSearchResult>(text);
+                    return o.result[0].sessions[0];
+                }
+                catch (Exception exception)
+                {
+                    Logger.Log.Error(exception);
+                    return "";
+                }
+                
             }
         }
 

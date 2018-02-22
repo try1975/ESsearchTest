@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using PriceCommon.Enums;
 
@@ -12,9 +13,10 @@ namespace Common.Dto.Model.NewApi
         public string Uri { get; set; }
         public long? CollectedAt { get; set; }
         public string ElasticId { get; set; }
-        public string Okpd2 { get; set; }
         public string SearchItemId { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public PriceType PriceType { get; set; }
+
+        public string Screenshot { get; set; }
     }
 }

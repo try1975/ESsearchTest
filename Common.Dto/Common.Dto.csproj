@@ -53,6 +53,7 @@
     <Compile Include="Model\NewApi\PacketDto.cs" />
     <Compile Include="Model\NewApi\SearchItemCondition.cs" />
     <Compile Include="Model\NewApi\SearchItemExtDto.cs" />
+    <Compile Include="Model\NewApi\SearchItemHeaderDto.cs" />
     <Compile Include="Model\XPath\XPathDto.cs" />
     <Compile Include="SearchPacketTaskStore.cs" />
     <Compile Include="Logic\Utils.cs" />

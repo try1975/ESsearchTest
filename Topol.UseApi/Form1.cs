@@ -9,17 +9,20 @@ using System.Linq;
 using System.Windows.Forms;
 using Common.Dto;
 using Common.Dto.Model;
+using Common.Dto.Model.NewApi;
 using Common.Dto.Model.Packet;
 using Newtonsoft.Json;
 using PriceCommon.Enums;
 using Topol.UseApi.Data.Common;
+using Topol.UseApi.Model;
+using ContentDto = Common.Dto.Model.ContentDto;
 
 namespace Topol.UseApi
 {
     public partial class Form1 : Form
     {
         private readonly DataMаnager _dataManager;
-        private readonly List<SearchItemDto> _listSearchItem = new List<SearchItemDto>();
+        private readonly List<SearchItemHeaderDto> _listSearchItem = new List<SearchItemHeaderDto>();
         private DataTable _datatableSearchItem;
 
 
@@ -52,7 +55,7 @@ namespace Topol.UseApi
             MaybeItemsBindingSource = new BindingSource();
             Okpd2ItemsBindingSource = new BindingSource();
 
-            PacketItemsBindingSource.CurrentChanged += BindingSourceOnCurrentChanged;
+            PacketItemsBindingSource.CurrentChanged += PacketItemsOnCurrentChanged;
             dgvPacketItems.FilterStringChanged += dgvPacketItems_FilterStringChanged;
             dgvPacketItems.SortStringChanged += dgvPacketItems_SortStringChanged;
 
@@ -68,6 +71,7 @@ namespace Topol.UseApi
             dgvContentItems.CellContentDoubleClick += dgv_CellContentDoubleClick;
             dgvContentItems.CellContentClick += dgvContentItems_CellContentClick;
             dgvContentItems.DataError += dgvContentItems_DataError;
+            ContentItemsBindingSource.CurrentChanged += ContentItemsOnCurrentChanged;
 
 
             dgvMaybe.CellContentDoubleClick += dgv_CellContentDoubleClick;
@@ -100,9 +104,10 @@ namespace Topol.UseApi
 
         private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            var searchPacketTaskDto = (SearchPacketTaskDto)e.UserState;
-            AddPacketItemsToList(searchPacketTaskDto);
-            SearchPacketTaskStore.Post(searchPacketTaskDto);
+            var searchItemHeaderDto = (SearchItemHeaderDto)e.UserState;
+            SearchItemsStore.Post(searchItemHeaderDto);
+            var list = new List<SearchItemHeaderDto> { searchItemHeaderDto };
+            AddPacketItemsToList(list);
         }
 
         private void bw_DoWork(object sender, DoWorkEventArgs e)
@@ -110,15 +115,15 @@ namespace Topol.UseApi
             var cnt = 1;
             while (cnt > 0)
             {
-                var tasks = SearchPacketTaskStore.Dictionary.Values.Where(z => z.ProcessedAt == null).ToList();
+                var tasks = SearchItemsStore.Dictionary.Values.Where(z => z.ProcessedAt == null).ToList();
                 cnt = tasks.Count;
                 foreach (var item in tasks)
                 {
                     try
                     {
-                        var searchPacketTaskDto = _dataManager.GetPacketStatus(item.Id, item.Source).Result;
-                        if (searchPacketTaskDto == null) continue;
-                        ((BackgroundWorker)sender).ReportProgress(0, searchPacketTaskDto);
+                        var searchItemHeaderDto = _dataManager.GetSearchItemStatus(item.Id).Result;
+                        if (searchItemHeaderDto == null) continue;
+                        ((BackgroundWorker)sender).ReportProgress(0, searchItemHeaderDto);
                         //else
                         //{
                         //    MessageBox.Show(@"Ошибка запроса.");
@@ -129,7 +134,7 @@ namespace Topol.UseApi
                         Debug.WriteLine(exception);
                     }
                 }
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(2000);
             }
         }
 
@@ -244,10 +249,10 @@ namespace Topol.UseApi
 
         private void ContentGridColumnSettings(DataGridView dgv)
         {
-            ContentGridPriceVariants(dgv);
+            //ContentGridPriceVariants(dgv);
 
             // hide all columns
-            foreach (DataGridViewColumn dgvColumn in dgv.Columns) dgvColumn.Visible = false;
+            //foreach (DataGridViewColumn dgvColumn in dgv.Columns) dgvColumn.Visible = false;
 
             var column = dgv.Columns[nameof(ContentDto.Selected)];
             if (column != null)
@@ -485,13 +490,37 @@ namespace Topol.UseApi
             }
         }
 
-        private async void SearchPacket(string json)
+        private async void SearchPacket(string json, string keywords)
         {
             var dto = JsonConvert.DeserializeObject<List<SearchItemParam>>(json);
-            var searchPacketTaskDto = await _dataManager.PostPacketAsync(dto, cmbElasticIndexName.SelectedItem as string);
+            var searchItemHeaderDtos = await _dataManager.PostPacketAsync(dto, cmbElasticIndexName.SelectedItem as string, keywords);
+            if (searchItemHeaderDtos != null)
+            {
+                foreach (var searchItemHeaderDto in searchItemHeaderDtos)
+                {
+                    SearchItemsStore.Post(searchItemHeaderDto);
+                }
+                AddPacketItemsToList(searchItemHeaderDtos);
+                if (_bw.IsBusy != true)
+                {
+                    _bw.RunWorkerAsync();
+                }
+            }
+            else
+            {
+                MessageBox.Show(@"Ошибка запроса.");
+            }
+        }
+
+        private async void SearchPacket(List<SearchItemParam> dto, string keywords)
+        {
+            var searchPacketTaskDto = await _dataManager.PostPacketAsync(dto, cmbElasticIndexName.SelectedItem as string, keywords);
             if (searchPacketTaskDto != null)
             {
-                SearchPacketTaskStore.Post(searchPacketTaskDto);
+                foreach (var searchItemHeaderDto in searchPacketTaskDto)
+                {
+                    SearchItemsStore.Post(searchItemHeaderDto);
+                }
                 AddPacketItemsToList(searchPacketTaskDto);
                 if (_bw.IsBusy != true)
                 {
@@ -503,6 +532,7 @@ namespace Topol.UseApi
                 MessageBox.Show(@"Ошибка запроса.");
             }
         }
+
         #endregion //Api calls
 
         private void dgv_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -530,55 +560,29 @@ namespace Topol.UseApi
 
         private void btnSearchPacket_Click(object sender, EventArgs e)
         {
-            SearchPacket(tbTruItems.Text);
+            SearchPacket(tbTruItems.Text, tbKeywords.Text);
         }
 
 
-        private async void SearchPacket(List<SearchItemParam> dto)
-        {
-            var searchPacketTaskDto = await _dataManager.PostPacketAsync(dto, cmbElasticIndexName.SelectedItem as string);
-            if (searchPacketTaskDto != null)
-            {
-                SearchPacketTaskStore.Post(searchPacketTaskDto);
-                AddPacketItemsToList(searchPacketTaskDto);
-                if (_bw.IsBusy != true)
-                {
-                    _bw.RunWorkerAsync();
-                }
-            }
-            else
-            {
-                MessageBox.Show(@"Ошибка запроса.");
-            }
-        }
+        
 
-        private void AddPacketItemsToList(SearchPacketTaskDto searchPacketTaskDto)
+        private void AddPacketItemsToList(List<SearchItemHeaderDto> searchItemsList)
         {
-            if (searchPacketTaskDto.SearchItems == null) return;
-            foreach (var searchItemDto in searchPacketTaskDto.SearchItems)
+            if (searchItemsList == null) return;
+            foreach (var searchItemDto in searchItemsList)
             {
-                var item = _listSearchItem.FirstOrDefault(z => z.Id.Equals(searchItemDto.Key) && z.Source.Equals(searchPacketTaskDto.Source));
+                var item = _listSearchItem.FirstOrDefault(z => z.Id.Equals(searchItemDto.Id) && z.Source.Equals(searchItemDto.Source));
                 if (item == null)
                 {
-                    AddSeacrhItemToList(searchPacketTaskDto, searchItemDto);
+                    _listSearchItem.Add(searchItemDto);
                 }
                 else
                 {
-                    //if (item.Status == searchItemDto.Status) continue;
-                    var idx = _listSearchItem.IndexOf(item);
                     _listSearchItem.Remove(item);
-                    AddSeacrhItemToList(searchPacketTaskDto, searchItemDto, idx);
+                    _listSearchItem.Add(searchItemDto);
                 }
             }
             List2Grid(ref _datatableSearchItem);
-        }
-
-        private void AddSeacrhItemToList(SearchPacketTaskDto searchPacketTaskDto, SearchItemDto searchItemDto, int index = 0)
-        {
-            searchItemDto.Source = searchPacketTaskDto.Source;
-            _listSearchItem.Add(searchItemDto);
-            //if (index < 0 || index > _listSearchItem.Count - 1) index = 0;
-            //_listSearchItem.Insert(index, searchItemDto);
         }
 
         private void List2Grid(ref DataTable dataTable)
@@ -598,10 +602,10 @@ namespace Topol.UseApi
             }
             else
             {
-                var properties = TypeDescriptor.GetProperties(typeof(SearchItemDto));
+                var properties = TypeDescriptor.GetProperties(typeof(SearchItemHeaderDto));
                 foreach (var searchItemDto in _listSearchItem)
                 {
-                    var foundRows = dataTable.Select($"{nameof(searchItemDto.Key)}='{searchItemDto.Key}'");
+                    var foundRows = dataTable.Select($"{nameof(searchItemDto.Id)}='{searchItemDto.Id}'");
                     if (foundRows.Any())
                     {
                         foreach (var dataRow in foundRows)
@@ -614,14 +618,14 @@ namespace Topol.UseApi
                             dataRow.SetField(nameof(searchItemDto.ProcessedAtDateTime), searchItemDto.ProcessedAtDateTime);
                             dataRow.SetField(nameof(searchItemDto.Status), searchItemDto.Status);
                             dataRow.SetField(nameof(searchItemDto.StatusString), searchItemDto.StatusString);
-                            
+
                             // refresh datagrid
-                            if (dgvPacketItems.CurrentRow != null && dgvPacketItems.CurrentRow.Cells[nameof(searchItemDto.Key)].Value.ToString() ==
-                                dataRow.Field<string>(nameof(searchItemDto.Key)))
+                            if (dgvPacketItems.CurrentRow != null && dgvPacketItems.CurrentRow.Cells[nameof(searchItemDto.Id)].Value.ToString() ==
+                                dataRow.Field<string>(nameof(searchItemDto.Id)))
                             {
                                 if (dataRow.Field<int>(nameof(searchItemDto.ContentCount)) != searchItemDto.ContentCount)
                                 {
-                                    BindingSourceOnCurrentChanged(null, null);
+                                    PacketItemsOnCurrentChanged(null, null);
                                 }
 
                             }
@@ -649,11 +653,12 @@ namespace Topol.UseApi
 
         private static DataTable ConvertToDataTable<T>(IEnumerable<T> data)
         {
-            var properties =
-                TypeDescriptor.GetProperties(typeof(T));
+            var properties = TypeDescriptor.GetProperties(typeof(T));
             var table = new DataTable();
             foreach (PropertyDescriptor prop in properties)
+            {
                 table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+            }
             foreach (var item in data)
             {
                 var row = table.NewRow();
@@ -664,15 +669,16 @@ namespace Topol.UseApi
             return table;
         }
 
-        private void BindingSourceOnCurrentChanged(object sender, EventArgs e)
+        private async void PacketItemsOnCurrentChanged(object sender, EventArgs e)
         {
             try
             {
                 if (PacketItemsBindingSource.Current == null) return;
                 var current = (DataRowView)PacketItemsBindingSource.Current;
-                var key = current.Row[nameof(SearchItemDto.Key)] as string;
+                var key = current.Row[nameof(SearchItemHeaderDto.Id)] as string;
                 EnableResultButtons = (int)current.Row[nameof(SearchItemDto.Status)] == (int)TaskStatus.Ok && ((string)current.Row[nameof(SearchItemDto.Source)]).Contains("internet");
-                var contentItems = _listSearchItem.FirstOrDefault(z => z.Key.Equals(key))?.Content ?? new List<ContentDto>();
+                //var contentItems = _listSearchItem.FirstOrDefault(z => z.Key.Equals(key))?.Content ?? new List<ContentDto>();
+                var contentItems = await _dataManager.GetSearchItemContent(key);
                 var dt = ConvertToDataTable(contentItems);
                 ContentItemsBindingSource.DataSource = dt;
                 dgvContentItems.DataSource = ContentItemsBindingSource;
@@ -685,18 +691,33 @@ namespace Topol.UseApi
             }
         }
 
+        private void ContentItemsOnCurrentChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ContentItemsBindingSource.Current == null) return;
+                var current = (DataRowView)ContentItemsBindingSource.Current;
+                var url = current.Row[nameof(ContentExtDto.Screenshot)] as string;
+                pictureBox1.LoadAsync(url);
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             var dto = new List<SearchItemParam>
             {
                 new SearchItemParam
                 {
-                    Id = Md5Logstah.GetDefaultId("", textBox2.Text),
+                    Id = string.IsNullOrEmpty(tbExtId.Text) ? Md5Logstah.GetDefaultId("", textBox2.Text):tbExtId.Text,
                     Name = textBox2.Text,
                     Norm = cmbNorm.SelectedItem as string
                 }
             };
-            SearchPacket(dto);
+            SearchPacket(dto, tbKeywords.Text);
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
