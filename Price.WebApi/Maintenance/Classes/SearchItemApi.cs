@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
 using AutoMapper;
 using Common.Dto.Logic;
 using Common.Dto.Model.NewApi;
 using Price.Db.Entities.Entities;
 using Price.Db.Entities.QueryProcessors;
-using Price.WebApi.GetFiles;
+using Price.WebApi.Logic;
 using Price.WebApi.Maintenance.Interfaces;
 using PriceCommon.Enums;
 
@@ -25,7 +24,8 @@ namespace Price.WebApi.Maintenance.Classes
             set
             {
                 _baseUrl = value;
-                _getUrl = $"{_baseUrl}/GetFiles/{nameof(GetFile)}.ashx?id=";
+                //_getUrl = $"{_baseUrl}/GetFiles/{nameof(GetFile)}.ashx?id=";
+                _getUrl = $"{_baseUrl}/{AppGlobal.Screenshots}/";
             }
         }
 

@@ -26,11 +26,11 @@ namespace Price.WebApi.Jobs
                 .ToList();
             foreach (var entity in entities)
             {
-                entity.Screenshot = $"{entity.CollectedAt}_{entity.ElasticId}";
+                entity.Screenshot = $"{entity.CollectedAt}_{entity.ElasticId}.{AppGlobal.ScreenshotExtension}";
                 query.UpdateEntity(entity);
-                var filename = Path.Combine(AppGlobal.ScreenshotPath, $"{entity.Screenshot}.png");
+                var filename = Path.Combine(AppGlobal.ScreenshotPath, $"{entity.Screenshot}");
                 if (File.Exists(filename)) continue;
-                var arguments = $"/URL {entity.Uri} /Filename \"{filename}\" /OpenImageAfterSave 0 /MaxBrowserWidth 2000 /MaxBrowserHeight 10000 /BrowserTimeout 2000";
+                var arguments = $"/URL {entity.Uri} /Filename \"{filename}\" {AppGlobal.ScreenshotterArgs}";
                 Process.Start(AppGlobal.Screenshotter, arguments)?.WaitForExit();
             }
         }

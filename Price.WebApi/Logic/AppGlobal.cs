@@ -34,17 +34,20 @@ namespace Price.WebApi.Logic
             InternetSearchResultPath = Path.Combine(HttpRuntime.AppDomainAppPath, InternetSearchResultPath);
             Directory.CreateDirectory(InternetSearchResultPath);
 
-            ScreenshotPath = WebConfigurationManager.AppSettings[nameof(ScreenshotPath)];
-            if (string.IsNullOrEmpty(ScreenshotPath)) UrlStatePath = nameof(ScreenshotPath);
-            ScreenshotPath = Path.Combine(HttpRuntime.AppDomainAppPath, ScreenshotPath);
+            Screenshots = WebConfigurationManager.AppSettings[nameof(Screenshots)];
+            if (string.IsNullOrEmpty(Screenshots)) Screenshots = nameof(Screenshots);
+            ScreenshotPath = Path.Combine(HttpRuntime.AppDomainAppPath, Screenshots);
             Directory.CreateDirectory(ScreenshotPath);
+            ScreenshotterArgs = WebConfigurationManager.AppSettings[nameof(ScreenshotterArgs)];
+            if (string.IsNullOrEmpty(ScreenshotterArgs)) ScreenshotterArgs = "/OpenImageAfterSave 0 /MaxBrowserWidth 2000 /MaxBrowserHeight 10000 /BrowserTimeout 5000 /JpegQuality 50 /ImageSizePerCent 75";
+            ScreenshotExtension = WebConfigurationManager.AppSettings[nameof(ScreenshotExtension)];
+            if (string.IsNullOrEmpty(ScreenshotExtension)) ScreenshotExtension = "jpg";
 
             ExternalToken = WebConfigurationManager.AppSettings[nameof(ExternalToken)];
 
             ProductParser = Path.Combine(HttpRuntime.AppDomainAppPath, @"ProductParser\ProductParserCon.exe");
             Screenshotter = Path.Combine(HttpRuntime.AppDomainAppPath, @"SiteShoter\SiteShoter.exe");
             AnalystCon = Path.Combine(HttpRuntime.AppDomainAppPath, @"AnalystCon\AnalystCon.exe");
-            //AnalystCon = WebConfigurationManager.AppSettings[nameof(AnalystCon)];
 
             CashSeconds = Convert.ToInt32(WebConfigurationManager.AppSettings[nameof(CashSeconds)]);
             WaitUpdateSeconds = Convert.ToInt32(WebConfigurationManager.AppSettings[nameof(WaitUpdateSeconds)]);
@@ -58,7 +61,10 @@ namespace Price.WebApi.Logic
         public static string UrlPath { get; }
         public static string UrlStatePath { get; }
 
+        public static string Screenshots { get; }
         public static string ScreenshotPath { get; }
+        public static string ScreenshotterArgs { get; }
+        public static string ScreenshotExtension { get; }
         public static string ExternalToken { get; }
 
         public static string ProductParser { get; }
