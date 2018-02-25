@@ -1,6 +1,8 @@
-﻿using Common.Dto.Model.NewApi;
+﻿using System.IO;
+using Common.Dto.Model.NewApi;
 using Price.Db.Entities.Entities;
 using Price.Db.Entities.QueryProcessors;
+using Price.WebApi.Logic;
 using Price.WebApi.Maintenance.Interfaces;
 
 namespace Price.WebApi.Maintenance.Classes
@@ -9,6 +11,16 @@ namespace Price.WebApi.Maintenance.Classes
     {
         public ContentApi(IContentQuery query) : base(query)
         {
+        }
+
+        public override bool RemoveItem(int id)
+        {
+            var entity = Query.GetEntity(id);
+            if (entity == null) return false;
+            if (string.IsNullOrEmpty(entity.Screenshot)) return Query.DeleteEntity(id);
+            var path = Path.Combine(AppGlobal.ScreenshotPath, entity.Screenshot);
+            if (File.Exists(path)) File.Delete(path);
+            return Query.DeleteEntity(id);
         }
     }
 }

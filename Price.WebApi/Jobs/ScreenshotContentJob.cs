@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Price.Db.MysSql;
@@ -31,7 +30,7 @@ namespace Price.WebApi.Jobs
                 var filename = Path.Combine(AppGlobal.ScreenshotPath, $"{entity.Screenshot}");
                 if (File.Exists(filename)) continue;
                 var arguments = $"/URL {entity.Uri} /Filename \"{filename}\" {AppGlobal.ScreenshotterArgs}";
-                Process.Start(AppGlobal.Screenshotter, arguments)?.WaitForExit();
+                Process.Start(AppGlobal.Screenshotter, arguments)/*?.WaitForExit()*/;
             }
         }
     }

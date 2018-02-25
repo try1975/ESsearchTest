@@ -14,7 +14,6 @@ using Common.Dto.Model.Packet;
 using Newtonsoft.Json;
 using PriceCommon.Enums;
 using Topol.UseApi.Data.Common;
-using Topol.UseApi.Model;
 using ContentDto = Common.Dto.Model.ContentDto;
 
 namespace Topol.UseApi
@@ -41,6 +40,7 @@ namespace Topol.UseApi
         private BindingSource MaybeItemsBindingSource { get; }
         private BindingSource Okpd2ItemsBindingSource { get; }
         private readonly BackgroundWorker _bw = new BackgroundWorker();
+        private string[] _packetLines;
 
 
         public Form1()
@@ -50,12 +50,15 @@ namespace Topol.UseApi
             cmbNorm.SelectedIndex = 0;
             _dataManager = new DataMаnager();
 
-            PacketItemsBindingSource = new BindingSource();
-            ContentItemsBindingSource = new BindingSource();
             MaybeItemsBindingSource = new BindingSource();
             Okpd2ItemsBindingSource = new BindingSource();
 
+            PacketItemsBindingSource = new BindingSource();
             PacketItemsBindingSource.CurrentChanged += PacketItemsOnCurrentChanged;
+
+            ContentItemsBindingSource = new BindingSource();
+            bindingNavigator1.BindingSource = ContentItemsBindingSource;
+
             dgvPacketItems.FilterStringChanged += dgvPacketItems_FilterStringChanged;
             dgvPacketItems.SortStringChanged += dgvPacketItems_SortStringChanged;
 
@@ -85,14 +88,22 @@ namespace Topol.UseApi
             var baseApi = ConfigurationManager.AppSettings["BaseApi"];
             linkLabel1.Text = $@"Описание API - {baseApi}help";
 
+            linkLabelUrl.LinkClicked += linkLabelUrl_LinkClicked;
+
             btnCallMaybe.Click += btnCallMaybe_Click;
             btnOkpd2.Click += btnOkpd2_Click;
             btnLoad.Click += btnLoad_Click;
             btnSearchPacket.Click += btnSearchPacket_Click;
+            btnPacketText.Click += btnPacketText_Click;
+            btnRefreshSearchItems.Click += btnRefreshSearchItems_Click;
+            btnClearSearchItems.Click += btnClearSearchItems_Click;
             btnSaveInternetResults.Click += btnSaveInternetResults_Click;
             btnInvertSelected.Click += btnInvertSelected_Click;
             btnDeleteSelected.Click += btnDeleteSelected_Click;
         }
+
+        
+
 
         private void dgvContentItems_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
@@ -105,7 +116,6 @@ namespace Topol.UseApi
         private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             var searchItemHeaderDto = (SearchItemHeaderDto)e.UserState;
-            SearchItemsStore.Post(searchItemHeaderDto);
             var list = new List<SearchItemHeaderDto> { searchItemHeaderDto };
             AddPacketItemsToList(list);
         }
@@ -115,7 +125,7 @@ namespace Topol.UseApi
             var cnt = 1;
             while (cnt > 0)
             {
-                var tasks = SearchItemsStore.Dictionary.Values.Where(z => z.ProcessedAt == null).ToList();
+                var tasks = _listSearchItem.Where(z => z.ProcessedAt == null).ToList();
                 cnt = tasks.Count;
                 foreach (var item in tasks)
                 {
@@ -134,7 +144,7 @@ namespace Topol.UseApi
                         Debug.WriteLine(exception);
                     }
                 }
-                System.Threading.Thread.Sleep(2000);
+                System.Threading.Thread.Sleep(3000);
             }
         }
 
@@ -494,34 +504,33 @@ namespace Topol.UseApi
         {
             var dto = JsonConvert.DeserializeObject<List<SearchItemParam>>(json);
             var searchItemHeaderDtos = await _dataManager.PostPacketAsync(dto, cmbElasticIndexName.SelectedItem as string, keywords);
-            if (searchItemHeaderDtos != null)
-            {
-                foreach (var searchItemHeaderDto in searchItemHeaderDtos)
-                {
-                    SearchItemsStore.Post(searchItemHeaderDto);
-                }
-                AddPacketItemsToList(searchItemHeaderDtos);
-                if (_bw.IsBusy != true)
-                {
-                    _bw.RunWorkerAsync();
-                }
-            }
-            else
-            {
-                MessageBox.Show(@"Ошибка запроса.");
-            }
+            SearchItemsToForm(searchItemHeaderDtos);
+        }
+
+        private async void SearchByCondition()
+        {
+            var dto = new SearchItemCondition {Name = tbConditionName.Text, ExtId = tbConditionExtId.Text};
+            var searchItemHeaderDtos = await _dataManager.GetByConditionAsync(dto);
+            SearchItemsToForm(searchItemHeaderDtos);
         }
 
         private async void SearchPacket(List<SearchItemParam> dto, string keywords)
         {
-            var searchPacketTaskDto = await _dataManager.PostPacketAsync(dto, cmbElasticIndexName.SelectedItem as string, keywords);
-            if (searchPacketTaskDto != null)
+            var searchItemHeaderDtos = await _dataManager.PostPacketAsync(dto, cmbElasticIndexName.SelectedItem as string, keywords);
+            SearchItemsToForm(searchItemHeaderDtos);
+        }
+
+        private void ClearSearchItems()
+        {
+            _listSearchItem.Clear();
+            ((DataTable)PacketItemsBindingSource.DataSource).Clear();
+        }
+
+        private void SearchItemsToForm(List<SearchItemHeaderDto> searchItemHeaderDtos)
+        {
+            if (searchItemHeaderDtos != null)
             {
-                foreach (var searchItemHeaderDto in searchPacketTaskDto)
-                {
-                    SearchItemsStore.Post(searchItemHeaderDto);
-                }
-                AddPacketItemsToList(searchPacketTaskDto);
+                AddPacketItemsToList(searchItemHeaderDtos);
                 if (_bw.IsBusy != true)
                 {
                     _bw.RunWorkerAsync();
@@ -555,18 +564,39 @@ namespace Topol.UseApi
         {
             var openFileDialog = new OpenFileDialog(); if (openFileDialog.ShowDialog() != DialogResult.OK) return;
             tbFileName.Text = openFileDialog.FileName;
-            tbTruItems.Lines = File.ReadAllLines(openFileDialog.FileName);
+            _packetLines = File.ReadAllLines(openFileDialog.FileName);
         }
 
         private void btnSearchPacket_Click(object sender, EventArgs e)
         {
-            SearchPacket(tbTruItems.Text, tbKeywords.Text);
+            if (_packetLines == null)
+            {
+                MessageBox.Show(@"Пустой текст пакета");
+            }
+            else
+            {
+                var text = string.Join("", _packetLines);
+                SearchPacket(text, tbKeywords.Text);
+            }
         }
 
+        private void btnPacketText_Click(object sender, EventArgs e)
+        {
+            var form = new FormPacketText {tbTruItems = {Lines = _packetLines}};
+            if (form.ShowDialog() == DialogResult.OK) _packetLines = form.tbTruItems.Lines;
+        }
 
-        
+        private void btnRefreshSearchItems_Click(object sender, EventArgs e)
+        {
+            SearchByCondition();
+        }
 
-        private void AddPacketItemsToList(List<SearchItemHeaderDto> searchItemsList)
+         private void btnClearSearchItems_Click(object sender, EventArgs e)
+        {
+            ClearSearchItems();
+        }
+
+    private void AddPacketItemsToList(List<SearchItemHeaderDto> searchItemsList)
         {
             if (searchItemsList == null) return;
             foreach (var searchItemDto in searchItemsList)
@@ -585,6 +615,18 @@ namespace Topol.UseApi
             List2Grid(ref _datatableSearchItem);
         }
 
+        private void SearchItemsDataTable_RowDeleting(object sender, DataRowChangeEventArgs e)
+        {
+            Debug.WriteLine($"SearchItem Row_Deleted Event: id={e.Row[nameof(SearchItemHeaderDto.Id)]}");
+        }
+
+        private async void ContentItemsDataTable_RowDeleting(object sender, DataRowChangeEventArgs e)
+        {
+            Debug.WriteLine($"Content Row_Deleted Event: id={e.Row[nameof(ContentExtDto.Id)]}");
+            //TODO: delete content by api
+            await _dataManager.DeleteContentItem($"{e.Row[nameof(ContentExtDto.Id)]}", $"{e.Row[nameof(ContentExtDto.ElasticId)]}");
+        }
+
         private void List2Grid(ref DataTable dataTable)
         {
             if (dataTable == null)
@@ -596,6 +638,7 @@ namespace Topol.UseApi
                 //    var okpd2List = await _dataManager.GetOkpd2Reverse(text.Replace(";",""));
                 //    if (okpd2List!=null && okpd2List.Any()) row[nameof(SearchItemDto.Okpd2)] = okpd2List.FirstOrDefault().Okpd2;
                 //}
+                dataTable.RowDeleting += SearchItemsDataTable_RowDeleting;
                 PacketItemsBindingSource.DataSource = dataTable;
                 dgvPacketItems.DataSource = PacketItemsBindingSource;
                 PacketGridColumnSettings();
@@ -651,6 +694,8 @@ namespace Topol.UseApi
             }
         }
 
+        
+
         private static DataTable ConvertToDataTable<T>(IEnumerable<T> data)
         {
             var properties = TypeDescriptor.GetProperties(typeof(T));
@@ -679,10 +724,12 @@ namespace Topol.UseApi
                 EnableResultButtons = (int)current.Row[nameof(SearchItemDto.Status)] == (int)TaskStatus.Ok && ((string)current.Row[nameof(SearchItemDto.Source)]).Contains("internet");
                 //var contentItems = _listSearchItem.FirstOrDefault(z => z.Key.Equals(key))?.Content ?? new List<ContentDto>();
                 var contentItems = await _dataManager.GetSearchItemContent(key);
-                var dt = ConvertToDataTable(contentItems);
-                ContentItemsBindingSource.DataSource = dt;
+                var dataTable = ConvertToDataTable(contentItems);
+                dataTable.RowDeleting += ContentItemsDataTable_RowDeleting;
+                ContentItemsBindingSource.DataSource = dataTable;
                 dgvContentItems.DataSource = ContentItemsBindingSource;
                 ContentGridColumnSettings(dgvContentItems);
+                label13.Text = current.Row[nameof(SearchItemHeaderDto.Name)] as string;
             }
             catch (Exception exception)
             {
@@ -690,6 +737,8 @@ namespace Topol.UseApi
                 //throw;
             }
         }
+
+       
 
         private void ContentItemsOnCurrentChanged(object sender, EventArgs e)
         {
@@ -699,6 +748,9 @@ namespace Topol.UseApi
                 var current = (DataRowView)ContentItemsBindingSource.Current;
                 var url = current.Row[nameof(ContentExtDto.Screenshot)] as string;
                 pictureBox1.LoadAsync(url);
+                lblPrice.Text = current.Row[nameof(ContentExtDto.Price)] as string;
+                linkLabelUrl.Text = current.Row[nameof(ContentExtDto.Uri)] as string;
+                label15.Text = current.Row[nameof(ContentExtDto.Name)] as string;
             }
             catch (Exception exception)
             {
@@ -712,7 +764,7 @@ namespace Topol.UseApi
             {
                 new SearchItemParam
                 {
-                    Id = string.IsNullOrEmpty(tbExtId.Text) ? Md5Logstah.GetDefaultId("", textBox2.Text):tbExtId.Text,
+                    Id = string.IsNullOrEmpty(tbSingleExtId.Text) ? Md5Logstah.GetDefaultId("", textBox2.Text):tbSingleExtId.Text,
                     Name = textBox2.Text,
                     Norm = cmbNorm.SelectedItem as string
                 }
@@ -724,6 +776,11 @@ namespace Topol.UseApi
         {
             var baseApi = ConfigurationManager.AppSettings["BaseApi"];
             Process.Start($"{baseApi}help");
+        }
+
+        private void linkLabelUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(linkLabelUrl.Text);
         }
 
         private void dgvContentItems_CellContentClick(object sender, DataGridViewCellEventArgs e)

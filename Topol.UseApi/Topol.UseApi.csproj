@@ -82,13 +82,21 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormPacketText.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPacketText.Designer.cs">
+      <DependentUpon>FormPacketText.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\Common\IDataManager.cs" />
     <Compile Include="Model\ContentUseApi.cs" />
-    <Compile Include="Model\SearchItemsStore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPacketText.resx">
+      <DependentUpon>FormPacketText.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

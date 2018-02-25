@@ -12,8 +12,11 @@ namespace Topol.UseApi.Interfaces.Common
         #region SearchPacket
 
         Task<List<SearchItemHeaderDto>> PostPacketAsync(List<SearchItemParam> searchItemsParam, string source = "", string keywords = "");
+        Task<List<SearchItemHeaderDto>> GetByConditionAsync(SearchItemCondition searchItemCondition);
         Task<SearchItemHeaderDto> GetSearchItemStatus(string id);
         Task<List<ContentExtDto>> GetSearchItemContent(string id);
+
+        Task<bool> DeleteContentItem(string id, string elasticId);
 
         Task<IEnumerable<ContentDto>> GetMaybe(string must = "", string should = "", string mustNot = "", string source = "");
 

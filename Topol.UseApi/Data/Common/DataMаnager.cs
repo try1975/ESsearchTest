@@ -14,11 +14,13 @@ namespace Topol.UseApi.Data.Common
     public class DataMаnager : IDataMаnager
     {
         private readonly string _endpointPostPacketAsync;
+        private readonly string _endpointSearchItemByCondition;
         private readonly string _endpointSearchItemStatus;
         private readonly string _endpointSearchItemContent;
         private readonly string _endpointMaybe;
         private readonly string _endpointOkpd2;
         private readonly string _endpointInternet;
+        private readonly string _endpointContentItem;
         private readonly HttpClient _apiHttpClient;
 
         public DataMаnager()
@@ -28,13 +30,14 @@ namespace Topol.UseApi.Data.Common
             var baseApi = ConfigurationManager.AppSettings["BaseApi"];
             var token = ConfigurationManager.AppSettings["ExternalToken"];
 
-            //_endpointPostPacketAsync = $"{baseApi}api/simpleprice/packet/";
             _endpointPostPacketAsync = $"{baseApi}api/packet/";
+            _endpointSearchItemByCondition = $"{baseApi}api/searchitem/bycondition/";
             _endpointSearchItemStatus = $"{baseApi}api/searchitem/status/";
             _endpointSearchItemContent = $"{baseApi}api/searchitem/content/";
             _endpointMaybe = $"{baseApi}api/simpleprice/maybe/";
             _endpointOkpd2 = $"{baseApi}api/common/okpd2reverse/";
             _endpointInternet = $"{baseApi}api/internet/";
+            _endpointContentItem = $"{baseApi}api/contentitem/";
 
             #endregion
 
@@ -47,6 +50,16 @@ namespace Topol.UseApi.Data.Common
         public async Task<List<SearchItemHeaderDto>> PostPacketAsync(List<SearchItemParam> searchItemsParam, string source = "", string keywords="")
         {
             using (var response = await _apiHttpClient.PostAsJsonAsync($"{_endpointPostPacketAsync}?source={source}&keywords={keywords}", searchItemsParam))
+            {
+                if (!response.IsSuccessStatusCode) return null;
+                var result = await response.Content.ReadAsAsync<List<SearchItemHeaderDto>>();
+                return result;
+            }
+        }
+
+        public async Task<List<SearchItemHeaderDto>> GetByConditionAsync(SearchItemCondition searchItemCondition)
+        {
+            using (var response = await _apiHttpClient.PostAsJsonAsync($"{_endpointSearchItemByCondition}", searchItemCondition))
             {
                 if (!response.IsSuccessStatusCode) return null;
                 var result = await response.Content.ReadAsAsync<List<SearchItemHeaderDto>>();
@@ -70,6 +83,16 @@ namespace Topol.UseApi.Data.Common
             {
                 if (!response.IsSuccessStatusCode) return null;
                 var result = await response.Content.ReadAsAsync<List<ContentExtDto>>();
+                return result;
+            }
+        }
+
+        public async Task<bool> DeleteContentItem(string id, string elasticId)
+        {
+            using (var response = await _apiHttpClient.DeleteAsync($"{_endpointContentItem}{id}?elasticId={elasticId}"))
+            {
+                if (!response.IsSuccessStatusCode) return false;
+                var result = await response.Content.ReadAsAsync<bool>();
                 return result;
             }
         }

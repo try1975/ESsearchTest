@@ -72,7 +72,7 @@ namespace Price.WebApi.Maintenance.Classes
             return dto;
         }
 
-        public IEnumerable<SearchItemExtDto> GetItemsByCondition(SearchItemCondition searchItemCondition)
+        public IEnumerable<SearchItemHeaderDto> GetItemsByCondition(SearchItemCondition searchItemCondition)
         {
             var queryCondition = Query.GetEntities();
             if (!string.IsNullOrEmpty(searchItemCondition.Name))
@@ -81,7 +81,7 @@ namespace Price.WebApi.Maintenance.Classes
                     ;
             if (!string.IsNullOrEmpty(searchItemCondition.ExtId))
                 queryCondition = queryCondition
-                    .Where(z => z.ExtId == searchItemCondition.ExtId)
+                        .Where(z => z.ExtId == searchItemCondition.ExtId)
                     ;
             if (searchItemCondition.IsInternet)
                 queryCondition = queryCondition
@@ -91,14 +91,29 @@ namespace Price.WebApi.Maintenance.Classes
                 queryCondition = queryCondition
                         .Where(z => z.Status == searchItemCondition.Status)
                     ;
-            var list = queryCondition.ToList();
-            return Mapper.Map<List<SearchItemExtDto>>(list);
+            var entities = queryCondition.ToList();
+
+            var dtos = Mapper.Map<List<SearchItemHeaderDto>>(entities);
+            if (searchItemCondition.Status == null)
+            {
+                foreach (var dto in dtos)
+                {
+                    dto.ContentCount += _contentQuery.GetEntities().Count(z => z.SearchItemId == dto.Id);
+                    dto.ContentCount += _internetContentQuery.GetEntities()
+                        .Count(z => z.session_id == dto.InternetSessionId);
+                }
+            }
+            return dtos;
         }
 
         public SearchItemHeaderDto GetItemHeader(string id)
         {
             var entity = Query.GetEntity(id);
-            return Mapper.Map<SearchItemHeaderDto>(entity);
+            var dto = Mapper.Map<SearchItemHeaderDto>(entity);
+            if (dto == null) return null;
+            dto.ContentCount += _contentQuery.GetEntities().Count(z => z.SearchItemId == entity.Id);
+            dto.ContentCount += _internetContentQuery.GetEntities().Count(z => z.session_id == entity.InternetSessionId);
+            return dto;
         }
 
         public List<ContentExtDto> GetItemContents(string id)
@@ -146,15 +161,5 @@ namespace Price.WebApi.Maintenance.Classes
                 .ToList());
             return list;
         }
-
-        public bool SetCompleted(string id)
-        {
-            var entity = Query.GetEntity(id);
-            entity.ProcessedAt = Utils.GetUtcNow();
-            entity.Status = TaskStatus.Ok;
-            return Query.UpdateEntity(entity) != null;
-        }
-
-
     }
 }

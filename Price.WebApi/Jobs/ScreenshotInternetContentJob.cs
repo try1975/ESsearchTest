@@ -31,7 +31,7 @@ namespace Price.WebApi.Jobs
                 var filename = Path.Combine(AppGlobal.ScreenshotPath, $"{entity.contact_url}");
                 if (File.Exists(filename)) continue;
                 var arguments = $"/URL {entity.url} /Filename \"{filename}\" {AppGlobal.ScreenshotterArgs}";
-                Process.Start(AppGlobal.Screenshotter, arguments)?.WaitForExit(); ;
+                Process.Start(AppGlobal.Screenshotter, arguments)/*?.WaitForExit()*/;
             }
         }
     }

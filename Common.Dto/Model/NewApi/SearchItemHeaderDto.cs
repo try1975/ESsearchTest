@@ -23,6 +23,9 @@ namespace Common.Dto.Model.NewApi
         public string Source { get; set; }
         public string ExtId { get; set; }
 
+        [JsonIgnore]
+        public string InternetSessionId { get; set; }
+
         public string Normalizer { get; set; }
 
         [JsonIgnore]

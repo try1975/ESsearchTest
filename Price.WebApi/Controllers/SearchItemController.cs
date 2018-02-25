@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Web.Http.Routing;
 using Common.Dto.Model.NewApi;
 using Price.WebApi.Maintenance.Interfaces;
 
@@ -22,7 +21,7 @@ namespace Price.WebApi.Controllers
         }
 
         [HttpGet]
-        [ResponseType(typeof(SearchItemExtDto))]
+        [ResponseType(typeof(SearchItemHeaderDto))]
         [Route("api/SearchItem/status/{id}", Name = nameof(GetSearchItemStatus) + "Route")]
         public IHttpActionResult GetSearchItemStatus(string id)
         {
@@ -44,24 +43,11 @@ namespace Price.WebApi.Controllers
         /// <param name="searchItemCondition"></param>
         /// <returns></returns>
         [HttpPost]
-        [ResponseType(typeof(List<SearchItemExtDto>))]
+        [ResponseType(typeof(List<SearchItemHeaderDto>))]
         [Route("api/SearchItem/ByCondition", Name = nameof(GetSearchItemsByConditions) + "Route")]
         public IHttpActionResult GetSearchItemsByConditions(SearchItemCondition searchItemCondition)
         {
             return Ok(((ISearchItemApi)_api).GetItemsByCondition(searchItemCondition));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [Route("api/SearchItem/SetCompleted/{id}", Name = nameof(PostSearchItemCompleted) + "Route")]
-        public IHttpActionResult PostSearchItemCompleted(string id)
-        {
-            if (((ISearchItemApi)_api).SetCompleted(id)) return Ok();
-            return NotFound();
         }
     }
 }

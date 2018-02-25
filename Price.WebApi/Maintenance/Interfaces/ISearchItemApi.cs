@@ -6,11 +6,9 @@ namespace Price.WebApi.Maintenance.Interfaces
 {
     public interface ISearchItemApi : ITypedApi<SearchItemExtDto, string>
     {
-        IEnumerable<SearchItemExtDto> GetItemsByCondition(SearchItemCondition searchItemCondition);
+        IEnumerable<SearchItemHeaderDto> GetItemsByCondition(SearchItemCondition searchItemCondition);
         SearchItemHeaderDto GetItemHeader(string id);
         List<ContentExtDto> GetItemContents(string id);
-        bool SetCompleted(string id);
-
         string BaseUrl { get; set; }
     }
 }

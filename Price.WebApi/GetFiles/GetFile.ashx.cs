@@ -31,7 +31,7 @@ namespace Price.WebApi.GetFiles
                 context.Response.End();
             }
             var filename = $"{id}.png";
-            var screenshot = Path.Combine(AppGlobal.ScreenshotPath, $"{id}.png");
+            var screenshot = Path.Combine(AppGlobal.ScreenshotPath, $"{filename}");
             if (!File.Exists(screenshot))
             {
                 Logger.Log.Error($"{screenshot} not found");
