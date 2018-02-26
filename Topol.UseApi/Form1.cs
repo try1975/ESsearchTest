@@ -100,6 +100,9 @@ namespace Topol.UseApi
             btnSaveInternetResults.Click += btnSaveInternetResults_Click;
             btnInvertSelected.Click += btnInvertSelected_Click;
             btnDeleteSelected.Click += btnDeleteSelected_Click;
+
+            tabControl1.TabPages.Remove(tabPage3);
+            tabControl1.TabPages.Remove(tabPage2);
         }
 
         

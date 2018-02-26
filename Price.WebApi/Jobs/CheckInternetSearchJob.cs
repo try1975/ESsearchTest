@@ -22,6 +22,7 @@ namespace Price.WebApi.Jobs
         /// <param name="context"></param>
         public void Execute(IJobExecutionContext context)
         {
+            Logger.Log.Info($"{nameof(CheckInternetSearchJob)} - {DateTime.Now:HH:mm:ss}");
             var query = new SearchItemQuery(new PriceContext());
             var entities = query.GetEntities().Where(z => z.Status == TaskStatus.InProcess && z.Source.Contains("internet")).ToList();
             foreach (var entity in entities)

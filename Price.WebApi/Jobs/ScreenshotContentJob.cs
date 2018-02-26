@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Price.Db.MysSql;
@@ -25,13 +26,22 @@ namespace Price.WebApi.Jobs
                 .ToList();
             foreach (var entity in entities)
             {
-                entity.Screenshot = $"{entity.CollectedAt}_{entity.ElasticId}.{AppGlobal.ScreenshotExtension}";
-                query.UpdateEntity(entity);
-                var filename = Path.Combine(AppGlobal.ScreenshotPath, $"{entity.Screenshot}");
-                if (File.Exists(filename)) continue;
-                var arguments = $"/URL {entity.Uri} /Filename \"{filename}\" {AppGlobal.ScreenshotterArgs}";
-                Process.Start(AppGlobal.Screenshotter, arguments)/*?.WaitForExit()*/;
+                try
+                {
+                    entity.Screenshot = $"{entity.CollectedAt}_{entity.ElasticId}.{AppGlobal.ScreenshotExtension}";
+                    query.UpdateEntity(entity);
+                    var filename = Path.Combine(AppGlobal.ScreenshotPath, $"{entity.Screenshot}");
+                    if (File.Exists(filename)) continue;
+                    var arguments = $"/URL {entity.Uri} /Filename \"{filename}\" {AppGlobal.ScreenshotterArgs}";
+                    Process.Start(AppGlobal.Screenshotter, arguments)/*?.WaitForExit()*/;
+
+                }
+                catch (Exception exception)
+                {
+                    Logger.Log.Error(exception);
+                }
             }
+
         }
     }
 }

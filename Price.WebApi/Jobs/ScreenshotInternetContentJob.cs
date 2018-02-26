@@ -26,12 +26,23 @@ namespace Price.WebApi.Jobs
                 .ToList();
             foreach (var entity in entities)
             {
-                entity.contact_url = $"{entity.Id}_{new Uri(entity.url).GetHashCode()}.{AppGlobal.ScreenshotExtension}";
-                query.UpdateEntity(entity);
-                var filename = Path.Combine(AppGlobal.ScreenshotPath, $"{entity.contact_url}");
-                if (File.Exists(filename)) continue;
-                var arguments = $"/URL {entity.url} /Filename \"{filename}\" {AppGlobal.ScreenshotterArgs}";
-                Process.Start(AppGlobal.Screenshotter, arguments)/*?.WaitForExit()*/;
+                try
+                {
+                    var uri = new Uri(entity.url);
+                    entity.contact_url = $"{entity.Id}_{uri.GetHashCode()}.{AppGlobal.ScreenshotExtension}";
+                    query.UpdateEntity(entity);
+                    var filename = Path.Combine(AppGlobal.ScreenshotPath, $"{entity.contact_url}");
+
+                    if (File.Exists(filename)) continue;
+                    var arguments = $"/URL {entity.url} /Filename \"{filename}\" {AppGlobal.ScreenshotterArgs}";
+                    Process.Start(AppGlobal.Screenshotter, arguments)/*?.WaitForExit()*/;
+                }
+                catch (Exception exception)
+                {
+                    Logger.Log.Error(exception);
+                    entity.contact_url = $"bad.{AppGlobal.ScreenshotExtension}";
+                    query.UpdateEntity(entity);
+                }
             }
         }
     }
