@@ -1,0 +1,67 @@
+[
+  //PUT syn_v1
+  {
+    "aliases": {
+      "md5": { },
+      "syn": { }
+    },
+    "settings": {
+      "analysis": {
+        "analyzer": {
+          "default": {
+            "tokenizer": "whitespace",
+            "filter": [ "lowercase" ],
+            "char_filter": [ "html_strip" ]
+          }
+        }
+      }
+    },
+    "mappings": {
+      "syn": {
+        "properties": {
+          "id": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "inn": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "tn": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  // перенос данных
+  //POST _reindex
+  {
+    "source": {
+      "index": "gz",
+      "type": "syn",
+      "_source": [ "id", "inn", "tn" ]
+    },
+    "dest": {
+      "index": "syn_v1"
+    }
+  }
+
+
+]

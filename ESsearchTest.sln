@@ -46,6 +46,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ElasticScripts", "ElasticScripts", "{B7E6C0B5-A100-4979-B1BB-F3499764FCA9}"
 	ProjectSection(SolutionItems) = preProject
 		es_20180131.txt = es_20180131.txt
+		es_query.txt = es_query.txt
+		es_query2.txt = es_query2.txt
+		es_syn.json = es_syn.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RusStemmer", "RusStemmer\RusStemmer.csproj", "{1CD0E838-0F31-492C-B47D-7DF77A0E633C}"
