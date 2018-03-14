@@ -15,6 +15,7 @@ namespace Topol.UseApi.Interfaces.Common
         Task<List<SearchItemHeaderDto>> GetByConditionAsync(SearchItemCondition searchItemCondition);
         Task<SearchItemHeaderDto> GetSearchItemStatus(string id);
         Task<List<ContentExtDto>> GetSearchItemContent(string id);
+        Task<bool> DeleteSearchItem(string id);
 
         Task<bool> DeleteContentItem(string id, string elasticId);
 

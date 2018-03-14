@@ -24,7 +24,8 @@ namespace Price.WebApi.Jobs
                 .WithIdentity("trigger02", "group1")     // идентифицируем триггер с именем и группой
                 .StartNow()                            // запуск сразу после начала выполнения
                 .WithSimpleSchedule(x => x
-                    .WithIntervalInSeconds(20)          
+                    .WithIntervalInSeconds(20)
+                    .WithMisfireHandlingInstructionIgnoreMisfires()
                     .RepeatForever())                   // бесконечное повторение
                 .Build();
             scheduler.ScheduleJob(checkInternetSearchJob, checkInternetSearchJobTrigger); 

@@ -26,6 +26,16 @@
         /// 
         /// </summary>
         [EnumLocalizeAttribite("В процессе")]
-        InProcess = 4
+        InProcess = 4,
+        /// <summary>
+        /// 
+        /// </summary>
+        [EnumLocalizeAttribite("Прекращено по таймауту")]
+        BreakByTimeout = 5,
+        /// <summary>
+        /// 
+        /// </summary>
+        [EnumLocalizeAttribite("Прекращено")]
+        Break = 6
     }
 }

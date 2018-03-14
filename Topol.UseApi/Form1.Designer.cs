@@ -41,6 +41,12 @@
             this.gbPacketItems = new System.Windows.Forms.GroupBox();
             this.dgvPacketItems = new ADGV.AdvancedDataGridView();
             this.panel18 = new System.Windows.Forms.Panel();
+            this.btnClearSearchItems = new System.Windows.Forms.Button();
+            this.tbConditionName = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.btnRefreshSearchItems = new System.Windows.Forms.Button();
+            this.tbConditionExtId = new System.Windows.Forms.TextBox();
             this.gbContentItems = new System.Windows.Forms.GroupBox();
             this.dgvContentItems = new ADGV.AdvancedDataGridView();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -95,39 +101,39 @@
             this.tbOkpd2 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.splitter5 = new System.Windows.Forms.Splitter();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.gbSource = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.tbKeywords = new System.Windows.Forms.TextBox();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.tbConditionExtId = new System.Windows.Forms.TextBox();
-            this.btnRefreshSearchItems = new System.Windows.Forms.Button();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.tbConditionName = new System.Windows.Forms.TextBox();
-            this.btnClearSearchItems = new System.Windows.Forms.Button();
             this.panel19 = new System.Windows.Forms.Panel();
-            this.panel20 = new System.Windows.Forms.Panel();
             this.panel21 = new System.Windows.Forms.Panel();
-            this.label11 = new System.Windows.Forms.Label();
-            this.lblPrice = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panel22 = new System.Windows.Forms.Panel();
+            this.panel23 = new System.Windows.Forms.Panel();
+            this.btnDeletePrice = new System.Windows.Forms.Button();
+            this.btnSkipPrice = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.panel20 = new System.Windows.Forms.Panel();
+            this.linkLabelUrl = new System.Windows.Forms.LinkLabel();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.bindingNavigator1 = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
+            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
-            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.linkLabelUrl = new System.Windows.Forms.LinkLabel();
+            this.lblPrice = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.gbSource = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tbKeywords = new System.Windows.Forms.TextBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.btnDeleteSearchItem = new System.Windows.Forms.Button();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -162,13 +168,15 @@
             this.panel10.SuspendLayout();
             this.panel15.SuspendLayout();
             this.panel16.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.gbSource.SuspendLayout();
             this.panel19.SuspendLayout();
-            this.panel20.SuspendLayout();
             this.panel21.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel22.SuspendLayout();
+            this.panel23.SuspendLayout();
+            this.panel20.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
+            this.gbSource.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlPacket
@@ -178,7 +186,7 @@
             this.pnlPacket.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlPacket.Location = new System.Drawing.Point(3, 3);
             this.pnlPacket.Name = "pnlPacket";
-            this.pnlPacket.Size = new System.Drawing.Size(668, 129);
+            this.pnlPacket.Size = new System.Drawing.Size(799, 129);
             this.pnlPacket.TabIndex = 0;
             // 
             // pnlCallPacket
@@ -188,7 +196,7 @@
             this.pnlCallPacket.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlCallPacket.Location = new System.Drawing.Point(0, 42);
             this.pnlCallPacket.Name = "pnlCallPacket";
-            this.pnlCallPacket.Size = new System.Drawing.Size(668, 43);
+            this.pnlCallPacket.Size = new System.Drawing.Size(799, 43);
             this.pnlCallPacket.TabIndex = 2;
             // 
             // btnPacketText
@@ -216,7 +224,7 @@
             this.pnlLoadPacket.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlLoadPacket.Location = new System.Drawing.Point(0, 0);
             this.pnlLoadPacket.Name = "pnlLoadPacket";
-            this.pnlLoadPacket.Size = new System.Drawing.Size(668, 42);
+            this.pnlLoadPacket.Size = new System.Drawing.Size(799, 42);
             this.pnlLoadPacket.TabIndex = 4;
             // 
             // btnLoad
@@ -235,7 +243,7 @@
             this.tbFileName.Enabled = false;
             this.tbFileName.Location = new System.Drawing.Point(281, 12);
             this.tbFileName.Name = "tbFileName";
-            this.tbFileName.Size = new System.Drawing.Size(375, 20);
+            this.tbFileName.Size = new System.Drawing.Size(506, 20);
             this.tbFileName.TabIndex = 0;
             // 
             // cmbElasticIndexName
@@ -281,6 +289,7 @@
             // 
             // panel18
             // 
+            this.panel18.Controls.Add(this.btnDeleteSearchItem);
             this.panel18.Controls.Add(this.btnClearSearchItems);
             this.panel18.Controls.Add(this.tbConditionName);
             this.panel18.Controls.Add(this.label10);
@@ -292,6 +301,56 @@
             this.panel18.Name = "panel18";
             this.panel18.Size = new System.Drawing.Size(807, 63);
             this.panel18.TabIndex = 3;
+            // 
+            // btnClearSearchItems
+            // 
+            this.btnClearSearchItems.Location = new System.Drawing.Point(9, 36);
+            this.btnClearSearchItems.Name = "btnClearSearchItems";
+            this.btnClearSearchItems.Size = new System.Drawing.Size(173, 23);
+            this.btnClearSearchItems.TabIndex = 5;
+            this.btnClearSearchItems.Text = "Очистить запросы";
+            this.btnClearSearchItems.UseVisualStyleBackColor = true;
+            // 
+            // tbConditionName
+            // 
+            this.tbConditionName.Location = new System.Drawing.Point(202, 24);
+            this.tbConditionName.Name = "tbConditionName";
+            this.tbConditionName.Size = new System.Drawing.Size(153, 20);
+            this.tbConditionName.TabIndex = 4;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(199, 5);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(83, 13);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Наименование";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(358, 5);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(31, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "ExtId";
+            // 
+            // btnRefreshSearchItems
+            // 
+            this.btnRefreshSearchItems.Location = new System.Drawing.Point(9, 6);
+            this.btnRefreshSearchItems.Name = "btnRefreshSearchItems";
+            this.btnRefreshSearchItems.Size = new System.Drawing.Size(173, 23);
+            this.btnRefreshSearchItems.TabIndex = 1;
+            this.btnRefreshSearchItems.Text = "Получить по условиям";
+            this.btnRefreshSearchItems.UseVisualStyleBackColor = true;
+            // 
+            // tbConditionExtId
+            // 
+            this.tbConditionExtId.Location = new System.Drawing.Point(361, 24);
+            this.tbConditionExtId.Name = "tbConditionExtId";
+            this.tbConditionExtId.Size = new System.Drawing.Size(100, 20);
+            this.tbConditionExtId.TabIndex = 0;
             // 
             // gbContentItems
             // 
@@ -440,7 +499,7 @@
             this.tpPacketTru.Location = new System.Drawing.Point(4, 22);
             this.tpPacketTru.Name = "tpPacketTru";
             this.tpPacketTru.Padding = new System.Windows.Forms.Padding(3);
-            this.tpPacketTru.Size = new System.Drawing.Size(674, 135);
+            this.tpPacketTru.Size = new System.Drawing.Size(805, 135);
             this.tpPacketTru.TabIndex = 0;
             this.tpPacketTru.Text = "Пакет ТРУ";
             this.tpPacketTru.UseVisualStyleBackColor = true;
@@ -577,7 +636,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(688, 608);
+            this.tabPage2.Size = new System.Drawing.Size(819, 608);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Maybe";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -587,7 +646,7 @@
             this.splitter3.Dock = System.Windows.Forms.DockStyle.Top;
             this.splitter3.Location = new System.Drawing.Point(3, 243);
             this.splitter3.Name = "splitter3";
-            this.splitter3.Size = new System.Drawing.Size(682, 3);
+            this.splitter3.Size = new System.Drawing.Size(813, 3);
             this.splitter3.TabIndex = 2;
             this.splitter3.TabStop = false;
             // 
@@ -598,7 +657,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 243);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(682, 362);
+            this.groupBox1.Size = new System.Drawing.Size(813, 362);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Результаты поиска";
@@ -616,7 +675,7 @@
             this.dgvMaybe.Location = new System.Drawing.Point(3, 33);
             this.dgvMaybe.Name = "dgvMaybe";
             this.dgvMaybe.ReadOnly = true;
-            this.dgvMaybe.Size = new System.Drawing.Size(676, 326);
+            this.dgvMaybe.Size = new System.Drawing.Size(807, 326);
             this.dgvMaybe.TabIndex = 2;
             this.dgvMaybe.TimeFilter = true;
             // 
@@ -625,7 +684,7 @@
             this.panel14.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel14.Location = new System.Drawing.Point(3, 16);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(676, 17);
+            this.panel14.Size = new System.Drawing.Size(807, 17);
             this.panel14.TabIndex = 3;
             // 
             // panel5
@@ -635,7 +694,7 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel5.Location = new System.Drawing.Point(3, 3);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(682, 240);
+            this.panel5.Size = new System.Drawing.Size(813, 240);
             this.panel5.TabIndex = 0;
             // 
             // panel13
@@ -644,7 +703,7 @@
             this.panel13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel13.Location = new System.Drawing.Point(0, 203);
             this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(682, 37);
+            this.panel13.Size = new System.Drawing.Size(813, 37);
             this.panel13.TabIndex = 44;
             // 
             // btnCallMaybe
@@ -667,7 +726,7 @@
             this.panel12.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel12.Location = new System.Drawing.Point(0, 0);
             this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(682, 203);
+            this.panel12.Size = new System.Drawing.Size(813, 203);
             this.panel12.TabIndex = 43;
             // 
             // label4
@@ -739,7 +798,7 @@
             this.tabPage3.Controls.Add(this.panel10);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(688, 608);
+            this.tabPage3.Size = new System.Drawing.Size(819, 608);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "ОКПД2";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -749,7 +808,7 @@
             this.splitter4.Dock = System.Windows.Forms.DockStyle.Top;
             this.splitter4.Location = new System.Drawing.Point(0, 240);
             this.splitter4.Name = "splitter4";
-            this.splitter4.Size = new System.Drawing.Size(688, 3);
+            this.splitter4.Size = new System.Drawing.Size(819, 3);
             this.splitter4.TabIndex = 8;
             this.splitter4.TabStop = false;
             // 
@@ -760,7 +819,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 240);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(688, 368);
+            this.groupBox2.Size = new System.Drawing.Size(819, 368);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Результаты поиска";
@@ -778,7 +837,7 @@
             this.dgvOkpd2.Location = new System.Drawing.Point(3, 33);
             this.dgvOkpd2.Name = "dgvOkpd2";
             this.dgvOkpd2.ReadOnly = true;
-            this.dgvOkpd2.Size = new System.Drawing.Size(682, 332);
+            this.dgvOkpd2.Size = new System.Drawing.Size(813, 332);
             this.dgvOkpd2.TabIndex = 2;
             this.dgvOkpd2.TimeFilter = true;
             // 
@@ -787,7 +846,7 @@
             this.panel17.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel17.Location = new System.Drawing.Point(3, 16);
             this.panel17.Name = "panel17";
-            this.panel17.Size = new System.Drawing.Size(682, 17);
+            this.panel17.Size = new System.Drawing.Size(813, 17);
             this.panel17.TabIndex = 3;
             // 
             // panel10
@@ -797,7 +856,7 @@
             this.panel10.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel10.Location = new System.Drawing.Point(0, 0);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(688, 240);
+            this.panel10.Size = new System.Drawing.Size(819, 240);
             this.panel10.TabIndex = 1;
             // 
             // panel15
@@ -806,7 +865,7 @@
             this.panel15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel15.Location = new System.Drawing.Point(0, 203);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(688, 37);
+            this.panel15.Size = new System.Drawing.Size(819, 37);
             this.panel15.TabIndex = 44;
             // 
             // btnOkpd2
@@ -825,7 +884,7 @@
             this.panel16.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel16.Location = new System.Drawing.Point(0, 0);
             this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(688, 203);
+            this.panel16.Size = new System.Drawing.Size(819, 203);
             this.panel16.TabIndex = 43;
             // 
             // tbOkpd2
@@ -855,15 +914,270 @@
             this.splitter5.TabIndex = 5;
             this.splitter5.TabStop = false;
             // 
+            // panel19
+            // 
+            this.panel19.Controls.Add(this.panel21);
+            this.panel19.Controls.Add(this.panel22);
+            this.panel19.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel19.Location = new System.Drawing.Point(831, 50);
+            this.panel19.Name = "panel19";
+            this.panel19.Size = new System.Drawing.Size(400, 634);
+            this.panel19.TabIndex = 6;
+            // 
+            // panel21
+            // 
+            this.panel21.AutoScroll = true;
+            this.panel21.Controls.Add(this.pictureBox1);
+            this.panel21.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel21.Location = new System.Drawing.Point(0, 166);
+            this.panel21.Name = "panel21";
+            this.panel21.Size = new System.Drawing.Size(400, 468);
+            this.panel21.TabIndex = 0;
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(400, 501);
+            this.pictureBox1.Size = new System.Drawing.Size(400, 468);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
+            // 
+            // panel22
+            // 
+            this.panel22.Controls.Add(this.panel23);
+            this.panel22.Controls.Add(this.panel20);
+            this.panel22.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel22.Location = new System.Drawing.Point(0, 0);
+            this.panel22.Name = "panel22";
+            this.panel22.Size = new System.Drawing.Size(400, 166);
+            this.panel22.TabIndex = 9;
+            // 
+            // panel23
+            // 
+            this.panel23.Controls.Add(this.btnDeletePrice);
+            this.panel23.Controls.Add(this.btnSkipPrice);
+            this.panel23.Controls.Add(this.button2);
+            this.panel23.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel23.Location = new System.Drawing.Point(0, 133);
+            this.panel23.Name = "panel23";
+            this.panel23.Size = new System.Drawing.Size(400, 33);
+            this.panel23.TabIndex = 6;
+            // 
+            // btnDeletePrice
+            // 
+            this.btnDeletePrice.ForeColor = System.Drawing.Color.Red;
+            this.btnDeletePrice.Location = new System.Drawing.Point(201, 4);
+            this.btnDeletePrice.Name = "btnDeletePrice";
+            this.btnDeletePrice.Size = new System.Drawing.Size(75, 23);
+            this.btnDeletePrice.TabIndex = 2;
+            this.btnDeletePrice.Text = "Удалить";
+            this.btnDeletePrice.UseVisualStyleBackColor = true;
+            // 
+            // btnSkipPrice
+            // 
+            this.btnSkipPrice.Location = new System.Drawing.Point(119, 3);
+            this.btnSkipPrice.Name = "btnSkipPrice";
+            this.btnSkipPrice.Size = new System.Drawing.Size(75, 23);
+            this.btnSkipPrice.TabIndex = 1;
+            this.btnSkipPrice.Text = "Пропустить";
+            this.btnSkipPrice.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.ForeColor = System.Drawing.Color.Green;
+            this.button2.Location = new System.Drawing.Point(38, 3);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 0;
+            this.button2.Text = "Проверено";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // panel20
+            // 
+            this.panel20.Controls.Add(this.linkLabelUrl);
+            this.panel20.Controls.Add(this.label15);
+            this.panel20.Controls.Add(this.label14);
+            this.panel20.Controls.Add(this.label13);
+            this.panel20.Controls.Add(this.label12);
+            this.panel20.Controls.Add(this.bindingNavigator1);
+            this.panel20.Controls.Add(this.lblPrice);
+            this.panel20.Controls.Add(this.label11);
+            this.panel20.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel20.Location = new System.Drawing.Point(0, 0);
+            this.panel20.Name = "panel20";
+            this.panel20.Size = new System.Drawing.Size(400, 133);
+            this.panel20.TabIndex = 5;
+            // 
+            // linkLabelUrl
+            // 
+            this.linkLabelUrl.AutoSize = true;
+            this.linkLabelUrl.Location = new System.Drawing.Point(9, 29);
+            this.linkLabelUrl.Name = "linkLabelUrl";
+            this.linkLabelUrl.Size = new System.Drawing.Size(55, 13);
+            this.linkLabelUrl.TabIndex = 8;
+            this.linkLabelUrl.TabStop = true;
+            this.linkLabelUrl.Text = "linkLabel2";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(72, 82);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(41, 13);
+            this.label15.TabIndex = 7;
+            this.label15.Text = "label15";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 82);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(59, 13);
+            this.label14.TabIndex = 6;
+            this.label14.Text = "Результат";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(72, 64);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(41, 13);
+            this.label13.TabIndex = 5;
+            this.label13.Text = "label13";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 64);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(44, 13);
+            this.label12.TabIndex = 4;
+            this.label12.Text = "Запрос";
+            // 
+            // bindingNavigator1
+            // 
+            this.bindingNavigator1.AddNewItem = null;
+            this.bindingNavigator1.CountItem = this.bindingNavigatorCountItem;
+            this.bindingNavigator1.DeleteItem = this.bindingNavigatorDeleteItem;
+            this.bindingNavigator1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bindingNavigatorMoveFirstItem,
+            this.bindingNavigatorMovePreviousItem,
+            this.bindingNavigatorSeparator,
+            this.bindingNavigatorPositionItem,
+            this.bindingNavigatorCountItem,
+            this.bindingNavigatorSeparator1,
+            this.bindingNavigatorMoveNextItem,
+            this.bindingNavigatorMoveLastItem,
+            this.bindingNavigatorSeparator2,
+            this.bindingNavigatorDeleteItem});
+            this.bindingNavigator1.Location = new System.Drawing.Point(0, 0);
+            this.bindingNavigator1.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
+            this.bindingNavigator1.MoveLastItem = this.bindingNavigatorMoveLastItem;
+            this.bindingNavigator1.MoveNextItem = this.bindingNavigatorMoveNextItem;
+            this.bindingNavigator1.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
+            this.bindingNavigator1.Name = "bindingNavigator1";
+            this.bindingNavigator1.PositionItem = this.bindingNavigatorPositionItem;
+            this.bindingNavigator1.Size = new System.Drawing.Size(400, 25);
+            this.bindingNavigator1.TabIndex = 3;
+            this.bindingNavigator1.Text = "bindingNavigator1";
+            // 
+            // bindingNavigatorCountItem
+            // 
+            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 22);
+            this.bindingNavigatorCountItem.Text = "of {0}";
+            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
+            // 
+            // bindingNavigatorDeleteItem
+            // 
+            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
+            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
+            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorDeleteItem.Text = "Delete";
+            // 
+            // bindingNavigatorMoveFirstItem
+            // 
+            this.bindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
+            this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
+            this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMoveFirstItem.Text = "Move first";
+            // 
+            // bindingNavigatorMovePreviousItem
+            // 
+            this.bindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
+            this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
+            this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMovePreviousItem.Text = "Move previous";
+            // 
+            // bindingNavigatorSeparator
+            // 
+            this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
+            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 25);
+            // 
+            // bindingNavigatorPositionItem
+            // 
+            this.bindingNavigatorPositionItem.AccessibleName = "Position";
+            this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
+            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 23);
+            this.bindingNavigatorPositionItem.Text = "0";
+            this.bindingNavigatorPositionItem.ToolTipText = "Current position";
+            // 
+            // bindingNavigatorSeparator1
+            // 
+            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
+            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // bindingNavigatorMoveNextItem
+            // 
+            this.bindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
+            this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
+            this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMoveNextItem.Text = "Move next";
+            // 
+            // bindingNavigatorMoveLastItem
+            // 
+            this.bindingNavigatorMoveLastItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
+            this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
+            this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
+            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMoveLastItem.Text = "Move last";
+            // 
+            // bindingNavigatorSeparator2
+            // 
+            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
+            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // lblPrice
+            // 
+            this.lblPrice.AutoSize = true;
+            this.lblPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblPrice.ForeColor = System.Drawing.Color.Red;
+            this.lblPrice.Location = new System.Drawing.Point(71, 99);
+            this.lblPrice.Name = "lblPrice";
+            this.lblPrice.Size = new System.Drawing.Size(59, 20);
+            this.lblPrice.TabIndex = 1;
+            this.lblPrice.Text = "lblPrice";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(5, 104);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(33, 13);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "Цена";
             // 
             // gbSource
             // 
@@ -906,260 +1220,14 @@
             this.linkLabel1.Text = "Описание API: http://144.76.54.166:52620/help";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // tbConditionExtId
+            // btnDeleteSearchItem
             // 
-            this.tbConditionExtId.Location = new System.Drawing.Point(361, 24);
-            this.tbConditionExtId.Name = "tbConditionExtId";
-            this.tbConditionExtId.Size = new System.Drawing.Size(100, 20);
-            this.tbConditionExtId.TabIndex = 0;
-            // 
-            // btnRefreshSearchItems
-            // 
-            this.btnRefreshSearchItems.Location = new System.Drawing.Point(9, 6);
-            this.btnRefreshSearchItems.Name = "btnRefreshSearchItems";
-            this.btnRefreshSearchItems.Size = new System.Drawing.Size(173, 23);
-            this.btnRefreshSearchItems.TabIndex = 1;
-            this.btnRefreshSearchItems.Text = "Получить по условиям";
-            this.btnRefreshSearchItems.UseVisualStyleBackColor = true;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(358, 5);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(31, 13);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "ExtId";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(199, 5);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(83, 13);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "Наименование";
-            // 
-            // tbConditionName
-            // 
-            this.tbConditionName.Location = new System.Drawing.Point(202, 24);
-            this.tbConditionName.Name = "tbConditionName";
-            this.tbConditionName.Size = new System.Drawing.Size(153, 20);
-            this.tbConditionName.TabIndex = 4;
-            // 
-            // btnClearSearchItems
-            // 
-            this.btnClearSearchItems.Location = new System.Drawing.Point(9, 36);
-            this.btnClearSearchItems.Name = "btnClearSearchItems";
-            this.btnClearSearchItems.Size = new System.Drawing.Size(173, 23);
-            this.btnClearSearchItems.TabIndex = 5;
-            this.btnClearSearchItems.Text = "Очистить запросы";
-            this.btnClearSearchItems.UseVisualStyleBackColor = true;
-            // 
-            // panel19
-            // 
-            this.panel19.Controls.Add(this.panel21);
-            this.panel19.Controls.Add(this.panel20);
-            this.panel19.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel19.Location = new System.Drawing.Point(831, 50);
-            this.panel19.Name = "panel19";
-            this.panel19.Size = new System.Drawing.Size(400, 634);
-            this.panel19.TabIndex = 6;
-            // 
-            // panel20
-            // 
-            this.panel20.Controls.Add(this.linkLabelUrl);
-            this.panel20.Controls.Add(this.label15);
-            this.panel20.Controls.Add(this.label14);
-            this.panel20.Controls.Add(this.label13);
-            this.panel20.Controls.Add(this.label12);
-            this.panel20.Controls.Add(this.bindingNavigator1);
-            this.panel20.Controls.Add(this.lblPrice);
-            this.panel20.Controls.Add(this.label11);
-            this.panel20.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel20.Location = new System.Drawing.Point(0, 0);
-            this.panel20.Name = "panel20";
-            this.panel20.Size = new System.Drawing.Size(400, 133);
-            this.panel20.TabIndex = 5;
-            // 
-            // panel21
-            // 
-            this.panel21.AutoScroll = true;
-            this.panel21.Controls.Add(this.pictureBox1);
-            this.panel21.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel21.Location = new System.Drawing.Point(0, 133);
-            this.panel21.Name = "panel21";
-            this.panel21.Size = new System.Drawing.Size(400, 501);
-            this.panel21.TabIndex = 0;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(5, 104);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(33, 13);
-            this.label11.TabIndex = 0;
-            this.label11.Text = "Цена";
-            // 
-            // lblPrice
-            // 
-            this.lblPrice.AutoSize = true;
-            this.lblPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblPrice.ForeColor = System.Drawing.Color.Red;
-            this.lblPrice.Location = new System.Drawing.Point(71, 99);
-            this.lblPrice.Name = "lblPrice";
-            this.lblPrice.Size = new System.Drawing.Size(59, 20);
-            this.lblPrice.TabIndex = 1;
-            this.lblPrice.Text = "lblPrice";
-            // 
-            // bindingNavigator1
-            // 
-            this.bindingNavigator1.AddNewItem = null;
-            this.bindingNavigator1.CountItem = this.bindingNavigatorCountItem;
-            this.bindingNavigator1.DeleteItem = this.bindingNavigatorDeleteItem;
-            this.bindingNavigator1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.bindingNavigatorMoveFirstItem,
-            this.bindingNavigatorMovePreviousItem,
-            this.bindingNavigatorSeparator,
-            this.bindingNavigatorPositionItem,
-            this.bindingNavigatorCountItem,
-            this.bindingNavigatorSeparator1,
-            this.bindingNavigatorMoveNextItem,
-            this.bindingNavigatorMoveLastItem,
-            this.bindingNavigatorSeparator2,
-            this.bindingNavigatorDeleteItem});
-            this.bindingNavigator1.Location = new System.Drawing.Point(0, 0);
-            this.bindingNavigator1.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
-            this.bindingNavigator1.MoveLastItem = this.bindingNavigatorMoveLastItem;
-            this.bindingNavigator1.MoveNextItem = this.bindingNavigatorMoveNextItem;
-            this.bindingNavigator1.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
-            this.bindingNavigator1.Name = "bindingNavigator1";
-            this.bindingNavigator1.PositionItem = this.bindingNavigatorPositionItem;
-            this.bindingNavigator1.Size = new System.Drawing.Size(400, 25);
-            this.bindingNavigator1.TabIndex = 3;
-            this.bindingNavigator1.Text = "bindingNavigator1";
-            // 
-            // bindingNavigatorMoveFirstItem
-            // 
-            this.bindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
-            this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
-            this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorMoveFirstItem.Text = "Move first";
-            // 
-            // bindingNavigatorMovePreviousItem
-            // 
-            this.bindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
-            this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
-            this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorMovePreviousItem.Text = "Move previous";
-            // 
-            // bindingNavigatorSeparator
-            // 
-            this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 25);
-            // 
-            // bindingNavigatorPositionItem
-            // 
-            this.bindingNavigatorPositionItem.AccessibleName = "Position";
-            this.bindingNavigatorPositionItem.AutoSize = false;
-            this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
-            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 23);
-            this.bindingNavigatorPositionItem.Text = "0";
-            this.bindingNavigatorPositionItem.ToolTipText = "Current position";
-            // 
-            // bindingNavigatorCountItem
-            // 
-            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 22);
-            this.bindingNavigatorCountItem.Text = "of {0}";
-            this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
-            // 
-            // bindingNavigatorSeparator1
-            // 
-            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // bindingNavigatorMoveNextItem
-            // 
-            this.bindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
-            this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
-            this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorMoveNextItem.Text = "Move next";
-            // 
-            // bindingNavigatorMoveLastItem
-            // 
-            this.bindingNavigatorMoveLastItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
-            this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
-            this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorMoveLastItem.Text = "Move last";
-            // 
-            // bindingNavigatorSeparator2
-            // 
-            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // bindingNavigatorDeleteItem
-            // 
-            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
-            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-            this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
-            this.bindingNavigatorDeleteItem.Text = "Delete";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 64);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(44, 13);
-            this.label12.TabIndex = 4;
-            this.label12.Text = "Запрос";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(72, 64);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(41, 13);
-            this.label13.TabIndex = 5;
-            this.label13.Text = "label13";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(6, 82);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(59, 13);
-            this.label14.TabIndex = 6;
-            this.label14.Text = "Результат";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(72, 82);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(41, 13);
-            this.label15.TabIndex = 7;
-            this.label15.Text = "label15";
-            // 
-            // linkLabelUrl
-            // 
-            this.linkLabelUrl.AutoSize = true;
-            this.linkLabelUrl.Location = new System.Drawing.Point(9, 29);
-            this.linkLabelUrl.Name = "linkLabelUrl";
-            this.linkLabelUrl.Size = new System.Drawing.Size(55, 13);
-            this.linkLabelUrl.TabIndex = 8;
-            this.linkLabelUrl.TabStop = true;
-            this.linkLabelUrl.Text = "linkLabel2";
+            this.btnDeleteSearchItem.Location = new System.Drawing.Point(629, 5);
+            this.btnDeleteSearchItem.Name = "btnDeleteSearchItem";
+            this.btnDeleteSearchItem.Size = new System.Drawing.Size(108, 23);
+            this.btnDeleteSearchItem.TabIndex = 6;
+            this.btnDeleteSearchItem.Text = "Удалить запрос";
+            this.btnDeleteSearchItem.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1210,17 +1278,19 @@
             this.panel15.ResumeLayout(false);
             this.panel16.ResumeLayout(false);
             this.panel16.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.gbSource.ResumeLayout(false);
-            this.gbSource.PerformLayout();
             this.panel19.ResumeLayout(false);
-            this.panel20.ResumeLayout(false);
-            this.panel20.PerformLayout();
             this.panel21.ResumeLayout(false);
             this.panel21.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel22.ResumeLayout(false);
+            this.panel23.ResumeLayout(false);
+            this.panel20.ResumeLayout(false);
+            this.panel20.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).EndInit();
             this.bindingNavigator1.ResumeLayout(false);
             this.bindingNavigator1.PerformLayout();
+            this.gbSource.ResumeLayout(false);
+            this.gbSource.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1325,6 +1395,12 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.LinkLabel linkLabelUrl;
+        private System.Windows.Forms.Panel panel22;
+        private System.Windows.Forms.Panel panel23;
+        private System.Windows.Forms.Button btnDeletePrice;
+        private System.Windows.Forms.Button btnSkipPrice;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnDeleteSearchItem;
     }
 }
 

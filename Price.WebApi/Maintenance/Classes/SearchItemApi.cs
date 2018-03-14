@@ -17,7 +17,8 @@ namespace Price.WebApi.Maintenance.Classes
     {
         private readonly IInternetContentQuery _internetContentQuery;
         private readonly IContentQuery _contentQuery;
-
+        private readonly IInternetContentApi _internetContentApi;
+        private readonly IContentApi _contentApi;
         public string BaseUrl
         {
             get { return _baseUrl; }
@@ -32,10 +33,15 @@ namespace Price.WebApi.Maintenance.Classes
         private string _getUrl;
         private string _baseUrl;
 
-        public SearchItemApi(ISearchItemQuery query, IInternetContentQuery internetContentQuery, IContentQuery contentQuery) : base(query)
+        public SearchItemApi(ISearchItemQuery query
+            , IInternetContentQuery internetContentQuery, IContentQuery contentQuery
+            , IInternetContentApi internetContentApi, IContentApi contentApi
+            ) : base(query)
         {
             _internetContentQuery = internetContentQuery;
             _contentQuery = contentQuery;
+            _internetContentApi = internetContentApi;
+            _contentApi = contentApi;
         }
 
         public override SearchItemExtDto GetItem(string id)
@@ -70,6 +76,30 @@ namespace Price.WebApi.Maintenance.Classes
             })
                 .ToList());
             return dto;
+        }
+
+        public override bool RemoveItem(string id)
+        {
+            var entity = Query.GetEntity(id);
+            if (entity == null) return false;
+            var contents = _contentQuery
+                .GetEntities()
+                .Where(z => z.SearchItemId == entity.Id)
+                .ToList();
+            foreach (var content in contents)
+            {
+                _contentApi.RemoveItem(content.Id);
+            }
+            var internets = _internetContentQuery
+                .GetEntities()
+                .Where(z => z.session_id == entity.InternetSessionId)
+                .ToList();
+            foreach (var internet in internets)
+            {
+                _internetContentApi.RemoveItem(internet.Id);
+            }
+
+            return base.RemoveItem(id);
         }
 
         public IEnumerable<SearchItemHeaderDto> GetItemsByCondition(SearchItemCondition searchItemCondition)

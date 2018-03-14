@@ -21,6 +21,7 @@ namespace Topol.UseApi.Data.Common
         private readonly string _endpointOkpd2;
         private readonly string _endpointInternet;
         private readonly string _endpointContentItem;
+        private readonly string _endpointSearchItem;
         private readonly HttpClient _apiHttpClient;
 
         public DataMаnager()
@@ -38,6 +39,7 @@ namespace Topol.UseApi.Data.Common
             _endpointOkpd2 = $"{baseApi}api/common/okpd2reverse/";
             _endpointInternet = $"{baseApi}api/internet/";
             _endpointContentItem = $"{baseApi}api/contentitem/";
+            _endpointSearchItem = $"{baseApi}api/searchitem/";
 
             #endregion
 
@@ -87,13 +89,19 @@ namespace Topol.UseApi.Data.Common
             }
         }
 
+        public async Task<bool> DeleteSearchItem(string id)
+        {
+            using (var response = await _apiHttpClient.DeleteAsync($"{_endpointSearchItem}{id}"))
+            {
+                return response.IsSuccessStatusCode;
+            }
+        }
+
         public async Task<bool> DeleteContentItem(string id, string elasticId)
         {
             using (var response = await _apiHttpClient.DeleteAsync($"{_endpointContentItem}{id}?elasticId={elasticId}"))
             {
-                if (!response.IsSuccessStatusCode) return false;
-                var result = await response.Content.ReadAsAsync<bool>();
-                return result;
+                return response.IsSuccessStatusCode;
             }
         }
 
