@@ -242,6 +242,7 @@
     <Compile Include="Jobs\TopolScheduler.cs" />
     <Compile Include="Jobs\ScreenshotContentJob.cs" />
     <Compile Include="Jobs\ScreenshotInternetContentJob.cs" />
+    <Compile Include="Logic\AnalistService.cs" />
     <Compile Include="Logic\AppGlobal.cs" />
     <Compile Include="Logic\IdService.cs" />
     <Compile Include="Logic\Interfaces\IInternetSearchWatcher.cs" />

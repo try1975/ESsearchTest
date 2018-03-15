@@ -1,4 +1,6 @@
-﻿namespace Price.Db.Entities.Entities
+﻿using PriceCommon.Enums;
+
+namespace Price.Db.Entities.Entities
 {
     public class ContentEntity : IEntity<int>
     {
@@ -12,5 +14,6 @@
         public string SearchItemId { get; set; }
         public SearchItemEntity SearchItem { get; set; }
         public string Screenshot { get; set; }
+        public PriceStatus PriceStatus { get; set; }
     }
 }

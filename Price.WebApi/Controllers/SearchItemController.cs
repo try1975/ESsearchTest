@@ -44,10 +44,36 @@ namespace Price.WebApi.Controllers
         /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(List<SearchItemHeaderDto>))]
-        [Route("api/SearchItem/ByCondition", Name = nameof(GetSearchItemsByConditions) + "Route")]
-        public IHttpActionResult GetSearchItemsByConditions(SearchItemCondition searchItemCondition)
+        [Route("api/SearchItem/ByCondition", Name = nameof(PostSearchItemsByConditions) + "Route")]
+        public IHttpActionResult PostSearchItemsByConditions(SearchItemCondition searchItemCondition)
         {
             return Ok(((ISearchItemApi)_api).GetItemsByCondition(searchItemCondition));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("api/SearchItem/break/{id}", Name = nameof(PostSearchItemsBreak) + "Route")]
+        public IHttpActionResult PostSearchItemsBreak(string id)
+        {
+            var result = ((ISearchItemApi)_api).SearchItemBreak(id);
+            return result ? (IHttpActionResult)Ok() : NotFound();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("api/SearchItem/checked/{id}", Name = nameof(PostSearchItemsChecked) + "Route")]
+        public IHttpActionResult PostSearchItemsChecked(string id)
+        {
+            var result = ((ISearchItemApi)_api).SearchItemChecked(id);
+            return result ? (IHttpActionResult)Ok() : NotFound();
         }
     }
 }

@@ -41,6 +41,7 @@
             this.gbPacketItems = new System.Windows.Forms.GroupBox();
             this.dgvPacketItems = new ADGV.AdvancedDataGridView();
             this.panel18 = new System.Windows.Forms.Panel();
+            this.btnSearchItemDelete = new System.Windows.Forms.Button();
             this.btnClearSearchItems = new System.Windows.Forms.Button();
             this.tbConditionName = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -108,7 +109,7 @@
             this.panel23 = new System.Windows.Forms.Panel();
             this.btnDeletePrice = new System.Windows.Forms.Button();
             this.btnSkipPrice = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnSetPriceChecked = new System.Windows.Forms.Button();
             this.panel20 = new System.Windows.Forms.Panel();
             this.linkLabelUrl = new System.Windows.Forms.LinkLabel();
             this.label15 = new System.Windows.Forms.Label();
@@ -132,8 +133,11 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.btnDeleteSearchItem = new System.Windows.Forms.Button();
+            this.linkLabelScreenshot = new System.Windows.Forms.LinkLabel();
+            this.btnSearchItemBreak = new System.Windows.Forms.Button();
+            this.btnSearchItemChecked = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.panel24 = new System.Windows.Forms.Panel();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -177,6 +181,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             this.gbSource.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.panel24.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlPacket
@@ -280,16 +286,16 @@
             this.dgvPacketItems.Cursor = System.Windows.Forms.Cursors.Default;
             this.dgvPacketItems.DateWithTime = false;
             this.dgvPacketItems.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvPacketItems.Location = new System.Drawing.Point(3, 79);
+            this.dgvPacketItems.Location = new System.Drawing.Point(3, 101);
             this.dgvPacketItems.Name = "dgvPacketItems";
             this.dgvPacketItems.ReadOnly = true;
-            this.dgvPacketItems.Size = new System.Drawing.Size(807, 82);
+            this.dgvPacketItems.Size = new System.Drawing.Size(807, 60);
             this.dgvPacketItems.TabIndex = 2;
             this.dgvPacketItems.TimeFilter = true;
             // 
             // panel18
             // 
-            this.panel18.Controls.Add(this.btnDeleteSearchItem);
+            this.panel18.Controls.Add(this.panel24);
             this.panel18.Controls.Add(this.btnClearSearchItems);
             this.panel18.Controls.Add(this.tbConditionName);
             this.panel18.Controls.Add(this.label10);
@@ -299,12 +305,22 @@
             this.panel18.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel18.Location = new System.Drawing.Point(3, 16);
             this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(807, 63);
+            this.panel18.Size = new System.Drawing.Size(807, 85);
             this.panel18.TabIndex = 3;
+            // 
+            // btnSearchItemDelete
+            // 
+            this.btnSearchItemDelete.ForeColor = System.Drawing.Color.Red;
+            this.btnSearchItemDelete.Location = new System.Drawing.Point(125, 5);
+            this.btnSearchItemDelete.Name = "btnSearchItemDelete";
+            this.btnSearchItemDelete.Size = new System.Drawing.Size(108, 23);
+            this.btnSearchItemDelete.TabIndex = 6;
+            this.btnSearchItemDelete.Text = "Удалить запрос";
+            this.btnSearchItemDelete.UseVisualStyleBackColor = true;
             // 
             // btnClearSearchItems
             // 
-            this.btnClearSearchItems.Location = new System.Drawing.Point(9, 36);
+            this.btnClearSearchItems.Location = new System.Drawing.Point(9, 56);
             this.btnClearSearchItems.Name = "btnClearSearchItems";
             this.btnClearSearchItems.Size = new System.Drawing.Size(173, 23);
             this.btnClearSearchItems.TabIndex = 5;
@@ -597,7 +613,7 @@
             // 
             // tbSingleExtId
             // 
-            this.tbSingleExtId.Location = new System.Drawing.Point(588, 6);
+            this.tbSingleExtId.Location = new System.Drawing.Point(603, 6);
             this.tbSingleExtId.Name = "tbSingleExtId";
             this.tbSingleExtId.Size = new System.Drawing.Size(120, 20);
             this.tbSingleExtId.TabIndex = 4;
@@ -607,9 +623,9 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(566, 10);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(16, 13);
+            this.label8.Size = new System.Drawing.Size(31, 13);
             this.label8.TabIndex = 3;
-            this.label8.Text = "Id";
+            this.label8.Text = "ExtId";
             // 
             // textBox2
             // 
@@ -929,17 +945,16 @@
             this.panel21.AutoScroll = true;
             this.panel21.Controls.Add(this.pictureBox1);
             this.panel21.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel21.Location = new System.Drawing.Point(0, 166);
+            this.panel21.Location = new System.Drawing.Point(0, 200);
             this.panel21.Name = "panel21";
-            this.panel21.Size = new System.Drawing.Size(400, 468);
+            this.panel21.Size = new System.Drawing.Size(400, 434);
             this.panel21.TabIndex = 0;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(400, 468);
+            this.pictureBox1.Size = new System.Drawing.Size(100, 100);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
@@ -947,22 +962,23 @@
             // panel22
             // 
             this.panel22.Controls.Add(this.panel23);
+            this.panel22.Controls.Add(this.groupBox3);
             this.panel22.Controls.Add(this.panel20);
             this.panel22.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel22.Location = new System.Drawing.Point(0, 0);
             this.panel22.Name = "panel22";
-            this.panel22.Size = new System.Drawing.Size(400, 166);
+            this.panel22.Size = new System.Drawing.Size(400, 200);
             this.panel22.TabIndex = 9;
             // 
             // panel23
             // 
             this.panel23.Controls.Add(this.btnDeletePrice);
             this.panel23.Controls.Add(this.btnSkipPrice);
-            this.panel23.Controls.Add(this.button2);
+            this.panel23.Controls.Add(this.btnSetPriceChecked);
             this.panel23.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel23.Location = new System.Drawing.Point(0, 133);
             this.panel23.Name = "panel23";
-            this.panel23.Size = new System.Drawing.Size(400, 33);
+            this.panel23.Size = new System.Drawing.Size(400, 34);
             this.panel23.TabIndex = 6;
             // 
             // btnDeletePrice
@@ -984,15 +1000,15 @@
             this.btnSkipPrice.Text = "Пропустить";
             this.btnSkipPrice.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnSetPriceChecked
             // 
-            this.button2.ForeColor = System.Drawing.Color.Green;
-            this.button2.Location = new System.Drawing.Point(38, 3);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 0;
-            this.button2.Text = "Проверено";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnSetPriceChecked.ForeColor = System.Drawing.Color.Green;
+            this.btnSetPriceChecked.Location = new System.Drawing.Point(38, 3);
+            this.btnSetPriceChecked.Name = "btnSetPriceChecked";
+            this.btnSetPriceChecked.Size = new System.Drawing.Size(75, 23);
+            this.btnSetPriceChecked.TabIndex = 0;
+            this.btnSetPriceChecked.Text = "Проверено";
+            this.btnSetPriceChecked.UseVisualStyleBackColor = true;
             // 
             // panel20
             // 
@@ -1013,17 +1029,17 @@
             // linkLabelUrl
             // 
             this.linkLabelUrl.AutoSize = true;
-            this.linkLabelUrl.Location = new System.Drawing.Point(9, 29);
+            this.linkLabelUrl.Location = new System.Drawing.Point(10, 34);
             this.linkLabelUrl.Name = "linkLabelUrl";
-            this.linkLabelUrl.Size = new System.Drawing.Size(55, 13);
+            this.linkLabelUrl.Size = new System.Drawing.Size(62, 13);
             this.linkLabelUrl.TabIndex = 8;
             this.linkLabelUrl.TabStop = true;
-            this.linkLabelUrl.Text = "linkLabel2";
+            this.linkLabelUrl.Text = "linkLabelUrl";
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(72, 82);
+            this.label15.Location = new System.Drawing.Point(72, 83);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(41, 13);
             this.label15.TabIndex = 7;
@@ -1032,7 +1048,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(6, 82);
+            this.label14.Location = new System.Drawing.Point(6, 83);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(59, 13);
             this.label14.TabIndex = 6;
@@ -1041,7 +1057,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(72, 64);
+            this.label13.Location = new System.Drawing.Point(72, 65);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(41, 13);
             this.label13.TabIndex = 5;
@@ -1050,7 +1066,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(6, 64);
+            this.label12.Location = new System.Drawing.Point(6, 65);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(44, 13);
             this.label12.TabIndex = 4;
@@ -1220,14 +1236,56 @@
             this.linkLabel1.Text = "Описание API: http://144.76.54.166:52620/help";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // btnDeleteSearchItem
+            // linkLabelScreenshot
             // 
-            this.btnDeleteSearchItem.Location = new System.Drawing.Point(629, 5);
-            this.btnDeleteSearchItem.Name = "btnDeleteSearchItem";
-            this.btnDeleteSearchItem.Size = new System.Drawing.Size(108, 23);
-            this.btnDeleteSearchItem.TabIndex = 6;
-            this.btnDeleteSearchItem.Text = "Удалить запрос";
-            this.btnDeleteSearchItem.UseVisualStyleBackColor = true;
+            this.linkLabelScreenshot.AutoSize = true;
+            this.linkLabelScreenshot.Location = new System.Drawing.Point(10, 16);
+            this.linkLabelScreenshot.Name = "linkLabelScreenshot";
+            this.linkLabelScreenshot.Size = new System.Drawing.Size(103, 13);
+            this.linkLabelScreenshot.TabIndex = 9;
+            this.linkLabelScreenshot.TabStop = true;
+            this.linkLabelScreenshot.Text = "linkLabelScreenshot";
+            // 
+            // btnSearchItemBreak
+            // 
+            this.btnSearchItemBreak.Location = new System.Drawing.Point(3, 5);
+            this.btnSearchItemBreak.Name = "btnSearchItemBreak";
+            this.btnSearchItemBreak.Size = new System.Drawing.Size(108, 23);
+            this.btnSearchItemBreak.TabIndex = 7;
+            this.btnSearchItemBreak.Text = "Прервать запрос";
+            this.btnSearchItemBreak.UseVisualStyleBackColor = true;
+            // 
+            // btnSearchItemChecked
+            // 
+            this.btnSearchItemChecked.ForeColor = System.Drawing.Color.Green;
+            this.btnSearchItemChecked.Location = new System.Drawing.Point(3, 56);
+            this.btnSearchItemChecked.Name = "btnSearchItemChecked";
+            this.btnSearchItemChecked.Size = new System.Drawing.Size(230, 23);
+            this.btnSearchItemChecked.TabIndex = 8;
+            this.btnSearchItemChecked.Text = "Запрос проверен";
+            this.btnSearchItemChecked.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.linkLabelScreenshot);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox3.Location = new System.Drawing.Point(0, 167);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(400, 33);
+            this.groupBox3.TabIndex = 10;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Снимок экрана";
+            // 
+            // panel24
+            // 
+            this.panel24.Controls.Add(this.btnSearchItemDelete);
+            this.panel24.Controls.Add(this.btnSearchItemBreak);
+            this.panel24.Controls.Add(this.btnSearchItemChecked);
+            this.panel24.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel24.Location = new System.Drawing.Point(567, 0);
+            this.panel24.Name = "panel24";
+            this.panel24.Size = new System.Drawing.Size(240, 85);
+            this.panel24.TabIndex = 9;
             // 
             // Form1
             // 
@@ -1291,6 +1349,9 @@
             this.bindingNavigator1.PerformLayout();
             this.gbSource.ResumeLayout(false);
             this.gbSource.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.panel24.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1369,7 +1430,6 @@
         private System.Windows.Forms.Panel panel18;
         private System.Windows.Forms.Button btnRefreshSearchItems;
         private System.Windows.Forms.TextBox tbConditionExtId;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.TextBox tbConditionName;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
@@ -1399,8 +1459,13 @@
         private System.Windows.Forms.Panel panel23;
         private System.Windows.Forms.Button btnDeletePrice;
         private System.Windows.Forms.Button btnSkipPrice;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button btnDeleteSearchItem;
+        private System.Windows.Forms.Button btnSetPriceChecked;
+        private System.Windows.Forms.Button btnSearchItemDelete;
+        private System.Windows.Forms.LinkLabel linkLabelScreenshot;
+        private System.Windows.Forms.Button btnSearchItemChecked;
+        private System.Windows.Forms.Button btnSearchItemBreak;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Panel panel24;
     }
 }
 

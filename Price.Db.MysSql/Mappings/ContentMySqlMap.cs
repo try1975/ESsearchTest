@@ -51,6 +51,10 @@ namespace Price.Db.MysSql.Mappings
                 .HasMaxLength(128)
                 ;
 
+            Property(e => e.PriceStatus)
+                .IsOptional()
+                ;
+
             ToTable($"{tableName}");
 
         }

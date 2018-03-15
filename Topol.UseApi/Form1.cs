@@ -90,6 +90,7 @@ namespace Topol.UseApi
             linkLabel1.Text = $@"Описание API - {baseApi}help";
 
             linkLabelUrl.LinkClicked += linkLabelUrl_LinkClicked;
+            linkLabelScreenshot.LinkClicked += linkLabelUrl_LinkClicked;
 
             btnCallMaybe.Click += btnCallMaybe_Click;
             btnOkpd2.Click += btnOkpd2_Click;
@@ -103,21 +104,30 @@ namespace Topol.UseApi
             btnDeleteSelected.Click += btnDeleteSelected_Click;
 
 
-            btnDeleteSearchItem.Click += btnDeleteSearchItem_Click;
+            btnSearchItemBreak.Click += btnSearchItemBreak_Click;
+            btnSearchItemDelete.Click += btnSearchItemDelete_Click;
+            btnSearchItemChecked.Click += btnSearchItemChecked_Click;
 
+            btnSetPriceChecked.Click += btnSetPriceChecked_Click;
             btnSkipPrice.Click += btnSkipPrice_Click;
             btnDeletePrice.Click += btnDeletePrice_Click;
 
             tabControl1.TabPages.Remove(tabPage3);
             tabControl1.TabPages.Remove(tabPage2);
 
+            ClearContentView();
+        }
+
+        private void ClearContentView()
+        {
             linkLabelUrl.Text = "";
+            linkLabelScreenshot.Text = "";
             label13.Text = "";
             label15.Text = "";
             lblPrice.Text = "";
+            pictureBox1.Image = null;
+            pictureBox1.InitialImage = null;
         }
-
-
 
 
         private void dgvContentItems_DataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -402,8 +412,32 @@ namespace Topol.UseApi
             DeleteSelected(dgvContentItems);
         }
 
-        private async void btnDeleteSearchItem_Click(object sender, EventArgs e)
+        private void btnSearchItemBreak_Click(object sender, EventArgs e)
         {
+            SearchItemBreak();
+        }
+
+        private void btnSearchItemDelete_Click(object sender, EventArgs e)
+        {
+            SearchItemDelete();
+        }
+
+        private void btnSearchItemChecked_Click(object sender, EventArgs e)
+        {
+            SearchItemChecked();
+        }
+
+        private async void SearchItemBreak()
+        {
+            var current = (DataRowView)SearchItemsBindingSource.Current;
+            if (current == null) return;
+            var id = current.Row[nameof(SearchItemHeaderDto.Id)] as string;
+            await _dataManager.PostSearchItemBreak(id);
+        }
+        private async void SearchItemDelete()
+        {
+            SearchItemBreak();
+
             var current = (DataRowView)SearchItemsBindingSource.Current;
             if (current == null) return;
             //int cnt;
@@ -426,6 +460,36 @@ namespace Topol.UseApi
             {
                 MessageBox.Show(@"Запрос не может быть удален");
             }
+        }
+
+        private async void SearchItemChecked()
+        {
+            var current = (DataRowView)SearchItemsBindingSource.Current;
+            if (current == null) return;
+            var id = current.Row[nameof(SearchItemHeaderDto.Id)] as string;
+            await _dataManager.PostSearchItemChecked(id);
+        }
+
+        private void btnSetPriceChecked_Click(object sender, EventArgs e)
+        {
+            SetPriceChecked();
+        }
+
+        private async void SetPriceChecked()
+        {
+            var current = (DataRowView)ContentItemsBindingSource.Current;
+            var oPriceStatus = current?.Row[nameof(ContentExtDto.PriceStatus)];
+            if (oPriceStatus == null) return;
+            var priceStatus = (PriceStatus)oPriceStatus;
+            if (priceStatus != PriceStatus.Checked)
+            {
+                current.Row[nameof(ContentExtDto.PriceStatus)] = PriceStatus.Checked;
+                //call api set price status checked
+                var id = current.Row[nameof(ContentExtDto.Id)] as string;
+                var elasticId = current.Row[nameof(ContentExtDto.ElasticId)] as string;
+                await _dataManager.PostContentItemChecked(id, elasticId);
+            }
+            ContentItemsBindingSource.MoveNext();
         }
 
         private void btnSkipPrice_Click(object sender, EventArgs e)
@@ -754,16 +818,27 @@ namespace Topol.UseApi
         {
             var properties = TypeDescriptor.GetProperties(typeof(T));
             var table = new DataTable();
-            foreach (PropertyDescriptor prop in properties)
+            try
             {
-                table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
-            }
-            foreach (var item in data)
-            {
-                var row = table.NewRow();
                 foreach (PropertyDescriptor prop in properties)
-                    row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
-                table.Rows.Add(row);
+                {
+                    table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+                }
+                foreach (var item in data)
+                {
+                    var row = table.NewRow();
+
+                    foreach (PropertyDescriptor prop in properties)
+                    {
+                        row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+                    }
+                    table.Rows.Add(row);
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                throw;
             }
             return table;
         }
@@ -798,12 +873,17 @@ namespace Topol.UseApi
         {
             try
             {
-                if (ContentItemsBindingSource.Current == null) return;
+                if (ContentItemsBindingSource.Current == null)
+                {
+                    ClearContentView();
+                    return;
+                }
                 var current = (DataRowView)ContentItemsBindingSource.Current;
                 var url = current.Row[nameof(ContentExtDto.Screenshot)] as string;
                 pictureBox1.LoadAsync(url);
                 lblPrice.Text = current.Row[nameof(ContentExtDto.Price)] as string;
                 linkLabelUrl.Text = current.Row[nameof(ContentExtDto.Uri)] as string;
+                linkLabelScreenshot.Text = current.Row[nameof(ContentExtDto.Screenshot)] as string;
                 label15.Text = current.Row[nameof(ContentExtDto.Name)] as string;
             }
             catch (Exception exception)
@@ -832,9 +912,10 @@ namespace Topol.UseApi
             Process.Start($"{baseApi}help");
         }
 
-        private void linkLabelUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private static void linkLabelUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(linkLabelUrl.Text);
+            var url = ((LinkLabel) sender).Text;
+            Process.Start(url);
         }
 
         private void dgvContentItems_CellContentClick(object sender, DataGridViewCellEventArgs e)

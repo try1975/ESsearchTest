@@ -1,4 +1,5 @@
 ﻿using System;
+using PriceCommon.Enums;
 
 namespace Price.Db.Entities.Entities
 {
@@ -25,5 +26,6 @@ namespace Price.Db.Entities.Entities
         public string unit { get; set; }
         public string weight { get; set; }
         public string rate { get; set; }
+        public PriceStatus PriceStatus { get; set; }
     }
 }

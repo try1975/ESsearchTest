@@ -1,6 +1,5 @@
-﻿// 
+// 
 // Created by the DataSnap proxy generator.
-// 18.02.2018 13:27:53
 // 
 
 function DSAdmin(connectionInfo)
@@ -616,21 +615,21 @@ function DSAdmin(connectionInfo)
   };
 }
 
-function TAnalyst_Service(connectionInfo)
+function TServerMethods1(connectionInfo)
 {
-  this.executor = new ServerFunctionExecutor("TAnalyst_Service",connectionInfo);
+  this.executor = new ServerFunctionExecutor("TServerMethods1",connectionInfo);
 
   /*
-   * @param value [in] - Type on server: String
-   * @return result - Type on server: String
+   * @param Value [in] - Type on server: string
+   * @return result - Type on server: string
    */
-  this.EchoString = function(value) {
-    var returnObject = this.executor.executeMethod('EchoString', "GET", [value], arguments[1], true, arguments[2], arguments[3]);
+  this.EchoString = function(Value) {
+    var returnObject = this.executor.executeMethod("EchoString", "GET", [Value], arguments[1], true, arguments[2], arguments[3]);
     if (arguments[1] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.value = value;
+        resultObject.Value = Value;
         resultObject.result = resultArray[0];
         return resultObject;
       }
@@ -638,21 +637,21 @@ function TAnalyst_Service(connectionInfo)
     }
   };
 
-  this.EchoString_URL = function(value) {
-    return this.executor.getMethodURL("EchoString", "GET", [value], arguments[1])[0];
+  this.EchoString_URL = function(Value) {
+    return this.executor.getMethodURL("EchoString", "GET", [Value], arguments[1])[0];
   };
 
   /*
-   * @param value [in] - Type on server: String
-   * @return result - Type on server: String
+   * @param Value [in] - Type on server: string
+   * @return result - Type on server: string
    */
-  this.ReverseString = function(value) {
-    var returnObject = this.executor.executeMethod('ReverseString', "GET", [value], arguments[1], true, arguments[2], arguments[3]);
+  this.ReverseString = function(Value) {
+    var returnObject = this.executor.executeMethod("ReverseString", "GET", [Value], arguments[1], true, arguments[2], arguments[3]);
     if (arguments[1] == null) {
       if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
         var resultArray = returnObject.result;
         var resultObject = new Object();
-        resultObject.value = value;
+        resultObject.Value = Value;
         resultObject.result = resultArray[0];
         return resultObject;
       }
@@ -660,81 +659,13 @@ function TAnalyst_Service(connectionInfo)
     }
   };
 
-  this.ReverseString_URL = function(value) {
-    return this.executor.getMethodURL("ReverseString", "GET", [value], arguments[1])[0];
-  };
-
-  /*
-   * @return result - Type on server: String
-   */
-  this.GetString = function() {
-    var returnObject = this.executor.executeMethod('GetString', "GET", [], arguments[0], true, arguments[1], arguments[2]);
-    if (arguments[0] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.result = resultArray[0];
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.GetString_URL = function() {
-    return this.executor.getMethodURL("GetString", "GET", [], arguments[0])[0];
-  };
-
-  /*
-   * @param Obj [in] - Type on server: TJSONObject
-   * @return result - Type on server: TJSONObject
-   */
-  this.acceptNewSearch = function(Obj) {
-    var returnObject = this.executor.executeMethod('NewSearch', "PUT", [Obj], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.Obj = Obj;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  /*
-   * @param Session [in] - Type on server: String
-   * @return result - Type on server: TJSONObject
-   */
-  this.GetSessionProgress = function(Session) {
-    var returnObject = this.executor.executeMethod('GetSessionProgress', "GET", [Session], arguments[1], true, arguments[2], arguments[3]);
-    if (arguments[1] == null) {
-      if (returnObject != null && returnObject.result != null && isArray(returnObject.result)) {
-        var resultArray = returnObject.result;
-        var resultObject = new Object();
-        resultObject.Session = Session;
-        resultObject.result = resultArray[0];
-        if (returnObject.cacheId != null && returnObject.cmdIndex != null) {
-          resultObject._cacheId = returnObject.cacheId;
-          resultObject._cmdIndex = returnObject.cmdIndex;
-        }
-        return resultObject;
-      }
-      return returnObject;
-    }
-  };
-
-  this.GetSessionProgress_URL = function(Session) {
-    return this.executor.getMethodURL("GetSessionProgress", "GET", [Session], arguments[1])[0];
+  this.ReverseString_URL = function(Value) {
+    return this.executor.getMethodURL("ReverseString", "GET", [Value], arguments[1])[0];
   };
 }
 
 var JSProxyClassList = {
   "DSAdmin": ["GetPlatformName","ClearResources","FindPackages","FindClasses","FindMethods","CreateServerClasses","DropServerClasses","CreateServerMethods","DropServerMethods","GetServerClasses","ListClasses","DescribeClass","ListMethods","DescribeMethod","GetServerMethods","GetServerMethodParameters","GetDatabaseConnectionProperties","GetDSServerName","ConsumeClientChannel","ConsumeClientChannelTimeout","CloseClientChannel","RegisterClientCallbackServer","UnregisterClientCallback","BroadcastToChannel","BroadcastObjectToChannel","NotifyCallback","NotifyObject"],
-  "TAnalyst_Service": ["EchoString","ReverseString","GetString","acceptNewSearch","GetSessionProgress"]
+  "TServerMethods1": ["EchoString","ReverseString"]
 };
 

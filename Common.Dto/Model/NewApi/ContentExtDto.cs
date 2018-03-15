@@ -18,5 +18,7 @@ namespace Common.Dto.Model.NewApi
         public PriceType PriceType { get; set; }
 
         public string Screenshot { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public PriceStatus PriceStatus { get; set; }
     }
 }

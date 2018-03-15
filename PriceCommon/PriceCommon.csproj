@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\EnumLocalizeAttribite.cs" />
+    <Compile Include="Enums\PriceStatus.cs" />
     <Compile Include="Enums\PriceType.cs" />
     <Compile Include="Enums\TaskStatus.cs" />
     <Compile Include="Model\Content.cs" />

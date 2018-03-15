@@ -90,6 +90,10 @@
     <Compile Include="Migrations\201802220629329_V07.Designer.cs">
       <DependentUpon>201802220629329_V07.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803141805433_V08.cs" />
+    <Compile Include="Migrations\201803141805433_V08.Designer.cs">
+      <DependentUpon>201803141805433_V08.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PriceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -106,6 +110,10 @@
     <ProjectReference Include="..\Price.Db.Entities\Price.Db.Entities.csproj">
       <Project>{b03942a6-d277-4bf7-b349-c490756565af}</Project>
       <Name>Price.Db.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PriceCommon\PriceCommon.csproj">
+      <Project>{0BDCAA8C-D511-46F0-B681-33DBED62C002}</Project>
+      <Name>PriceCommon</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +137,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802220629329_V07.resx">
       <DependentUpon>201802220629329_V07.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803141805433_V08.resx">
+      <DependentUpon>201803141805433_V08.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

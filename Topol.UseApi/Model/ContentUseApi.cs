@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Common.Dto;
-using Common.Dto.Logic;
-using Common.Dto.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using PriceCommon.Enums;

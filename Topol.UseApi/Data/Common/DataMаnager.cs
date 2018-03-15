@@ -89,6 +89,30 @@ namespace Topol.UseApi.Data.Common
             }
         }
 
+        public async Task<bool> PostSearchItemBreak(string id)
+        {
+            using (var response = await _apiHttpClient.PostAsync($"{_endpointSearchItem}break/{id}", null))
+            {
+                return response.IsSuccessStatusCode;
+            }
+        }
+
+        public async Task<bool> PostSearchItemChecked(string id)
+        {
+            using (var response = await _apiHttpClient.PostAsync($"{_endpointSearchItem}checked/{id}", null))
+            {
+                return response.IsSuccessStatusCode;
+            }
+        }
+
+        public async Task<bool> PostContentItemChecked(string id, string elasticId)
+        {
+            using (var response = await _apiHttpClient.PostAsync($"{_endpointContentItem}checked/{id}?elasticId={elasticId}", null))
+            {
+                return response.IsSuccessStatusCode;
+            }
+        }
+
         public async Task<bool> DeleteSearchItem(string id)
         {
             using (var response = await _apiHttpClient.DeleteAsync($"{_endpointSearchItem}{id}"))

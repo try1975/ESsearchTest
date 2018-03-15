@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Web.Http;
 using Common.Dto.Model.NewApi;
 
 namespace Price.WebApi.Maintenance.Interfaces
@@ -9,6 +8,8 @@ namespace Price.WebApi.Maintenance.Interfaces
         IEnumerable<SearchItemHeaderDto> GetItemsByCondition(SearchItemCondition searchItemCondition);
         SearchItemHeaderDto GetItemHeader(string id);
         List<ContentExtDto> GetItemContents(string id);
+        bool SearchItemBreak(string id);
+        bool SearchItemChecked(string id);
         string BaseUrl { get; set; }
     }
 }

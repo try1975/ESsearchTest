@@ -39,7 +39,7 @@ namespace Price.WebApi.Logic
             ScreenshotPath = Path.Combine(HttpRuntime.AppDomainAppPath, Screenshots);
             Directory.CreateDirectory(ScreenshotPath);
             ScreenshotterArgs = WebConfigurationManager.AppSettings[nameof(ScreenshotterArgs)];
-            if (string.IsNullOrEmpty(ScreenshotterArgs)) ScreenshotterArgs = "/OpenImageAfterSave 0 /MaxBrowserWidth 2000 /MaxBrowserHeight 10000 /BrowserTimeout 5000 /JpegQuality 50 /ImageSizePerCent 75";
+            if (string.IsNullOrEmpty(ScreenshotterArgs)) ScreenshotterArgs = "/OpenImageAfterSave 0 /MaxBrowserWidth 2000 /MaxBrowserHeight 10000 /BrowserTimeout 5000 /JpegQuality 50 /ImageSizePerCent 75 /DisableScrollBars 1";
             ScreenshotExtension = WebConfigurationManager.AppSettings[nameof(ScreenshotExtension)];
             if (string.IsNullOrEmpty(ScreenshotExtension)) ScreenshotExtension = "jpg";
 

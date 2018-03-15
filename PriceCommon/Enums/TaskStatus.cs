@@ -3,12 +3,12 @@
     public enum TaskStatus
     {
         /// <summary>
-        /// Не инициализирован
+        /// Не обработан
         /// </summary>
         [EnumLocalizeAttribite("Не обработан")]
         NotInitialized = 0,
         /// <summary>
-        /// Обработка не начата
+        /// В очереди
         /// </summary>
         [EnumLocalizeAttribite("В очереди")]
         InQueue = 1,
@@ -23,19 +23,24 @@
         [EnumLocalizeAttribite("Завершено")]
         Ok = 3,
         /// <summary>
-        /// 
+        /// В процессе
         /// </summary>
         [EnumLocalizeAttribite("В процессе")]
         InProcess = 4,
         /// <summary>
-        /// 
+        /// Прекращено по таймауту
         /// </summary>
         [EnumLocalizeAttribite("Прекращено по таймауту")]
         BreakByTimeout = 5,
         /// <summary>
-        /// 
+        /// Прекращено
         /// </summary>
         [EnumLocalizeAttribite("Прекращено")]
-        Break = 6
+        Break = 6,
+        /// <summary>
+        /// Проверено
+        /// </summary>
+        [EnumLocalizeAttribite("Проверено")]
+        Checked = 7
     }
 }

@@ -19,6 +19,10 @@ namespace Price.WebApi.Maintenance.Classes
         private readonly IContentQuery _contentQuery;
         private readonly IInternetContentApi _internetContentApi;
         private readonly IContentApi _contentApi;
+
+        private string _getUrl;
+        private string _baseUrl;
+
         public string BaseUrl
         {
             get { return _baseUrl; }
@@ -29,9 +33,6 @@ namespace Price.WebApi.Maintenance.Classes
                 _getUrl = $"{_baseUrl}/{AppGlobal.Screenshots}/";
             }
         }
-
-        private string _getUrl;
-        private string _baseUrl;
 
         public SearchItemApi(ISearchItemQuery query
             , IInternetContentQuery internetContentQuery, IContentQuery contentQuery
@@ -190,6 +191,41 @@ namespace Price.WebApi.Maintenance.Classes
             })
                 .ToList());
             return list;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool SearchItemBreak(string id)
+        {
+            var entity = Query.GetEntity(id);
+            if (entity?.Status != TaskStatus.InProcess) return false;
+            entity.ProcessedAt = Utils.GetUtcNow();
+            entity.Status = TaskStatus.Break;
+            Query.UpdateEntity(entity);
+            AnalistService.TerminateSession(entity.InternetSessionId);
+            return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool SearchItemChecked(string id)
+        {
+            var entity = Query.GetEntity(id);
+            if (entity == null) return false;
+            var hasContent = _contentQuery.GetEntities().Any(z => z.SearchItemId == entity.Id);
+            if (!hasContent && !string.IsNullOrEmpty(entity.InternetSessionId))
+                hasContent = _internetContentQuery.GetEntities().Any(z => z.session_id == entity.InternetSessionId);
+            if (!hasContent) return false;
+            if (!new[] {TaskStatus.Ok, TaskStatus.Break, TaskStatus.BreakByTimeout}.Contains(entity.Status)) return false;
+            entity.Status = TaskStatus.Checked;
+            Query.UpdateEntity(entity);
+            return true;
         }
     }
 }

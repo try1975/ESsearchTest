@@ -15,17 +15,17 @@ namespace Topol.UseApi.Interfaces.Common
         Task<List<SearchItemHeaderDto>> GetByConditionAsync(SearchItemCondition searchItemCondition);
         Task<SearchItemHeaderDto> GetSearchItemStatus(string id);
         Task<List<ContentExtDto>> GetSearchItemContent(string id);
+        Task<bool> PostSearchItemBreak(string id);
+        Task<bool> PostSearchItemChecked(string id);
+        Task<bool> PostContentItemChecked(string id, string elasticId);
         Task<bool> DeleteSearchItem(string id);
-
         Task<bool> DeleteContentItem(string id, string elasticId);
-
         Task<IEnumerable<ContentDto>> GetMaybe(string must = "", string should = "", string mustNot = "", string source = "");
-
         Task<IEnumerable<Okpd2Reverse>> GetOkpd2Reverse(string text);
-
         Task Post2InternetIndex(IEnumerable<BasicContentDto> list);
 
         #endregion //SearchPacket
 
+        
     }
 }
