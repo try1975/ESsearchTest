@@ -43,6 +43,11 @@ namespace Topol.UseApi
         private readonly BackgroundWorker _bw = new BackgroundWorker();
         private string[] _packetLines;
 
+        private class SearchItemStatusItem
+        {
+            public string Text { get; set; }
+            public TaskStatus TaskStatus { get; set; }
+        }
 
         public Form1()
         {
@@ -89,6 +94,17 @@ namespace Topol.UseApi
             var baseApi = ConfigurationManager.AppSettings["BaseApi"];
             linkLabel1.Text = $@"Описание API - {baseApi}help";
 
+            cbSearchItemStatus.DataSource = new[] {
+                new SearchItemStatusItem { Text="В процессе", TaskStatus=TaskStatus.InProcess},
+                new SearchItemStatusItem { Text="Проверено", TaskStatus=TaskStatus.Checked},
+                new SearchItemStatusItem { Text="Завершено", TaskStatus=TaskStatus.Ok},
+                new SearchItemStatusItem { Text="Прекращено по таймауту", TaskStatus=TaskStatus.BreakByTimeout},
+                new SearchItemStatusItem { Text="Прекращено", TaskStatus=TaskStatus.Break},
+                new SearchItemStatusItem { Text="Ошибка", TaskStatus=TaskStatus.Error}
+                };
+            cbSearchItemStatus.DisplayMember = "Text";
+            cbSearchItemStatus.SelectedIndex = 0;
+
             linkLabelUrl.LinkClicked += linkLabelUrl_LinkClicked;
             linkLabelScreenshot.LinkClicked += linkLabelUrl_LinkClicked;
 
@@ -116,6 +132,14 @@ namespace Topol.UseApi
             tabControl1.TabPages.Remove(tabPage2);
 
             ClearContentView();
+
+            panel21.Click += panel21_Click;
+            pictureBox1.Click += panel21_Click;
+        }
+
+        private void panel21_Click(object sender, EventArgs e)
+        {
+            panel21.Focus();
         }
 
         private void ClearContentView()
@@ -485,7 +509,7 @@ namespace Topol.UseApi
             {
                 current.Row[nameof(ContentExtDto.PriceStatus)] = PriceStatus.Checked;
                 //call api set price status checked
-                var id = current.Row[nameof(ContentExtDto.Id)] as string;
+                var id = ((int)current.Row[nameof(ContentExtDto.Id)]).ToString();
                 var elasticId = current.Row[nameof(ContentExtDto.ElasticId)] as string;
                 await _dataManager.PostContentItemChecked(id, elasticId);
             }
@@ -624,9 +648,20 @@ namespace Topol.UseApi
 
         private async void SearchByCondition()
         {
-            var dto = new SearchItemCondition { Name = tbConditionName.Text, ExtId = tbConditionExtId.Text };
+            var dto = new SearchItemCondition
+            {
+                DateFrom = dtpFrom.Value,
+                DateTo = dtpTo.Value,
+                Name = tbConditionName.Text,
+                ExtId = tbConditionExtId.Text
+            };
+            if (cbSearchItemStatus.SelectedIndex >= 0)
+            {
+                dto.Status = ((SearchItemStatusItem) cbSearchItemStatus.SelectedItem).TaskStatus;
+            }
             var searchItemHeaderDtos = await _dataManager.GetByConditionAsync(dto);
             SearchItemsToForm(searchItemHeaderDtos);
+            if (searchItemHeaderDtos.Count == 0) MessageBox.Show(@"Данные не найдены");
         }
 
         private async void SearchPacket(List<SearchItemParam> dto, string keywords)
@@ -824,6 +859,7 @@ namespace Topol.UseApi
                 {
                     table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
                 }
+                if (data == null) return table;
                 foreach (var item in data)
                 {
                     var row = table.NewRow();
@@ -837,7 +873,7 @@ namespace Topol.UseApi
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception);
+                Debug.WriteLine(exception);
                 throw;
             }
             return table;
@@ -866,8 +902,6 @@ namespace Topol.UseApi
                 //throw;
             }
         }
-
-
 
         private void ContentItemsOnCurrentChanged(object sender, EventArgs e)
         {
@@ -914,7 +948,7 @@ namespace Topol.UseApi
 
         private static void linkLabelUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var url = ((LinkLabel) sender).Text;
+            var url = ((LinkLabel)sender).Text;
             Process.Start(url);
         }
 

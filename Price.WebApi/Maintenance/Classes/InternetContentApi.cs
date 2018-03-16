@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Common.Dto.Model.NewApi;
 using Price.Db.Entities.Entities;
 using Price.Db.Entities.QueryProcessors;
@@ -26,12 +27,20 @@ namespace Price.WebApi.Maintenance.Classes
 
         public bool InternetContentChecked(int id)
         {
-            var entity = Query.GetEntity(id);
-            if (entity == null) return false;
-            if (entity.PriceStatus == PriceStatus.Checked) return false;
-            entity.PriceStatus = PriceStatus.Checked;
-            Query.UpdateEntity(entity);
-            return true;
+            try
+            {
+                var entity = Query.GetEntity(id);
+                if (entity == null) return false;
+                if (entity.PriceStatus == PriceStatus.Checked) return false;
+                entity.PriceStatus = PriceStatus.Checked;
+                Query.UpdateEntity(entity);
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Logger.Log.Error(exception);
+                return false;
+            }
         }
     }
 }

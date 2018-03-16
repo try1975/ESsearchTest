@@ -41,7 +41,10 @@
             this.gbPacketItems = new System.Windows.Forms.GroupBox();
             this.dgvPacketItems = new ADGV.AdvancedDataGridView();
             this.panel18 = new System.Windows.Forms.Panel();
+            this.panel24 = new System.Windows.Forms.Panel();
             this.btnSearchItemDelete = new System.Windows.Forms.Button();
+            this.btnSearchItemBreak = new System.Windows.Forms.Button();
+            this.btnSearchItemChecked = new System.Windows.Forms.Button();
             this.btnClearSearchItems = new System.Windows.Forms.Button();
             this.tbConditionName = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -110,6 +113,8 @@
             this.btnDeletePrice = new System.Windows.Forms.Button();
             this.btnSkipPrice = new System.Windows.Forms.Button();
             this.btnSetPriceChecked = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.linkLabelScreenshot = new System.Windows.Forms.LinkLabel();
             this.panel20 = new System.Windows.Forms.Panel();
             this.linkLabelUrl = new System.Windows.Forms.LinkLabel();
             this.label15 = new System.Windows.Forms.Label();
@@ -133,17 +138,16 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.linkLabelScreenshot = new System.Windows.Forms.LinkLabel();
-            this.btnSearchItemBreak = new System.Windows.Forms.Button();
-            this.btnSearchItemChecked = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.panel24 = new System.Windows.Forms.Panel();
+            this.dtpFrom = new System.Windows.Forms.DateTimePicker();
+            this.dtpTo = new System.Windows.Forms.DateTimePicker();
+            this.cbSearchItemStatus = new System.Windows.Forms.ComboBox();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
             this.gbPacketItems.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPacketItems)).BeginInit();
             this.panel18.SuspendLayout();
+            this.panel24.SuspendLayout();
             this.gbContentItems.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvContentItems)).BeginInit();
             this.panel4.SuspendLayout();
@@ -177,12 +181,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel22.SuspendLayout();
             this.panel23.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.panel20.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             this.gbSource.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.panel24.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlPacket
@@ -286,15 +289,18 @@
             this.dgvPacketItems.Cursor = System.Windows.Forms.Cursors.Default;
             this.dgvPacketItems.DateWithTime = false;
             this.dgvPacketItems.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvPacketItems.Location = new System.Drawing.Point(3, 101);
+            this.dgvPacketItems.Location = new System.Drawing.Point(3, 123);
             this.dgvPacketItems.Name = "dgvPacketItems";
             this.dgvPacketItems.ReadOnly = true;
-            this.dgvPacketItems.Size = new System.Drawing.Size(807, 60);
+            this.dgvPacketItems.Size = new System.Drawing.Size(807, 38);
             this.dgvPacketItems.TabIndex = 2;
             this.dgvPacketItems.TimeFilter = true;
             // 
             // panel18
             // 
+            this.panel18.Controls.Add(this.cbSearchItemStatus);
+            this.panel18.Controls.Add(this.dtpTo);
+            this.panel18.Controls.Add(this.dtpFrom);
             this.panel18.Controls.Add(this.panel24);
             this.panel18.Controls.Add(this.btnClearSearchItems);
             this.panel18.Controls.Add(this.tbConditionName);
@@ -305,8 +311,19 @@
             this.panel18.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel18.Location = new System.Drawing.Point(3, 16);
             this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(807, 85);
+            this.panel18.Size = new System.Drawing.Size(807, 107);
             this.panel18.TabIndex = 3;
+            // 
+            // panel24
+            // 
+            this.panel24.Controls.Add(this.btnSearchItemDelete);
+            this.panel24.Controls.Add(this.btnSearchItemBreak);
+            this.panel24.Controls.Add(this.btnSearchItemChecked);
+            this.panel24.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel24.Location = new System.Drawing.Point(567, 0);
+            this.panel24.Name = "panel24";
+            this.panel24.Size = new System.Drawing.Size(240, 107);
+            this.panel24.TabIndex = 9;
             // 
             // btnSearchItemDelete
             // 
@@ -318,9 +335,28 @@
             this.btnSearchItemDelete.Text = "Удалить запрос";
             this.btnSearchItemDelete.UseVisualStyleBackColor = true;
             // 
+            // btnSearchItemBreak
+            // 
+            this.btnSearchItemBreak.Location = new System.Drawing.Point(3, 5);
+            this.btnSearchItemBreak.Name = "btnSearchItemBreak";
+            this.btnSearchItemBreak.Size = new System.Drawing.Size(108, 23);
+            this.btnSearchItemBreak.TabIndex = 7;
+            this.btnSearchItemBreak.Text = "Прервать запрос";
+            this.btnSearchItemBreak.UseVisualStyleBackColor = true;
+            // 
+            // btnSearchItemChecked
+            // 
+            this.btnSearchItemChecked.ForeColor = System.Drawing.Color.Green;
+            this.btnSearchItemChecked.Location = new System.Drawing.Point(3, 75);
+            this.btnSearchItemChecked.Name = "btnSearchItemChecked";
+            this.btnSearchItemChecked.Size = new System.Drawing.Size(230, 23);
+            this.btnSearchItemChecked.TabIndex = 8;
+            this.btnSearchItemChecked.Text = "Запрос проверен";
+            this.btnSearchItemChecked.UseVisualStyleBackColor = true;
+            // 
             // btnClearSearchItems
             // 
-            this.btnClearSearchItems.Location = new System.Drawing.Point(9, 56);
+            this.btnClearSearchItems.Location = new System.Drawing.Point(9, 75);
             this.btnClearSearchItems.Name = "btnClearSearchItems";
             this.btnClearSearchItems.Size = new System.Drawing.Size(173, 23);
             this.btnClearSearchItems.TabIndex = 5;
@@ -329,7 +365,7 @@
             // 
             // tbConditionName
             // 
-            this.tbConditionName.Location = new System.Drawing.Point(202, 24);
+            this.tbConditionName.Location = new System.Drawing.Point(202, 21);
             this.tbConditionName.Name = "tbConditionName";
             this.tbConditionName.Size = new System.Drawing.Size(153, 20);
             this.tbConditionName.TabIndex = 4;
@@ -363,9 +399,9 @@
             // 
             // tbConditionExtId
             // 
-            this.tbConditionExtId.Location = new System.Drawing.Point(361, 24);
+            this.tbConditionExtId.Location = new System.Drawing.Point(361, 21);
             this.tbConditionExtId.Name = "tbConditionExtId";
-            this.tbConditionExtId.Size = new System.Drawing.Size(100, 20);
+            this.tbConditionExtId.Size = new System.Drawing.Size(153, 20);
             this.tbConditionExtId.TabIndex = 0;
             // 
             // gbContentItems
@@ -405,6 +441,7 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(807, 42);
             this.panel4.TabIndex = 3;
+            this.panel4.Visible = false;
             // 
             // btnDeleteSelected
             // 
@@ -1010,6 +1047,27 @@
             this.btnSetPriceChecked.Text = "Проверено";
             this.btnSetPriceChecked.UseVisualStyleBackColor = true;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.linkLabelScreenshot);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox3.Location = new System.Drawing.Point(0, 167);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(400, 33);
+            this.groupBox3.TabIndex = 10;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Снимок экрана";
+            // 
+            // linkLabelScreenshot
+            // 
+            this.linkLabelScreenshot.AutoSize = true;
+            this.linkLabelScreenshot.Location = new System.Drawing.Point(10, 16);
+            this.linkLabelScreenshot.Name = "linkLabelScreenshot";
+            this.linkLabelScreenshot.Size = new System.Drawing.Size(103, 13);
+            this.linkLabelScreenshot.TabIndex = 9;
+            this.linkLabelScreenshot.TabStop = true;
+            this.linkLabelScreenshot.Text = "linkLabelScreenshot";
+            // 
             // panel20
             // 
             this.panel20.Controls.Add(this.linkLabelUrl);
@@ -1236,56 +1294,27 @@
             this.linkLabel1.Text = "Описание API: http://144.76.54.166:52620/help";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // linkLabelScreenshot
+            // dtpFrom
             // 
-            this.linkLabelScreenshot.AutoSize = true;
-            this.linkLabelScreenshot.Location = new System.Drawing.Point(10, 16);
-            this.linkLabelScreenshot.Name = "linkLabelScreenshot";
-            this.linkLabelScreenshot.Size = new System.Drawing.Size(103, 13);
-            this.linkLabelScreenshot.TabIndex = 9;
-            this.linkLabelScreenshot.TabStop = true;
-            this.linkLabelScreenshot.Text = "linkLabelScreenshot";
+            this.dtpFrom.Location = new System.Drawing.Point(202, 47);
+            this.dtpFrom.Name = "dtpFrom";
+            this.dtpFrom.Size = new System.Drawing.Size(153, 20);
+            this.dtpFrom.TabIndex = 10;
             // 
-            // btnSearchItemBreak
+            // dtpTo
             // 
-            this.btnSearchItemBreak.Location = new System.Drawing.Point(3, 5);
-            this.btnSearchItemBreak.Name = "btnSearchItemBreak";
-            this.btnSearchItemBreak.Size = new System.Drawing.Size(108, 23);
-            this.btnSearchItemBreak.TabIndex = 7;
-            this.btnSearchItemBreak.Text = "Прервать запрос";
-            this.btnSearchItemBreak.UseVisualStyleBackColor = true;
+            this.dtpTo.Location = new System.Drawing.Point(361, 47);
+            this.dtpTo.Name = "dtpTo";
+            this.dtpTo.Size = new System.Drawing.Size(153, 20);
+            this.dtpTo.TabIndex = 11;
             // 
-            // btnSearchItemChecked
+            // cbSearchItemStatus
             // 
-            this.btnSearchItemChecked.ForeColor = System.Drawing.Color.Green;
-            this.btnSearchItemChecked.Location = new System.Drawing.Point(3, 56);
-            this.btnSearchItemChecked.Name = "btnSearchItemChecked";
-            this.btnSearchItemChecked.Size = new System.Drawing.Size(230, 23);
-            this.btnSearchItemChecked.TabIndex = 8;
-            this.btnSearchItemChecked.Text = "Запрос проверен";
-            this.btnSearchItemChecked.UseVisualStyleBackColor = true;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.linkLabelScreenshot);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox3.Location = new System.Drawing.Point(0, 167);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(400, 33);
-            this.groupBox3.TabIndex = 10;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Снимок экрана";
-            // 
-            // panel24
-            // 
-            this.panel24.Controls.Add(this.btnSearchItemDelete);
-            this.panel24.Controls.Add(this.btnSearchItemBreak);
-            this.panel24.Controls.Add(this.btnSearchItemChecked);
-            this.panel24.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel24.Location = new System.Drawing.Point(567, 0);
-            this.panel24.Name = "panel24";
-            this.panel24.Size = new System.Drawing.Size(240, 85);
-            this.panel24.TabIndex = 9;
+            this.cbSearchItemStatus.FormattingEnabled = true;
+            this.cbSearchItemStatus.Location = new System.Drawing.Point(361, 74);
+            this.cbSearchItemStatus.Name = "cbSearchItemStatus";
+            this.cbSearchItemStatus.Size = new System.Drawing.Size(153, 21);
+            this.cbSearchItemStatus.TabIndex = 12;
             // 
             // Form1
             // 
@@ -1304,6 +1333,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvPacketItems)).EndInit();
             this.panel18.ResumeLayout(false);
             this.panel18.PerformLayout();
+            this.panel24.ResumeLayout(false);
             this.gbContentItems.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvContentItems)).EndInit();
             this.panel4.ResumeLayout(false);
@@ -1342,6 +1372,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel22.ResumeLayout(false);
             this.panel23.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.panel20.ResumeLayout(false);
             this.panel20.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).EndInit();
@@ -1349,9 +1381,6 @@
             this.bindingNavigator1.PerformLayout();
             this.gbSource.ResumeLayout(false);
             this.gbSource.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.panel24.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1466,6 +1495,9 @@
         private System.Windows.Forms.Button btnSearchItemBreak;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Panel panel24;
+        private System.Windows.Forms.DateTimePicker dtpTo;
+        private System.Windows.Forms.DateTimePicker dtpFrom;
+        private System.Windows.Forms.ComboBox cbSearchItemStatus;
     }
 }
 

@@ -32,10 +32,16 @@ namespace Price.WebApi.Jobs
                     entity.contact_url = $"{entity.Id}_{uri.GetHashCode()}.{AppGlobal.ScreenshotExtension}";
                     query.UpdateEntity(entity);
                     var filename = Path.Combine(AppGlobal.ScreenshotPath, $"{entity.contact_url}");
-
                     if (File.Exists(filename)) continue;
-                    var arguments = $"/URL {entity.url} /Filename \"{filename}\" {AppGlobal.ScreenshotterArgs}";
-                    Process.Start(AppGlobal.Screenshotter, arguments)/*?.WaitForExit()*/;
+                    if (entity.screenshot != null)
+                    {
+                        File.WriteAllBytes(filename, entity.screenshot);
+                    }
+                    else
+                    {
+                        var arguments = $"/URL {entity.url} /Filename \"{filename}\" {AppGlobal.ScreenshotterArgs}";
+                        Process.Start(AppGlobal.Screenshotter, arguments)?.WaitForExit();
+                    }
                 }
                 catch (Exception exception)
                 {

@@ -28,12 +28,14 @@ namespace Price.WebApi.Jobs
             {
                 try
                 {
-                    entity.Screenshot = $"{entity.CollectedAt}_{entity.ElasticId}.{AppGlobal.ScreenshotExtension}";
+                    var uri = new Uri(entity.Uri);
+                    entity.Screenshot = $"{entity.Id}_{uri.GetHashCode()}.{AppGlobal.ScreenshotExtension}";
+                    //entity.Screenshot = $"{entity.CollectedAt}_{entity.ElasticId}.{AppGlobal.ScreenshotExtension}";
                     query.UpdateEntity(entity);
                     var filename = Path.Combine(AppGlobal.ScreenshotPath, $"{entity.Screenshot}");
                     if (File.Exists(filename)) continue;
                     var arguments = $"/URL {entity.Uri} /Filename \"{filename}\" {AppGlobal.ScreenshotterArgs}";
-                    Process.Start(AppGlobal.Screenshotter, arguments)/*?.WaitForExit()*/;
+                    Process.Start(AppGlobal.Screenshotter, arguments)?.WaitForExit();
 
                 }
                 catch (Exception exception)
