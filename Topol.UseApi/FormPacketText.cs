@@ -16,5 +16,10 @@ namespace Topol.UseApi
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if(Modal) DialogResult = DialogResult.OK;
+        }
     }
 }

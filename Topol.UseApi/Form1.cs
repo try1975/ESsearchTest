@@ -46,7 +46,7 @@ namespace Topol.UseApi
         private class SearchItemStatusItem
         {
             public string Text { get; set; }
-            public TaskStatus TaskStatus { get; set; }
+            public TaskStatus? TaskStatus { get; set; }
         }
 
         public Form1()
@@ -95,6 +95,7 @@ namespace Topol.UseApi
             linkLabel1.Text = $@"Описание API - {baseApi}help";
 
             cbSearchItemStatus.DataSource = new[] {
+                new SearchItemStatusItem { Text="Любое", TaskStatus=null},
                 new SearchItemStatusItem { Text="В процессе", TaskStatus=TaskStatus.InProcess},
                 new SearchItemStatusItem { Text="Проверено", TaskStatus=TaskStatus.Checked},
                 new SearchItemStatusItem { Text="Завершено", TaskStatus=TaskStatus.Ok},
@@ -206,19 +207,21 @@ namespace Topol.UseApi
             var dgv = dgvPacketItems;
 
             // установить видимость полей
-            var column = dgvPacketItems.Columns[nameof(SearchItemDto.Key)];
+            var column = dgv.Columns[nameof(SearchItemHeaderDto.Id)];
             if (column != null) column.Visible = false;
-            column = dgvPacketItems.Columns[nameof(SearchItemDto.SearchItem)];
+            column = dgv.Columns[nameof(SearchItemHeaderDto.InternetSessionId)];
             if (column != null) column.Visible = false;
-            column = dgvPacketItems.Columns[nameof(SearchItemDto.Content)];
+            column = dgv.Columns[nameof(SearchItemDto.Content)];
             if (column != null) column.Visible = false;
-            column = dgvPacketItems.Columns[nameof(SearchItemDto.StartProcessed)];
+            column = dgv.Columns[nameof(SearchItemDto.StartProcessed)];
             if (column != null) column.Visible = false;
-            column = dgvPacketItems.Columns[nameof(SearchItemDto.LastUpdate)];
+            column = dgv.Columns[nameof(SearchItemDto.LastUpdate)];
             if (column != null) column.Visible = false;
-            column = dgvPacketItems.Columns[nameof(SearchItemDto.ProcessedAt)];
+            column = dgv.Columns[nameof(SearchItemDto.LastUpdateDateTime)];
             if (column != null) column.Visible = false;
-            column = dgvPacketItems.Columns[nameof(SearchItemDto.Status)];
+            column = dgv.Columns[nameof(SearchItemDto.ProcessedAt)];
+            if (column != null) column.Visible = false;
+            column = dgv.Columns[nameof(SearchItemDto.Status)];
             if (column != null) column.Visible = false;
 
             column = dgv.Columns[nameof(SearchItemDto.Source)];
@@ -491,6 +494,7 @@ namespace Topol.UseApi
             var current = (DataRowView)SearchItemsBindingSource.Current;
             if (current == null) return;
             var id = current.Row[nameof(SearchItemHeaderDto.Id)] as string;
+            current.Row[nameof(SearchItemHeaderDto.Status)] = TaskStatus.Checked;
             await _dataManager.PostSearchItemChecked(id);
         }
 
@@ -655,9 +659,9 @@ namespace Topol.UseApi
                 Name = tbConditionName.Text,
                 ExtId = tbConditionExtId.Text
             };
-            if (cbSearchItemStatus.SelectedIndex >= 0)
+            if (cbSearchItemStatus.SelectedIndex > 0)
             {
-                dto.Status = ((SearchItemStatusItem) cbSearchItemStatus.SelectedItem).TaskStatus;
+                dto.Status = ((SearchItemStatusItem)cbSearchItemStatus.SelectedItem).TaskStatus;
             }
             var searchItemHeaderDtos = await _dataManager.GetByConditionAsync(dto);
             SearchItemsToForm(searchItemHeaderDtos);
@@ -674,6 +678,7 @@ namespace Topol.UseApi
         {
             _listSearchItem.Clear();
             ((DataTable)SearchItemsBindingSource.DataSource)?.Clear();
+            ((DataTable)ContentItemsBindingSource.DataSource)?.Clear();
         }
 
         private void SearchItemsToForm(List<SearchItemHeaderDto> searchItemHeaderDtos)
@@ -883,7 +888,11 @@ namespace Topol.UseApi
         {
             try
             {
-                if (SearchItemsBindingSource.Current == null) return;
+                if (SearchItemsBindingSource.Current == null)
+                {
+                    ((DataTable)ContentItemsBindingSource.DataSource)?.Clear();
+                    return;
+                }
                 var current = (DataRowView)SearchItemsBindingSource.Current;
                 var key = current.Row[nameof(SearchItemHeaderDto.Id)] as string;
                 EnableResultButtons = (int)current.Row[nameof(SearchItemDto.Status)] == (int)TaskStatus.Ok && ((string)current.Row[nameof(SearchItemDto.Source)]).Contains("internet");
@@ -914,7 +923,14 @@ namespace Topol.UseApi
                 }
                 var current = (DataRowView)ContentItemsBindingSource.Current;
                 var url = current.Row[nameof(ContentExtDto.Screenshot)] as string;
-                pictureBox1.LoadAsync(url);
+                if (string.IsNullOrEmpty(url))
+                {
+                    pictureBox1.Image = null;
+                }
+                else
+                {
+                    pictureBox1.LoadAsync(url);
+                }
                 lblPrice.Text = current.Row[nameof(ContentExtDto.Price)] as string;
                 linkLabelUrl.Text = current.Row[nameof(ContentExtDto.Uri)] as string;
                 linkLabelScreenshot.Text = current.Row[nameof(ContentExtDto.Screenshot)] as string;
