@@ -41,6 +41,9 @@
             this.gbPacketItems = new System.Windows.Forms.GroupBox();
             this.dgvPacketItems = new ADGV.AdvancedDataGridView();
             this.panel18 = new System.Windows.Forms.Panel();
+            this.cbSearchItemStatus = new System.Windows.Forms.ComboBox();
+            this.dtpTo = new System.Windows.Forms.DateTimePicker();
+            this.dtpFrom = new System.Windows.Forms.DateTimePicker();
             this.panel24 = new System.Windows.Forms.Panel();
             this.btnSearchItemDelete = new System.Windows.Forms.Button();
             this.btnSearchItemBreak = new System.Windows.Forms.Button();
@@ -138,9 +141,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.dtpFrom = new System.Windows.Forms.DateTimePicker();
-            this.dtpTo = new System.Windows.Forms.DateTimePicker();
-            this.cbSearchItemStatus = new System.Windows.Forms.ComboBox();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -313,6 +313,28 @@
             this.panel18.Name = "panel18";
             this.panel18.Size = new System.Drawing.Size(807, 107);
             this.panel18.TabIndex = 3;
+            // 
+            // cbSearchItemStatus
+            // 
+            this.cbSearchItemStatus.FormattingEnabled = true;
+            this.cbSearchItemStatus.Location = new System.Drawing.Point(361, 74);
+            this.cbSearchItemStatus.Name = "cbSearchItemStatus";
+            this.cbSearchItemStatus.Size = new System.Drawing.Size(153, 21);
+            this.cbSearchItemStatus.TabIndex = 12;
+            // 
+            // dtpTo
+            // 
+            this.dtpTo.Location = new System.Drawing.Point(361, 47);
+            this.dtpTo.Name = "dtpTo";
+            this.dtpTo.Size = new System.Drawing.Size(153, 20);
+            this.dtpTo.TabIndex = 11;
+            // 
+            // dtpFrom
+            // 
+            this.dtpFrom.Location = new System.Drawing.Point(202, 47);
+            this.dtpFrom.Name = "dtpFrom";
+            this.dtpFrom.Size = new System.Drawing.Size(153, 20);
+            this.dtpFrom.TabIndex = 10;
             // 
             // panel24
             // 
@@ -1293,28 +1315,6 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Описание API: http://144.76.54.166:52620/help";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // dtpFrom
-            // 
-            this.dtpFrom.Location = new System.Drawing.Point(202, 47);
-            this.dtpFrom.Name = "dtpFrom";
-            this.dtpFrom.Size = new System.Drawing.Size(153, 20);
-            this.dtpFrom.TabIndex = 10;
-            // 
-            // dtpTo
-            // 
-            this.dtpTo.Location = new System.Drawing.Point(361, 47);
-            this.dtpTo.Name = "dtpTo";
-            this.dtpTo.Size = new System.Drawing.Size(153, 20);
-            this.dtpTo.TabIndex = 11;
-            // 
-            // cbSearchItemStatus
-            // 
-            this.cbSearchItemStatus.FormattingEnabled = true;
-            this.cbSearchItemStatus.Location = new System.Drawing.Point(361, 74);
-            this.cbSearchItemStatus.Name = "cbSearchItemStatus";
-            this.cbSearchItemStatus.Size = new System.Drawing.Size(153, 21);
-            this.cbSearchItemStatus.TabIndex = 12;
             // 
             // Form1
             // 

@@ -96,12 +96,12 @@ namespace Topol.UseApi
 
             cbSearchItemStatus.DataSource = new[] {
                 new SearchItemStatusItem { Text="Любое", TaskStatus=null},
-                new SearchItemStatusItem { Text="В процессе", TaskStatus=TaskStatus.InProcess},
-                new SearchItemStatusItem { Text="Проверено", TaskStatus=TaskStatus.Checked},
-                new SearchItemStatusItem { Text="Завершено", TaskStatus=TaskStatus.Ok},
-                new SearchItemStatusItem { Text="Прекращено по таймауту", TaskStatus=TaskStatus.BreakByTimeout},
-                new SearchItemStatusItem { Text="Прекращено", TaskStatus=TaskStatus.Break},
-                new SearchItemStatusItem { Text="Ошибка", TaskStatus=TaskStatus.Error}
+                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.InProcess), TaskStatus=TaskStatus.InProcess},
+                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.Checked), TaskStatus=TaskStatus.Checked},
+                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.Ok), TaskStatus=TaskStatus.Ok},
+                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.BreakByTimeout), TaskStatus=TaskStatus.BreakByTimeout},
+                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.Break), TaskStatus=TaskStatus.Break},
+                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.Error), TaskStatus=TaskStatus.Error}
                 };
             cbSearchItemStatus.DisplayMember = "Text";
             cbSearchItemStatus.SelectedIndex = 0;
@@ -208,7 +208,7 @@ namespace Topol.UseApi
 
             // установить видимость полей
             var column = dgv.Columns[nameof(SearchItemHeaderDto.Id)];
-            if (column != null) column.Visible = false;
+            //if (column != null) column.Visible = false;
             column = dgv.Columns[nameof(SearchItemHeaderDto.InternetSessionId)];
             if (column != null) column.Visible = false;
             column = dgv.Columns[nameof(SearchItemDto.Content)];
@@ -229,7 +229,7 @@ namespace Topol.UseApi
             {
                 column.HeaderText = @"Источник";
             }
-            column = dgv.Columns[nameof(SearchItemDto.Id)];
+            column = dgv.Columns[nameof(SearchItemHeaderDto.Id)];
             if (column != null)
             {
                 column.HeaderText = @"Идентификатор";
@@ -314,7 +314,7 @@ namespace Topol.UseApi
             //ContentGridPriceVariants(dgv);
 
             // hide all columns
-            //foreach (DataGridViewColumn dgvColumn in dgv.Columns) dgvColumn.Visible = false;
+            foreach (DataGridViewColumn dgvColumn in dgv.Columns) dgvColumn.Visible = false;
 
             var column = dgv.Columns[nameof(ContentDto.Selected)];
             if (column != null)
@@ -345,16 +345,26 @@ namespace Topol.UseApi
                 column.ReadOnly = true;
                 column.DisplayIndex = 3;
             }
-            column = dgv.Columns[nameof(ContentDto.Nprice)];
+            column = dgv.Columns[nameof(ContentDto.Price)];
             if (column != null)
             {
                 column.Visible = true;
                 column.HeaderText = @"Цена";
                 column.ReadOnly = true;
                 column.DisplayIndex = 4;
-                column.DefaultCellStyle.Format = "N2";
-                column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                //column.DefaultCellStyle.Format = "N2";
+                //column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             }
+            //column = dgv.Columns[nameof(ContentDto.Nprice)];
+            //if (column != null)
+            //{
+            //    column.Visible = true;
+            //    column.HeaderText = @"Цена";
+            //    column.ReadOnly = true;
+            //    column.DisplayIndex = 4;
+            //    column.DefaultCellStyle.Format = "N2";
+            //    column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            //}
             column = dgv.Columns[$"{nameof(ContentDto.PriceVariant)}2"];
             if (column != null)
             {
@@ -380,11 +390,17 @@ namespace Topol.UseApi
                 column.DefaultCellStyle.Format = "dd.MM.yyyy HH:mm";
                 column.DisplayIndex = 7;
             }
-            column = dgv.Columns[nameof(ContentDto.Id)];
+            column = dgv.Columns[nameof(ContentExtDto.Id)];
             if (column != null)
             {
                 column.Visible = true;
                 column.HeaderText = @"Идентификатор";
+            }
+            column = dgv.Columns[nameof(ContentExtDto.PriceStatusString)];
+            if (column != null)
+            {
+                column.Visible = true;
+                column.HeaderText = @"Статус цены";
             }
         }
 
@@ -458,8 +474,13 @@ namespace Topol.UseApi
         {
             var current = (DataRowView)SearchItemsBindingSource.Current;
             if (current == null) return;
-            var id = current.Row[nameof(SearchItemHeaderDto.Id)] as string;
-            await _dataManager.PostSearchItemBreak(id);
+            const string idColumnName = nameof(SearchItemHeaderDto.Id);
+            var id = current.Row[idColumnName] as string;
+            var dataTable = (DataTable)SearchItemsBindingSource.DataSource;
+            var dataRow = dataTable.Select($"{idColumnName}='{id}'").FirstOrDefault();
+            if (dataRow == null || !await _dataManager.PostSearchItemBreak(id)) return;
+            dataRow.SetField(nameof(SearchItemHeaderDto.Status), TaskStatus.Break);
+            dataRow.SetField(nameof(SearchItemHeaderDto.StatusString), PriceCommon.Utils.Utils.GetDescription(TaskStatus.Break));
         }
         private async void SearchItemDelete()
         {
@@ -488,14 +509,17 @@ namespace Topol.UseApi
                 MessageBox.Show(@"Запрос не может быть удален");
             }
         }
-
         private async void SearchItemChecked()
         {
             var current = (DataRowView)SearchItemsBindingSource.Current;
             if (current == null) return;
-            var id = current.Row[nameof(SearchItemHeaderDto.Id)] as string;
-            current.Row[nameof(SearchItemHeaderDto.Status)] = TaskStatus.Checked;
-            await _dataManager.PostSearchItemChecked(id);
+            const string idColumnName = nameof(SearchItemHeaderDto.Id);
+            var id = current.Row[idColumnName] as string;
+            var dataTable = (DataTable) SearchItemsBindingSource.DataSource;
+            var dataRow = dataTable.Select($"{idColumnName}='{id}'").FirstOrDefault();
+            if (dataRow == null || !await _dataManager.PostSearchItemChecked(id)) return;
+            dataRow.SetField(nameof(SearchItemHeaderDto.Status), TaskStatus.Checked);
+            dataRow.SetField(nameof(SearchItemHeaderDto.StatusString), PriceCommon.Utils.Utils.GetDescription(TaskStatus.Checked));
         }
 
         private void btnSetPriceChecked_Click(object sender, EventArgs e)
@@ -617,8 +641,8 @@ namespace Topol.UseApi
             var contentItems = await _dataManager.GetMaybe(must, should, mustNot, source);
             if (contentItems != null)
             {
-                var dt = ConvertToDataTable(contentItems);
-                MaybeItemsBindingSource.DataSource = dt;
+                var dataTable = ConvertToDataTable(contentItems);
+                MaybeItemsBindingSource.DataSource = dataTable;
                 dgvMaybe.DataSource = MaybeItemsBindingSource;
                 ContentGridColumnSettings(dgvMaybe);
             }
@@ -633,8 +657,8 @@ namespace Topol.UseApi
             var contentItems = await _dataManager.GetOkpd2Reverse(text);
             if (contentItems != null)
             {
-                var dt = ConvertToDataTable(contentItems);
-                Okpd2ItemsBindingSource.DataSource = dt;
+                var dataTable = ConvertToDataTable(contentItems);
+                Okpd2ItemsBindingSource.DataSource = dataTable;
                 dgvOkpd2.DataSource = Okpd2ItemsBindingSource;
             }
             else
@@ -790,12 +814,6 @@ namespace Topol.UseApi
             if (dataTable == null)
             {
                 dataTable = ConvertToDataTable(_listSearchItem);
-                //foreach (DataRow row in dataTable.Rows)
-                //{
-                //    var text = row[nameof(SearchItemDto.Name)].ToString();
-                //    var okpd2List = await _dataManager.GetOkpd2Reverse(text.Replace(";",""));
-                //    if (okpd2List!=null && okpd2List.Any()) row[nameof(SearchItemDto.Okpd2)] = okpd2List.FirstOrDefault().Okpd2;
-                //}
                 dataTable.RowDeleting += SearchItemsDataTable_RowDeleting;
                 SearchItemsBindingSource.DataSource = dataTable;
                 dgvPacketItems.DataSource = SearchItemsBindingSource;
@@ -806,31 +824,31 @@ namespace Topol.UseApi
                 var properties = TypeDescriptor.GetProperties(typeof(SearchItemHeaderDto));
                 foreach (var searchItemDto in _listSearchItem)
                 {
-                    var foundRows = dataTable.Select($"{nameof(searchItemDto.Id)}='{searchItemDto.Id}'");
+                    var foundRows = dataTable.Select($"{nameof(SearchItemHeaderDto.Id)}='{searchItemDto.Id}'");
                     if (foundRows.Any())
                     {
                         foreach (var dataRow in foundRows)
                         {
-                            dataRow.SetField(nameof(searchItemDto.StartProcessed), searchItemDto.StartProcessed);
-                            dataRow.SetField(nameof(searchItemDto.LastUpdate), searchItemDto.LastUpdate);
-                            dataRow.SetField(nameof(searchItemDto.ProcessedAt), searchItemDto.ProcessedAt);
-                            dataRow.SetField(nameof(searchItemDto.StartProcessedDateTime), searchItemDto.StartProcessedDateTime);
-                            dataRow.SetField(nameof(searchItemDto.LastUpdateDateTime), searchItemDto.LastUpdateDateTime);
-                            dataRow.SetField(nameof(searchItemDto.ProcessedAtDateTime), searchItemDto.ProcessedAtDateTime);
-                            dataRow.SetField(nameof(searchItemDto.Status), searchItemDto.Status);
-                            dataRow.SetField(nameof(searchItemDto.StatusString), searchItemDto.StatusString);
+                            dataRow.SetField(nameof(SearchItemHeaderDto.StartProcessed), searchItemDto.StartProcessed);
+                            dataRow.SetField(nameof(SearchItemHeaderDto.LastUpdate), searchItemDto.LastUpdate);
+                            dataRow.SetField(nameof(SearchItemHeaderDto.ProcessedAt), searchItemDto.ProcessedAt);
+                            dataRow.SetField(nameof(SearchItemHeaderDto.StartProcessedDateTime), searchItemDto.StartProcessedDateTime);
+                            dataRow.SetField(nameof(SearchItemHeaderDto.LastUpdateDateTime), searchItemDto.LastUpdateDateTime);
+                            dataRow.SetField(nameof(SearchItemHeaderDto.ProcessedAtDateTime), searchItemDto.ProcessedAtDateTime);
+                            dataRow.SetField(nameof(SearchItemHeaderDto.Status), searchItemDto.Status);
+                            dataRow.SetField(nameof(SearchItemHeaderDto.StatusString), searchItemDto.StatusString);
 
                             // refresh datagrid
-                            if (dgvPacketItems.CurrentRow != null && dgvPacketItems.CurrentRow.Cells[nameof(searchItemDto.Id)].Value.ToString() ==
-                                dataRow.Field<string>(nameof(searchItemDto.Id)))
+                            if (dgvPacketItems.CurrentRow != null && dgvPacketItems.CurrentRow.Cells[nameof(SearchItemHeaderDto.Id)].Value.ToString() ==
+                                dataRow.Field<string>(nameof(SearchItemHeaderDto.Id)))
                             {
-                                if (dataRow.Field<int>(nameof(searchItemDto.ContentCount)) != searchItemDto.ContentCount)
+                                if (dataRow.Field<int>(nameof(SearchItemHeaderDto.ContentCount)) != searchItemDto.ContentCount)
                                 {
                                     PacketItemsOnCurrentChanged(null, null);
                                 }
 
                             }
-                            dataRow.SetField(nameof(searchItemDto.ContentCount), searchItemDto.ContentCount);
+                            dataRow.SetField(nameof(SearchItemHeaderDto.ContentCount), searchItemDto.ContentCount);
                         }
                     }
                     else
@@ -839,16 +857,9 @@ namespace Topol.UseApi
                         foreach (PropertyDescriptor prop in properties)
                             row[prop.Name] = prop.GetValue(searchItemDto) ?? DBNull.Value;
 
-                        //var text = searchItemDto.Name;
-                        //var okpd2List = await _dataManager.GetOkpd2Reverse(text.Replace(";", ""));
-                        //if (okpd2List != null && okpd2List.Any()) row[nameof(SearchItemDto.Okpd2)] = okpd2List.FirstOrDefault().Okpd2;
                         dataTable.Rows.Add(row);
                     }
                 }
-                //    var dt = ConvertToDataTable(_listSearchItem);
-                //PacketItemsBindingSource.DataSource = dt;
-                //dgvPacketItems.DataSource = PacketItemsBindingSource;
-                //PacketItemsBindingSource.ResetBindings(metadataChanged: false);
             }
         }
 
@@ -948,7 +959,7 @@ namespace Topol.UseApi
             {
                 new SearchItemParam
                 {
-                    Id = string.IsNullOrEmpty(tbSingleExtId.Text) ? Md5Logstah.GetDefaultId("", textBox2.Text):tbSingleExtId.Text,
+                    Id = string.IsNullOrEmpty(tbSingleExtId.Text) ? Md5Logstah.GetDefaultId("", textBox2.Text) : tbSingleExtId.Text,
                     Name = textBox2.Text,
                     Norm = cmbNorm.SelectedItem as string
                 }
