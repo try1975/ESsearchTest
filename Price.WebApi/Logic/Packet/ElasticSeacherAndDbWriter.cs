@@ -117,7 +117,10 @@ namespace Price.WebApi.Logic.Packet
                         Uri = contentDto.Uri,
                         SearchItemId = id,
                         CollectedAt = contentDto.CollectedAt,
-                        Okpd2 = contentDto.Okpd2
+                        Okpd2 = contentDto.Okpd2,
+                        Seller = contentDto.Seller,
+                        Producer = contentDto.Producer,
+                        Phones = contentDto.Phones
                     }).ToList());
                 }
                 if (inInternet == false)

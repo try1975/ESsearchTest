@@ -314,7 +314,7 @@ namespace Topol.UseApi
             //ContentGridPriceVariants(dgv);
 
             // hide all columns
-            foreach (DataGridViewColumn dgvColumn in dgv.Columns) dgvColumn.Visible = false;
+            //foreach (DataGridViewColumn dgvColumn in dgv.Columns) dgvColumn.Visible = false;
 
             var column = dgv.Columns[nameof(ContentDto.Selected)];
             if (column != null)
@@ -542,6 +542,21 @@ namespace Topol.UseApi
                 await _dataManager.PostContentItemChecked(id, elasticId);
             }
             ContentItemsBindingSource.MoveNext();
+        }
+
+        private async void SetPrice(string price)
+        {
+            var bindingSource = ContentItemsBindingSource;
+            var current = (DataRowView)bindingSource.Current;
+            if (current == null) return;
+            const string idColumnName = nameof(ContentExtDto.Id);
+            var id = current.Row[idColumnName] as string;
+            var elasticId = current.Row[nameof(ContentExtDto.ElasticId)] as string;
+            var dataTable = (DataTable)bindingSource.DataSource;
+            var dataRow = dataTable.Select($"{idColumnName}='{id}'").FirstOrDefault();
+            if (dataRow == null || !await _dataManager.PostContentItemPrice(id, elasticId)) return;
+            dataRow.SetField(nameof(ContentExtDto.Price), price);
+           // dataRow.SetField(nameof(ContentExtDto.StatusString), PriceCommon.Utils.Utils.GetDescription(TaskStatus.Checked));
         }
 
         private void btnSkipPrice_Click(object sender, EventArgs e)
@@ -946,6 +961,14 @@ namespace Topol.UseApi
                 linkLabelUrl.Text = current.Row[nameof(ContentExtDto.Uri)] as string;
                 linkLabelScreenshot.Text = current.Row[nameof(ContentExtDto.Screenshot)] as string;
                 label15.Text = current.Row[nameof(ContentExtDto.Name)] as string;
+                var priceVariants = current.Row[nameof(ContentExtDto.PriceVariants)] as string;
+                cmbPrices.Items.Clear();
+                if (!string.IsNullOrEmpty(priceVariants))
+                {
+                    var items = priceVariants.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+                    cmbPrices.Items.AddRange(items);
+                    cmbPrices.SelectedIndex = 0;
+                }
             }
             catch (Exception exception)
             {

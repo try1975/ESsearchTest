@@ -18,6 +18,7 @@ namespace Topol.UseApi.Interfaces.Common
         Task<bool> PostSearchItemBreak(string id);
         Task<bool> PostSearchItemChecked(string id);
         Task<bool> PostContentItemChecked(string id, string elasticId);
+        Task<bool> PostContentItemPrice(string id, string elasticId);
         Task<bool> DeleteSearchItem(string id);
         Task<bool> DeleteContentItem(string id, string elasticId);
         Task<IEnumerable<ContentDto>> GetMaybe(string must = "", string should = "", string mustNot = "", string source = "");
@@ -25,6 +26,7 @@ namespace Topol.UseApi.Interfaces.Common
         Task Post2InternetIndex(IEnumerable<BasicContentDto> list);
 
         #endregion //SearchPacket
+
 
         
     }

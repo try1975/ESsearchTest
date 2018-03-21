@@ -9,7 +9,7 @@ namespace Price.Db.MysSql.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(Price.Db.MysSql.PriceContext context)

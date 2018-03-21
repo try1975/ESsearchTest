@@ -15,5 +15,8 @@ namespace Price.Db.Entities.Entities
         public SearchItemEntity SearchItem { get; set; }
         public string Screenshot { get; set; }
         public PriceStatus PriceStatus { get; set; }
+        public string Seller { get; set; }
+        public string Producer { get; set; }
+        public string Phones { get; set; }
     }
 }

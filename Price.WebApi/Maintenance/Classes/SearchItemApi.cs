@@ -227,7 +227,10 @@ namespace Price.WebApi.Maintenance.Classes
                         PriceType = PriceType.Trusted,
                         ElasticId = z.ElasticId,
                         Screenshot = string.IsNullOrEmpty(z.Screenshot) ? null : $"{_getUrl}{z.Screenshot}",
-                        PriceStatus = z.PriceStatus
+                        PriceStatus = z.PriceStatus,
+                        Seller = z.Seller,
+                        Producer = z.Producer,
+                        Phones = z.Phones
                     }).ToList();
         }
 
@@ -244,7 +247,8 @@ namespace Price.WebApi.Maintenance.Classes
                         CollectedAt = (long)z.dt.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                         PriceType = PriceType.Check,
                         Screenshot = string.IsNullOrEmpty(z.contact_url) ? null : $"{_getUrl}{z.contact_url}",
-                        PriceStatus = z.PriceStatus
+                        PriceStatus = z.PriceStatus,
+                        PriceVariants = z.prices
                     }).ToList();
         }
     }

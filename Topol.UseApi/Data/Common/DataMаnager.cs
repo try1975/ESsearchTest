@@ -113,6 +113,11 @@ namespace Topol.UseApi.Data.Common
             }
         }
 
+        public Task<bool> PostContentItemPrice(string id, string elasticId)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public async Task<bool> DeleteSearchItem(string id)
         {
             using (var response = await _apiHttpClient.DeleteAsync($"{_endpointSearchItem}{id}"))
