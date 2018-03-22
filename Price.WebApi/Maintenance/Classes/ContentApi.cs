@@ -42,5 +42,29 @@ namespace Price.WebApi.Maintenance.Classes
                 return false;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="price"></param>
+        /// <returns></returns>
+        public bool ContentSetPrice(int id, string price)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(price)) return false;
+                var entity = Query.GetEntity(id);
+                if (entity == null) return false;
+                entity.Price = price;
+                entity=Query.UpdateEntity(entity);
+                return entity != null;
+            }
+            catch (Exception exception)
+            {
+                Logger.Log.Error(exception);
+                return false;
+            }
+        }
     }
 }

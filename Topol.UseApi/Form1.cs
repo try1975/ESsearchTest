@@ -6,6 +6,8 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Common.Dto;
 using Common.Dto.Model;
@@ -128,6 +130,7 @@ namespace Topol.UseApi
             btnSetPriceChecked.Click += btnSetPriceChecked_Click;
             btnSkipPrice.Click += btnSkipPrice_Click;
             btnDeletePrice.Click += btnDeletePrice_Click;
+            btnSetPrice.Click += btnSetPrice_Click;
 
             tabControl1.TabPages.Remove(tabPage3);
             tabControl1.TabPages.Remove(tabPage2);
@@ -550,13 +553,31 @@ namespace Topol.UseApi
             var current = (DataRowView)bindingSource.Current;
             if (current == null) return;
             const string idColumnName = nameof(ContentExtDto.Id);
-            var id = current.Row[idColumnName] as string;
+            var id = (int)current.Row[idColumnName];
             var elasticId = current.Row[nameof(ContentExtDto.ElasticId)] as string;
             var dataTable = (DataTable)bindingSource.DataSource;
             var dataRow = dataTable.Select($"{idColumnName}='{id}'").FirstOrDefault();
-            if (dataRow == null || !await _dataManager.PostContentItemPrice(id, elasticId)) return;
+            if (dataRow == null || !await _dataManager.PostContentItemPrice(id.ToString(), elasticId, price)) return;
             dataRow.SetField(nameof(ContentExtDto.Price), price);
-           // dataRow.SetField(nameof(ContentExtDto.StatusString), PriceCommon.Utils.Utils.GetDescription(TaskStatus.Checked));
+            lblPrice.Text = price;
+        }
+
+        private static string ExtractPriceFromPrices(string str)
+        {
+            var sb = new StringBuilder();
+            foreach (var c in str)
+            {
+                if(c == '.' || c == ',' || char.IsDigit(c)) sb.Append(c); else break;
+            }
+            return sb.ToString().Replace(',', '.');
+        }
+
+        private void btnSetPrice_Click(object sender, EventArgs e)
+        {
+            if(string.IsNullOrEmpty(cmbPrices.Text)) return;
+            var price = ExtractPriceFromPrices(cmbPrices.Text);
+            if (string.IsNullOrEmpty(price)) return;
+            SetPrice(price);
         }
 
         private void btnSkipPrice_Click(object sender, EventArgs e)
@@ -963,6 +984,7 @@ namespace Topol.UseApi
                 label15.Text = current.Row[nameof(ContentExtDto.Name)] as string;
                 var priceVariants = current.Row[nameof(ContentExtDto.PriceVariants)] as string;
                 cmbPrices.Items.Clear();
+                cmbPrices.Text = "";
                 if (!string.IsNullOrEmpty(priceVariants))
                 {
                     var items = priceVariants.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);

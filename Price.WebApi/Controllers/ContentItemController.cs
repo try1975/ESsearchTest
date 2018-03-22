@@ -31,5 +31,13 @@ namespace Price.WebApi.Controllers
             return StatusCode(result ? HttpStatusCode.NoContent : HttpStatusCode.Conflict);
         }
 
+        [HttpPost]
+        [Route("api/contentitem/setprice/{id:int}", Name = nameof(PostContentItemSetPrice) + "Route")]
+        public IHttpActionResult PostContentItemSetPrice(int id, [FromUri] string elasticId, [FromUri] string price)
+        {
+            var result = string.IsNullOrEmpty(elasticId) ? _internetContentApi.InternetContentSetPrice(id, price) : _contentApi.ContentSetPrice(id, price);
+            return StatusCode(result ? HttpStatusCode.NoContent : HttpStatusCode.Conflict);
+        }
+
     }
 }

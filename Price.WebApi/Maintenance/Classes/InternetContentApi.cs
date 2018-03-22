@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using Common.Dto.Model.NewApi;
 using Price.Db.Entities.Entities;
@@ -35,6 +36,30 @@ namespace Price.WebApi.Maintenance.Classes
                 entity.PriceStatus = PriceStatus.Checked;
                 Query.UpdateEntity(entity);
                 return true;
+            }
+            catch (Exception exception)
+            {
+                Logger.Log.Error(exception);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="price"></param>
+        /// <returns></returns>
+        public bool InternetContentSetPrice(int id, string price)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(price)) return false;
+                var entity = Query.GetEntity(id);
+                if (entity == null) return false;
+                entity.price = float.Parse(price, CultureInfo.InvariantCulture.NumberFormat); 
+                entity = Query.UpdateEntity(entity);
+                return entity != null;
             }
             catch (Exception exception)
             {

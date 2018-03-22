@@ -119,6 +119,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.linkLabelScreenshot = new System.Windows.Forms.LinkLabel();
             this.panel20 = new System.Windows.Forms.Panel();
+            this.cmbPrices = new System.Windows.Forms.ComboBox();
             this.linkLabelUrl = new System.Windows.Forms.LinkLabel();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -141,7 +142,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.cmbPrices = new System.Windows.Forms.ComboBox();
+            this.btnSetPrice = new System.Windows.Forms.Button();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -693,7 +694,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(445, 20);
             this.textBox2.TabIndex = 2;
-            this.textBox2.Text = "релиф суппозитории";
+            this.textBox2.Text = "аспирин таблетки 500мг N12";
             // 
             // label2
             // 
@@ -1093,6 +1094,7 @@
             // 
             // panel20
             // 
+            this.panel20.Controls.Add(this.btnSetPrice);
             this.panel20.Controls.Add(this.cmbPrices);
             this.panel20.Controls.Add(this.linkLabelUrl);
             this.panel20.Controls.Add(this.label15);
@@ -1107,6 +1109,14 @@
             this.panel20.Name = "panel20";
             this.panel20.Size = new System.Drawing.Size(400, 133);
             this.panel20.TabIndex = 5;
+            // 
+            // cmbPrices
+            // 
+            this.cmbPrices.FormattingEnabled = true;
+            this.cmbPrices.Location = new System.Drawing.Point(187, 98);
+            this.cmbPrices.Name = "cmbPrices";
+            this.cmbPrices.Size = new System.Drawing.Size(121, 21);
+            this.cmbPrices.TabIndex = 9;
             // 
             // linkLabelUrl
             // 
@@ -1318,13 +1328,14 @@
             this.linkLabel1.Text = "Описание API: http://144.76.54.166:52620/help";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // cmbPrices
+            // btnSetPrice
             // 
-            this.cmbPrices.FormattingEnabled = true;
-            this.cmbPrices.Location = new System.Drawing.Point(187, 98);
-            this.cmbPrices.Name = "cmbPrices";
-            this.cmbPrices.Size = new System.Drawing.Size(121, 21);
-            this.cmbPrices.TabIndex = 9;
+            this.btnSetPrice.Location = new System.Drawing.Point(314, 96);
+            this.btnSetPrice.Name = "btnSetPrice";
+            this.btnSetPrice.Size = new System.Drawing.Size(75, 23);
+            this.btnSetPrice.TabIndex = 10;
+            this.btnSetPrice.Text = "Установить цену";
+            this.btnSetPrice.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1509,6 +1520,7 @@
         private System.Windows.Forms.DateTimePicker dtpFrom;
         private System.Windows.Forms.ComboBox cbSearchItemStatus;
         private System.Windows.Forms.ComboBox cmbPrices;
+        private System.Windows.Forms.Button btnSetPrice;
     }
 }
 
