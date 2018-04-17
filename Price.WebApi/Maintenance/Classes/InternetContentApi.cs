@@ -46,6 +46,7 @@ namespace Price.WebApi.Maintenance.Classes
 
         /// <summary>
         /// 
+        /// 
         /// </summary>
         /// <param name="id"></param>
         /// <param name="price"></param>
