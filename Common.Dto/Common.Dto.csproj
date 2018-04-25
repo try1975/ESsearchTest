@@ -49,6 +49,7 @@
     <Compile Include="Md5Logstah.cs" />
     <Compile Include="Model\BasicContentDto.cs" />
     <Compile Include="Model\NewApi\ContentExtDto.cs" />
+    <Compile Include="Model\NewApi\ContentMoveDto.cs" />
     <Compile Include="Model\NewApi\InternetContentDto.cs" />
     <Compile Include="Model\NewApi\PacketDto.cs" />
     <Compile Include="Model\NewApi\SearchItemCondition.cs" />

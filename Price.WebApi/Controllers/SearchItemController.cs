@@ -75,6 +75,23 @@ namespace Price.WebApi.Controllers
             var result = ((ISearchItemApi)_api).SearchItemChecked(id);
             return result ? (IHttpActionResult)Ok() : NotFound();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dtos"></param>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="extId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ResponseType(typeof(SearchItemHeaderDto))]
+        [Route("api/SearchItem/Move", Name = nameof(PostContentItemsMove) + "Route")]
+        public IHttpActionResult PostContentItemsMove(IEnumerable<ContentMoveDto> dtos, [FromUri]string id, [FromUri]string name, [FromUri]string extId)
+        {
+            var result = ((ISearchItemApi)_api).MoveContents(dtos, id, name, extId);
+            return result!=null ? (IHttpActionResult)Ok(result) : NotFound();
+        }
     }
 }
 

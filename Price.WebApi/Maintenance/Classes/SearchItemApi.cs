@@ -251,5 +251,58 @@ namespace Price.WebApi.Maintenance.Classes
                         PriceVariants = z.prices
                     }).ToList();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dtos"></param>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="extId"></param>
+        /// <returns></returns>
+        public SearchItemHeaderDto MoveContents(IEnumerable<ContentMoveDto> dtos, string id, string name, string extId)
+        {
+            var entity = Query.GetEntity(id);
+            if (entity == null) return null;
+            if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(extId))
+            {
+                entity = Query.InsertEntity(new SearchItemEntity
+                {
+                    Id = Guid.NewGuid().ToString("N"),
+                    Name = string.IsNullOrEmpty(name) ? entity.Name : name,
+                    ExtId = string.IsNullOrEmpty(extId) ? entity.ExtId : extId,
+                    InternetSessionId = Guid.NewGuid().ToString("B"),
+                    JsonText = entity.JsonText,
+                    Normalizer = entity.Normalizer,
+                    Source = entity.Source,
+                    StartProcessed = entity.StartProcessed,
+                    LastUpdate = entity.LastUpdate,
+                    ProcessedAt = entity.ProcessedAt,
+                    Status = entity.Status
+                });
+            }
+            foreach (var moveDto in dtos)
+            {
+                if (!string.IsNullOrEmpty(moveDto.ElasticId))
+                {
+                    var contentEntity = _contentQuery.GetEntities().FirstOrDefault(z => z.Id == moveDto.Id);
+                    if (contentEntity == null) continue;
+                    contentEntity.SearchItemId = entity.Id;
+                    _contentQuery.UpdateEntity(contentEntity);
+                }
+                else
+                {
+                    var contentEntity = _internetContentQuery.GetEntities().FirstOrDefault(z => z.Id == moveDto.Id);
+                    if (contentEntity == null) continue;
+                    contentEntity.session_id = entity.InternetSessionId;
+                    _internetContentQuery.UpdateEntity(contentEntity);
+                }
+            }
+            var dto = Mapper.Map<SearchItemHeaderDto>(entity);
+            if (dto == null) return null;
+            dto.ContentCount += _contentQuery.GetEntities().Count(z => z.SearchItemId == entity.Id);
+            dto.ContentCount += _internetContentQuery.GetEntities().Count(z => z.session_id == entity.InternetSessionId);
+            return dto;
+        }
     }
 }

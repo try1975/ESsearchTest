@@ -82,21 +82,52 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormPacketText.cs">
+    <Compile Include="Forms\FormPacketText.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormPacketText.Designer.cs">
+    <Compile Include="Forms\FormPacketText.Designer.cs">
       <DependentUpon>FormPacketText.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormMoveSelected.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormMoveSelected.Designer.cs">
+      <DependentUpon>FormMoveSelected.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormSplit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormSplit.Designer.cs">
+      <DependentUpon>FormSplit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainForm.designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Common\IDataManager.cs" />
     <Compile Include="Model\ContentUseApi.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TagCloud\ComponentFactory.cs" />
+    <Compile Include="TagCloud\InfiniteProgressBarWrapper.cs" />
+    <Compile Include="TagCloud\InputType.cs" />
+    <Compile Include="TagCloud\ProgressBarWrapper.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormPacketText.resx">
+    <EmbeddedResource Include="Forms\FormPacketText.resx">
       <DependentUpon>FormPacketText.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMoveSelected.resx">
+      <DependentUpon>FormMoveSelected.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormSplit.resx">
+      <DependentUpon>FormSplit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -123,8 +154,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <Content Include="blacklist.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CloudControl\CloudControl.csproj">
+      <Project>{34649d7d-04a9-4092-ad0b-f7022c123fd7}</Project>
+      <Name>CloudControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common.Dto\Common.Dto.csproj">
       <Project>{ed2886fc-f692-44b5-9328-8013183a2402}</Project>
       <Name>Common.Dto</Name>

@@ -11,5 +11,7 @@ namespace Price.WebApi.Maintenance.Interfaces
         bool SearchItemBreak(string id);
         bool SearchItemChecked(string id);
         string BaseUrl { get; set; }
+
+        SearchItemHeaderDto MoveContents(IEnumerable<ContentMoveDto> dtos, string id, string name, string extId);
     }
 }

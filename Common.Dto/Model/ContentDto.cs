@@ -29,13 +29,13 @@ namespace Common.Dto.Model
 
 
         /// <summary>
-        ///     Цена позиции
+        ///     Цена позиции строка
         /// </summary>
         //[JsonIgnore]
         public string Price { get; set; }
 
         /// <summary>
-        ///     Цена позиции
+        ///     Цена позиции число
         /// </summary>
         public double Nprice
         {

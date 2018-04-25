@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using ADGV;
 using Common.Dto;
 using Common.Dto.Model;
 using Common.Dto.Model.NewApi;
@@ -16,6 +17,7 @@ using Common.Dto.Model.Packet;
 using Newtonsoft.Json;
 using PriceCommon.Enums;
 using Topol.UseApi.Data.Common;
+using Topol.UseApi.Forms;
 using Topol.UseApi.Interfaces.Common;
 using ContentDto = Common.Dto.Model.ContentDto;
 
@@ -27,14 +29,17 @@ namespace Topol.UseApi
         private readonly List<SearchItemHeaderDto> _listSearchItem = new List<SearchItemHeaderDto>();
         private DataTable _datatableSearchItem;
 
-
+        private bool _enableResultButtons;
         private bool EnableResultButtons
         {
+            get { return _enableResultButtons; }
             set
             {
+                _enableResultButtons = value;
                 btnSaveInternetResults.Enabled = value;
                 btnInvertSelected.Enabled = value;
                 btnDeleteSelected.Enabled = value;
+                btnMove.Enabled = value;
             }
         }
 
@@ -139,6 +144,9 @@ namespace Topol.UseApi
 
             panel21.Click += panel21_Click;
             pictureBox1.Click += panel21_Click;
+
+            btnMove.Click += btnMove_Click;
+            btnSplit.Click += btnSplit_Click;
         }
 
         private void panel21_Click(object sender, EventArgs e)
@@ -351,23 +359,23 @@ namespace Topol.UseApi
             column = dgv.Columns[nameof(ContentDto.Price)];
             if (column != null)
             {
+                column.Visible = false;
+                //column.HeaderText = @"Цена";
+                //column.ReadOnly = true;
+                //column.DisplayIndex = 4;
+                //column.DefaultCellStyle.Format = "N2";
+                //column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            }
+            column = dgv.Columns[nameof(ContentDto.Nprice)];
+            if (column != null)
+            {
                 column.Visible = true;
                 column.HeaderText = @"Цена";
                 column.ReadOnly = true;
                 column.DisplayIndex = 4;
-                //column.DefaultCellStyle.Format = "N2";
-                //column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                column.DefaultCellStyle.Format = "N2";
+                column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
             }
-            //column = dgv.Columns[nameof(ContentDto.Nprice)];
-            //if (column != null)
-            //{
-            //    column.Visible = true;
-            //    column.HeaderText = @"Цена";
-            //    column.ReadOnly = true;
-            //    column.DisplayIndex = 4;
-            //    column.DefaultCellStyle.Format = "N2";
-            //    column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-            //}
             column = dgv.Columns[$"{nameof(ContentDto.PriceVariant)}2"];
             if (column != null)
             {
@@ -411,6 +419,85 @@ namespace Topol.UseApi
 
         #region Event handlers
 
+        private void btnSplit_Click(object sender, EventArgs e)
+        {
+            SplitResults();
+        }
+
+        private async void SplitResults()
+        {
+            var current = (DataRowView)SearchItemsBindingSource.Current;
+            if (current == null) return;
+            var id = current.Row[nameof(SearchItemHeaderDto.Id)] as string;
+            var name = current.Row[nameof(SearchItemHeaderDto.Name)] as string;
+            var extId = current.Row[nameof(SearchItemHeaderDto.ExtId)] as string;
+
+            var dataTable = (DataTable)ContentItemsBindingSource.DataSource;
+            //var names = dataTable.AsEnumerable()
+            //    .Select(s => s.Field<string>(nameof(ContentExtDto.Name)))
+            //        .Aggregate((cur, next) => cur + "\r\n" + next);
+            //    //.ToList();
+            ////listName.Aggregate((cur, next) => cur + "," + next);
+            var frm = new FormSplit
+            {
+                textBox =
+                {
+                    Text = dataTable.AsEnumerable()
+                        .Select(s => s.Field<string>(nameof(ContentExtDto.Name)))
+                        .Aggregate((cur, next) => cur + "\r\n" + next)
+                }
+            };
+            frm.ShowDialog();
+        }
+
+        private void btnMove_Click(object sender, EventArgs e)
+        {
+            MoveResults();
+        }
+        private async void MoveResults()
+        {
+            var current = (DataRowView)SearchItemsBindingSource.Current;
+            if (current == null) return;
+            var id = current.Row[nameof(SearchItemHeaderDto.Id)] as string;
+            var name = current.Row[nameof(SearchItemHeaderDto.Name)] as string;
+            var extId = current.Row[nameof(SearchItemHeaderDto.ExtId)] as string;
+           
+            var list = new List<ContentMoveDto>();
+            var selectedCount = 0;
+            var dgv = dgvContentItems;
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                if (!(bool)row.Cells[nameof(ContentExtDto.Selected)].Value) continue;
+                //var value = (int)row.Cells[nameof(ContentDto.PriceType)].Value;
+                //if (value != (int)PriceType.Check) continue;
+                selectedCount++;
+                list.Add(new ContentMoveDto
+                {
+                    Id = (int)row.Cells[nameof(ContentExtDto.Id)].Value,
+                    ElasticId = row.Cells[nameof(ContentExtDto.ElasticId)].Value.ToString()
+                });
+            }
+            if (selectedCount <= 0) return;
+            var frm = new FormMoveSelected
+            {
+                tbName = {Text = name},
+                tbExtId = {Text = extId}
+            };
+            if (frm.ShowDialog() != DialogResult.OK) return;
+            if (frm.rbNew.Checked)
+            {
+                name = frm.tbName.Text;
+                extId = frm.tbExtId.Text;
+            }
+            if (frm.rbExist.Checked)
+            {
+                id = frm.tbId.Text;
+                name = "";
+                extId = "";
+            }
+            await _dataManager.MoveResults(list, id, name, extId);
+        }
+
         private void btnSaveInternetResults_Click(object sender, EventArgs e)
         {
             SaveInternetResults(dgvContentItems);
@@ -418,6 +505,8 @@ namespace Topol.UseApi
 
         private async void SaveInternetResults(DataGridView dgv)
         {
+            //ContentItemsBindingSource.Filter = $"{nameof(ContentDto.Name)} LIKE '%гранит%' AND {nameof(ContentDto.Name)} LIKE '%фрак%'";
+            //return;
             var list = new List<BasicContentDto>();
             var selectedCount = 0;
             foreach (DataGridViewRow row in dgv.Rows)
@@ -518,7 +607,7 @@ namespace Topol.UseApi
             if (current == null) return;
             const string idColumnName = nameof(SearchItemHeaderDto.Id);
             var id = current.Row[idColumnName] as string;
-            var dataTable = (DataTable) SearchItemsBindingSource.DataSource;
+            var dataTable = (DataTable)SearchItemsBindingSource.DataSource;
             var dataRow = dataTable.Select($"{idColumnName}='{id}'").FirstOrDefault();
             if (dataRow == null || !await _dataManager.PostSearchItemChecked(id)) return;
             dataRow.SetField(nameof(SearchItemHeaderDto.Status), TaskStatus.Checked);
@@ -567,14 +656,14 @@ namespace Topol.UseApi
             var sb = new StringBuilder();
             foreach (var c in str)
             {
-                if(c == '.' || c == ',' || char.IsDigit(c)) sb.Append(c); else break;
+                if (c == '.' || c == ',' || char.IsDigit(c)) sb.Append(c); else break;
             }
             return sb.ToString().Replace(',', '.');
         }
 
         private void btnSetPrice_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(cmbPrices.Text)) return;
+            if (string.IsNullOrEmpty(cmbPrices.Text)) return;
             var price = ExtractPriceFromPrices(cmbPrices.Text);
             if (string.IsNullOrEmpty(price)) return;
             SetPrice(price);
@@ -609,7 +698,6 @@ namespace Topol.UseApi
 
         private void dgvContentItems_FilterStringChanged(object sender, EventArgs e)
         {
-
             ContentItemsBindingSource.Filter = dgvContentItems.FilterString;
             ContentGridColumnSettings(dgvContentItems);
         }
@@ -942,7 +1030,10 @@ namespace Topol.UseApi
                 }
                 var current = (DataRowView)SearchItemsBindingSource.Current;
                 var key = current.Row[nameof(SearchItemHeaderDto.Id)] as string;
-                EnableResultButtons = (int)current.Row[nameof(SearchItemDto.Status)] == (int)TaskStatus.Ok && ((string)current.Row[nameof(SearchItemDto.Source)]).Contains("internet");
+                //EnableResultButtons = (int)current.Row[nameof(SearchItemDto.Status)] == (int)TaskStatus.Ok && ((string)current.Row[nameof(SearchItemDto.Source)]).Contains("internet");
+                EnableResultButtons = (int)current.Row[nameof(SearchItemDto.Status)] == (int)TaskStatus.Ok;
+                EnableResultButtons = EnableResultButtons || (int)current.Row[nameof(SearchItemDto.Status)] == (int)TaskStatus.Break;
+                EnableResultButtons = EnableResultButtons || (int)current.Row[nameof(SearchItemDto.Status)] == (int)TaskStatus.BreakByTimeout;
                 //var contentItems = _listSearchItem.FirstOrDefault(z => z.Key.Equals(key))?.Content ?? new List<ContentDto>();
                 var contentItems = await _dataManager.GetSearchItemContent(key);
                 var dataTable = ConvertToDataTable(contentItems);
@@ -987,7 +1078,7 @@ namespace Topol.UseApi
                 cmbPrices.Text = "";
                 if (!string.IsNullOrEmpty(priceVariants))
                 {
-                    var items = priceVariants.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+                    var items = priceVariants.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                     cmbPrices.Items.AddRange(items);
                     cmbPrices.SelectedIndex = 0;
                 }

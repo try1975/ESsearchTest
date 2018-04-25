@@ -22,6 +22,7 @@ namespace Topol.UseApi.Data.Common
         private readonly string _endpointInternet;
         private readonly string _endpointContentItem;
         private readonly string _endpointSearchItem;
+        private readonly string _endpointMove;
         private readonly HttpClient _apiHttpClient;
 
         public DataMаnager()
@@ -40,6 +41,7 @@ namespace Topol.UseApi.Data.Common
             _endpointInternet = $"{baseApi}api/internet/";
             _endpointContentItem = $"{baseApi}api/contentitem/";
             _endpointSearchItem = $"{baseApi}api/searchitem/";
+            _endpointMove = $"{baseApi}api/searchitem/move/";
 
             #endregion
 
@@ -163,6 +165,16 @@ namespace Topol.UseApi.Data.Common
             {
                 if (!response.IsSuccessStatusCode) return;
                 await response.Content.ReadAsAsync<SearchPacketTaskDto>();
+            }
+        }
+
+        public async Task<SearchItemHeaderDto> MoveResults(List<ContentMoveDto> list, string id, string name, string extId)
+        {
+            using (var response = await _apiHttpClient.PostAsJsonAsync($"{_endpointMove}?{nameof(id)}={id}&{nameof(name)}={name}&{nameof(extId)}={extId}", list))
+            {
+                if (!response.IsSuccessStatusCode) return null;
+                var result = await response.Content.ReadAsAsync<SearchItemHeaderDto>();
+                return result;
             }
         }
     }

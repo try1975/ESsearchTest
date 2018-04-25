@@ -9,8 +9,6 @@ namespace Topol.UseApi.Interfaces.Common
 {
     public interface IDataMаnager
     {
-        #region SearchPacket
-
         Task<List<SearchItemHeaderDto>> PostPacketAsync(List<SearchItemParam> searchItemsParam, string source = "", string keywords = "");
         Task<List<SearchItemHeaderDto>> GetByConditionAsync(SearchItemCondition searchItemCondition);
         Task<SearchItemHeaderDto> GetSearchItemStatus(string id);
@@ -25,9 +23,6 @@ namespace Topol.UseApi.Interfaces.Common
         Task<IEnumerable<Okpd2Reverse>> GetOkpd2Reverse(string text);
         Task Post2InternetIndex(IEnumerable<BasicContentDto> list);
 
-        #endregion //SearchPacket
-
-
-        
+        Task<SearchItemHeaderDto> MoveResults(List<ContentMoveDto> list, string id, string name, string extId);
     }
 }

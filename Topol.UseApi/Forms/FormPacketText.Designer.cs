@@ -1,4 +1,4 @@
-﻿namespace Topol.UseApi
+﻿namespace Topol.UseApi.Forms
 {
     partial class FormPacketText
     {
@@ -98,6 +98,7 @@
             this.ClientSize = new System.Drawing.Size(677, 458);
             this.Controls.Add(this.gbPacketText);
             this.Controls.Add(this.panel1);
+            this.KeyPreview = true;
             this.Name = "FormPacketText";
             this.Text = "Текст пакета";
             this.gbPacketText.ResumeLayout(false);

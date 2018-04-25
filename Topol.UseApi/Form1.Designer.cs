@@ -119,6 +119,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.linkLabelScreenshot = new System.Windows.Forms.LinkLabel();
             this.panel20 = new System.Windows.Forms.Panel();
+            this.btnSetPrice = new System.Windows.Forms.Button();
             this.cmbPrices = new System.Windows.Forms.ComboBox();
             this.linkLabelUrl = new System.Windows.Forms.LinkLabel();
             this.label15 = new System.Windows.Forms.Label();
@@ -142,7 +143,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.btnSetPrice = new System.Windows.Forms.Button();
+            this.btnMove = new System.Windows.Forms.Button();
+            this.btnSplit = new System.Windows.Forms.Button();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -457,6 +459,8 @@
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.btnSplit);
+            this.panel4.Controls.Add(this.btnMove);
             this.panel4.Controls.Add(this.btnDeleteSelected);
             this.panel4.Controls.Add(this.btnInvertSelected);
             this.panel4.Controls.Add(this.btnSaveInternetResults);
@@ -465,34 +469,35 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(807, 42);
             this.panel4.TabIndex = 3;
-            this.panel4.Visible = false;
             // 
             // btnDeleteSelected
             // 
-            this.btnDeleteSelected.Location = new System.Drawing.Point(477, 13);
+            this.btnDeleteSelected.Location = new System.Drawing.Point(638, 13);
             this.btnDeleteSelected.Name = "btnDeleteSelected";
-            this.btnDeleteSelected.Size = new System.Drawing.Size(157, 23);
+            this.btnDeleteSelected.Size = new System.Drawing.Size(64, 23);
             this.btnDeleteSelected.TabIndex = 2;
             this.btnDeleteSelected.Text = "Удалить отмеченные";
             this.btnDeleteSelected.UseVisualStyleBackColor = true;
+            this.btnDeleteSelected.Visible = false;
             // 
             // btnInvertSelected
             // 
-            this.btnInvertSelected.Location = new System.Drawing.Point(291, 13);
+            this.btnInvertSelected.Location = new System.Drawing.Point(4, 13);
             this.btnInvertSelected.Name = "btnInvertSelected";
-            this.btnInvertSelected.Size = new System.Drawing.Size(180, 23);
+            this.btnInvertSelected.Size = new System.Drawing.Size(141, 23);
             this.btnInvertSelected.TabIndex = 1;
             this.btnInvertSelected.Text = "Инвертировать отметку";
             this.btnInvertSelected.UseVisualStyleBackColor = true;
             // 
             // btnSaveInternetResults
             // 
-            this.btnSaveInternetResults.Location = new System.Drawing.Point(16, 13);
+            this.btnSaveInternetResults.Location = new System.Drawing.Point(708, 13);
             this.btnSaveInternetResults.Name = "btnSaveInternetResults";
-            this.btnSaveInternetResults.Size = new System.Drawing.Size(269, 23);
+            this.btnSaveInternetResults.Size = new System.Drawing.Size(83, 23);
             this.btnSaveInternetResults.TabIndex = 0;
             this.btnSaveInternetResults.Text = "Запомнить отмеченные цены как доверенные";
             this.btnSaveInternetResults.UseVisualStyleBackColor = true;
+            this.btnSaveInternetResults.Visible = false;
             // 
             // panel2
             // 
@@ -1110,6 +1115,15 @@
             this.panel20.Size = new System.Drawing.Size(400, 133);
             this.panel20.TabIndex = 5;
             // 
+            // btnSetPrice
+            // 
+            this.btnSetPrice.Location = new System.Drawing.Point(314, 96);
+            this.btnSetPrice.Name = "btnSetPrice";
+            this.btnSetPrice.Size = new System.Drawing.Size(75, 23);
+            this.btnSetPrice.TabIndex = 10;
+            this.btnSetPrice.Text = "Установить цену";
+            this.btnSetPrice.UseVisualStyleBackColor = true;
+            // 
             // cmbPrices
             // 
             this.cmbPrices.FormattingEnabled = true;
@@ -1328,14 +1342,23 @@
             this.linkLabel1.Text = "Описание API: http://144.76.54.166:52620/help";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // btnSetPrice
+            // btnMove
             // 
-            this.btnSetPrice.Location = new System.Drawing.Point(314, 96);
-            this.btnSetPrice.Name = "btnSetPrice";
-            this.btnSetPrice.Size = new System.Drawing.Size(75, 23);
-            this.btnSetPrice.TabIndex = 10;
-            this.btnSetPrice.Text = "Установить цену";
-            this.btnSetPrice.UseVisualStyleBackColor = true;
+            this.btnMove.Location = new System.Drawing.Point(151, 13);
+            this.btnMove.Name = "btnMove";
+            this.btnMove.Size = new System.Drawing.Size(144, 23);
+            this.btnMove.TabIndex = 3;
+            this.btnMove.Text = "Перенести отмеченные";
+            this.btnMove.UseVisualStyleBackColor = true;
+            // 
+            // btnSplit
+            // 
+            this.btnSplit.Location = new System.Drawing.Point(301, 13);
+            this.btnSplit.Name = "btnSplit";
+            this.btnSplit.Size = new System.Drawing.Size(76, 23);
+            this.btnSplit.TabIndex = 4;
+            this.btnSplit.Text = "Разделить";
+            this.btnSplit.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1521,6 +1544,8 @@
         private System.Windows.Forms.ComboBox cbSearchItemStatus;
         private System.Windows.Forms.ComboBox cmbPrices;
         private System.Windows.Forms.Button btnSetPrice;
+        private System.Windows.Forms.Button btnMove;
+        private System.Windows.Forms.Button btnSplit;
     }
 }
 

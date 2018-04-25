@@ -56,5 +56,29 @@ namespace Common.Dto.Model.NewApi
         ///     Варианты цен
         /// </summary>
         public string PriceVariants { get; set; }
+
+        [JsonIgnore]
+        public bool Selected { get; set; }
+
+
+        /// <summary>
+        ///     Цена позиции число
+        /// </summary>
+        [JsonIgnore]
+        public double Nprice
+        {
+            get
+            {
+                try
+                {
+                    return Convert.ToDouble(Price);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+                return 0.00;
+            }
+        }
     }
 }
