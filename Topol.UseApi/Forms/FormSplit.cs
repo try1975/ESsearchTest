@@ -1,21 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ControlDemoApp;
 using Gma.CodeCloud.Controls.Geometry;
 using Gma.CodeCloud.Controls.TextAnalyses.Blacklist;
-using Gma.CodeCloud.Controls.TextAnalyses.Blacklist.En;
-using Gma.CodeCloud.Controls.TextAnalyses.Extractors;
 using Gma.CodeCloud.Controls.TextAnalyses.Processing;
-using Gma.CodeCloud.Controls.TextAnalyses.Stemmers;
 
 namespace Topol.UseApi.Forms
 {
@@ -27,7 +17,7 @@ namespace Topol.UseApi.Forms
         }
         private const string s_BlacklistTxtFileName = "blacklist.txt";
 
-        private void ButtonGoClick(object sender, EventArgs e)
+        public void ButtonGoClick(object sender, EventArgs e)
         {
             IsRunning = true;
             ProcessText();
@@ -47,7 +37,8 @@ namespace Topol.UseApi.Forms
             var words = terms
                 .Filter(blacklist)
                 .Filter(customBlacklist)
-                .CountOccurences();
+                .CountOccurences()
+                .ToList();
 
             cloudControl.WeightedWords =
                 words

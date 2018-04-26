@@ -29,34 +29,112 @@
         private void InitializeComponent()
         {
             this.gbPacketText = new System.Windows.Forms.GroupBox();
-            this.textBox = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.cloudControl = new Gma.CodeCloud.Controls.CloudControl();
             this.panel3 = new System.Windows.Forms.Panel();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.buttonGo = new System.Windows.Forms.Button();
+            this.textBox = new System.Windows.Forms.TextBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.gbPacketText.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbPacketText
             // 
-            this.gbPacketText.Controls.Add(this.panel2);
             this.gbPacketText.Controls.Add(this.panel3);
             this.gbPacketText.Controls.Add(this.textBox);
-            this.gbPacketText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbPacketText.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbPacketText.Location = new System.Drawing.Point(0, 0);
             this.gbPacketText.Name = "gbPacketText";
             this.gbPacketText.Size = new System.Drawing.Size(728, 373);
             this.gbPacketText.TabIndex = 8;
             this.gbPacketText.TabStop = false;
             this.gbPacketText.Text = "Пакет ТРУ";
+            this.gbPacketText.Visible = false;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.cloudControl);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 373);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(728, 0);
+            this.panel2.TabIndex = 2;
+            // 
+            // cloudControl
+            // 
+            this.cloudControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.cloudControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cloudControl.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cloudControl.LayoutType = Gma.CodeCloud.Controls.LayoutType.Spiral;
+            this.cloudControl.Location = new System.Drawing.Point(0, 0);
+            this.cloudControl.MaxFontSize = 50;
+            this.cloudControl.MinFontSize = 10;
+            this.cloudControl.Name = "cloudControl";
+            this.cloudControl.Palette = new System.Drawing.Color[] {
+        System.Drawing.Color.DarkRed,
+        System.Drawing.Color.DarkBlue,
+        System.Drawing.Color.DarkGreen,
+        System.Drawing.Color.Navy,
+        System.Drawing.Color.DarkCyan,
+        System.Drawing.Color.DarkOrange,
+        System.Drawing.Color.DarkGoldenrod,
+        System.Drawing.Color.DarkKhaki,
+        System.Drawing.Color.Blue,
+        System.Drawing.Color.Red,
+        System.Drawing.Color.Green};
+            this.cloudControl.Size = new System.Drawing.Size(728, 0);
+            this.cloudControl.TabIndex = 7;
+            this.cloudControl.WeightedWords = null;
+            this.cloudControl.Click += new System.EventHandler(this.CloudControlClick);
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.buttonCancel);
+            this.panel3.Controls.Add(this.progressBar);
+            this.panel3.Controls.Add(this.buttonGo);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Location = new System.Drawing.Point(3, 147);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(722, 45);
+            this.panel3.TabIndex = 3;
+            this.panel3.Visible = false;
+            // 
+            // buttonCancel
+            // 
+            this.buttonCancel.Enabled = false;
+            this.buttonCancel.Location = new System.Drawing.Point(92, 11);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.TabIndex = 11;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.CancelClick);
+            // 
+            // progressBar
+            // 
+            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar.Location = new System.Drawing.Point(173, 11);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(539, 23);
+            this.progressBar.TabIndex = 10;
+            // 
+            // buttonGo
+            // 
+            this.buttonGo.Location = new System.Drawing.Point(11, 11);
+            this.buttonGo.Name = "buttonGo";
+            this.buttonGo.Size = new System.Drawing.Size(75, 23);
+            this.buttonGo.TabIndex = 9;
+            this.buttonGo.Text = "Go";
+            this.buttonGo.UseVisualStyleBackColor = true;
+            this.buttonGo.Click += new System.EventHandler(this.ButtonGoClick);
             // 
             // textBox
             // 
@@ -91,6 +169,7 @@
             // 
             // button1
             // 
+            this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.button1.Location = new System.Drawing.Point(42, 7);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(81, 23);
@@ -98,97 +177,25 @@
             this.button1.Text = "Подтвердить";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.cloudControl);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(3, 192);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(722, 178);
-            this.panel2.TabIndex = 2;
-            // 
-            // cloudControl
-            // 
-            this.cloudControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.cloudControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cloudControl.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cloudControl.LayoutType = Gma.CodeCloud.Controls.LayoutType.Spiral;
-            this.cloudControl.Location = new System.Drawing.Point(0, 0);
-            this.cloudControl.MaxFontSize = 50;
-            this.cloudControl.MinFontSize = 10;
-            this.cloudControl.Name = "cloudControl";
-            this.cloudControl.Palette = new System.Drawing.Color[] {
-        System.Drawing.Color.DarkRed,
-        System.Drawing.Color.DarkBlue,
-        System.Drawing.Color.DarkGreen,
-        System.Drawing.Color.Navy,
-        System.Drawing.Color.DarkCyan,
-        System.Drawing.Color.DarkOrange,
-        System.Drawing.Color.DarkGoldenrod,
-        System.Drawing.Color.DarkKhaki,
-        System.Drawing.Color.Blue,
-        System.Drawing.Color.Red,
-        System.Drawing.Color.Green};
-            this.cloudControl.Size = new System.Drawing.Size(722, 178);
-            this.cloudControl.TabIndex = 7;
-            this.cloudControl.WeightedWords = null;
-            this.cloudControl.Click += new System.EventHandler(this.CloudControlClick);
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.buttonCancel);
-            this.panel3.Controls.Add(this.progressBar);
-            this.panel3.Controls.Add(this.buttonGo);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(3, 147);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(722, 45);
-            this.panel3.TabIndex = 3;
-            // 
-            // buttonCancel
-            // 
-            this.buttonCancel.Enabled = false;
-            this.buttonCancel.Location = new System.Drawing.Point(92, 11);
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 11;
-            this.buttonCancel.Text = "Cancel";
-            this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.CancelClick);
-            // 
-            // progressBar
-            // 
-            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(173, 11);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(539, 23);
-            this.progressBar.TabIndex = 10;
-            // 
-            // buttonGo
-            // 
-            this.buttonGo.Location = new System.Drawing.Point(11, 11);
-            this.buttonGo.Name = "buttonGo";
-            this.buttonGo.Size = new System.Drawing.Size(75, 23);
-            this.buttonGo.TabIndex = 9;
-            this.buttonGo.Text = "Go";
-            this.buttonGo.UseVisualStyleBackColor = true;
-            this.buttonGo.Click += new System.EventHandler(this.ButtonGoClick);
-            // 
             // FormSplit
             // 
+            this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.button2;
             this.ClientSize = new System.Drawing.Size(728, 415);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.gbPacketText);
             this.Controls.Add(this.panel1);
+            this.KeyPreview = true;
             this.Name = "FormSplit";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormSplit";
             this.gbPacketText.ResumeLayout(false);
             this.gbPacketText.PerformLayout();
-            this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

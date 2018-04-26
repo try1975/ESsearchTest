@@ -236,20 +236,45 @@ namespace Price.WebApi.Maintenance.Classes
 
         private List<ContentExtDto> GetInternetContentCollection(SearchItemEntity entity)
         {
-            return _internetContentQuery.GetEntities().Where(z => z.session_id == entity.InternetSessionId).ToList()
-                    .Select(z => new ContentExtDto()
-                    {
-                        Id = z.Id,
-                        Name = z.preview,
-                        Price = z.price.ToString(),
-                        Uri = z.url,
-                        SearchItemId = entity.Id,
-                        CollectedAt = (long)z.dt.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
-                        PriceType = PriceType.Check,
-                        Screenshot = string.IsNullOrEmpty(z.contact_url) ? null : $"{_getUrl}{z.contact_url}",
-                        PriceStatus = z.PriceStatus,
-                        PriceVariants = z.prices
-                    }).ToList();
+            // not take screenshot big blob
+            var list = _internetContentQuery.GetEntities().Where(x => x.session_id == entity.InternetSessionId)
+             .Select(z => new
+             {
+                 z.Id,
+                 z.spgz_Id,
+                 z.dt,
+                 z.price,
+                 z.url,
+                 z.src_id,
+                 z.contact_url,
+                 z.task_id,
+                 z.session_id,
+                 z.preview,
+                 z.selected,
+                 z.currency,
+                 z.opt,
+                 z.referer,
+                 z.prices,
+                 /*z.unit_price,
+                 z.unit,
+                 z.weight,
+                 z.rate,*/
+                 z.PriceStatus
+             })
+             .ToList();
+             return list.Select(z => new ContentExtDto()
+             {
+                 Id = z.Id,
+                 Name = z.preview,
+                 Price = z.price.ToString(),
+                 Uri = z.url,
+                 SearchItemId = entity.Id,
+                 CollectedAt = (long)z.dt.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
+                 PriceType = PriceType.Check,
+                 Screenshot = string.IsNullOrEmpty(z.contact_url) ? null : $"{_getUrl}{z.contact_url}",
+                 PriceStatus = z.PriceStatus,
+                 PriceVariants = z.prices
+             }).ToList();
         }
 
         /// <summary>

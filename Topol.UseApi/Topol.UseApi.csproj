@@ -100,12 +100,6 @@
     <Compile Include="Forms\FormSplit.Designer.cs">
       <DependentUpon>FormSplit.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\MainForm.designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Interfaces\Common\IDataManager.cs" />
     <Compile Include="Model\ContentUseApi.cs" />
     <Compile Include="Program.cs" />
@@ -125,9 +119,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormSplit.resx">
       <DependentUpon>FormSplit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

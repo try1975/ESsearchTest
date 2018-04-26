@@ -447,6 +447,7 @@ namespace Topol.UseApi
                         .Aggregate((cur, next) => cur + "\r\n" + next)
                 }
             };
+            frm.ButtonGoClick(null, null);
             frm.ShowDialog();
         }
 
@@ -461,7 +462,7 @@ namespace Topol.UseApi
             var id = current.Row[nameof(SearchItemHeaderDto.Id)] as string;
             var name = current.Row[nameof(SearchItemHeaderDto.Name)] as string;
             var extId = current.Row[nameof(SearchItemHeaderDto.ExtId)] as string;
-           
+
             var list = new List<ContentMoveDto>();
             var selectedCount = 0;
             var dgv = dgvContentItems;
@@ -480,8 +481,8 @@ namespace Topol.UseApi
             if (selectedCount <= 0) return;
             var frm = new FormMoveSelected
             {
-                tbName = {Text = name},
-                tbExtId = {Text = extId}
+                tbName = { Text = name },
+                tbExtId = { Text = extId }
             };
             if (frm.ShowDialog() != DialogResult.OK) return;
             if (frm.rbNew.Checked)
