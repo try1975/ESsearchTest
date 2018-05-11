@@ -238,7 +238,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Jobs\CheckInternetSearchJob.cs" />
-    <Compile Include="Jobs\DeleteDefaultEsIndexOldRecordsScheduler.cs" />
+    <Compile Include="Jobs\DeleteEsOldJob.cs" />
     <Compile Include="Jobs\TopolScheduler.cs" />
     <Compile Include="Jobs\ScreenshotContentJob.cs" />
     <Compile Include="Jobs\ScreenshotInternetContentJob.cs" />
