@@ -52,8 +52,16 @@
       <HintPath>..\packages\ADGV.0.1.0.10\lib\net40\AdvancedDataGridView.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -74,6 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Administration\CurrentUser.cs" />
     <Compile Include="Data\Common\DataMаnager.cs" />
     <Compile Include="Data\Common\LoggingHandler.cs" />
     <Compile Include="Form1.cs">
@@ -81,6 +90,12 @@
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AuthenticationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AuthenticationForm.designer.cs">
+      <DependentUpon>AuthenticationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FormPacketText.cs">
       <SubType>Form</SubType>
@@ -102,6 +117,8 @@
     </Compile>
     <Compile Include="Interfaces\Common\IDataManager.cs" />
     <Compile Include="Model\ContentUseApi.cs" />
+    <Compile Include="Ninject\ApplicationModule.cs" />
+    <Compile Include="Ninject\CompositionRoot.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TagCloud\ComponentFactory.cs" />
@@ -110,6 +127,9 @@
     <Compile Include="TagCloud\ProgressBarWrapper.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AuthenticationForm.resx">
+      <DependentUpon>AuthenticationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormPacketText.resx">
       <DependentUpon>FormPacketText.cs</DependentUpon>
@@ -129,6 +149,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="App.AppSettings.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

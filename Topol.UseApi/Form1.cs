@@ -19,6 +19,7 @@ using PriceCommon.Enums;
 using Topol.UseApi.Data.Common;
 using Topol.UseApi.Forms;
 using Topol.UseApi.Interfaces.Common;
+using Topol.UseApi.Properties;
 using ContentDto = Common.Dto.Model.ContentDto;
 
 namespace Topol.UseApi
@@ -1120,6 +1121,12 @@ namespace Topol.UseApi
         {
             return;
             ((DataGridView)sender).CommitEdit(DataGridViewDataErrorContexts.Commit);
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Settings.Default.Save();
+            Application.Exit();
         }
     }
 }

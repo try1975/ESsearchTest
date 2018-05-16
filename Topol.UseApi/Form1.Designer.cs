@@ -57,6 +57,8 @@
             this.gbContentItems = new System.Windows.Forms.GroupBox();
             this.dgvContentItems = new ADGV.AdvancedDataGridView();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btnSplit = new System.Windows.Forms.Button();
+            this.btnMove = new System.Windows.Forms.Button();
             this.btnDeleteSelected = new System.Windows.Forms.Button();
             this.btnInvertSelected = new System.Windows.Forms.Button();
             this.btnSaveInternetResults = new System.Windows.Forms.Button();
@@ -143,8 +145,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.btnMove = new System.Windows.Forms.Button();
-            this.btnSplit = new System.Windows.Forms.Button();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -469,6 +469,24 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(807, 42);
             this.panel4.TabIndex = 3;
+            // 
+            // btnSplit
+            // 
+            this.btnSplit.Location = new System.Drawing.Point(301, 13);
+            this.btnSplit.Name = "btnSplit";
+            this.btnSplit.Size = new System.Drawing.Size(76, 23);
+            this.btnSplit.TabIndex = 4;
+            this.btnSplit.Text = "Разделить";
+            this.btnSplit.UseVisualStyleBackColor = true;
+            // 
+            // btnMove
+            // 
+            this.btnMove.Location = new System.Drawing.Point(151, 13);
+            this.btnMove.Name = "btnMove";
+            this.btnMove.Size = new System.Drawing.Size(144, 23);
+            this.btnMove.TabIndex = 3;
+            this.btnMove.Text = "Перенести отмеченные";
+            this.btnMove.UseVisualStyleBackColor = true;
             // 
             // btnDeleteSelected
             // 
@@ -1342,24 +1360,6 @@
             this.linkLabel1.Text = "Описание API: http://144.76.54.166:52620/help";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // btnMove
-            // 
-            this.btnMove.Location = new System.Drawing.Point(151, 13);
-            this.btnMove.Name = "btnMove";
-            this.btnMove.Size = new System.Drawing.Size(144, 23);
-            this.btnMove.TabIndex = 3;
-            this.btnMove.Text = "Перенести отмеченные";
-            this.btnMove.UseVisualStyleBackColor = true;
-            // 
-            // btnSplit
-            // 
-            this.btnSplit.Location = new System.Drawing.Point(301, 13);
-            this.btnSplit.Name = "btnSplit";
-            this.btnSplit.Size = new System.Drawing.Size(76, 23);
-            this.btnSplit.TabIndex = 4;
-            this.btnSplit.Text = "Разделить";
-            this.btnSplit.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1369,6 +1369,7 @@
             this.Name = "Form1";
             this.Text = "Система поиска и анализа ценовой  информации \"Тополь\": рабочее место оператора";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.pnlPacket.ResumeLayout(false);
             this.pnlCallPacket.ResumeLayout(false);
             this.pnlLoadPacket.ResumeLayout(false);
