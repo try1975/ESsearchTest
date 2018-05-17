@@ -3,10 +3,12 @@ using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Common.Dto;
 using Common.Dto.Model;
 using Common.Dto.Model.NewApi;
 using Common.Dto.Model.Packet;
 using PriceCommon.Model;
+using Topol.UseApi.Administration;
 using Topol.UseApi.Interfaces.Common;
 
 namespace Topol.UseApi.Data.Common
@@ -48,7 +50,9 @@ namespace Topol.UseApi.Data.Common
             _apiHttpClient = new HttpClient(new LoggingHandler());
             _apiHttpClient.DefaultRequestHeaders.Accept.Clear();
             _apiHttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            _apiHttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(token);
+            _apiHttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"{token}");
+            //_apiHttpClient.DefaultRequestHeaders.ProxyAuthorization = new AuthenticationHeaderValue($"{CurrentUser.Login}");
+            _apiHttpClient.DefaultRequestHeaders.Add(CustomHeaders.UserName, $"{CurrentUser.Login}");
         }
 
         public async Task<List<SearchItemHeaderDto>> PostPacketAsync(List<SearchItemParam> searchItemsParam, string source = "", string keywords="")

@@ -4,6 +4,7 @@ using Price.WebApi.Maintenance.Interfaces;
 
 namespace Price.WebApi.Controllers
 {
+    [Authorize]
     public class ContentItemController : ApiController
     {
         private IContentApi _contentApi;

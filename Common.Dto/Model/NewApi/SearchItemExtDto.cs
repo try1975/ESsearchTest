@@ -39,6 +39,8 @@ namespace Common.Dto.Model.NewApi
         //}
         public List<ContentExtDto> Contents { get; set; }
 
+        public string UserName { get; set; }
+
         public void BeginProcess(long tick)
         {
             StartProcessed = tick;

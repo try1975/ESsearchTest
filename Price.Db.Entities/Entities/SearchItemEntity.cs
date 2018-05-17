@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using PriceCommon.Enums;
+﻿using PriceCommon.Enums;
 
 namespace Price.Db.Entities.Entities
 {
@@ -22,5 +21,6 @@ namespace Price.Db.Entities.Entities
 
         public string Normalizer { get; set; }
         public string JsonText { get; set; }
+        public string UserName { get; set; }
     }
 }

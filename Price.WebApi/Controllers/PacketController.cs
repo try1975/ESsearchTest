@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
@@ -22,6 +23,7 @@ namespace Price.WebApi.Controllers
     /// <summary>
     /// 
     /// </summary>
+    [Authorize]
     [RoutePrefix("api/packet")]
     public class PacketController : ApiController
     {
@@ -61,7 +63,9 @@ namespace Price.WebApi.Controllers
 
             #endregion
 
-           
+            var userName = "";
+            if (RequestContext.Principal.Identity.IsAuthenticated) userName = RequestContext.Principal.Identity.Name;
+
             string internet;
             internet = $"{nameof(internet)}";
 
@@ -85,7 +89,8 @@ namespace Price.WebApi.Controllers
                         Name = searchItem.Name,
                         ExtId = searchItem.Id,
                         JsonText = json,
-                        Normalizer = searchItem.Norm
+                        Normalizer = searchItem.Norm,
+                        UserName = userName
                     };
                     dto.BeginProcess(Utils.GetUtcNow());
                     if (searchInInternet) dto.InternetSessionId = GetInternetSessionId(json);

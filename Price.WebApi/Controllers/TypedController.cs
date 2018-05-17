@@ -6,6 +6,7 @@ using Price.WebApi.Maintenance;
 
 namespace Price.WebApi.Controllers
 {
+    
     public class TypedController<T, TK> : ApiController where T : class, IDto<TK>
     {
         protected readonly ITypedApi<T, TK> _api;

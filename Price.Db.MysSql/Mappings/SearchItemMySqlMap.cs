@@ -47,6 +47,9 @@ namespace Price.Db.MysSql.Mappings
             Property(e => e.JsonText)
                 .IsOptional()
                 ;
+            Property(e => e.UserName)
+                .IsOptional()
+                ;
 
             ToTable($"{tableName}");
         }
