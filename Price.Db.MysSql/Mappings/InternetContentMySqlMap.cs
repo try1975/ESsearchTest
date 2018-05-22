@@ -22,6 +22,7 @@ namespace Price.Db.MysSql.Mappings
                 ;
 
             Property(e => e.dt)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute($"IX_{nameof(InternetContentEntity.dt)}", 1) { IsUnique = false }))
                 ;
 
             Property(e => e.price)
@@ -38,7 +39,9 @@ namespace Price.Db.MysSql.Mappings
 
             Property(e => e.contact_url)
                 .IsOptional()
-                .HasColumnType("tinytext")
+                //.HasColumnType("tinytext")
+                .HasMaxLength(128)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute($"IX_{nameof(InternetContentEntity.contact_url)}", 1) { IsUnique = false }))
                 ;
 
             Property(e => e.task_id)

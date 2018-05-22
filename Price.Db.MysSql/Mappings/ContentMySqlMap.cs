@@ -49,6 +49,7 @@ namespace Price.Db.MysSql.Mappings
             Property(e => e.Screenshot)
                 .IsOptional()
                 .HasMaxLength(128)
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName, new IndexAnnotation(new IndexAttribute($"IX_{nameof(ContentEntity.Screenshot)}", 1) { IsUnique = false }))
                 ;
 
             Property(e => e.PriceStatus)
