@@ -33,7 +33,7 @@ namespace Price.WebApi.Jobs
                     query.UpdateEntity(entity);
                     var filename = Path.Combine(AppGlobal.ScreenshotPath, $"{entity.contact_url}");
                     if (File.Exists(filename)) continue;
-                    if (entity.screenshot != null)
+                    if (entity.screenshot != null && entity.screenshot.Length > 3)
                     {
                         File.WriteAllBytes(filename, entity.screenshot);
                     }

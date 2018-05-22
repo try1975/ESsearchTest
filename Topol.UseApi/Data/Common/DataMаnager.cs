@@ -51,7 +51,6 @@ namespace Topol.UseApi.Data.Common
             _apiHttpClient.DefaultRequestHeaders.Accept.Clear();
             _apiHttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _apiHttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue($"{token}");
-            //_apiHttpClient.DefaultRequestHeaders.ProxyAuthorization = new AuthenticationHeaderValue($"{CurrentUser.Login}");
             _apiHttpClient.DefaultRequestHeaders.Add(CustomHeaders.UserName, $"{CurrentUser.Login}");
         }
 

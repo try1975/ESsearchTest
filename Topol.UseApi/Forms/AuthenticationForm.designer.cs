@@ -39,48 +39,43 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(34, 37);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(23, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(48, 20);
+            this.label1.Size = new System.Drawing.Size(33, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Login";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(34, 103);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(23, 67);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(78, 20);
+            this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "Password";
             // 
             // tbLogin
             // 
             this.tbLogin.Enabled = false;
-            this.tbLogin.Location = new System.Drawing.Point(150, 32);
-            this.tbLogin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tbLogin.Location = new System.Drawing.Point(100, 21);
             this.tbLogin.Name = "tbLogin";
-            this.tbLogin.Size = new System.Drawing.Size(205, 26);
+            this.tbLogin.Size = new System.Drawing.Size(138, 20);
             this.tbLogin.TabIndex = 2;
             // 
             // tbPassword
             // 
             this.tbPassword.Enabled = false;
-            this.tbPassword.Location = new System.Drawing.Point(150, 98);
-            this.tbPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tbPassword.Location = new System.Drawing.Point(100, 64);
             this.tbPassword.Name = "tbPassword";
-            this.tbPassword.Size = new System.Drawing.Size(205, 26);
+            this.tbPassword.Size = new System.Drawing.Size(138, 20);
             this.tbPassword.TabIndex = 3;
             this.tbPassword.UseSystemPasswordChar = true;
             // 
             // btnEnter
             // 
-            this.btnEnter.Location = new System.Drawing.Point(54, 172);
-            this.btnEnter.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnEnter.Location = new System.Drawing.Point(36, 112);
             this.btnEnter.Name = "btnEnter";
-            this.btnEnter.Size = new System.Drawing.Size(112, 35);
+            this.btnEnter.Size = new System.Drawing.Size(75, 23);
             this.btnEnter.TabIndex = 4;
             this.btnEnter.Text = "Enter";
             this.btnEnter.UseVisualStyleBackColor = true;
@@ -89,10 +84,9 @@
             // btnExit
             // 
             this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnExit.Location = new System.Drawing.Point(208, 172);
-            this.btnExit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnExit.Location = new System.Drawing.Point(139, 112);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(112, 35);
+            this.btnExit.Size = new System.Drawing.Size(75, 23);
             this.btnExit.TabIndex = 5;
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -101,10 +95,10 @@
             // AuthenticationForm
             // 
             this.AcceptButton = this.btnEnter;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnExit;
-            this.ClientSize = new System.Drawing.Size(387, 235);
+            this.ClientSize = new System.Drawing.Size(258, 153);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnEnter);
             this.Controls.Add(this.tbPassword);
@@ -112,10 +106,9 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "AuthenticationForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "EPM Authentication";
+            this.Text = "Тополь";
             this.ResumeLayout(false);
             this.PerformLayout();
 
