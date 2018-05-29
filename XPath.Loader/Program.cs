@@ -8,6 +8,7 @@ using Common.Dto.Logic;
 using Common.Dto.Model.XPath;
 using HtmlAgilityPack;
 using PricePipeCore;
+using XPath.Downloader;
 
 namespace XPath.Loader
 {

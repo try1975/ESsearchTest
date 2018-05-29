@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace XPath.Loader
+namespace XPath.Downloader
 {
     //https://stackoverflow.com/questions/2700638/characters-in-string-changed-after-downloading-html-from-the-internet
     public class HttpDownloader
@@ -27,7 +27,7 @@ namespace XPath.Loader
 
         public string GetPage()
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+            var request = (HttpWebRequest)WebRequest.Create(Url);
             if (!string.IsNullOrEmpty(_referer))
                 request.Referer = _referer;
             if (!string.IsNullOrEmpty(_userAgent))
@@ -35,7 +35,7 @@ namespace XPath.Loader
 
             request.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip,deflate");
 
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (var response = (HttpWebResponse)request.GetResponse())
             {
                 Headers = response.Headers;
                 Url = response.ResponseUri;
@@ -48,15 +48,15 @@ namespace XPath.Loader
         {
             SetEncodingFromHeader(response);
 
-            Stream s = response.GetResponseStream();
+            var s = response.GetResponseStream();
             if (response.ContentEncoding.ToLower().Contains("gzip"))
                 s = new GZipStream(s, CompressionMode.Decompress);
             else if (response.ContentEncoding.ToLower().Contains("deflate"))
                 s = new DeflateStream(s, CompressionMode.Decompress);
 
-            MemoryStream memStream = new MemoryStream();
+            var memStream = new MemoryStream();
             int bytesRead;
-            byte[] buffer = new byte[0x1000];
+            var buffer = new byte[0x1000];
             for (bytesRead = s.Read(buffer, 0, buffer.Length); bytesRead > 0; bytesRead = s.Read(buffer, 0, buffer.Length))
             {
                 memStream.Write(buffer, 0, bytesRead);
@@ -64,7 +64,7 @@ namespace XPath.Loader
             s.Close();
             string html;
             memStream.Position = 0;
-            using (StreamReader r = new StreamReader(memStream, Encoding))
+            using (var r = new StreamReader(memStream, Encoding))
             {
                 html = r.ReadToEnd().Trim();
                 html = CheckMetaCharSetAndReEncode(memStream, html);
@@ -78,7 +78,7 @@ namespace XPath.Loader
             string charset = null;
             if (string.IsNullOrEmpty(response.CharacterSet))
             {
-                Match m = Regex.Match(response.ContentType, @";\s*charset\s*=\s*(?<charset>.*)", RegexOptions.IgnoreCase);
+                var m = Regex.Match(response.ContentType, @";\s*charset\s*=\s*(?<charset>.*)", RegexOptions.IgnoreCase);
                 if (m.Success)
                 {
                     charset = m.Groups["charset"].Value.Trim(new[] { '\'', '"' });
@@ -102,10 +102,10 @@ namespace XPath.Loader
 
         private string CheckMetaCharSetAndReEncode(Stream memStream, string html)
         {
-            Match m = new Regex(@"<meta\s+.*?charset\s*=\s*(?<charset>[A-Za-z0-9_-]+)", RegexOptions.Singleline | RegexOptions.IgnoreCase).Match(html);
+            var m = new Regex(@"<meta\s+.*?charset\s*=\s*(?<charset>[A-Za-z0-9_-]+)", RegexOptions.Singleline | RegexOptions.IgnoreCase).Match(html);
             if (m.Success)
             {
-                string charset = m.Groups["charset"].Value.ToLower() ?? "iso-8859-1";
+                var charset = m.Groups["charset"].Value.ToLower() ?? "iso-8859-1";
                 if ((charset == "unicode") || (charset == "utf-16"))
                 {
                     charset = "utf-8";
@@ -113,11 +113,11 @@ namespace XPath.Loader
 
                 try
                 {
-                    Encoding metaEncoding = Encoding.GetEncoding(charset);
-                    if (Encoding != metaEncoding)
+                    var metaEncoding = Encoding.GetEncoding(charset);
+                    if (!Equals(Encoding, metaEncoding))
                     {
                         memStream.Position = 0L;
-                        StreamReader recodeReader = new StreamReader(memStream, metaEncoding);
+                        var recodeReader = new StreamReader(memStream, metaEncoding);
                         html = recodeReader.ReadToEnd().Trim();
                         recodeReader.Close();
                     }
