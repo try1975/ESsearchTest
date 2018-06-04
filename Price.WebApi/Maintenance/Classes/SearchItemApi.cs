@@ -16,6 +16,7 @@ namespace Price.WebApi.Maintenance.Classes
     /// <summary>
     /// 
     /// </summary>
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class SearchItemApi : TypedApi<SearchItemExtDto, SearchItemEntity, string>, ISearchItemApi
     {
         private readonly IInternetContentQuery _internetContentQuery;
@@ -124,6 +125,11 @@ namespace Price.WebApi.Maintenance.Classes
             }
             return dtos;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public override bool RemoveItem(string id)
         {
             var entity = Query.GetEntity(id);
@@ -226,7 +232,7 @@ namespace Price.WebApi.Maintenance.Classes
                         CollectedAt = z.CollectedAt,
                         PriceType = PriceType.Trusted,
                         ElasticId = z.ElasticId,
-                        Screenshot = string.IsNullOrEmpty(z.Screenshot) ? null : $"{_getUrl}{z.Screenshot}",
+                        Screenshot = string.IsNullOrEmpty(z.Screenshot) ? $"{_getUrl}{z.Id}{z.Uri.GetHashCode()}.{AppGlobal.ScreenshotExtension}" : $"{_getUrl}{z.Screenshot}",
                         PriceStatus = z.PriceStatus,
                         Seller = z.Seller,
                         Producer = z.Producer,
@@ -271,7 +277,7 @@ namespace Price.WebApi.Maintenance.Classes
                  SearchItemId = entity.Id,
                  CollectedAt = (long)z.dt.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                  PriceType = PriceType.Check,
-                 Screenshot = string.IsNullOrEmpty(z.contact_url) ? null : $"{_getUrl}{z.contact_url}",
+                 Screenshot = string.IsNullOrEmpty(z.contact_url) ? $"{_getUrl}{z.Id}_{z.url.GetHashCode()}.{AppGlobal.ScreenshotExtension}" : $"{_getUrl}{z.contact_url}",
                  PriceStatus = z.PriceStatus,
                  PriceVariants = z.prices
              }).ToList();
