@@ -258,6 +258,7 @@
     <Compile Include="Logic\PathService.cs" />
     <Compile Include="Logic\ProductParser.cs" />
     <Compile Include="Logic\Screenshotter.cs" />
+    <Compile Include="Logic\Screenshot\WebshotTool.cs" />
     <Compile Include="Logic\SourceNames.cs" />
     <Compile Include="Logic\UpdatePrice\UpdatePriceStore.cs" />
     <Compile Include="Logic\UpdatePrice\UpdatePriceTaskStore.cs" />

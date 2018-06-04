@@ -7,6 +7,7 @@ using Common.Dto.Model.NewApi;
 using Price.Db.Entities.Entities;
 using Price.Db.Entities.QueryProcessors;
 using Price.WebApi.Logic;
+using Price.WebApi.Logic.Screenshot;
 using Price.WebApi.Maintenance.Interfaces;
 using PriceCommon.Enums;
 
@@ -232,7 +233,7 @@ namespace Price.WebApi.Maintenance.Classes
                         CollectedAt = z.CollectedAt,
                         PriceType = PriceType.Trusted,
                         ElasticId = z.ElasticId,
-                        Screenshot = string.IsNullOrEmpty(z.Screenshot) ? $"{_getUrl}{z.Id}{z.Uri.GetHashCode()}.{AppGlobal.ScreenshotExtension}" : $"{_getUrl}{z.Screenshot}",
+                        Screenshot = string.IsNullOrEmpty(z.Screenshot) ? $"{_getUrl}{WebshotTool.GetWebshotName(z.Id, z.Uri)}" : $"{_getUrl}{z.Screenshot}",
                         PriceStatus = z.PriceStatus,
                         Seller = z.Seller,
                         Producer = z.Producer,
@@ -277,7 +278,7 @@ namespace Price.WebApi.Maintenance.Classes
                  SearchItemId = entity.Id,
                  CollectedAt = (long)z.dt.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
                  PriceType = PriceType.Check,
-                 Screenshot = string.IsNullOrEmpty(z.contact_url) ? $"{_getUrl}{z.Id}_{z.url.GetHashCode()}.{AppGlobal.ScreenshotExtension}" : $"{_getUrl}{z.contact_url}",
+                 Screenshot = string.IsNullOrEmpty(z.contact_url) ? $"{_getUrl}{WebshotTool.GetWebshotName(z.Id, z.url)}" : $"{_getUrl}{z.contact_url}",
                  PriceStatus = z.PriceStatus,
                  PriceVariants = z.prices
              }).ToList();

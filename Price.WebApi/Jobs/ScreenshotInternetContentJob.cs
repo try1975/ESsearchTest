@@ -5,6 +5,7 @@ using System.Linq;
 using Price.Db.MysSql;
 using Price.Db.MysSql.QueryProcessors;
 using Price.WebApi.Logic;
+using Price.WebApi.Logic.Screenshot;
 using Quartz;
 
 namespace Price.WebApi.Jobs
@@ -29,7 +30,7 @@ namespace Price.WebApi.Jobs
                 try
                 {
                     var uri = new Uri(entity.url);
-                    entity.contact_url = $"{entity.Id}_{uri.GetHashCode()}.{AppGlobal.ScreenshotExtension}";
+                    entity.contact_url = WebshotTool.GetWebshotName(entity.Id, uri);
                     query.UpdateEntity(entity);
                     var filename = Path.Combine(AppGlobal.ScreenshotPath, $"{entity.contact_url}");
                     if (File.Exists(filename)) continue;
