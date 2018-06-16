@@ -1,4 +1,5 @@
-﻿using Quartz;
+﻿using Price.WebApi.Logic;
+using Quartz;
 using Quartz.Impl;
 
 namespace Price.WebApi.Jobs
@@ -23,7 +24,7 @@ namespace Price.WebApi.Jobs
                 .WithIdentity("trigger02", "group1")     // идентифицируем триггер с именем и группой
                 .StartNow()                            // запуск сразу после начала выполнения
                 .WithSimpleSchedule(x => x
-                    .WithIntervalInSeconds(20)
+                    .WithIntervalInSeconds(40)
                     .WithMisfireHandlingInstructionIgnoreMisfires()
                     .RepeatForever())                   // бесконечное повторение
                 .Build();
@@ -51,16 +52,26 @@ namespace Price.WebApi.Jobs
                 .Build();
             scheduler.ScheduleJob(screenshotContentJob, screenshotContentJobTrigger);
 
-            var deleteEsOldJob = JobBuilder.Create<DeleteEsOldJob>().Build();
-            var deleteEsOldJobTrigger = TriggerBuilder.Create()
-                .WithIdentity(nameof(DeleteEsOldJob), "group3")
-                .StartNow()
+            var elasticRecordRetentionJob = JobBuilder.Create<ElasticRecordRetentionJob>().Build();
+            var elasticRecordRetentionTrigger = TriggerBuilder.Create()
+                .WithIdentity(nameof(ElasticRecordRetentionJob), "group3")
                 .WithSimpleSchedule(x => x
-                    .WithIntervalInHours(24)
+                    .WithIntervalInHours(AppGlobal.ElasticRecordRetentionTriggerRateInHours)
                     .WithMisfireHandlingInstructionIgnoreMisfires()
                     .RepeatForever())
                 .Build();
-            scheduler.ScheduleJob(deleteEsOldJob, deleteEsOldJobTrigger);
+            scheduler.ScheduleJob(elasticRecordRetentionJob, elasticRecordRetentionTrigger);
+
+            var searchResultRetentionJob = JobBuilder.Create<SearchResultRetentionJob>().Build();
+            var searchResultRetentionTrigger = TriggerBuilder.Create()
+                .WithIdentity(nameof(SearchResultRetentionJob), "group3")
+                .WithSimpleSchedule(x => x
+                    .WithIntervalInHours(AppGlobal.SearchResultRetentionTriggerRateInHours)
+                    .WithMisfireHandlingInstructionIgnoreMisfires()
+                    .RepeatForever())
+                .Build();
+            scheduler.ScheduleJob(searchResultRetentionJob, searchResultRetentionTrigger);
+
         }
     }
 }

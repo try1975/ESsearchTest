@@ -7,10 +7,6 @@ using Price.Db.Entities.QueryProcessors;
 using Price.Db.MysSql;
 using Price.Db.MysSql.QueryProcessors;
 using Price.WebApi.AutoMappers;
-using Price.WebApi.Logic.Interfaces;
-using Price.WebApi.Logic.Internet;
-using Price.WebApi.Logic.Packet;
-using Price.WebApi.Logic.UpdatePrice;
 using Price.WebApi.Maintenance.Classes;
 using Price.WebApi.Maintenance.Interfaces;
 
@@ -64,11 +60,6 @@ namespace Price.WebApi.Ninject
             //container.Bind<DbContext>().To<PriceContext>().InSingletonScope();
             container.Bind<DbContext>().To<PriceContext>().InRequestScope();
             //container.Bind<ExchangeServiceMailSender>().ToSelf().InSingletonScope();
-            container.Bind<IUpdatePriceWatcher>().To<UpdatePriceWatcher>().InSingletonScope();
-            container.Bind<IInternetSearchWatcher>().To<InternetSearchWatcher>().InSingletonScope();
-            //container.Bind<IDetect>().To<Detect>().InRequestScope();
-            container.Bind<ISearchItemStore>().To<SearchItemStore>().InSingletonScope();
-            //container.Bind<ISearchItemStore>().To<SearchItemDbStore>().InSingletonScope();
         }
     }
 }

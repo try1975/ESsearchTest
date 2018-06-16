@@ -232,38 +232,22 @@
     <Compile Include="Controllers\SimplePriceController.cs" />
     <Compile Include="Controllers\TypedController.cs" />
     <Compile Include="Controllers\XpathController.cs" />
-    <Compile Include="GetFiles\GetFile.ashx.cs">
-      <DependentUpon>GetFile.ashx</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Jobs\CheckInternetSearchJob.cs" />
-    <Compile Include="Jobs\DeleteEsOldJob.cs" />
+    <Compile Include="Jobs\SearchResultRetentionJob.cs" />
+    <Compile Include="Jobs\ElasticRecordRetentionJob.cs" />
     <Compile Include="Jobs\TopolScheduler.cs" />
     <Compile Include="Jobs\ScreenshotContentJob.cs" />
     <Compile Include="Jobs\ScreenshotInternetContentJob.cs" />
     <Compile Include="Logic\AnalistService.cs" />
     <Compile Include="Logic\AppGlobal.cs" />
-    <Compile Include="Logic\IdService.cs" />
-    <Compile Include="Logic\Interfaces\IInternetSearchWatcher.cs" />
-    <Compile Include="Logic\Interfaces\IUpdatePriceWatcher.cs" />
-    <Compile Include="Logic\Internet\InternetSearcher.cs" />
-    <Compile Include="Logic\Internet\InternetSearchWatcher.cs" />
     <Compile Include="Logic\Packet\ElasticSeacherAndDbWriter.cs" />
     <Compile Include="Logic\Packet\ISearchItemStore.cs" />
-    <Compile Include="Logic\Packet\PacketItemSeacher.cs" />
-    <Compile Include="Logic\Packet\SearchItemStore.cs" />
     <Compile Include="Logic\Packet\ThreadUtil.cs" />
-    <Compile Include="Logic\PathService.cs" />
-    <Compile Include="Logic\ProductParser.cs" />
     <Compile Include="Logic\Screenshotter.cs" />
     <Compile Include="Logic\Screenshot\WebshotTool.cs" />
-    <Compile Include="Logic\SourceNames.cs" />
-    <Compile Include="Logic\UpdatePrice\UpdatePriceStore.cs" />
-    <Compile Include="Logic\UpdatePrice\UpdatePriceTaskStore.cs" />
-    <Compile Include="Logic\UpdatePrice\UpdatePriceWatcher.cs" />
-    <Compile Include="Logic\StateFiles.cs" />
     <Compile Include="Logic\XPath\XPathStore.cs" />
     <Compile Include="Maintenance\Classes\ContentApi.cs" />
     <Compile Include="Maintenance\Classes\InternetContentApi.cs" />
@@ -274,8 +258,6 @@
     <Compile Include="Maintenance\ITypedApi.cs" />
     <Compile Include="Maintenance\TypedApi.cs" />
     <Compile Include="Model\ContentDto.cs" />
-    <Compile Include="Model\UpdatePrice\UpdatePriceTaskDto.cs" />
-    <Compile Include="Model\UpdatePrice\UpdatePriceDto.cs" />
     <Compile Include="Ninject\Configurator.cs" />
     <Compile Include="Ninject\DependencyResolver.cs" />
     <Compile Include="Ninject\WebCommon.cs" />
@@ -317,16 +299,9 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="GetFiles\GetFile.ashx" />
     <Content Include="Web.AppSettings.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="AnalystCon\Analyst.ini">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="AnalystCon\AnalystNorm.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>

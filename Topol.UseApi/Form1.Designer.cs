@@ -57,6 +57,7 @@
             this.gbContentItems = new System.Windows.Forms.GroupBox();
             this.dgvContentItems = new ADGV.AdvancedDataGridView();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btnExcel = new System.Windows.Forms.Button();
             this.btnSplit = new System.Windows.Forms.Button();
             this.btnMove = new System.Windows.Forms.Button();
             this.btnDeleteSelected = new System.Windows.Forms.Button();
@@ -112,7 +113,7 @@
             this.splitter5 = new System.Windows.Forms.Splitter();
             this.panel19 = new System.Windows.Forms.Panel();
             this.panel21 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pbWebshot = new System.Windows.Forms.PictureBox();
             this.panel22 = new System.Windows.Forms.Panel();
             this.panel23 = new System.Windows.Forms.Panel();
             this.btnDeletePrice = new System.Windows.Forms.Button();
@@ -182,7 +183,7 @@
             this.panel16.SuspendLayout();
             this.panel19.SuspendLayout();
             this.panel21.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWebshot)).BeginInit();
             this.panel22.SuspendLayout();
             this.panel23.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -459,6 +460,7 @@
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.btnExcel);
             this.panel4.Controls.Add(this.btnSplit);
             this.panel4.Controls.Add(this.btnMove);
             this.panel4.Controls.Add(this.btnDeleteSelected);
@@ -469,6 +471,15 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(807, 42);
             this.panel4.TabIndex = 3;
+            // 
+            // btnExcel
+            // 
+            this.btnExcel.Location = new System.Drawing.Point(392, 13);
+            this.btnExcel.Name = "btnExcel";
+            this.btnExcel.Size = new System.Drawing.Size(76, 23);
+            this.btnExcel.TabIndex = 5;
+            this.btnExcel.Text = "в Excel";
+            this.btnExcel.UseVisualStyleBackColor = true;
             // 
             // btnSplit
             // 
@@ -1027,21 +1038,21 @@
             // panel21
             // 
             this.panel21.AutoScroll = true;
-            this.panel21.Controls.Add(this.pictureBox1);
+            this.panel21.Controls.Add(this.pbWebshot);
             this.panel21.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel21.Location = new System.Drawing.Point(0, 200);
             this.panel21.Name = "panel21";
             this.panel21.Size = new System.Drawing.Size(400, 434);
             this.panel21.TabIndex = 0;
             // 
-            // pictureBox1
+            // pbWebshot
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 100);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
+            this.pbWebshot.Location = new System.Drawing.Point(0, 0);
+            this.pbWebshot.Name = "pbWebshot";
+            this.pbWebshot.Size = new System.Drawing.Size(100, 100);
+            this.pbWebshot.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbWebshot.TabIndex = 4;
+            this.pbWebshot.TabStop = false;
             // 
             // panel22
             // 
@@ -1414,7 +1425,7 @@
             this.panel19.ResumeLayout(false);
             this.panel21.ResumeLayout(false);
             this.panel21.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWebshot)).EndInit();
             this.panel22.ResumeLayout(false);
             this.panel23.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
@@ -1494,7 +1505,7 @@
         private System.Windows.Forms.Button btnSaveInternetResults;
         private System.Windows.Forms.Button btnInvertSelected;
         private System.Windows.Forms.Button btnDeleteSelected;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pbWebshot;
         private System.Windows.Forms.Splitter splitter5;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox tbKeywords;
@@ -1547,6 +1558,7 @@
         private System.Windows.Forms.Button btnSetPrice;
         private System.Windows.Forms.Button btnMove;
         private System.Windows.Forms.Button btnSplit;
+        private System.Windows.Forms.Button btnExcel;
     }
 }
 

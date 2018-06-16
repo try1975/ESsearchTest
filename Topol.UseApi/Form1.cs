@@ -4,23 +4,27 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
-using ADGV;
+using ComLog.WinForms.Utils;
 using Common.Dto;
 using Common.Dto.Model;
 using Common.Dto.Model.NewApi;
 using Common.Dto.Model.Packet;
 using Newtonsoft.Json;
 using PriceCommon.Enums;
+using PriceCommon.Utils;
+using Tesseract;
 using Topol.UseApi.Data.Common;
 using Topol.UseApi.Forms;
 using Topol.UseApi.Interfaces.Common;
 using Topol.UseApi.Properties;
-using ContentDto = Common.Dto.Model.ContentDto;
+using ImageFormat = System.Drawing.Imaging.ImageFormat;
 
 namespace Topol.UseApi
 {
@@ -50,6 +54,13 @@ namespace Topol.UseApi
         private BindingSource Okpd2ItemsBindingSource { get; }
         private readonly BackgroundWorker _bw = new BackgroundWorker();
         private string[] _packetLines;
+
+        #region rectangle on image
+        private Point _rectStartPoint;
+        private Rectangle _rect;
+        private Rectangle _prevRect;
+        private readonly Brush _selectionBrush = new SolidBrush(Color.FromArgb(128, 72, 145, 220));
+        #endregion //rectangle on image
 
         private class SearchItemStatusItem
         {
@@ -104,12 +115,12 @@ namespace Topol.UseApi
 
             cbSearchItemStatus.DataSource = new[] {
                 new SearchItemStatusItem { Text="Любое", TaskStatus=null},
-                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.InProcess), TaskStatus=TaskStatus.InProcess},
-                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.Checked), TaskStatus=TaskStatus.Checked},
-                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.Ok), TaskStatus=TaskStatus.Ok},
-                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.BreakByTimeout), TaskStatus=TaskStatus.BreakByTimeout},
-                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.Break), TaskStatus=TaskStatus.Break},
-                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.Error), TaskStatus=TaskStatus.Error}
+                new SearchItemStatusItem { Text=Utils.GetDescription(TaskStatus.InProcess), TaskStatus=TaskStatus.InProcess},
+                new SearchItemStatusItem { Text=Utils.GetDescription(TaskStatus.Checked), TaskStatus=TaskStatus.Checked},
+                new SearchItemStatusItem { Text=Utils.GetDescription(TaskStatus.Ok), TaskStatus=TaskStatus.Ok},
+                new SearchItemStatusItem { Text=Utils.GetDescription(TaskStatus.BreakByTimeout), TaskStatus=TaskStatus.BreakByTimeout},
+                new SearchItemStatusItem { Text=Utils.GetDescription(TaskStatus.Break), TaskStatus=TaskStatus.Break},
+                new SearchItemStatusItem { Text=Utils.GetDescription(TaskStatus.Error), TaskStatus=TaskStatus.Error}
                 };
             cbSearchItemStatus.DisplayMember = "Text";
             cbSearchItemStatus.SelectedIndex = 0;
@@ -144,16 +155,19 @@ namespace Topol.UseApi
             ClearContentView();
 
             panel21.Click += panel21_Click;
-            pictureBox1.Click += panel21_Click;
+            pbWebshot.Click += panel21_Click;
+            pbWebshot.MouseDown += pbWebshot_MouseDown;
+            pbWebshot.MouseMove += pbWebshot_MouseMove;
+            pbWebshot.Paint += pbWebshot_Paint;
+            pbWebshot.MouseUp += pbWebshot_MouseUp;
 
             btnMove.Click += btnMove_Click;
             btnSplit.Click += btnSplit_Click;
+            btnExcel.Click += btnExcel_Click;
         }
 
-        private void panel21_Click(object sender, EventArgs e)
-        {
-            panel21.Focus();
-        }
+
+
 
         private void ClearContentView()
         {
@@ -162,8 +176,10 @@ namespace Topol.UseApi
             label13.Text = "";
             label15.Text = "";
             lblPrice.Text = "";
-            pictureBox1.Image = null;
-            pictureBox1.InitialImage = null;
+            pbWebshot.Image = null;
+            pbWebshot.InitialImage = null;
+            _rect.Width = 0;
+            _rect.Height = 0;
         }
 
 
@@ -206,7 +222,7 @@ namespace Topol.UseApi
                         Debug.WriteLine(exception);
                     }
                 }
-                System.Threading.Thread.Sleep(3000);
+                Thread.Sleep(3000);
             }
         }
 
@@ -297,7 +313,7 @@ namespace Topol.UseApi
                     //DataSource = new string[] { "a", "b", "c" },
                     MaxDropDownItems = 7,
                     //DisplayMember = cmbName,
-                    DataPropertyName = "PriceVariant",
+                    DataPropertyName = "PriceVariant"
                     //ValueMember =  cmbName
                 };
                 dgv.Columns.Add(cmb);
@@ -420,6 +436,17 @@ namespace Topol.UseApi
 
         #region Event handlers
 
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog { FileName = $"Topol.Api_{DateTime.Now:yyyyMMdd_HHmm}.xlsx" };
+            if (saveFileDialog.ShowDialog() != DialogResult.OK) return;
+            var sourceDataTable = (DataTable)ContentItemsBindingSource.DataSource;
+            var view = new DataView(sourceDataTable, dgvContentItems.FilterString, dgvContentItems.SortString, DataViewRowState.CurrentRows);
+            var dataTable = view.ToTable();
+            CreateExcelFile.CreateExcelDocument(dataTable, saveFileDialog.FileName);
+            if (File.Exists(saveFileDialog.FileName)) Process.Start(saveFileDialog.FileName);
+        }
+
         private void btnSplit_Click(object sender, EventArgs e)
         {
             SplitResults();
@@ -452,6 +479,89 @@ namespace Topol.UseApi
             frm.ShowDialog();
         }
 
+        private void panel21_Click(object sender, EventArgs e)
+        {
+            panel21.Focus();
+        }
+        #region rectangle on image
+        // Start Rectangle
+        private void pbWebshot_MouseDown(object sender, MouseEventArgs e)
+        {
+            // Determine the initial rectangle coordinates...
+            _rectStartPoint = e.Location;
+            Invalidate();
+        }
+        // Draw Rectangle
+        private void pbWebshot_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left)
+                return;
+            var tempEndPoint = e.Location;
+            _rect.Location = new Point(
+                Math.Min(_rectStartPoint.X, tempEndPoint.X),
+                Math.Min(_rectStartPoint.Y, tempEndPoint.Y));
+            _rect.Size = new Size(
+                Math.Abs(_rectStartPoint.X - tempEndPoint.X),
+                Math.Abs(_rectStartPoint.Y - tempEndPoint.Y));
+            pbWebshot.Invalidate();
+        }
+        // Draw Area
+        private void pbWebshot_Paint(object sender, PaintEventArgs e)
+        {
+            // Draw the rectangle...
+            if (pbWebshot.Image == null) return;
+            if (_rect.Width > 0 && _rect.Height > 0)
+            {
+                e.Graphics.FillRectangle(_selectionBrush, _rect);
+            }
+        }
+        private void pbWebshot_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (_rect.Contains(e.Location))
+                {
+                    Debug.WriteLine("Right click");
+                }
+            }
+            SaveBitmapPart(pbWebshot.Image, _rect, @"c:\Temp\Bitmap\Test.tiff");
+        }
+
+        private void SaveBitmapPart(Image image, Rectangle rect, string pathToSave)
+        {
+            if (rect.Width == 0) return;
+            if (rect == _prevRect) return;
+            using (var bmp = new Bitmap(rect.Width, rect.Height))
+            {
+                using (var graphics = Graphics.FromImage(bmp))
+                {
+                    graphics.DrawImage(image, 0.0f, 0.0f, rect, GraphicsUnit.Pixel);
+                }
+                //bmp.Clone(new Rectangle(0, 0, bmp.Width, bmp.Height), PixelFormat.Format1bppIndexed).Save(pathToSave, ImageFormat.Tiff);
+                bmp.Save(pathToSave, ImageFormat.Tiff);
+                _prevRect = rect;
+
+                //Tesseract.Net.SDK
+                //using (var api = OcrApi.Create())
+                //{
+                //    api.Init(Languages.English);
+                //    cmbPrices.Text = api.GetTextFromImage(pathToSave);
+                //}
+                //Tesseract
+                using (var engine = new TesseractEngine(@"./tessdata", "rus", EngineMode.Default))
+                {
+                    using (var img = Pix.LoadFromFile(pathToSave))
+                    {
+                        using (var page = engine.Process(img))
+                        {
+                            cmbPrices.Text = page.GetText();
+                        }
+                    }
+                }
+            }
+
+        }
+        #endregion //rectangle on image
         private void btnMove_Click(object sender, EventArgs e)
         {
             MoveResults();
@@ -574,7 +684,7 @@ namespace Topol.UseApi
             var dataRow = dataTable.Select($"{idColumnName}='{id}'").FirstOrDefault();
             if (dataRow == null || !await _dataManager.PostSearchItemBreak(id)) return;
             dataRow.SetField(nameof(SearchItemHeaderDto.Status), TaskStatus.Break);
-            dataRow.SetField(nameof(SearchItemHeaderDto.StatusString), PriceCommon.Utils.Utils.GetDescription(TaskStatus.Break));
+            dataRow.SetField(nameof(SearchItemHeaderDto.StatusString), Utils.GetDescription(TaskStatus.Break));
         }
         private async void SearchItemDelete()
         {
@@ -613,7 +723,7 @@ namespace Topol.UseApi
             var dataRow = dataTable.Select($"{idColumnName}='{id}'").FirstOrDefault();
             if (dataRow == null || !await _dataManager.PostSearchItemChecked(id)) return;
             dataRow.SetField(nameof(SearchItemHeaderDto.Status), TaskStatus.Checked);
-            dataRow.SetField(nameof(SearchItemHeaderDto.StatusString), PriceCommon.Utils.Utils.GetDescription(TaskStatus.Checked));
+            dataRow.SetField(nameof(SearchItemHeaderDto.StatusString), Utils.GetDescription(TaskStatus.Checked));
         }
 
         private void btnSetPriceChecked_Click(object sender, EventArgs e)
@@ -1063,13 +1173,15 @@ namespace Topol.UseApi
                 }
                 var current = (DataRowView)ContentItemsBindingSource.Current;
                 var url = current.Row[nameof(ContentExtDto.Screenshot)] as string;
+                _rect.Width = 0;
+                _rect.Height = 0;
                 if (string.IsNullOrEmpty(url))
                 {
-                    pictureBox1.Image = null;
+                    pbWebshot.Image = null;
                 }
                 else
                 {
-                    pictureBox1.LoadAsync(url);
+                    pbWebshot.LoadAsync(url);
                 }
                 lblPrice.Text = current.Row[nameof(ContentExtDto.Price)] as string;
                 linkLabelUrl.Text = current.Row[nameof(ContentExtDto.Uri)] as string;

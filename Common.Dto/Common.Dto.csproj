@@ -62,7 +62,6 @@
     <Compile Include="Model\ContentDto.cs" />
     <Compile Include="Model\ContentNmckDto.cs" />
     <Compile Include="Model\ErrorDto.cs" />
-    <Compile Include="Model\FetcheeDto.cs" />
     <Compile Include="Model\MaybeDto.cs" />
     <Compile Include="Model\Packet\SearchItemDto.cs" />
     <Compile Include="Model\Packet\SearchItemParam.cs" />
