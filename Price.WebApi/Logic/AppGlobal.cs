@@ -19,7 +19,11 @@ namespace Price.WebApi.Logic
 
             ExternalToken = WebConfigurationManager.AppSettings[nameof(ExternalToken)];
 
-            Screenshotter = Path.Combine(HttpRuntime.AppDomainAppPath, @"SiteShoter\SiteShoter.exe");
+            Screenshotter = WebConfigurationManager.AppSettings[nameof(Screenshotter)];
+            if (string.IsNullOrEmpty(Screenshotter))
+            {
+                Screenshotter = Path.Combine(HttpRuntime.AppDomainAppPath, @"SiteShoter\SiteShoter.exe");
+            }
 
             int tempInt;
             CashSeconds = int.TryParse(WebConfigurationManager.AppSettings[nameof(CashSeconds)],

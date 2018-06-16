@@ -35,7 +35,7 @@ namespace Price.WebApi.Jobs
                 .WithIdentity("trigger03", "group2")
                 .StartNow()
                 .WithSimpleSchedule(x => x
-                    .WithIntervalInSeconds(7)
+                    .WithIntervalInSeconds(20)
                     .WithMisfireHandlingInstructionIgnoreMisfires()
                     .RepeatForever())
                 .Build();
@@ -46,7 +46,7 @@ namespace Price.WebApi.Jobs
                 .WithIdentity("trigger04", "group2")
                 .StartNow()
                 .WithSimpleSchedule(x => x
-                    .WithIntervalInSeconds(6)
+                    .WithIntervalInSeconds(20)
                     .WithMisfireHandlingInstructionIgnoreMisfires()
                     .RepeatForever())
                 .Build();

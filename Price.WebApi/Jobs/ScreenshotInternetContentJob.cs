@@ -40,7 +40,15 @@ namespace Price.WebApi.Jobs
                     }
                     else
                     {
-                        var arguments = $"/URL {entity.url} /Filename \"{filename}\" {AppGlobal.ScreenshotterArgs}";
+                        string arguments;
+                        if (AppGlobal.Screenshotter.Contains("SiteShoter.exe"))
+                        {
+                            arguments = $"/URL {uri} /Filename \"{filename}\" {AppGlobal.ScreenshotterArgs}";
+                        }
+                        else
+                        {
+                            arguments = $"{uri} \"{filename}\" {AppGlobal.ScreenshotterArgs}";
+                        }
                         Process.Start(AppGlobal.Screenshotter, arguments)?.WaitForExit();
                     }
                 }

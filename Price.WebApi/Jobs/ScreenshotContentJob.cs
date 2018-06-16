@@ -34,9 +34,16 @@ namespace Price.WebApi.Jobs
                     query.UpdateEntity(entity);
                     var filename = Path.Combine(AppGlobal.ScreenshotPath, $"{entity.Screenshot}");
                     if (File.Exists(filename)) continue;
-                    var arguments = $"/URL {entity.Uri} /Filename \"{filename}\" {AppGlobal.ScreenshotterArgs}";
+                    string arguments;
+                    if (AppGlobal.Screenshotter.Contains("SiteShoter.exe"))
+                    {
+                        arguments = $"/URL {uri} /Filename \"{filename}\" {AppGlobal.ScreenshotterArgs}";
+                    }
+                    else
+                    {
+                        arguments = $"{uri} \"{filename}\" {AppGlobal.ScreenshotterArgs}";
+                    }
                     Process.Start(AppGlobal.Screenshotter, arguments)?.WaitForExit();
-
                 }
                 catch (Exception exception)
                 {
