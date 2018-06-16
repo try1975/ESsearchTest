@@ -5,10 +5,10 @@ using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using ComLog.WinForms.Utils;
@@ -24,7 +24,6 @@ using Topol.UseApi.Data.Common;
 using Topol.UseApi.Forms;
 using Topol.UseApi.Interfaces.Common;
 using Topol.UseApi.Properties;
-using ImageFormat = System.Drawing.Imaging.ImageFormat;
 
 namespace Topol.UseApi
 {
@@ -47,7 +46,6 @@ namespace Topol.UseApi
                 btnMove.Enabled = value;
             }
         }
-
         private BindingSource SearchItemsBindingSource { get; }
         private BindingSource ContentItemsBindingSource { get; }
         private BindingSource MaybeItemsBindingSource { get; }
@@ -60,6 +58,8 @@ namespace Topol.UseApi
         private Rectangle _rect;
         private Rectangle _prevRect;
         private readonly Brush _selectionBrush = new SolidBrush(Color.FromArgb(128, 72, 145, 220));
+        private readonly TesseractEngine _engine;
+
         #endregion //rectangle on image
 
         private class SearchItemStatusItem
@@ -164,6 +164,8 @@ namespace Topol.UseApi
             btnMove.Click += btnMove_Click;
             btnSplit.Click += btnSplit_Click;
             btnExcel.Click += btnExcel_Click;
+
+            _engine = new TesseractEngine(@"./tessdata", "rus", EngineMode.Default);
         }
 
 
@@ -529,7 +531,7 @@ namespace Topol.UseApi
 
         private void SaveBitmapPart(Image image, Rectangle rect, string pathToSave)
         {
-            if (rect.Width == 0) return;
+            if (rect.Width <= 2 || rect.Height <= 2) return;
             if (rect == _prevRect) return;
             using (var bmp = new Bitmap(rect.Width, rect.Height))
             {
@@ -537,30 +539,28 @@ namespace Topol.UseApi
                 {
                     graphics.DrawImage(image, 0.0f, 0.0f, rect, GraphicsUnit.Pixel);
                 }
-                //bmp.Clone(new Rectangle(0, 0, bmp.Width, bmp.Height), PixelFormat.Format1bppIndexed).Save(pathToSave, ImageFormat.Tiff);
-                bmp.Save(pathToSave, ImageFormat.Tiff);
                 _prevRect = rect;
 
-                //Tesseract.Net.SDK
-                //using (var api = OcrApi.Create())
-                //{
-                //    api.Init(Languages.English);
-                //    cmbPrices.Text = api.GetTextFromImage(pathToSave);
-                //}
-                //Tesseract
-                using (var engine = new TesseractEngine(@"./tessdata", "rus", EngineMode.Default))
+                //Tesseract OCR
+                using (var page = _engine.Process(bmp))
                 {
-                    using (var img = Pix.LoadFromFile(pathToSave))
-                    {
-                        using (var page = engine.Process(img))
-                        {
-                            cmbPrices.Text = page.GetText();
-                        }
-                    }
+                    var ocrText = page.GetText();
+                    cmbPrices.Text = ocrText;
+                    //cmbPrices.Text = GetOnlyPrice(ocrText);
                 }
             }
-
         }
+
+        /*
+        private static string GetOnlyPrice(string text)
+        {
+            //var regex = new Regex(@"[-+]?[0-9]*\.?[0-9]*");
+            var regex = new Regex(@"[-+]?[0-9]*\W*[0-9]*");
+            var matches = regex.Matches(text);
+            return matches.Count == 0 ? "" : matches[0].Value;
+        }
+        */
+
         #endregion //rectangle on image
         private void btnMove_Click(object sender, EventArgs e)
         {
@@ -689,12 +689,8 @@ namespace Topol.UseApi
         private async void SearchItemDelete()
         {
             SearchItemBreak();
-
             var current = (DataRowView)SearchItemsBindingSource.Current;
-            if (current == null) return;
-            //int cnt;
-            //int.TryParse(current.Row[nameof(SearchItemHeaderDto.ContentCount)] as string, out cnt);
-            var oTaskStatus = current.Row[nameof(SearchItemHeaderDto.Status)];
+            var oTaskStatus = current?.Row[nameof(SearchItemHeaderDto.Status)];
             if (oTaskStatus == null) return;
             var taskStatus = (TaskStatus)oTaskStatus;
             if (!(taskStatus == TaskStatus.Ok || taskStatus == TaskStatus.BreakByTimeout || taskStatus == TaskStatus.Break || taskStatus == TaskStatus.Error))
@@ -1237,6 +1233,7 @@ namespace Topol.UseApi
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
+            _engine.Dispose();
             Settings.Default.Save();
             Application.Exit();
         }

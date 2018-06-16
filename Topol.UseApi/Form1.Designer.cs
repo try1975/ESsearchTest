@@ -411,9 +411,9 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(358, 5);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(31, 13);
+            this.label9.Size = new System.Drawing.Size(39, 13);
             this.label9.TabIndex = 2;
-            this.label9.Text = "ExtId";
+            this.label9.Text = "Метка";
             // 
             // btnRefreshSearchItems
             // 
@@ -718,9 +718,9 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(566, 10);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(31, 13);
+            this.label8.Size = new System.Drawing.Size(39, 13);
             this.label8.TabIndex = 3;
-            this.label8.Text = "ExtId";
+            this.label8.Text = "Метка";
             // 
             // textBox2
             // 
