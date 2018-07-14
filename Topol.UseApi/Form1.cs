@@ -165,6 +165,8 @@ namespace Topol.UseApi
             btnExcel.Click += btnExcel_Click;
 
             _engine = new TesseractEngine(@"./tessdata", "rus", EngineMode.Default);
+
+            cmbPriority.SelectedIndex = 0;
         }
 
 
@@ -1198,7 +1200,7 @@ namespace Topol.UseApi
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void CallApi4OneItemPacket_Click(object sender, EventArgs e)
         {
             var dto = new List<SearchItemParam>
             {

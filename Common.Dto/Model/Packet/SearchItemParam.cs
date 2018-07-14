@@ -42,5 +42,9 @@ namespace Common.Dto.Model.Packet
         /// </summary>
         [JsonProperty("нормализатор")]
         public string Norm { get; set; }
+        /// <summary>
+        /// Дополнительные слова для поиска
+        /// </summary>
+        public string AddKeywords { get; set; }
     }
 }

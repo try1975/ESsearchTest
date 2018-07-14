@@ -72,9 +72,10 @@ namespace Price.WebApi.Controllers
             var searchInInternet = source.Contains(internet);
             foreach (var searchItem in searchItemsParam)
             {
-                if (!string.IsNullOrEmpty(keywords)) searchItem.Name = $"{searchItem.Name} {keywords}";
+                searchItem.AddKeywords = keywords;
                 searchItem.Name = searchItem.Name.ToLower();
                 var json = JsonConvert.SerializeObject(searchItem);
+                Logger.Log.Info($"Internet json: {json}");
                 // Calc search rate
                 var searchRate = $"{Utils.GetUtcNow()/AppGlobal.CashSeconds}";
                 var id = Md5Logstah.GetDefaultId($"{source}{searchRate}", json);
@@ -94,6 +95,7 @@ namespace Price.WebApi.Controllers
                     dto.BeginProcess(Utils.GetUtcNow());
                     if (searchInInternet) dto.InternetSessionId = GetInternetSessionId(json);
                     _searchItemApi.AddItem(dto);
+                    if (!string.IsNullOrEmpty(keywords)) searchItem.Name = $"{searchItem.Name} {keywords}";
                     ThreadUtil.FireAndForget(_elasticDelegate, new object[] { searchItem, source, id });
                     resultList.Add(Mapper.Map<SearchItemHeaderDto>(dto));
                 }
@@ -106,6 +108,8 @@ namespace Price.WebApi.Controllers
         {
             using (var client = new WebClient())
             {
+                //client.Headers.Add("content-type", "application/json");
+                client.Headers[HttpRequestHeader.ContentType] = "application/json";
                 var en = Encoding.UTF8;
                 var data = en.GetBytes($"{{\"items\":[{json}]}}");
                 var uri = new Uri($"{AppGlobal.InternetSearchHost}/NewSearch");

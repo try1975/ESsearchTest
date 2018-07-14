@@ -12,6 +12,8 @@ namespace Price.WebApi.Logic
             if (string.IsNullOrEmpty(sessionId)) return;
             using (var client = new WebClient())
             {
+                //client.Headers.Add("Content-Type", "application/json; charset=utf-8");
+                client.Headers[HttpRequestHeader.ContentType] = "application/json";
                 var en = Encoding.UTF8;
                 var uri = new Uri($"{AppGlobal.InternetSearchHost}/TerminateSession/{sessionId}");
                 var result = client.DownloadData(uri);
@@ -25,6 +27,8 @@ namespace Price.WebApi.Logic
         {
             using (var client = new WebClient())
             {
+                //client.Headers.Add("Content-Type", "application/json; charset=utf-8
+                client.Headers[HttpRequestHeader.ContentType] = "application/json";
                 var en = Encoding.UTF8;
                 var uri = new Uri($"{AppGlobal.InternetSearchHost}/GetSessionProgress/{sessionId}");
                 var result = client.DownloadData(uri);
