@@ -166,10 +166,14 @@ namespace Topol.UseApi
 
             _engine = new TesseractEngine(@"./tessdata", "rus", EngineMode.Default);
 
+
+            cmbPriority.Items.Clear();
+            cmbPriority.Items.AddRange(new[] { "Нормальный", "Высокий", "Максимальный" });
+            priorityList = new[] { "Normal", "High", "Max" };
             cmbPriority.SelectedIndex = 0;
         }
 
-
+        public string[] priorityList { get; set; }
 
 
         private void ClearContentView()
@@ -1202,13 +1206,18 @@ namespace Topol.UseApi
 
         private void CallApi4OneItemPacket_Click(object sender, EventArgs e)
         {
+            byte options = 0;
+            if (!cbSeparateRequest.Checked) options |= 8;
+            if (cbNotExtractPrice.Checked) options |= 2;
             var dto = new List<SearchItemParam>
             {
                 new SearchItemParam
                 {
                     Id = string.IsNullOrEmpty(tbSingleExtId.Text) ? Md5Logstah.GetDefaultId("", textBox2.Text) : tbSingleExtId.Text,
                     Name = textBox2.Text,
-                    Norm = cmbNorm.SelectedItem as string
+                    Norm = cmbNorm.SelectedItem as string,
+                    Priority = priorityList[cmbPriority.SelectedIndex],
+                    Options = options
                 }
             };
             SearchPacket(dto, tbKeywords.Text);

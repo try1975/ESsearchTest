@@ -143,12 +143,13 @@
             this.lblPrice = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.gbSource = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.cmbPriority = new System.Windows.Forms.ComboBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.cbSeparateRequest = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.label16 = new System.Windows.Forms.Label();
-            this.cmbPriority = new System.Windows.Forms.ComboBox();
+            this.cbNotExtractPrice = new System.Windows.Forms.CheckBox();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -1443,9 +1444,10 @@
             // 
             // gbSource
             // 
+            this.gbSource.Controls.Add(this.cbNotExtractPrice);
             this.gbSource.Controls.Add(this.cmbPriority);
             this.gbSource.Controls.Add(this.label16);
-            this.gbSource.Controls.Add(this.checkBox1);
+            this.gbSource.Controls.Add(this.cbSeparateRequest);
             this.gbSource.Controls.Add(this.label5);
             this.gbSource.Controls.Add(this.tbKeywords);
             this.gbSource.Controls.Add(this.linkLabel1);
@@ -1460,17 +1462,39 @@
             this.gbSource.TabStop = false;
             this.gbSource.Text = "Выбор источника";
             // 
-            // checkBox1
+            // cmbPriority
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(868, 54);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(243, 29);
-            this.checkBox1.TabIndex = 5;
-            this.checkBox1.Text = "отдельные запросы";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.cmbPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbPriority.FormattingEnabled = true;
+            this.cmbPriority.Items.AddRange(new object[] {
+            "Нормальный",
+            "Высокий",
+            "Максимальный"});
+            this.cmbPriority.Location = new System.Drawing.Point(1134, 49);
+            this.cmbPriority.Name = "cmbPriority";
+            this.cmbPriority.Size = new System.Drawing.Size(212, 33);
+            this.cmbPriority.TabIndex = 7;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(1129, 21);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(119, 25);
+            this.label16.TabIndex = 6;
+            this.label16.Text = "Приоритет";
+            // 
+            // cbSeparateRequest
+            // 
+            this.cbSeparateRequest.AutoSize = true;
+            this.cbSeparateRequest.Checked = true;
+            this.cbSeparateRequest.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbSeparateRequest.Location = new System.Drawing.Point(858, 22);
+            this.cbSeparateRequest.Name = "cbSeparateRequest";
+            this.cbSeparateRequest.Size = new System.Drawing.Size(243, 29);
+            this.cbSeparateRequest.TabIndex = 5;
+            this.cbSeparateRequest.Text = "отдельные запросы";
+            this.cbSeparateRequest.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
@@ -1502,27 +1526,15 @@
             this.linkLabel1.Text = "Описание API: http://144.76.54.166:52620/help";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // label16
+            // cbNotExtractPrice
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(1114, 21);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(119, 25);
-            this.label16.TabIndex = 6;
-            this.label16.Text = "Приоритет";
-            // 
-            // cmbPriority
-            // 
-            this.cmbPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPriority.FormattingEnabled = true;
-            this.cmbPriority.Items.AddRange(new object[] {
-            "Нормальный",
-            "Высокий",
-            "Критический"});
-            this.cmbPriority.Location = new System.Drawing.Point(1119, 49);
-            this.cmbPriority.Name = "cmbPriority";
-            this.cmbPriority.Size = new System.Drawing.Size(212, 33);
-            this.cmbPriority.TabIndex = 7;
+            this.cbNotExtractPrice.AutoSize = true;
+            this.cbNotExtractPrice.Location = new System.Drawing.Point(858, 53);
+            this.cbNotExtractPrice.Name = "cbNotExtractPrice";
+            this.cbNotExtractPrice.Size = new System.Drawing.Size(121, 29);
+            this.cbNotExtractPrice.TabIndex = 8;
+            this.cbNotExtractPrice.Text = "без цен";
+            this.cbNotExtractPrice.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1713,9 +1725,10 @@
         private System.Windows.Forms.Button btnMove;
         private System.Windows.Forms.Button btnSplit;
         private System.Windows.Forms.Button btnExcel;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox cbSeparateRequest;
         private System.Windows.Forms.ComboBox cmbPriority;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.CheckBox cbNotExtractPrice;
     }
 }
 

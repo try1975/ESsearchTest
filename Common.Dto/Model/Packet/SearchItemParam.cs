@@ -46,5 +46,8 @@ namespace Common.Dto.Model.Packet
         /// Дополнительные слова для поиска
         /// </summary>
         public string AddKeywords { get; set; }
+
+        public string Priority { get; set; }
+        public byte Options { get; set; }
     }
 }
