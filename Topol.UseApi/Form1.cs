@@ -349,7 +349,7 @@ namespace Topol.UseApi
             //ContentGridPriceVariants(dgv);
 
             // hide all columns
-            //foreach (DataGridViewColumn dgvColumn in dgv.Columns) dgvColumn.Visible = false;
+            foreach (DataGridViewColumn dgvColumn in dgv.Columns) dgvColumn.Visible = false;
 
             var column = dgv.Columns[nameof(ContentDto.Selected)];
             if (column != null)
