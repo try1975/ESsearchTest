@@ -110,7 +110,7 @@ namespace Topol.UseApi
 
 
             var baseApi = ConfigurationManager.AppSettings["BaseApi"];
-            linkLabel1.Text = $@"Описание API - {baseApi}help";
+            linkLabel1.Text = $@"Описание API - {baseApi}";
 
             cbSearchItemStatus.DataSource = new[] {
                 new SearchItemStatusItem { Text="Любое", TaskStatus=null},
