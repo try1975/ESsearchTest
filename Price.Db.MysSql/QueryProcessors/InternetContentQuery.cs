@@ -2,7 +2,7 @@
 using Price.Db.Entities.Entities;
 using Price.Db.Entities.QueryProcessors;
 
-namespace Price.Db.MysSql.QueryProcessors
+namespace Price.Db.Postgress.QueryProcessors
 {
     public class InternetContentQuery : TypedQuery<InternetContentEntity, int>, IInternetContentQuery
     {

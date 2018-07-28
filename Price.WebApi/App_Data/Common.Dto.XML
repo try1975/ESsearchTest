@@ -1,0 +1,642 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Common.Dto</name>
+    </assembly>
+    <members>
+        <member name="T:Common.Dto.Model.NewApi.ContentExtDto">
+            <summary>
+            Элемент результата поискового запроса
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.Id">
+            <summary>
+            Идентификатор элемент результата поискового запроса
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.Name">
+            <summary>
+            Наименование элемент результата (результат поиска)
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.Price">
+            <summary>
+            Цена в формате строки для элемента результата поискового запроса
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.Uri">
+            <summary>
+            Ссылка на конкретный ресурс, где был найден элемент результата поискового запроса
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.CollectedAt">
+            <summary>
+                Дата и время сбора цены (UTC, UnixTime)
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.Collected">
+            <summary>
+                Дата и время сбора цены
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.ElasticId">
+            <summary>
+            Идентификатор elasticId элемента результата поиска
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.SearchItemId">
+            <summary>
+            Идентификатор поискового запроса
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.PriceType">
+            <summary>
+            Тип цены элемента результата поискового запроса
+            0 - Доверять (Trusted) - элемент результата получен из ElasticSearch - большая вероятность правильного определения цены
+            1 - Требует проверки (Check) - - элемент результата получен из интеренет, требует проверки оператором, например, контроль по скриншоту
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.PriceTypeString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.Screenshot">
+            <summary>
+            Ссылка на сккриншот ресурса, где был найден элемент результата поискового запроса
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.PriceStatus">
+            <summary>
+            Статус цены элемента результата поискового запроса, только проверенные оператором цены
+            будут впоследствии автоматически актуализироваться (api/contentitem/checked/{id:int}).
+            0 - Не проверено (NotChecked)
+            1 - Проверено (Checked)
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.PriceStatusString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.Seller">
+            <summary>
+                Продавец
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.Producer">
+            <summary>
+                Производитель
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.Phones">
+            <summary>
+                Телефоны
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.PriceVariants">
+            <summary>
+                Варианты цен
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.Selected">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.Nprice">
+            <summary>
+                Цена позиции число
+            </summary>
+        </member>
+        <member name="T:Common.Dto.Model.NewApi.ContentMoveDto">
+            <summary>
+            Элемент результата поискового запроса для перемещения в другой поисковой запрос
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentMoveDto.Id">
+            <summary>
+            Идентификатор элемент результата поискового запроса
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentMoveDto.ElasticId">
+            <summary>
+            Идентификатор elasticId элемента результата поискового запроса
+            </summary>
+        </member>
+        <member name="T:Common.Dto.Model.NewApi.SearchItemCondition">
+            <summary>
+            Условия отбора поисковых запросов
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemCondition.DateFrom">
+            <summary>
+            Дата начала периода, в котором будет производиться поиск (по времени старта поискового запроса), может отсутствовать
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemCondition.DateTo">
+            <summary>
+            Дата окончания периода, в котором будет производиться поиск (по времени старта поискового запроса), может отсутствовать
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemCondition.Status">
+            <summary>
+            Фильтр по статусу поискового запроса, может отсутствовать
+            0- Не обработан (NotInitialized)
+            1 - В очереди (InQueue)
+            2- Ошибка (Error)
+            3- Завершено (Ok)
+            4- В процессе (InProcess)
+            5 - Прекращено по таймауту (BreakByTimeout)
+            6 - Прекращено (Break)
+            7 - Проверено (Checked)
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemCondition.Name">
+            <summary>
+            Наименование ТРУ для поиска в поисковом запросе, поиск по неполному совпадению
+            (например если name=болт, будут найдены поисковые запросы болт стальной и набор гайка, болт, шайба)
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemCondition.ExtId">
+            <summary>
+            Метка - берется из Id элемента пакета поиска(классификатор ТРУ), может задаваться произвольно или формироваться автоматически
+            Имеет длину 128 символов, по ней доступен поиск по условиям по полному совпадению
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemCondition.IsInternet">
+            <summary>
+            Взять только те поисковые запросы, где среди источников поиска был указан источник internet
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemExtDto.Status">
+            <summary>
+            Статус объекта обработки
+            </summary>
+        </member>
+        <member name="T:Common.Dto.Model.NewApi.SearchItemHeaderDto">
+            <summary>
+            Заголовок поискового запроса
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemHeaderDto.Id">
+            <summary>
+            Идентификатор поискового запроса
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemHeaderDto.Name">
+            <summary>
+            Наименование ТРУ для поиска
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemHeaderDto.StartProcessed">
+            <summary>
+            Время старта поискового запроса (Utc[https://ru.wikipedia.org/wiki/%D0%92%D1%81%D0%B5%D0%BC%D0%B8%D1%80%D0%BD%D0%BE%D0%B5_%D0%BA%D0%BE%D0%BE%D1%80%D0%B4%D0%B8%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D0%BE%D0%B5_%D0%B2%D1%80%D0%B5%D0%BC%D1%8F], Unix Time)
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemHeaderDto.LastUpdate">
+            <summary>
+            Время последнего обновления результатов поискового запроса (Utc, Unix Time)
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemHeaderDto.ProcessedAt">
+            <summary>
+            Время окончания поискового запроса (Utc, Unix Time)
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemHeaderDto.Status">
+            <summary>
+            Статус поискового запроса
+            0- Не обработан (NotInitialized)
+            1 - В очереди (InQueue)
+            2- Ошибка (Error)
+            3- Завершено (Ok)
+            4- В процессе (InProcess)
+            5 - Прекращено по таймауту (BreakByTimeout)
+            6 - Прекращено (Break)
+            7 - Проверено (Checked)
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemHeaderDto.Source">
+            <summary>
+            Наименование источника поиска (md5 - по алиасу md5 в ElasticSearch, internet - Интернет, поисковые системы)
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemHeaderDto.ExtId">
+            <summary>
+            Метка - берется из Id элемента пакета поиска(классификатор ТРУ), может задаваться произвольно или формироваться автоматически
+            Имеет длину 128 символов, по ней доступен поиск по условиям по полному совпадению
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemHeaderDto.InternetSessionId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemHeaderDto.Normalizer">
+            <summary>
+            Нормализатор
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemHeaderDto.StartProcessedDateTime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemHeaderDto.LastUpdateDateTime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemHeaderDto.ProcessedAtDateTime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemHeaderDto.StatusString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemHeaderDto.ContentCount">
+            <summary>
+            Количество элементов результата поиска по поисковому запросу
+            </summary>
+        </member>
+        <member name="M:Common.Dto.Model.NewApi.SearchItemHeaderDto.BeginProcess(System.Int64)">
+            <summary>
+            
+            </summary>
+            <param name="tick"></param>
+        </member>
+        <member name="T:Common.Dto.Model.XPath.XPathDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.XPath.XPathDto.XPathName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.XPath.XPathDto.XPathPrice">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.XPath.XPathDto.Uri">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.XPath.XPathDto.Domain">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.XPath.XPathDto.IdnDomain">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.XPath.XPathDto.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.XPath.XPathDto.Price">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.XPath.XPathDto.CollectedAt">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.XPath.XPathDto.Id">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Common.Dto.Model.ContentDto">
+            <summary>
+                Результат поиска
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentDto.Name">
+            <summary>
+                Наименование позиции
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentDto.Price">
+            <summary>
+                Цена позиции строка
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentDto.Nprice">
+            <summary>
+                Цена позиции число
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentDto.Uri">
+            <summary>
+                Ссылка на источник
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentDto.Seller">
+            <summary>
+                Продавец
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentDto.CollectedAt">
+            <summary>
+                Дата и время сбора цены (UTC)
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentDto.Collected">
+            <summary>
+                Дата и время сбора цены
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentDto.Id">
+            <summary>
+                Идентификатор позиции
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentDto.Producer">
+            <summary>
+                Производитель
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentDto.Phones">
+            <summary>
+                Телефоны
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentDto.Okpd2">
+            <summary>
+                ОКПД2
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentDto.Okei">
+            <summary>
+                Единица измерения
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentDto.Currency">
+            <summary>
+                Валюта
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentDto.PriceVariants">
+            <summary>
+                Варианты цен
+            </summary>
+        </member>
+        <member name="T:Common.Dto.Model.ContentNmckDto">
+            <summary>
+                Результат расчета НМЦК
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentNmckDto.Text">
+            <summary>
+                Исходное наименование ТРУ для поиска
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentNmckDto.Nmck">
+            <summary>
+                Значение НМЦК
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentNmckDto.CalcDate">
+            <summary>
+                Дата расчета
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentNmckDto.CalcText">
+            <summary>
+                Текст расчета
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ContentNmckDto.Contents">
+            <summary>
+                Список результатов поиска для расчета
+            </summary>
+        </member>
+        <member name="T:Common.Dto.Model.MaybeDto">
+            <summary>
+            Структура для задания параметров поиска типа Maybe
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.MaybeDto.Musts">
+            <summary>
+            обязательное вхождение
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.MaybeDto.Shoulds">
+            <summary>
+            возможное вхождение
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.MaybeDto.MustNots">
+            <summary>
+            обязательное отсутствие
+            </summary>
+        </member>
+        <member name="T:Common.Dto.Model.Packet.SearchItemDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemDto.Source">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemDto.Key">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemDto.Id">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemDto.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemDto.Status">
+            <summary>
+            Статус объекта обработки
+            </summary>
+        </member>
+        <member name="T:Common.Dto.Model.Packet.SearchItemParam">
+            <summary>
+            искомая позиция
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Id">
+            <summary>
+            id позиции
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Name">
+            <summary>
+            наименование позиции
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Category">
+            <summary>
+            категория позиции, может отсутствовать
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.SearchItemProperties">
+            <summary>
+            список свойств, может отсутствовать
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Info">
+            <summary>
+            расширенная информация о позиции, может отсутствовать
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Syn">
+            <summary>
+            альтернативные наименования позиции
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Norm">
+            <summary>
+            нормализатор, применяемый при обработке позиции
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.AddKeywords">
+            <summary>
+            Дополнительные слова для поиска
+            </summary>
+        </member>
+        <member name="T:Common.Dto.Model.Packet.SearchItemProperty">
+            <summary>
+            свойство искомой позиции
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemProperty.Key">
+            <summary>
+            наименование свойства
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemProperty.Value">
+            <summary>
+            значение свойства
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemProperty.Group">
+            <summary>
+            да/нет - раздел введён для удобства группировки
+            </summary>
+        </member>
+        <member name="T:Common.Dto.Model.Packet.SearchPacketResultDto">
+            <summary>
+            Результат пакетного поиска
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchPacketResultDto.Id">
+            <summary>
+            id позиции задачи поиска
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchPacketResultDto.Name">
+            <summary>
+            наименование позиции задачи поиска
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchPacketResultDto.Content">
+            <summary>
+            Найденные ТРУ
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchPacketTaskDto.TotalCount">
+            <summary>
+            Всего объектов в задаче
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchPacketTaskDto.ProcessedCount">
+            <summary>
+            Уже обработано объектов в задаче
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchPacketTaskDto.SearchItems">
+            <summary>
+            Список объектов в задаче
+            </summary>
+        </member>
+        <member name="M:Common.Dto.Model.Packet.SearchPacketTaskDto.UpdateStatistics(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Common.Dto.Model.SourceDto">
+            <summary>
+            Настройки для парсера
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.SourceDto.Nm">
+            <summary>
+            Наименование источника
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.SourceDto.Dsc">
+            <summary>
+            Хост источника
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.SourceDto.Expression">
+            <summary>
+            Выражения для парсинга
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.SourceDto.Phones">
+            <summary>
+            Телефоны
+            </summary>
+        </member>
+        <member name="T:Common.Dto.SearchPacketTaskStore">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Common.Dto.SearchPacketTaskStore.Dictionary">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.Dto.SearchPacketTaskStore.Get(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="aKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Common.Dto.SearchPacketTaskStore.Post(Common.Dto.Model.Packet.SearchPacketTaskDto)">
+            <summary>
+            
+            </summary>
+            <param name="dto"></param>
+        </member>
+        <member name="T:Common.Dto.Logic.Utils">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Common.Dto.Logic.Utils.GetUtcNow">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

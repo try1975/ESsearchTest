@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AutoMapper;
 using Common.Dto;
 using Common.Dto.Logic;
-using Common.Dto.Model;
 using Common.Dto.Model.NewApi;
 using Common.Dto.Model.Packet;
 using Newtonsoft.Json;
@@ -20,7 +17,7 @@ using Price.WebApi.Maintenance.Interfaces;
 namespace Price.WebApi.Controllers
 {
     /// <summary>
-    /// 
+    /// Поиск пакетом ТРУ(пакет может состоять из одного ТРУ). Поиск возможен в различных источниках.
     /// </summary>
     [Authorize]
     [RoutePrefix("api/packet")]
@@ -32,7 +29,7 @@ namespace Price.WebApi.Controllers
 
         private readonly Delegate _elasticDelegate = new ElasticDelegate(ElasticSeacherAndDbWriter.Execute);
         /// <summary>
-        /// 
+        /// Поиск пакетом ТРУ(пакет может состоять из одного ТРУ).
         /// </summary>
         /// <param name="searchItemApi"></param>
         public PacketController(ISearchItemApi searchItemApi)
@@ -41,23 +38,24 @@ namespace Price.WebApi.Controllers
         }
 
         /// <summary>
-        /// Описание
+        /// Поиск пакетом ТРУ(пакет может состоять из одного ТРУ). Поиск возможен в различных источниках.
         /// </summary>
         /// <param name="searchItemsParam">Состав пакета</param>
         /// <param name="source">Наименование источника для поиска</param>
         /// <param name="keywords">Дополнительные слова для поиска через пробел</param>
         /// <returns></returns>
+        [HttpPost]
         [ResponseType(typeof(List<SearchItemHeaderDto>))]
-        public HttpResponseMessage Post(List<SearchItemParam> searchItemsParam, [FromUri] string source = "", [FromUri] string keywords = "")
+        public IHttpActionResult Post(List<SearchItemParam> searchItemsParam, [FromUri] string source = "", [FromUri] string keywords = "")
         {
             #region check input parameter
 
-            if (searchItemsParam == null)
-                return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    new ErrorDto { Message = $"not found {nameof(searchItemsParam)} in parameters" });
-            if (!searchItemsParam.Any())
-                return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    new ErrorDto { Message = $"not found {nameof(searchItemsParam)} in parameters" });
+            //if (searchItemsParam == null)
+            //    return Request.CreateResponse(HttpStatusCode.BadRequest,
+            //        new ErrorDto { Message = $"not found {nameof(searchItemsParam)} in parameters" });
+            //if (!searchItemsParam.Any())
+            //    return Request.CreateResponse(HttpStatusCode.BadRequest,
+            //        new ErrorDto { Message = $"not found {nameof(searchItemsParam)} in parameters" });
             source = source.ToLower();
 
             #endregion
@@ -96,12 +94,12 @@ namespace Price.WebApi.Controllers
                     if (searchInInternet) dto.InternetSessionId = GetInternetSessionId(json);
                     _searchItemApi.AddItem(dto);
                     if (!string.IsNullOrEmpty(keywords)) searchItem.Name = $"{searchItem.Name} {keywords}";
-                    ThreadUtil.FireAndForget(_elasticDelegate, new object[] { searchItem, source, id });
+                    ThreadUtil.FireAndForget(_elasticDelegate, searchItem, source, id);
                     resultList.Add(Mapper.Map<SearchItemHeaderDto>(dto));
                 }
                 else resultList.Add(dtoHeader);
             }
-            return Request.CreateResponse(HttpStatusCode.OK, resultList);
+            return Ok(resultList);
         }
 
         private static string GetInternetSessionId(string json)
@@ -118,7 +116,7 @@ namespace Price.WebApi.Controllers
                     var result = client.UploadData(uri, "PUT", data);
                     var text = en.GetString(result);
                     var o = JsonConvert.DeserializeObject<AnalystNewSearchResult>(text);
-                    return o.result[0].sessions[0];
+                    return o.Result[0].Sessions[0];
                 }
                 catch (Exception exception)
                 {
@@ -131,16 +129,14 @@ namespace Price.WebApi.Controllers
 
         private class AnalystNewSearchResult
         {
-            public AnalystNewSearchSessions[] result { get; set; }
+            [JsonProperty("result")]
+            public AnalystNewSearchSessions[] Result { get; set; }
         }
 
         private class AnalystNewSearchSessions
         {
-            public string[] sessions { get; set; }
+            [JsonProperty("sessions")]
+            public string[] Sessions { get; set; }
         }
     }
-
-
-
-
 }

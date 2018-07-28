@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Price.Db.MysSql;
-using Price.Db.MysSql.QueryProcessors;
+using Price.Db.Postgress;
+using Price.Db.Postgress.QueryProcessors;
 using Price.WebApi.Logic;
 using Price.WebApi.Maintenance.Classes;
 using PriceCommon.Enums;

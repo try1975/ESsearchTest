@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
-using Price.Db.MysSql;
-using Price.Db.MysSql.QueryProcessors;
+using Price.Db.Postgress;
+using Price.Db.Postgress.QueryProcessors;
 
 namespace Price.Db.Console
 {

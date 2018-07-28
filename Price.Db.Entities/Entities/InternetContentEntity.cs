@@ -16,7 +16,7 @@ namespace Price.Db.Entities.Entities
         public int? task_id { get; set; }
         public string session_id { get; set; }
         public string preview { get; set; }
-        public bool? selected { get; set; }
+        public int? selected { get; set; }
         public byte[] screenshot { get; set; }
         public string currency { get; set; }
         public int? opt { get; set; }
@@ -26,6 +26,9 @@ namespace Price.Db.Entities.Entities
         public string unit { get; set; }
         public string weight { get; set; }
         public string rate { get; set; }
+        public string txt { get; set; }
+        public string html { get; set; }
+        public int? upd { get; set; }
         public PriceStatus PriceStatus { get; set; }
     }
 }

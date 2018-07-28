@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Price.Db.Entities;
 
-namespace Price.Db.MysSql.QueryProcessors
+namespace Price.Db.Postgress.QueryProcessors
 {
     public abstract class TypedQuery<T, TK> : ITypedQuery<T, TK> where T : class, IEntity<TK>
     {

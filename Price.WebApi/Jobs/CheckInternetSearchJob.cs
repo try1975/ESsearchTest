@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Common.Dto.Logic;
-using Price.Db.MysSql;
-using Price.Db.MysSql.QueryProcessors;
+using Price.Db.Postgress;
+using Price.Db.Postgress.QueryProcessors;
 using Price.WebApi.Logic;
 using Quartz;
 using TaskStatus = PriceCommon.Enums.TaskStatus;

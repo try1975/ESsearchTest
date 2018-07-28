@@ -1,12 +1,10 @@
 ﻿using System.Data.Entity;
-using MySql.Data.Entity;
 using Price.Db.Entities.Entities;
-using Price.Db.MysSql.Mappings;
-using Price.Db.MysSql.Migrations;
+using Price.Db.Postgress.Mappings;
+using Price.Db.Postgress.Migrations;
 
-namespace Price.Db.MysSql
+namespace Price.Db.Postgress
 {
-    [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class PriceContext : DbContext
     {
         public PriceContext() : base("name=PriceConnection")
@@ -25,9 +23,11 @@ namespace Price.Db.MysSql
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             const string prefix = "";
-            modelBuilder.Configurations.Add(new SearchItemMySqlMap($"{prefix}{nameof(SearchItems)}"));
-            modelBuilder.Configurations.Add(new InternetContentMySqlMap($"{prefix}history"));
-            modelBuilder.Configurations.Add(new ContentMySqlMap($"{prefix}{nameof(Contents)}"));
+            modelBuilder.Configurations.Add(new SearchItemDbMap($"{prefix}{nameof(SearchItems)}"));
+            modelBuilder.Configurations.Add(new InternetContentDbMap($"{prefix}history"));
+            modelBuilder.Configurations.Add(new ContentDbMap($"{prefix}{nameof(Contents)}"));
+            modelBuilder.HasDefaultSchema("public");
+            base.OnModelCreating(modelBuilder);
         }
 
     }

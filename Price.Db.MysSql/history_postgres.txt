@@ -1,0 +1,39 @@
+-- Table: public.history
+
+-- DROP TABLE public.history;
+
+CREATE TABLE public.history
+(
+    id bigint NOT NULL DEFAULT nextval(('public.history_id_seq'::text)::regclass),
+    spgz_id integer,
+    dt timestamp without time zone NOT NULL DEFAULT now(),
+    price double precision,
+    url text COLLATE pg_catalog."default",
+    src_id integer,
+    contact_url character varying(128) COLLATE pg_catalog."default" DEFAULT NULL::character varying,
+    task_id integer,
+    session_id character varying(128) COLLATE pg_catalog."default" DEFAULT NULL::character varying,
+    preview text COLLATE pg_catalog."default",
+    selected integer,
+    screenshot bytea,
+    currency character varying(10) COLLATE pg_catalog."default" DEFAULT NULL::character varying,
+    opt integer,
+    referer text COLLATE pg_catalog."default",
+    prices character varying(2048) COLLATE pg_catalog."default" DEFAULT NULL::character varying,
+    unit_price double precision,
+    unit character varying(50) COLLATE pg_catalog."default" DEFAULT NULL::character varying,
+    weight character varying(50) COLLATE pg_catalog."default" DEFAULT NULL::character varying,
+    rate character varying(255) COLLATE pg_catalog."default" DEFAULT NULL::character varying,
+    pricestatus integer DEFAULT 0,
+    txt text COLLATE pg_catalog."default",
+    html text COLLATE pg_catalog."default",
+    upd integer DEFAULT 0,
+    CONSTRAINT history_pkey PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.history
+    OWNER to postgres;

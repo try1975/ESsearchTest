@@ -1,18 +1,15 @@
-namespace Price.Db.MysSql.Migrations
-{
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
+using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Price.Db.MysSql.PriceContext>
+namespace Price.Db.Postgress.Migrations
+{
+    internal sealed class Configuration : DbMigrationsConfiguration<PriceContext>
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(Price.Db.MysSql.PriceContext context)
+        protected override void Seed(PriceContext context)
         {
             //  This method will be called after migrating to the latest version.
 

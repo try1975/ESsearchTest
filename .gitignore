@@ -255,3 +255,5 @@ ModelManifest.xml
 /XPath.Loader/XPath.Loader.AppSettings.config
 /BingSearch/BingSearch.AppSettings.config
 /Topol.UseApi/App.AppSettings.config
+/Topol.WebApi/Web.AppSettings.config
+/Topol.WebApi/Web.Connections.config
