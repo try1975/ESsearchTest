@@ -1,0 +1,1183 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "v1",
+		"title": "Price.WebApi"
+	},
+	"host": "localhost:52620",
+	"schemes": ["http"],
+	"paths": {
+		"/api/contentitem/{id}": {
+			"delete": {
+				"tags": ["ContentItem"],
+				"summary": "Удалить элемент результата поиска",
+				"operationId": "ContentItem_DeleteContentItem",
+				"consumes": [],
+				"produces": ["application/json",
+				"text/json"],
+				"parameters": [{
+					"name": "id",
+					"in": "path",
+					"description": "Идентификатор элемента результата поиска",
+					"required": true,
+					"type": "integer",
+					"format": "int32"
+				},
+				{
+					"name": "elasticId",
+					"in": "query",
+					"description": "Идентификатор elasticId элемента результата поиска",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "object"
+						}
+					}
+				}
+			}
+		},
+		"/api/contentitem/checked/{id}": {
+			"post": {
+				"tags": ["ContentItem"],
+				"summary": "Пометить элемент результата поиска как провереннный.",
+				"operationId": "ContentItem_PostContentItemChecked",
+				"consumes": [],
+				"produces": ["application/json",
+				"text/json"],
+				"parameters": [{
+					"name": "id",
+					"in": "path",
+					"description": "Идентификатор элемента результата поиска",
+					"required": true,
+					"type": "integer",
+					"format": "int32"
+				},
+				{
+					"name": "elasticId",
+					"in": "query",
+					"description": "Идентификатор elasticId элемента результата поиска",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "object"
+						}
+					}
+				}
+			}
+		},
+		"/api/contentitem/setprice/{id}": {
+			"post": {
+				"tags": ["ContentItem"],
+				"summary": "Установить цену для элемента результата поиска",
+				"operationId": "ContentItem_PostContentItemSetPrice",
+				"consumes": [],
+				"produces": ["application/json",
+				"text/json"],
+				"parameters": [{
+					"name": "id",
+					"in": "path",
+					"description": "Идентификатор элемента результата поиска",
+					"required": true,
+					"type": "integer",
+					"format": "int32"
+				},
+				{
+					"name": "elasticId",
+					"in": "query",
+					"description": "Идентификатор elasticId элемента результата поиска",
+					"required": true,
+					"type": "string"
+				},
+				{
+					"name": "price",
+					"in": "query",
+					"description": "Цена",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "object"
+						}
+					}
+				}
+			}
+		},
+		"/api/Packet": {
+			"post": {
+				"tags": ["Packet"],
+				"summary": "Поиск пакетом ТРУ(пакет может состоять из одного ТРУ). Поиск возможен в различных источниках.",
+				"operationId": "Packet_Post",
+				"consumes": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml",
+				"application/x-www-form-urlencoded"],
+				"produces": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml"],
+				"parameters": [{
+					"name": "searchItemsParam",
+					"in": "body",
+					"description": "Состав пакета",
+					"required": true,
+					"schema": {
+						"type": "array",
+						"items": {
+							"$ref": "#/definitions/SearchItemParam"
+						}
+					}
+				},
+				{
+					"name": "source",
+					"in": "query",
+					"description": "Наименование источника для поиска",
+					"required": false,
+					"type": "string"
+				},
+				{
+					"name": "keywords",
+					"in": "query",
+					"description": "Дополнительные слова для поиска через пробел",
+					"required": false,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/SearchItemHeaderDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/SearchItem/status/{id}": {
+			"get": {
+				"tags": ["SearchItem"],
+				"summary": "Получить заголовок поискового запроса по идентификатору",
+				"operationId": "SearchItem_GetSearchItemStatus",
+				"consumes": [],
+				"produces": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml"],
+				"parameters": [{
+					"name": "id",
+					"in": "path",
+					"description": "Идентификатор поискового запроса",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/SearchItemHeaderDto"
+						}
+					}
+				}
+			}
+		},
+		"/api/SearchItem/content/{id}": {
+			"get": {
+				"tags": ["SearchItem"],
+				"summary": "Получить элементы результата поискового запроса",
+				"operationId": "SearchItem_GetSearchItemContents",
+				"consumes": [],
+				"produces": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml"],
+				"parameters": [{
+					"name": "id",
+					"in": "path",
+					"description": "Идентификатор поискового запроса",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/ContentExtDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/SearchItem/ByCondition": {
+			"post": {
+				"tags": ["SearchItem"],
+				"summary": "Получить заголовки поисковых запросов по условиям",
+				"operationId": "SearchItem_PostSearchItemsByConditions",
+				"consumes": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml",
+				"application/x-www-form-urlencoded"],
+				"produces": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml"],
+				"parameters": [{
+					"name": "searchItemCondition",
+					"in": "body",
+					"description": "",
+					"required": true,
+					"schema": {
+						"$ref": "#/definitions/SearchItemCondition"
+					}
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/SearchItemHeaderDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/SearchItem/break/{id}": {
+			"post": {
+				"tags": ["SearchItem"],
+				"summary": "Прервать работу поисковго запроса с определенным идентификатором, возвращает 200, если поисковой запрос найден и прерван, иначе 404",
+				"operationId": "SearchItem_PostSearchItemsBreak",
+				"consumes": [],
+				"produces": ["application/json",
+				"text/json"],
+				"parameters": [{
+					"name": "id",
+					"in": "path",
+					"description": "Идентификатор поискового запроса",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "object"
+						}
+					}
+				}
+			}
+		},
+		"/api/SearchItem/checked/{id}": {
+			"post": {
+				"tags": ["SearchItem"],
+				"summary": "Пометить поисковый запрос как проверенный - его нельзя будет случайно удалить.\r\nТолько по проверенным поисковым запросам и проверенным элементам производится автоматическая актуализация цен.\r\nВозвращает 200, если поисковой запрос найден и помечен как проверенный, иначе 404",
+				"operationId": "SearchItem_PostSearchItemsChecked",
+				"consumes": [],
+				"produces": ["application/json",
+				"text/json"],
+				"parameters": [{
+					"name": "id",
+					"in": "path",
+					"description": "Идентификатор поискового запроса",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "object"
+						}
+					}
+				}
+			}
+		},
+		"/api/SearchItem/Move": {
+			"post": {
+				"tags": ["SearchItem"],
+				"summary": "Переместить элементы результатов поискового запроса в другой поисковой запрос (разделить результаты).",
+				"operationId": "SearchItem_PostContentItemsMove",
+				"consumes": ["application/json",
+				"text/json",
+				"application/x-www-form-urlencoded"],
+				"produces": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml"],
+				"parameters": [{
+					"name": "dtos",
+					"in": "body",
+					"description": "Список элементов результата поискового запроса для перемещения",
+					"required": true,
+					"schema": {
+						"type": "array",
+						"items": {
+							"$ref": "#/definitions/ContentMoveDto"
+						}
+					}
+				},
+				{
+					"name": "id",
+					"in": "query",
+					"description": "Идентификатор поискового запроса откуда будут перемещены элементы результата",
+					"required": true,
+					"type": "string"
+				},
+				{
+					"name": "name",
+					"in": "query",
+					"description": "Новое наименование ТРУ (если пустое - будет взято из исходного поискового запроса)",
+					"required": true,
+					"type": "string"
+				},
+				{
+					"name": "extId",
+					"in": "query",
+					"description": "Новая метка (если пустое - будет взято из исходного поискового запроса)",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/SearchItemHeaderDto"
+						}
+					}
+				}
+			}
+		},
+		"/api/SearchItem": {
+			"get": {
+				"tags": ["SearchItem"],
+				"summary": "Получить элементы (служебный метод)",
+				"operationId": "SearchItem_Get",
+				"consumes": [],
+				"produces": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml"],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/SearchItemExtDto"
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"tags": ["SearchItem"],
+				"operationId": "SearchItem_Put",
+				"consumes": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml",
+				"application/x-www-form-urlencoded"],
+				"produces": ["application/json",
+				"text/json"],
+				"parameters": [{
+					"name": "changedDto",
+					"in": "body",
+					"required": true,
+					"schema": {
+						"$ref": "#/definitions/SearchItemExtDto"
+					}
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "object"
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": ["SearchItem"],
+				"operationId": "SearchItem_Post",
+				"consumes": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml",
+				"application/x-www-form-urlencoded"],
+				"produces": ["application/json",
+				"text/json"],
+				"parameters": [{
+					"name": "creatingDto",
+					"in": "body",
+					"required": true,
+					"schema": {
+						"$ref": "#/definitions/SearchItemExtDto"
+					}
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "object"
+						}
+					}
+				}
+			}
+		},
+		"/api/SearchItem/{id}": {
+			"get": {
+				"tags": ["SearchItem"],
+				"operationId": "SearchItem_Get",
+				"consumes": [],
+				"produces": ["application/json",
+				"text/json"],
+				"parameters": [{
+					"name": "id",
+					"in": "path",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "object"
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": ["SearchItem"],
+				"operationId": "SearchItem_Delete",
+				"consumes": [],
+				"produces": ["application/json",
+				"text/json"],
+				"parameters": [{
+					"name": "id",
+					"in": "path",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "object"
+						}
+					}
+				}
+			}
+		},
+		"/api/simpleprice/contents": {
+			"get": {
+				"tags": ["SimplePrice"],
+				"summary": "Получение списка результатов поиска без нормализации",
+				"operationId": "SimplePrice_GetSimplePriceContents",
+				"consumes": [],
+				"produces": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml"],
+				"parameters": [{
+					"name": "text",
+					"in": "query",
+					"description": "Текст для поиска",
+					"required": true,
+					"type": "string"
+				},
+				{
+					"name": "source",
+					"in": "query",
+					"description": "Источник, в котором осуществляется поиск (пусто - источник по умолчанию, gz - госзакупки)",
+					"required": false,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/ContentDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/simpleprice/maybe": {
+			"get": {
+				"tags": ["SimplePrice"],
+				"summary": "GET - Аналог поиска maybe без нормализации",
+				"operationId": "SimplePrice_GetMaybeSearch",
+				"consumes": [],
+				"produces": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml"],
+				"parameters": [{
+					"name": "must",
+					"in": "query",
+					"description": "Массив строк (через точку с запятой) - обязательное вхождение",
+					"required": false,
+					"type": "string"
+				},
+				{
+					"name": "should",
+					"in": "query",
+					"description": "Массив строк (через точку с запятой) - возможное вхождение",
+					"required": false,
+					"type": "string"
+				},
+				{
+					"name": "mustNot",
+					"in": "query",
+					"description": "Массив строк (через точку с запятой) - обязательное отсутствие",
+					"required": false,
+					"type": "string"
+				},
+				{
+					"name": "source",
+					"in": "query",
+					"description": "Источник, в котором осуществляется поиск (пусто - источник по умолчанию, gz - госзакупки)",
+					"required": false,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/ContentDto"
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": ["SimplePrice"],
+				"summary": "POST - Аналог поиска maybe без нормализации",
+				"operationId": "SimplePrice_PostMaybeSearch",
+				"consumes": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml",
+				"application/x-www-form-urlencoded"],
+				"produces": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml"],
+				"parameters": [{
+					"name": "maybeDto",
+					"in": "body",
+					"description": "Структура для задания параметров поиска типа Maybe",
+					"required": true,
+					"schema": {
+						"$ref": "#/definitions/MaybeDto"
+					}
+				},
+				{
+					"name": "source",
+					"in": "query",
+					"description": "Источник, в котором осуществляется поиск (пусто - источник по умолчанию, gz - госзакупки)",
+					"required": false,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/ContentDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/xpath": {
+			"get": {
+				"tags": ["Xpath"],
+				"summary": "",
+				"operationId": "Xpath_XpathGet",
+				"consumes": [],
+				"produces": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml"],
+				"parameters": [{
+					"name": "link",
+					"in": "query",
+					"description": "",
+					"required": true,
+					"type": "string"
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"$ref": "#/definitions/XPathDto"
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": ["Xpath"],
+				"summary": "",
+				"operationId": "Xpath_XpathPost",
+				"consumes": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml",
+				"application/x-www-form-urlencoded"],
+				"produces": ["application/json",
+				"text/json",
+				"application/xml",
+				"text/xml"],
+				"parameters": [{
+					"name": "dto",
+					"in": "body",
+					"description": "",
+					"required": true,
+					"schema": {
+						"$ref": "#/definitions/XPathDto"
+					}
+				}],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"schema": {
+							"format": "int32",
+							"enum": [100,
+							101,
+							200,
+							201,
+							202,
+							203,
+							204,
+							205,
+							206,
+							300,
+							300,
+							301,
+							301,
+							302,
+							302,
+							303,
+							303,
+							304,
+							305,
+							306,
+							307,
+							307,
+							400,
+							401,
+							402,
+							403,
+							404,
+							405,
+							406,
+							407,
+							408,
+							409,
+							410,
+							411,
+							412,
+							413,
+							414,
+							415,
+							416,
+							417,
+							426,
+							500,
+							501,
+							502,
+							503,
+							504,
+							505],
+							"type": "integer"
+						}
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"SearchItemParam": {
+			"description": "искомая позиция",
+			"type": "object",
+			"properties": {
+				"id": {
+					"description": "id позиции",
+					"type": "string"
+				},
+				"наименование": {
+					"description": "наименование позиции",
+					"type": "string"
+				},
+				"категория": {
+					"description": "категория позиции, может отсутствовать",
+					"type": "string"
+				},
+				"свойства": {
+					"description": "список свойств, может отсутствовать",
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/SearchItemProperty"
+					}
+				},
+				"инфо": {
+					"description": "расширенная информация о позиции, может отсутствовать",
+					"type": "string"
+				},
+				"синонимы": {
+					"description": "альтернативные наименования позиции",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"нормализатор": {
+					"description": "нормализатор, применяемый при обработке позиции",
+					"type": "string"
+				},
+				"AddKeywords": {
+					"description": "Дополнительные слова для поиска",
+					"type": "string"
+				},
+				"Priority": {
+					"type": "string"
+				},
+				"Options": {
+					"format": "int32",
+					"type": "integer"
+				}
+			}
+		},
+		"SearchItemProperty": {
+			"description": "свойство искомой позиции",
+			"type": "object",
+			"properties": {
+				"имя": {
+					"description": "наименование свойства",
+					"type": "string"
+				},
+				"значение": {
+					"description": "значение свойства",
+					"type": "string"
+				},
+				"группировка": {
+					"description": "да/нет - раздел введён для удобства группировки",
+					"type": "string"
+				}
+			}
+		},
+		"SearchItemHeaderDto": {
+			"description": "Заголовок поискового запроса",
+			"type": "object",
+			"properties": {
+				"Id": {
+					"description": "Идентификатор поискового запроса",
+					"type": "string"
+				},
+				"Name": {
+					"description": "Наименование ТРУ для поиска",
+					"type": "string"
+				},
+				"StartProcessed": {
+					"format": "int64",
+					"description": "Время старта поискового запроса (Utc[https://ru.wikipedia.org/wiki/%D0%92%D1%81%D0%B5%D0%BC%D0%B8%D1%80%D0%BD%D0%BE%D0%B5_%D0%BA%D0%BE%D0%BE%D1%80%D0%B4%D0%B8%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D0%BE%D0%B5_%D0%B2%D1%80%D0%B5%D0%BC%D1%8F], Unix Time)",
+					"type": "integer"
+				},
+				"LastUpdate": {
+					"format": "int64",
+					"description": "Время последнего обновления результатов поискового запроса (Utc, Unix Time)",
+					"type": "integer"
+				},
+				"ProcessedAt": {
+					"format": "int64",
+					"description": "Время окончания поискового запроса (Utc, Unix Time)",
+					"type": "integer"
+				},
+				"Status": {
+					"format": "int32",
+					"description": "Статус поискового запроса\r\n0- Не обработан (NotInitialized)\r\n1 - В очереди (InQueue)\r\n2- Ошибка (Error)\r\n3- Завершено (Ok)\r\n4- В процессе (InProcess)\r\n5 - Прекращено по таймауту (BreakByTimeout)\r\n6 - Прекращено (Break)\r\n7 - Проверено (Checked)",
+					"enum": [0,
+					1,
+					2,
+					3,
+					4,
+					5,
+					6,
+					7],
+					"type": "integer"
+				},
+				"Source": {
+					"description": "Наименование источника поиска (md5 - по алиасу md5 в ElasticSearch, internet - Интернет, поисковые системы)",
+					"type": "string"
+				},
+				"ExtId": {
+					"description": "Метка - берется из Id элемента пакета поиска(классификатор ТРУ), может задаваться произвольно или формироваться автоматически\r\nИмеет длину 128 символов, по ней доступен поиск по условиям по полному совпадению",
+					"type": "string"
+				},
+				"Normalizer": {
+					"description": "Нормализатор",
+					"type": "string"
+				},
+				"ContentCount": {
+					"format": "int32",
+					"description": "Количество элементов результата поиска по поисковому запросу",
+					"type": "integer"
+				}
+			}
+		},
+		"ContentExtDto": {
+			"description": "Элемент результата поискового запроса",
+			"type": "object",
+			"properties": {
+				"Id": {
+					"format": "int32",
+					"description": "Идентификатор элемент результата поискового запроса",
+					"type": "integer"
+				},
+				"Name": {
+					"description": "Наименование элемент результата (результат поиска)",
+					"type": "string"
+				},
+				"Price": {
+					"description": "Цена в формате строки для элемента результата поискового запроса",
+					"type": "string"
+				},
+				"Uri": {
+					"description": "Ссылка на конкретный ресурс, где был найден элемент результата поискового запроса",
+					"type": "string"
+				},
+				"CollectedAt": {
+					"format": "int64",
+					"description": "Дата и время сбора цены (UTC, UnixTime)",
+					"type": "integer"
+				},
+				"ElasticId": {
+					"description": "Идентификатор elasticId элемента результата поиска",
+					"type": "string"
+				},
+				"SearchItemId": {
+					"description": "Идентификатор поискового запроса",
+					"type": "string"
+				},
+				"PriceType": {
+					"format": "int32",
+					"description": "Тип цены элемента результата поискового запроса\r\n0 - Доверять (Trusted) - элемент результата получен из ElasticSearch - большая вероятность правильного определения цены\r\n1 - Требует проверки (Check) - - элемент результата получен из интеренет, требует проверки оператором, например, контроль по скриншоту",
+					"enum": [0,
+					1],
+					"type": "integer"
+				},
+				"Screenshot": {
+					"description": "Ссылка на сккриншот ресурса, где был найден элемент результата поискового запроса",
+					"type": "string"
+				},
+				"PriceStatus": {
+					"format": "int32",
+					"description": "Статус цены элемента результата поискового запроса, только проверенные оператором цены\r\nбудут впоследствии автоматически актуализироваться (api/contentitem/checked/{id:int}).\r\n0 - Не проверено (NotChecked)\r\n1 - Проверено (Checked)",
+					"enum": [0,
+					1],
+					"type": "integer"
+				},
+				"Seller": {
+					"description": "Продавец",
+					"type": "string"
+				},
+				"Producer": {
+					"description": "Производитель",
+					"type": "string"
+				},
+				"Phones": {
+					"description": "Телефоны",
+					"type": "string"
+				},
+				"PriceVariants": {
+					"description": "Варианты цен",
+					"type": "string"
+				}
+			}
+		},
+		"SearchItemCondition": {
+			"description": "Условия отбора поисковых запросов",
+			"type": "object",
+			"properties": {
+				"DateFrom": {
+					"format": "date-time",
+					"description": "Дата начала периода, в котором будет производиться поиск (по времени старта поискового запроса), может отсутствовать",
+					"type": "string"
+				},
+				"DateTo": {
+					"format": "date-time",
+					"description": "Дата окончания периода, в котором будет производиться поиск (по времени старта поискового запроса), может отсутствовать",
+					"type": "string"
+				},
+				"Status": {
+					"format": "int32",
+					"description": "Фильтр по статусу поискового запроса, может отсутствовать\r\n0- Не обработан (NotInitialized)\r\n1 - В очереди (InQueue)\r\n2- Ошибка (Error)\r\n3- Завершено (Ok)\r\n4- В процессе (InProcess)\r\n5 - Прекращено по таймауту (BreakByTimeout)\r\n6 - Прекращено (Break)\r\n7 - Проверено (Checked)",
+					"enum": [0,
+					1,
+					2,
+					3,
+					4,
+					5,
+					6,
+					7],
+					"type": "integer"
+				},
+				"Name": {
+					"description": "Наименование ТРУ для поиска в поисковом запросе, поиск по неполному совпадению\r\n(например если name=болт, будут найдены поисковые запросы болт стальной и набор гайка, болт, шайба)",
+					"type": "string"
+				},
+				"ExtId": {
+					"description": "Метка - берется из Id элемента пакета поиска(классификатор ТРУ), может задаваться произвольно или формироваться автоматически\r\nИмеет длину 128 символов, по ней доступен поиск по условиям по полному совпадению",
+					"type": "string"
+				},
+				"IsInternet": {
+					"description": "Взять только те поисковые запросы, где среди источников поиска был указан источник internet",
+					"type": "boolean"
+				}
+			}
+		},
+		"ContentMoveDto": {
+			"description": "Элемент результата поискового запроса для перемещения в другой поисковой запрос",
+			"type": "object",
+			"properties": {
+				"Id": {
+					"format": "int32",
+					"description": "Идентификатор элемент результата поискового запроса",
+					"type": "integer"
+				},
+				"ElasticId": {
+					"description": "Идентификатор elasticId элемента результата поискового запроса",
+					"type": "string"
+				}
+			}
+		},
+		"SearchItemExtDto": {
+			"type": "object",
+			"properties": {
+				"Id": {
+					"type": "string"
+				},
+				"Name": {
+					"type": "string"
+				},
+				"StartProcessed": {
+					"format": "int64",
+					"type": "integer"
+				},
+				"LastUpdate": {
+					"format": "int64",
+					"type": "integer"
+				},
+				"ProcessedAt": {
+					"format": "int64",
+					"type": "integer"
+				},
+				"Status": {
+					"format": "int32",
+					"description": "Статус объекта обработки",
+					"enum": [0,
+					1,
+					2,
+					3,
+					4,
+					5,
+					6,
+					7],
+					"type": "integer"
+				},
+				"Source": {
+					"type": "string"
+				},
+				"ExtId": {
+					"type": "string"
+				},
+				"InternetSessionId": {
+					"type": "string"
+				},
+				"Normalizer": {
+					"type": "string"
+				},
+				"JsonText": {
+					"type": "string"
+				},
+				"Contents": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/ContentExtDto"
+					}
+				},
+				"UserName": {
+					"type": "string"
+				}
+			}
+		},
+		"ContentDto": {
+			"description": "Результат поиска",
+			"type": "object",
+			"properties": {
+				"PriceType": {
+					"format": "int32",
+					"enum": [0,
+					1],
+					"type": "integer"
+				},
+				"Name": {
+					"description": "Наименование позиции",
+					"type": "string"
+				},
+				"Price": {
+					"description": "Цена позиции строка",
+					"type": "string"
+				},
+				"Nprice": {
+					"format": "double",
+					"description": "Цена позиции число",
+					"type": "number",
+					"readOnly": true
+				},
+				"Uri": {
+					"description": "Ссылка на источник",
+					"type": "string"
+				},
+				"Seller": {
+					"description": "Продавец",
+					"type": "string"
+				},
+				"CollectedAt": {
+					"format": "int64",
+					"description": "Дата и время сбора цены (UTC)",
+					"type": "integer"
+				},
+				"Collected": {
+					"format": "date-time",
+					"description": "Дата и время сбора цены",
+					"type": "string",
+					"readOnly": true
+				},
+				"Id": {
+					"description": "Идентификатор позиции",
+					"type": "string"
+				},
+				"Producer": {
+					"description": "Производитель",
+					"type": "string"
+				},
+				"Phones": {
+					"description": "Телефоны",
+					"type": "string"
+				},
+				"Okpd2": {
+					"description": "ОКПД2",
+					"type": "string"
+				},
+				"Okei": {
+					"description": "Единица измерения",
+					"type": "string"
+				},
+				"Currency": {
+					"description": "Валюта",
+					"type": "string"
+				},
+				"PriceVariants": {
+					"description": "Варианты цен",
+					"type": "string"
+				}
+			}
+		},
+		"MaybeDto": {
+			"description": "Структура для задания параметров поиска типа Maybe",
+			"type": "object",
+			"properties": {
+				"must": {
+					"description": "обязательное вхождение",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"should": {
+					"description": "возможное вхождение",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"mustNot": {
+					"description": "обязательное отсутствие",
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			}
+		},
+		"XPathDto": {
+			"description": "",
+			"type": "object",
+			"properties": {
+				"XPathName": {
+					"description": "",
+					"type": "string"
+				},
+				"XPathPrice": {
+					"description": "",
+					"type": "string"
+				},
+				"uri": {
+					"description": "",
+					"type": "string"
+				},
+				"domain": {
+					"description": "",
+					"type": "string"
+				},
+				"idndomain": {
+					"description": "",
+					"type": "string"
+				},
+				"name": {
+					"description": "",
+					"type": "string"
+				},
+				"Price": {
+					"description": "",
+					"type": "string"
+				},
+				"collectedAt": {
+					"format": "int64",
+					"description": "",
+					"type": "integer"
+				},
+				"id": {
+					"description": "",
+					"type": "string"
+				}
+			}
+		}
+	}
+}

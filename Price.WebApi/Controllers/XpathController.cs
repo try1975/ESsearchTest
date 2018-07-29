@@ -13,7 +13,7 @@ namespace Price.WebApi.Controllers
     /// <summary>
     /// 
     /// </summary>
-    [RoutePrefix("api/xpath")]
+    //[RoutePrefix("api/xpath")]
     public class XpathController : ApiController
     {
 
@@ -23,7 +23,7 @@ namespace Price.WebApi.Controllers
         /// <param name="link"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("", Name = nameof(XpathGet) + "Route")]
+        [Route("api/xpath", Name = nameof(XpathGet) + "Route")]
         public XPathDto XpathGet(string link)
         {
             var dto = XPathStore.Get(link);
@@ -50,7 +50,7 @@ namespace Price.WebApi.Controllers
         /// </summary>
         /// <param name="dto"></param>
         [HttpPost]
-        [Route("", Name = nameof(XpathPost) + "Route")]
+        [Route("api/xpath", Name = nameof(XpathPost) + "Route")]
         public HttpStatusCode XpathPost(XPathDto dto)
         {
             try
