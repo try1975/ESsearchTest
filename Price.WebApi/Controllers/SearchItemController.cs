@@ -2,6 +2,7 @@
 using System.Web.Http;
 using System.Web.Http.Description;
 using Common.Dto.Model.NewApi;
+using Gma.CodeCloud.Controls.TextAnalyses.Processing;
 using Price.WebApi.Maintenance.Interfaces;
 
 namespace Price.WebApi.Controllers
@@ -104,6 +105,16 @@ namespace Price.WebApi.Controllers
             var result = ((ISearchItemApi)_api).MoveContents(dtos, id, name, extId);
             return result!=null ? (IHttpActionResult)Ok(result) : NotFound();
         }
+
+        [HttpGet]
+        [ResponseType(typeof(IEnumerable<IWord>))]
+        [Route("api/SearchItem/wordscloud/{id}", Name = nameof(GetWordsCloud) + "Route")]
+        public IHttpActionResult GetWordsCloud(string id)
+        {
+            var result = ((ISearchItemApi)_api).WordsCloud(id);
+            return result!=null ? (IHttpActionResult)Ok(result) : NotFound();
+        }
     }
+    
 }
 

@@ -74,6 +74,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CloudControl\CloudControl.csproj">
+      <Project>{34649D7D-04A9-4092-AD0B-F7022C123FD7}</Project>
+      <Name>CloudControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PriceCommon\PriceCommon.csproj">
       <Project>{0bdcaa8c-d511-46f0-b681-33dbed62c002}</Project>
       <Name>PriceCommon</Name>

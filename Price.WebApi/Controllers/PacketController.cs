@@ -110,7 +110,7 @@ namespace Price.WebApi.Controllers
                 client.Headers[HttpRequestHeader.ContentType] = "application/json";
                 var en = Encoding.UTF8;
                 var data = en.GetBytes($"{{\"items\":[{json}]}}");
-                var uri = new Uri($"{AppGlobal.InternetSearchHost}/NewSearch");
+                var uri = new Uri($"{AppGlobal.InternetSearchHost}");
                 try
                 {
                     var result = client.UploadData(uri, "PUT", data);

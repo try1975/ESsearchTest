@@ -135,10 +135,6 @@
     <Compile Include="Ninject\CompositionRoot.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TagCloud\ComponentFactory.cs" />
-    <Compile Include="TagCloud\InfiniteProgressBarWrapper.cs" />
-    <Compile Include="TagCloud\InputType.cs" />
-    <Compile Include="TagCloud\ProgressBarWrapper.cs" />
     <Compile Include="Utils\CreateExcelFile.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

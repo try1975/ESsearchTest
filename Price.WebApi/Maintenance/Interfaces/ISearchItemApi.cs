@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common.Dto.Model.NewApi;
+using Gma.CodeCloud.Controls.TextAnalyses.Processing;
 
 namespace Price.WebApi.Maintenance.Interfaces
 {
@@ -13,5 +14,6 @@ namespace Price.WebApi.Maintenance.Interfaces
         string BaseUrl { get; set; }
 
         SearchItemHeaderDto MoveContents(IEnumerable<ContentMoveDto> dtos, string id, string name, string extId);
+        IEnumerable<IWord> WordsCloud(string id);
     }
 }

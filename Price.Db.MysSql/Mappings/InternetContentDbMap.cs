@@ -115,6 +115,7 @@ namespace Price.Db.Postgress.Mappings
                 ;
 
             Property(e => e.html)
+                .HasColumnName("htm")
                 .IsOptional()
                 .HasColumnType("text")
                 ;

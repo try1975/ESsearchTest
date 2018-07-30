@@ -1226,7 +1226,7 @@ namespace Topol.UseApi
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var baseApi = ConfigurationManager.AppSettings["BaseApi"];
-            Process.Start($"{baseApi}help");
+            Process.Start($"{baseApi}");
         }
 
         private static void linkLabelUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

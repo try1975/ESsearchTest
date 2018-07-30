@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Common.Dto.Logic;
+using Common.Dto.Model;
 using Common.Dto.Model.NewApi;
+using Gma.CodeCloud.Controls.TagCloud;
+using Gma.CodeCloud.Controls.TextAnalyses.Blacklist;
+using Gma.CodeCloud.Controls.TextAnalyses.Extractors;
 using Price.Db.Entities.Entities;
 using Price.Db.Entities.QueryProcessors;
 using Price.WebApi.Logic;
 using Price.WebApi.Logic.Screenshot;
 using Price.WebApi.Maintenance.Interfaces;
 using PriceCommon.Enums;
-
+using Gma.CodeCloud.Controls.TextAnalyses.Processing;
 
 namespace Price.WebApi.Maintenance.Classes
 {
@@ -269,19 +273,19 @@ namespace Price.WebApi.Maintenance.Classes
                  z.PriceStatus
              })
              .ToList();
-             return list.Select(z => new ContentExtDto()
-             {
-                 Id = z.Id,
-                 Name = z.preview,
-                 Price = z.price.ToString(),
-                 Uri = z.url,
-                 SearchItemId = entity.Id,
-                 CollectedAt = (long)z.dt.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
-                 PriceType = PriceType.Check,
-                 Screenshot = string.IsNullOrEmpty(z.contact_url) ? $"{_getUrl}{WebshotTool.GetWebshotName(z.Id, z.url)}" : $"{_getUrl}{z.contact_url}",
-                 PriceStatus = z.PriceStatus,
-                 PriceVariants = z.prices
-             }).ToList();
+            return list.Select(z => new ContentExtDto()
+            {
+                Id = z.Id,
+                Name = z.preview,
+                Price = z.price.ToString(),
+                Uri = z.url,
+                SearchItemId = entity.Id,
+                CollectedAt = (long)z.dt.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
+                PriceType = PriceType.Check,
+                Screenshot = string.IsNullOrEmpty(z.contact_url) ? $"{_getUrl}{WebshotTool.GetWebshotName(z.Id, z.url)}" : $"{_getUrl}{z.contact_url}",
+                PriceStatus = z.PriceStatus,
+                PriceVariants = z.prices
+            }).ToList();
         }
 
         /// <summary>
@@ -335,6 +339,51 @@ namespace Price.WebApi.Maintenance.Classes
             dto.ContentCount += _contentQuery.GetEntities().Count(z => z.SearchItemId == entity.Id);
             dto.ContentCount += _internetContentQuery.GetEntities().Count(z => z.session_id == entity.InternetSessionId);
             return dto;
+        }
+
+        public IEnumerable<IWord> WordsCloud(string id)
+        {
+            //return new List<WordDto>();
+            var entity = Query.GetEntity(id);
+            if (entity == null) return new List<IWord>();
+            var contents = GetContentCollection(entity);
+            if (!string.IsNullOrEmpty(entity.InternetSessionId))
+            { contents.AddRange(GetInternetContentCollection(entity)); }
+
+            var text = contents.AsEnumerable()
+                .Select(s => s.Name)
+                .Aggregate((cur, next) => cur + "\r\n" + next);
+
+            var blacklist = ComponentFactory.CreateBlacklist(true);
+            var customBlacklist = CommonBlacklist.CreateFromTextFile("blacklist.txt");
+
+            var inputType = ComponentFactory.DetectInputType(text);
+            var progress = new FakeProgress();
+            var terms = ComponentFactory.CreateExtractor(inputType, text, progress);
+            var stemmer = ComponentFactory.CreateWordStemmer(true);
+
+            var words = terms
+                .Filter(blacklist)
+                .Filter(customBlacklist)
+                .CountOccurences()
+                .ToList();
+
+            return 
+                words
+                    .GroupByStem(stemmer)
+                    .SortByOccurences()
+                    //.Where(z => z.Occurrences > 3)
+                    .Cast<IWord>()
+                ;
+        }
+
+        internal class FakeProgress : IProgressIndicator
+        {
+            public int Maximum { get; set; }
+            public void Increment(int value)
+            {
+                return;
+            }
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using ControlDemoApp;
+using Gma.CodeCloud.Controls.TagCloud;
 using Gma.CodeCloud.Controls.Geometry;
 using Gma.CodeCloud.Controls.TextAnalyses.Blacklist;
 using Gma.CodeCloud.Controls.TextAnalyses.Processing;
