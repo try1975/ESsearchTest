@@ -64,5 +64,17 @@ namespace Price.WebApi.Controllers
             var mustNot = maybeDto.MustNots == null ? "" : string.Join(delimiter, maybeDto.MustNots);
             return Mapper.Map<IEnumerable<ContentDto>>(new SimpleSearcher(source).MaybeSearch(must, should, mustNot));
         }
+
+        /// <summary>
+        /// Получить количество поставщиков в индексе ElasticSearch по умолчанию
+        /// </summary>
+        /// <returns>Количество поставщиков</returns>
+        [HttpGet]
+        [Route("sellerCount", Name = nameof(GetSellerCount) + "Route")]
+        public int GetSellerCount()
+        {
+            var source = AppSettings.DefaultIndex;
+            return (new SimpleSearcher(source)).GetSellerCount();
+        }
     }
 }

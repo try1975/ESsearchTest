@@ -24,5 +24,6 @@ namespace Topol.UseApi.Interfaces.Common
         Task Post2InternetIndex(IEnumerable<BasicContentDto> list);
 
         Task<SearchItemHeaderDto> MoveResults(List<ContentMoveDto> list, string id, string name, string extId);
+        Task<int> GetSellerCount();
     }
 }

@@ -57,6 +57,30 @@ namespace PricePipeCore
             return response.Hits.Select(s => s.Source);
         }
 
+        public int GetSellerCount()
+        {
+            try
+            {
+                var searchResponse = _elasticClient.Search<Content>(s => s
+                    .Aggregations(a => a
+                        .Terms("unique", te => te
+                            .Field(nameof(Content.Seller).ToLower())
+                            .MinimumDocumentCount(10)
+                            .Size(1000)
+                        )
+                    )
+                );
+                var sellers = searchResponse.Aggs.Terms("unique").Buckets.Select(b => b.Key).ToList();
+                return sellers.Count;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+            }
+
+            return 0;
+        }
+
         private static List<QueryContainer> GetExactQueryContainer(string text, string[] splitter)
         {
             var queryContainer = new List<QueryContainer>();

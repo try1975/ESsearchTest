@@ -25,6 +25,7 @@ namespace Topol.UseApi.Data.Common
         private readonly string _endpointContentItem;
         private readonly string _endpointSearchItem;
         private readonly string _endpointMove;
+        private readonly string _endpointGetSellerCount;
         private readonly HttpClient _apiHttpClient;
 
         public DataMаnager()
@@ -44,6 +45,7 @@ namespace Topol.UseApi.Data.Common
             _endpointContentItem = $"{baseApi}api/contentitem/";
             _endpointSearchItem = $"{baseApi}api/searchitem/";
             _endpointMove = $"{baseApi}api/searchitem/move/";
+            _endpointGetSellerCount = $"{baseApi}api/simpleprice/sellerCount/";
 
             #endregion
 
@@ -177,6 +179,16 @@ namespace Topol.UseApi.Data.Common
             {
                 if (!response.IsSuccessStatusCode) return null;
                 var result = await response.Content.ReadAsAsync<SearchItemHeaderDto>();
+                return result;
+            }
+        }
+
+        public async Task<int> GetSellerCount()
+        {
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointGetSellerCount}"))
+            {
+                if (!response.IsSuccessStatusCode) return 0;
+                var result = await response.Content.ReadAsAsync<int>();
                 return result;
             }
         }

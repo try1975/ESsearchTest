@@ -479,6 +479,21 @@
             искомая позиция
             </summary>
         </member>
+        <member name="F:Common.Dto.Model.Packet.SearchItemParam.UseYandex">
+            <summary>
+            Использовать Yandex при поиске
+            </summary>
+        </member>
+        <member name="F:Common.Dto.Model.Packet.SearchItemParam.UseGoogle">
+            <summary>
+            Использовать Google при поиске
+            </summary>
+        </member>
+        <member name="M:Common.Dto.Model.Packet.SearchItemParam.#ctor">
+            <summary>
+            Конструктор, поисковые движки по умолчанию все
+            </summary>
+        </member>
         <member name="P:Common.Dto.Model.Packet.SearchItemParam.Id">
             <summary>
             id позиции
@@ -517,6 +532,28 @@
         <member name="P:Common.Dto.Model.Packet.SearchItemParam.AddKeywords">
             <summary>
             Дополнительные слова для поиска
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Priority">
+            <summary>
+            Приоритет запроса
+            Normal = Нормальный
+            High = Высокий
+            Max = Максимальный
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Options">
+            <summary>
+            Битовая маска опций поиска
+             Раздельные запросы по каждому дополнительному слову - установить флаг 8
+             Не извлекать цены - установить флаг 2
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.SearchEngine">
+            <summary>
+            Битовая маска использования поисковых систем
+            Yandex    = 0x0001
+            Google    = 0x0002
             </summary>
         </member>
         <member name="T:Common.Dto.Model.Packet.SearchItemProperty">

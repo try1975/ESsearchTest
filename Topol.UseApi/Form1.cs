@@ -171,6 +171,9 @@ namespace Topol.UseApi
             cmbPriority.Items.AddRange(new[] { "Нормальный", "Высокий", "Максимальный" });
             priorityList = new[] { "Normal", "High", "Max" };
             cmbPriority.SelectedIndex = 0;
+
+            
+            
         }
 
         public string[] priorityList { get; set; }
@@ -231,6 +234,7 @@ namespace Topol.UseApi
                 }
                 Thread.Sleep(3000);
             }
+           
         }
 
         #endregion //BackgroundWorker
@@ -1209,6 +1213,9 @@ namespace Topol.UseApi
             byte options = 0;
             if (!cbSeparateRequest.Checked) options |= 8;
             if (cbNotExtractPrice.Checked) options |= 2;
+            byte searchEngine = 0;
+            if (cbYandex.Checked) searchEngine |= SearchItemParam.UseYandex;
+            if (cbGoogle.Checked) searchEngine |= SearchItemParam.UseGoogle;
             var dto = new List<SearchItemParam>
             {
                 new SearchItemParam
@@ -1217,7 +1224,8 @@ namespace Topol.UseApi
                     Name = textBox2.Text,
                     Norm = cmbNorm.SelectedItem as string,
                     Priority = priorityList[cmbPriority.SelectedIndex],
-                    Options = options
+                    Options = options,
+                    SearchEngine = searchEngine 
                 }
             };
             SearchPacket(dto, tbKeywords.Text);
@@ -1246,6 +1254,12 @@ namespace Topol.UseApi
             _engine.Dispose();
             Settings.Default.Save();
             Application.Exit();
+        }
+
+        private async void lblSellerCount_Click(object sender, EventArgs e)
+        {
+            var sellerCount =  await _dataManager.GetSellerCount();
+            lblSellerCount.Text = $@"{sellerCount}";
         }
     }
 }
