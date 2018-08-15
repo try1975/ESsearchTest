@@ -143,6 +143,8 @@
             this.lblPrice = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.gbSource = new System.Windows.Forms.GroupBox();
+            this.cbGoogle = new System.Windows.Forms.CheckBox();
+            this.cbYandex = new System.Windows.Forms.CheckBox();
             this.lblSellerCount = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.cbNotExtractPrice = new System.Windows.Forms.CheckBox();
@@ -152,8 +154,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.cbGoogle = new System.Windows.Forms.CheckBox();
-            this.cbYandex = new System.Windows.Forms.CheckBox();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -1470,6 +1470,30 @@
             this.gbSource.TabStop = false;
             this.gbSource.Text = "Выбор источника";
             // 
+            // cbGoogle
+            // 
+            this.cbGoogle.AutoSize = true;
+            this.cbGoogle.Checked = true;
+            this.cbGoogle.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbGoogle.Location = new System.Drawing.Point(838, 47);
+            this.cbGoogle.Name = "cbGoogle";
+            this.cbGoogle.Size = new System.Drawing.Size(87, 24);
+            this.cbGoogle.TabIndex = 12;
+            this.cbGoogle.Text = "Google";
+            this.cbGoogle.UseVisualStyleBackColor = true;
+            // 
+            // cbYandex
+            // 
+            this.cbYandex.AutoSize = true;
+            this.cbYandex.Checked = true;
+            this.cbYandex.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbYandex.Location = new System.Drawing.Point(838, 16);
+            this.cbYandex.Name = "cbYandex";
+            this.cbYandex.Size = new System.Drawing.Size(89, 24);
+            this.cbYandex.TabIndex = 11;
+            this.cbYandex.Text = "Yandex";
+            this.cbYandex.UseVisualStyleBackColor = true;
+            // 
             // lblSellerCount
             // 
             this.lblSellerCount.AutoSize = true;
@@ -1492,13 +1516,12 @@
             // cbNotExtractPrice
             // 
             this.cbNotExtractPrice.AutoSize = true;
-            this.cbNotExtractPrice.Location = new System.Drawing.Point(644, 47);
+            this.cbNotExtractPrice.Location = new System.Drawing.Point(656, 36);
             this.cbNotExtractPrice.Name = "cbNotExtractPrice";
             this.cbNotExtractPrice.Size = new System.Drawing.Size(92, 24);
             this.cbNotExtractPrice.TabIndex = 8;
             this.cbNotExtractPrice.Text = "без цен";
             this.cbNotExtractPrice.UseVisualStyleBackColor = true;
-            this.cbNotExtractPrice.Visible = false;
             // 
             // cmbPriority
             // 
@@ -1563,30 +1586,6 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Описание API: http://144.76.54.166:52620";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // cbGoogle
-            // 
-            this.cbGoogle.AutoSize = true;
-            this.cbGoogle.Checked = true;
-            this.cbGoogle.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbGoogle.Location = new System.Drawing.Point(838, 47);
-            this.cbGoogle.Name = "cbGoogle";
-            this.cbGoogle.Size = new System.Drawing.Size(87, 24);
-            this.cbGoogle.TabIndex = 12;
-            this.cbGoogle.Text = "Google";
-            this.cbGoogle.UseVisualStyleBackColor = true;
-            // 
-            // cbYandex
-            // 
-            this.cbYandex.AutoSize = true;
-            this.cbYandex.Checked = true;
-            this.cbYandex.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbYandex.Location = new System.Drawing.Point(838, 16);
-            this.cbYandex.Name = "cbYandex";
-            this.cbYandex.Size = new System.Drawing.Size(89, 24);
-            this.cbYandex.TabIndex = 11;
-            this.cbYandex.Text = "Yandex";
-            this.cbYandex.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
