@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
 using Common.Dto;
+using Db.Entities;
 using log4net;
 using Price.Db.Entities;
 

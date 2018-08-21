@@ -5,9 +5,8 @@ using System.Data.Entity.Migrations;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Price.Db.Entities;
 
-namespace Price.Db.Postgress.QueryProcessors
+namespace Db.Entities
 {
     public abstract class TypedQuery<T, TK> : ITypedQuery<T, TK> where T : class, IEntity<TK>
     {

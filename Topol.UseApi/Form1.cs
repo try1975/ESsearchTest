@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -15,6 +16,8 @@ using Common.Dto;
 using Common.Dto.Model;
 using Common.Dto.Model.NewApi;
 using Common.Dto.Model.Packet;
+using log4net;
+using log4net.Repository.Hierarchy;
 using Newtonsoft.Json;
 using PriceCommon.Enums;
 using PriceCommon.Utils;
@@ -31,6 +34,7 @@ namespace Topol.UseApi
         private readonly IDataMаnager _dataManager;
         private readonly List<SearchItemHeaderDto> _listSearchItem = new List<SearchItemHeaderDto>();
         private DataTable _datatableSearchItem;
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private bool _enableResultButtons;
         private bool EnableResultButtons
@@ -440,6 +444,12 @@ namespace Topol.UseApi
             {
                 column.Visible = true;
                 column.HeaderText = @"Статус цены";
+            }
+            column = dgv.Columns[nameof(ContentExtDto.Seller)];
+            if (column != null)
+            {
+                column.Visible = true;
+                column.HeaderText = @"Продавец";
             }
         }
 
@@ -1234,7 +1244,16 @@ namespace Topol.UseApi
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var baseApi = ConfigurationManager.AppSettings["BaseApi"];
-            Process.Start($"{baseApi}");
+
+            try
+            {
+                Process.Start($"{baseApi}");
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+                MessageBox.Show($@"Not started {baseApi}");
+            }
         }
 
         private static void linkLabelUrl_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

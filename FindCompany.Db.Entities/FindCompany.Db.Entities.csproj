@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B03942A6-D277-4BF7-B349-C490756565AF}</ProjectGuid>
+    <ProjectGuid>{1EF366E9-1250-4A38-A6E4-41EB61A5B8FD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Price.Db.Entities</RootNamespace>
-    <AssemblyName>Price.Db.Entities</AssemblyName>
+    <RootNamespace>FindCompany.Db.Entities</RootNamespace>
+    <AssemblyName>FindCompany.Db.Entities</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -34,30 +34,16 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\ContentEntity.cs" />
-    <Compile Include="Entities\InternetContentEntity.cs" />
-    <Compile Include="Entities\SearchItemEntity.cs" />
+    <Compile Include="Entities\FindCompanyEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryProcessors\IContentQuery.cs" />
-    <Compile Include="QueryProcessors\IInternetContentQuery.cs" />
-    <Compile Include="QueryProcessors\ISearchItemQuery.cs" />
+    <Compile Include="QueryProcessors\IFindCompanyQuery.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Db.Entities\Db.Entities.csproj">
       <Project>{18f58c90-dfec-47cd-93ee-255d986542b9}</Project>
       <Name>Db.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PriceCommon\PriceCommon.csproj">
-      <Project>{0bdcaa8c-d511-46f0-b681-33dbed62c002}</Project>
-      <Name>PriceCommon</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

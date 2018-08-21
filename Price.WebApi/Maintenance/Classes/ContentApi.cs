@@ -11,8 +11,10 @@ namespace Price.WebApi.Maintenance.Classes
 {
     public class ContentApi : TypedApi<ContentExtDto, ContentEntity, int>, IContentApi
     {
+        
         public ContentApi(IContentQuery query) : base(query)
         {
+
         }
 
         public override bool RemoveItem(int id)
@@ -39,8 +41,9 @@ namespace Price.WebApi.Maintenance.Classes
             catch (Exception exception)
             {
                 Logger.Log.Error(exception);
-                return false;
+                
             }
+            return false;
         }
 
         /// <summary>
@@ -63,8 +66,9 @@ namespace Price.WebApi.Maintenance.Classes
             catch (Exception exception)
             {
                 Logger.Log.Error(exception);
-                return false;
+               
             }
+            return false;
         }
     }
 }

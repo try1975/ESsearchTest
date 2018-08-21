@@ -34,10 +34,6 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Mono.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\Npgsql.2.2.7\lib\net45\Mono.Security.dll</HintPath>
       <Private>True</Private>
@@ -53,11 +49,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mappings\ContentDbMap.cs" />
@@ -77,13 +69,16 @@
     <Compile Include="QueryProcessors\ContentQuery.cs" />
     <Compile Include="QueryProcessors\InternetContentQuery.cs" />
     <Compile Include="QueryProcessors\SearchItemQuery.cs" />
-    <Compile Include="QueryProcessors\TypedQuery.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Db.Entities\Db.Entities.csproj">
+      <Project>{18f58c90-dfec-47cd-93ee-255d986542b9}</Project>
+      <Name>Db.Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Price.Db.Entities\Price.Db.Entities.csproj">
       <Project>{b03942a6-d277-4bf7-b349-c490756565af}</Project>
       <Name>Price.Db.Entities</Name>

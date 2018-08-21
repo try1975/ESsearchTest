@@ -40,8 +40,9 @@ namespace Price.WebApi.Maintenance.Classes
             catch (Exception exception)
             {
                 Logger.Log.Error(exception);
-                return false;
+               
             }
+            return false;
         }
 
         /// <summary>
@@ -65,8 +66,9 @@ namespace Price.WebApi.Maintenance.Classes
             catch (Exception exception)
             {
                 Logger.Log.Error(exception);
-                return false;
+                
             }
+            return false;
         }
     }
 }

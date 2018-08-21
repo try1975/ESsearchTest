@@ -28,6 +28,7 @@ namespace Price.WebApi.Maintenance.Classes
         private readonly IContentQuery _contentQuery;
         private readonly IInternetContentApi _internetContentApi;
         private readonly IContentApi _contentApi;
+        private readonly IEnricheApi _enricheApi;
 
         private string _getUrl;
         private string _baseUrl;
@@ -56,13 +57,14 @@ namespace Price.WebApi.Maintenance.Classes
         /// <param name="contentApi"></param>
         public SearchItemApi(ISearchItemQuery query
             , IInternetContentQuery internetContentQuery, IContentQuery contentQuery
-            , IInternetContentApi internetContentApi, IContentApi contentApi
+            , IInternetContentApi internetContentApi, IContentApi contentApi, IEnricheApi enricheApi
             ) : base(query)
         {
             _internetContentQuery = internetContentQuery;
             _contentQuery = contentQuery;
             _internetContentApi = internetContentApi;
             _contentApi = contentApi;
+            _enricheApi = enricheApi;
         }
 
         /// <summary>
@@ -284,8 +286,10 @@ namespace Price.WebApi.Maintenance.Classes
                 PriceType = PriceType.Check,
                 Screenshot = string.IsNullOrEmpty(z.contact_url) ? $"{_getUrl}{WebshotTool.GetWebshotName(z.Id, z.url)}" : $"{_getUrl}{z.contact_url}",
                 PriceStatus = z.PriceStatus,
-                PriceVariants = z.prices
+                PriceVariants = z.prices,
+                Seller = _enricheApi.GetSeller(z.url)
             }).ToList();
+            //TODO: enriche seller from external source
         }
 
         /// <summary>

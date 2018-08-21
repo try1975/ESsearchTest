@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using Db.Entities;
 using Price.Db.Entities.Entities;
 using Price.Db.Entities.QueryProcessors;
 

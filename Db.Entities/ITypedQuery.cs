@@ -3,7 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Price.Db.Entities
+namespace Db.Entities
 {
     public interface ITypedQuery<T, in TK> where T : class, IEntity<TK>
     {

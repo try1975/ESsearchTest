@@ -1,4 +1,4 @@
-﻿namespace Price.Db.Entities
+﻿namespace Db.Entities
 {
     public interface IEntity<T>
     {

@@ -23,6 +23,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -218,9 +219,11 @@
     <Compile Include="Logic\Screenshot\WebshotTool.cs" />
     <Compile Include="Logic\XPath\XPathStore.cs" />
     <Compile Include="Maintenance\Classes\ContentApi.cs" />
+    <Compile Include="Maintenance\Classes\EnricheApi.cs" />
     <Compile Include="Maintenance\Classes\InternetContentApi.cs" />
     <Compile Include="Maintenance\Classes\SearchItemApi.cs" />
     <Compile Include="Maintenance\Interfaces\IContentApi.cs" />
+    <Compile Include="Maintenance\Interfaces\IEnricheApi.cs" />
     <Compile Include="Maintenance\Interfaces\IInternetContentApi.cs" />
     <Compile Include="Maintenance\Interfaces\ISearchItemApi.cs" />
     <Compile Include="Maintenance\ITypedApi.cs" />
@@ -285,6 +288,18 @@
     <ProjectReference Include="..\Common.Dto\Common.Dto.csproj">
       <Project>{ed2886fc-f692-44b5-9328-8013183a2402}</Project>
       <Name>Common.Dto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Db.Entities\Db.Entities.csproj">
+      <Project>{18f58c90-dfec-47cd-93ee-255d986542b9}</Project>
+      <Name>Db.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FindCompany.Db.Entities\FindCompany.Db.Entities.csproj">
+      <Project>{1EF366E9-1250-4A38-A6E4-41EB61A5B8FD}</Project>
+      <Name>FindCompany.Db.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FindCompany.Db.Postgress\FindCompany.Db.Postgress.csproj">
+      <Project>{FE517A09-1DEC-4027-8E21-EED047F13C2B}</Project>
+      <Name>FindCompany.Db.Postgress</Name>
     </ProjectReference>
     <ProjectReference Include="..\Norm.MedPrep\Norm.MedPrep.csproj">
       <Project>{4BAC3AC1-C876-4C4D-9CE9-541C8384F539}</Project>

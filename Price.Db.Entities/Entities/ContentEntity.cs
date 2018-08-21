@@ -1,4 +1,5 @@
-﻿using PriceCommon.Enums;
+﻿using Db.Entities;
+using PriceCommon.Enums;
 
 namespace Price.Db.Entities.Entities
 {
