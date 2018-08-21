@@ -7,19 +7,29 @@ using Price.WebApi.Maintenance.Interfaces;
 
 namespace Price.WebApi.Maintenance.Classes
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class EnricheApi : IEnricheApi
     {
-        private readonly IFindCompanyQuery _findCompanyQuery;
         private readonly ConcurrentDictionary<string, string> _sellersConcurrentDictionary;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="findCompanyQuery"></param>
         public EnricheApi(IFindCompanyQuery findCompanyQuery)
         {
-            _findCompanyQuery = findCompanyQuery;
-            var findCompanies = _findCompanyQuery.GetEntities()
+            var findCompanies = findCompanyQuery.GetEntities()
                 .Select(z => new {z.Host, z.Name}).ToList();
             _sellersConcurrentDictionary = new ConcurrentDictionary<string, string>(findCompanies.Select(z=> new KeyValuePair<string, string>(z.Host, z.Name)));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public string GetSeller(string url)
         {
             if (string.IsNullOrEmpty(url)) return string.Empty;

@@ -294,11 +294,11 @@
       <Name>Db.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\FindCompany.Db.Entities\FindCompany.Db.Entities.csproj">
-      <Project>{1EF366E9-1250-4A38-A6E4-41EB61A5B8FD}</Project>
+      <Project>{1ef366e9-1250-4a38-a6e4-41eb61a5b8fd}</Project>
       <Name>FindCompany.Db.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\FindCompany.Db.Postgress\FindCompany.Db.Postgress.csproj">
-      <Project>{FE517A09-1DEC-4027-8E21-EED047F13C2B}</Project>
+      <Project>{fe517a09-1dec-4027-8e21-eed047f13c2b}</Project>
       <Name>FindCompany.Db.Postgress</Name>
     </ProjectReference>
     <ProjectReference Include="..\Norm.MedPrep\Norm.MedPrep.csproj">
