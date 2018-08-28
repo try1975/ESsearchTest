@@ -70,6 +70,7 @@ namespace Common.Dto.Model.NewApi
         /// будут впоследствии автоматически актуализироваться (api/contentitem/checked/{id:int}).
         /// 0 - Не проверено (NotChecked)
         /// 1 - Проверено (Checked)
+        /// 2 - Отбраковано (Rejected)
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         public PriceStatus PriceStatus { get; set; }
@@ -124,5 +125,13 @@ namespace Common.Dto.Model.NewApi
                 return 0.00;
             }
         }
+        /// <summary>
+        /// Причина отбраковки
+        /// </summary>
+        public string RejectReason { get; set; }
+        /// <summary>
+        /// Признак ручной установки цены
+        /// </summary>
+        public int ManualPrice { get; set; }
     }
 }

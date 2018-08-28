@@ -124,6 +124,15 @@ namespace Price.Db.Postgress.Mappings
                 .IsOptional()
                 ;
 
+            Property(e => e.RejectReason)
+                .IsOptional()
+                .HasMaxLength(128)
+                ;
+
+            Property(e => e.ManualPrice)
+                .IsOptional()
+                ;
+
             ToTable($"{tableName}");
 
         }

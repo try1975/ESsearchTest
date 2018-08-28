@@ -19,5 +19,7 @@ namespace Price.Db.Entities.Entities
         public string Seller { get; set; }
         public string Producer { get; set; }
         public string Phones { get; set; }
+        public string RejectReason { get; set; }
+        public int ManualPrice { get; set; }
     }
 }

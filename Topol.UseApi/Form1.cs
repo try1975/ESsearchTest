@@ -54,6 +54,7 @@ namespace Topol.UseApi
         private BindingSource MaybeItemsBindingSource { get; }
         private BindingSource Okpd2ItemsBindingSource { get; }
         private readonly BackgroundWorker _bw = new BackgroundWorker();
+        private readonly BackgroundWorker _bwSellerCount = new BackgroundWorker();
         private string[] _packetLines;
 
         #region rectangle on image
@@ -111,6 +112,12 @@ namespace Topol.UseApi
             _bw.WorkerReportsProgress = true;
             _bw.DoWork += bw_DoWork;
             _bw.ProgressChanged += bw_ProgressChanged;
+
+            _bwSellerCount.WorkerSupportsCancellation = false;
+            _bwSellerCount.WorkerReportsProgress = true;
+            _bwSellerCount.DoWork += bwSellerCount_DoWork;
+            _bwSellerCount.ProgressChanged += bwSellerCount_ProgressChanged;
+            _bwSellerCount.RunWorkerAsync();
 
 
             var baseApi = ConfigurationManager.AppSettings["BaseApi"];
@@ -176,8 +183,8 @@ namespace Topol.UseApi
             priorityList = new[] { "Normal", "High", "Max" };
             cmbPriority.SelectedIndex = 0;
 
-            
-            
+
+
         }
 
         public string[] priorityList { get; set; }
@@ -233,12 +240,13 @@ namespace Topol.UseApi
                     }
                     catch (Exception exception)
                     {
+                        Log.Error(exception);
                         Debug.WriteLine(exception);
                     }
                 }
                 Thread.Sleep(3000);
             }
-           
+
         }
 
         #endregion //BackgroundWorker
@@ -744,23 +752,23 @@ namespace Topol.UseApi
         private void btnSetPriceChecked_Click(object sender, EventArgs e)
         {
             SetPriceChecked();
+            ContentItemsBindingSource.MoveNext();
         }
 
         private async void SetPriceChecked()
         {
-            var current = (DataRowView)ContentItemsBindingSource.Current;
+            var bindingSource = ContentItemsBindingSource;
+            var current = (DataRowView)bindingSource.Current;
             var oPriceStatus = current?.Row[nameof(ContentExtDto.PriceStatus)];
             if (oPriceStatus == null) return;
             var priceStatus = (PriceStatus)oPriceStatus;
-            if (priceStatus != PriceStatus.Checked)
-            {
-                current.Row[nameof(ContentExtDto.PriceStatus)] = PriceStatus.Checked;
-                //call api set price status checked
-                var id = ((int)current.Row[nameof(ContentExtDto.Id)]).ToString();
-                var elasticId = current.Row[nameof(ContentExtDto.ElasticId)] as string;
-                await _dataManager.PostContentItemChecked(id, elasticId);
-            }
-            ContentItemsBindingSource.MoveNext();
+            if (priceStatus == PriceStatus.Checked) return;
+            current.Row[nameof(ContentExtDto.PriceStatus)] = PriceStatus.Checked;
+            current.Row[nameof(ContentExtDto.PriceStatusString)] = Utils.GetDescription(PriceStatus.Checked);
+            //call api set price status checked
+            var id = ((int)current.Row[nameof(ContentExtDto.Id)]).ToString();
+            var elasticId = current.Row[nameof(ContentExtDto.ElasticId)] as string;
+            await _dataManager.PostContentItemChecked(id, elasticId);
         }
 
         private async void SetPrice(string price)
@@ -1235,7 +1243,7 @@ namespace Topol.UseApi
                     Norm = cmbNorm.SelectedItem as string,
                     Priority = priorityList[cmbPriority.SelectedIndex],
                     Options = options,
-                    SearchEngine = searchEngine 
+                    SearchEngine = searchEngine
                 }
             };
             SearchPacket(dto, tbKeywords.Text);
@@ -1275,10 +1283,39 @@ namespace Topol.UseApi
             Application.Exit();
         }
 
-        private async void lblSellerCount_Click(object sender, EventArgs e)
+        private void lblSellerCount_Click(object sender, EventArgs e)
         {
-            var sellerCount =  await _dataManager.GetSellerCount();
-            lblSellerCount.Text = $@"{sellerCount}";
+
+        }
+
+        private void bwSellerCount_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                var sellerCount = _dataManager.GetSellerCount().Result;
+                ((BackgroundWorker)sender).ReportProgress(0, sellerCount);
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+                Log.Error(exception);
+            }
+        }
+
+        private void bwSellerCount_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            if (e.UserState != null)
+            {
+                try
+                {
+                    var sellerCount = (int)e.UserState;
+                    lblSellerCount.Text = $@"{sellerCount}";
+                }
+                catch (Exception exception)
+                {
+                    Log.Error(exception);
+                }
+            }
         }
     }
 }

@@ -72,6 +72,7 @@
             будут впоследствии автоматически актуализироваться (api/contentitem/checked/{id:int}).
             0 - Не проверено (NotChecked)
             1 - Проверено (Checked)
+            2 - Отбраковано (Rejected)
             </summary>
         </member>
         <member name="P:Common.Dto.Model.NewApi.ContentExtDto.PriceStatusString">
@@ -107,6 +108,16 @@
         <member name="P:Common.Dto.Model.NewApi.ContentExtDto.Nprice">
             <summary>
                 Цена позиции число
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.RejectReason">
+            <summary>
+            Причина отбраковки
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.ManualPrice">
+            <summary>
+            Признак ручной установки цены
             </summary>
         </member>
         <member name="T:Common.Dto.Model.NewApi.ContentMoveDto">

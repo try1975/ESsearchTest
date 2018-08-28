@@ -31,5 +31,7 @@ namespace Price.Db.Entities.Entities
         public string html { get; set; }
         public int? upd { get; set; }
         public PriceStatus PriceStatus { get; set; }
+        public string RejectReason { get; set; }
+        public int ManualPrice { get; set; }
     }
 }

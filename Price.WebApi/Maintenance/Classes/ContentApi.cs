@@ -11,7 +11,7 @@ namespace Price.WebApi.Maintenance.Classes
 {
     public class ContentApi : TypedApi<ContentExtDto, ContentEntity, int>, IContentApi
     {
-        
+
         public ContentApi(IContentQuery query) : base(query)
         {
 
@@ -41,7 +41,7 @@ namespace Price.WebApi.Maintenance.Classes
             catch (Exception exception)
             {
                 Logger.Log.Error(exception);
-                
+
             }
             return false;
         }
@@ -60,13 +60,34 @@ namespace Price.WebApi.Maintenance.Classes
                 var entity = Query.GetEntity(id);
                 if (entity == null) return false;
                 entity.Price = price;
-                entity=Query.UpdateEntity(entity);
+                entity.ManualPrice = 1;
+                entity = Query.UpdateEntity(entity);
                 return entity != null;
             }
             catch (Exception exception)
             {
                 Logger.Log.Error(exception);
-               
+
+            }
+            return false;
+        }
+
+        public bool ContentRejected(int id, string reason)
+        {
+            try
+            {
+                var entity = Query.GetEntity(id);
+                if (entity == null) return false;
+                if (entity.PriceStatus == PriceStatus.Rejected && entity.RejectReason == reason) return false;
+                entity.PriceStatus = PriceStatus.Rejected;
+                entity.RejectReason = reason;
+                Query.UpdateEntity(entity);
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Logger.Log.Error(exception);
+
             }
             return false;
         }

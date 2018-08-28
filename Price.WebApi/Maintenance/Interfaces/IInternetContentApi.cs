@@ -6,5 +6,6 @@ namespace Price.WebApi.Maintenance.Interfaces
     {
         bool InternetContentChecked(int id);
         bool InternetContentSetPrice(int id, string price);
+        bool InternetContentRejected(int id, string reason);
     }
 }
