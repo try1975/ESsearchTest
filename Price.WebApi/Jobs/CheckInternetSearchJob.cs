@@ -26,7 +26,7 @@ namespace Price.WebApi.Jobs
             foreach (var entity in entities)
             {
                 // Stop long tasks
-                if (entity.StartProcessed + (AppGlobal.CashSeconds/2) < Utils.GetUtcNow())
+                if ((entity.StartProcessed + AppGlobal.InternetSearchTimeoutSeconds ) < Utils.GetUtcNow())
                 {
                     entity.ProcessedAt = Utils.GetUtcNow();
                     entity.Status = TaskStatus.BreakByTimeout;

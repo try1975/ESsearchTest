@@ -29,6 +29,9 @@ namespace Price.WebApi.Logic
             CashSeconds = int.TryParse(WebConfigurationManager.AppSettings[nameof(CashSeconds)],
                 out tempInt) ? tempInt : 86400;
 
+            InternetSearchTimeoutSeconds = int.TryParse(WebConfigurationManager.AppSettings[nameof(InternetSearchTimeoutSeconds)],
+                out tempInt) ? tempInt : 86400;
+
             InternetSearchHost = WebConfigurationManager.AppSettings[nameof(InternetSearchHost)];
 
             
@@ -52,6 +55,7 @@ namespace Price.WebApi.Logic
         public static string Screenshotter { get; }
 
         public static int CashSeconds { get; }
+        public static int InternetSearchTimeoutSeconds { get; }
 
         public static string InternetSearchHost { get; }
 
