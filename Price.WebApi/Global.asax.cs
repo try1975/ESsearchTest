@@ -29,7 +29,7 @@ namespace Price.WebApi
                 .ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 
             // запуск выполнения работы
-            TopolScheduler.Start();
+            //TopolScheduler.Start();
         }
     }
 }

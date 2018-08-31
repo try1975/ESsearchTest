@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using System.Web.Http.OData.Extensions;
 
 namespace Price.WebApi
 {
@@ -19,6 +20,10 @@ namespace Price.WebApi
 
             config.Formatters.XmlFormatter.UseXmlSerializer = true;
             //config.Formatters.JsonFormatter.UseDataContractJsonSerializer = true;
+
+            // OData query options
+            //config.EnableQuerySupport();
+            config.AddODataQueryFilter();
         }
     }
 }

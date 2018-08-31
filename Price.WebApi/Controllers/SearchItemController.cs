@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
+using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.OData;
 using Common.Dto.Model.NewApi;
 using Gma.CodeCloud.Controls.TextAnalyses.Processing;
 using Price.WebApi.Maintenance.Interfaces;
@@ -46,6 +49,21 @@ namespace Price.WebApi.Controllers
         {
             ((ISearchItemApi)_api).BaseUrl = $"{Request.RequestUri.Scheme}://{Request.RequestUri.Host}:{Request.RequestUri.Port}";
             return Ok(((ISearchItemApi)_api).GetItemContents(id));
+        }
+
+        /// <summary>
+        /// https://msdn.microsoft.com/en-us/library/dd541344.aspx
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [EnableQuery]
+        [HttpGet]
+        [Route("api/SearchItem/content/filtered/{id}", Name = nameof(ODataGetSearchItemContents) + "Route")]
+        public IQueryable<ContentExtDto> ODataGetSearchItemContents(string id)
+        {
+            //7fc2154233d9f247f98d218dc7503bdc
+            var result = ((ISearchItemApi) _api).GetItemContents(id);
+            return result == null ? null : new EnumerableQuery<ContentExtDto>(result);
         }
 
         /// <summary>
