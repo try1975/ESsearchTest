@@ -1,5 +1,6 @@
 ﻿using System;
 using Common.Dto.Logic;
+using Common.Dto.Model.Packet;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using PriceCommon.Enums;
@@ -11,6 +12,8 @@ namespace Common.Dto.Model.NewApi
     /// </summary>
     public class SearchItemHeaderDto : IDto<string>
     {
+        private string _jsonText;
+
         /// <summary>
         /// Идентификатор поискового запроса
         /// </summary>
@@ -127,5 +130,28 @@ namespace Common.Dto.Model.NewApi
             Status = TaskStatus.InProcess;
         }
 
+        public string JsonText
+        {
+            get { return _jsonText; }
+            set
+            {
+                _jsonText = value;
+                try
+                {
+                    var searchItemParam = JsonConvert.DeserializeObject<SearchItemParam>(_jsonText);
+                    AddKeywords = searchItemParam.AddKeywords;
+                    Priority = searchItemParam.Priority;
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
+
+            }
+        }
+
+        //[JsonIgnore]
+        public string AddKeywords { get; set; }
+        public string Priority { get; set; }
     }
 }

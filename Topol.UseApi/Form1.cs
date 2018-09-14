@@ -21,7 +21,7 @@ using log4net.Repository.Hierarchy;
 using Newtonsoft.Json;
 using PriceCommon.Enums;
 using PriceCommon.Utils;
-using Tesseract;
+//using Tesseract;
 using Topol.UseApi.Data.Common;
 using Topol.UseApi.Forms;
 using Topol.UseApi.Interfaces.Common;
@@ -62,7 +62,7 @@ namespace Topol.UseApi
         private Rectangle _rect;
         private Rectangle _prevRect;
         private readonly Brush _selectionBrush = new SolidBrush(Color.FromArgb(128, 72, 145, 220));
-        private readonly TesseractEngine _engine;
+        //private readonly TesseractEngine _engine;
 
         #endregion //rectangle on image
 
@@ -75,6 +75,7 @@ namespace Topol.UseApi
         public Form1()
         {
             InitializeComponent();
+            Text = $"{Text} (версия {ProductVersion})";
             cmbElasticIndexName.SelectedIndex = 0;
             cmbNorm.SelectedIndex = 0;
             _dataManager = new DataMаnager();
@@ -175,7 +176,7 @@ namespace Topol.UseApi
             btnSplit.Click += btnSplit_Click;
             btnExcel.Click += btnExcel_Click;
 
-            _engine = new TesseractEngine(@"./tessdata", "rus", EngineMode.Default);
+            //_engine = new TesseractEngine(@"./tessdata", "rus", EngineMode.Default);
 
 
             cmbPriority.Items.Clear();
@@ -274,6 +275,8 @@ namespace Topol.UseApi
             if (column != null) column.Visible = false;
             column = dgv.Columns[nameof(SearchItemDto.Status)];
             if (column != null) column.Visible = false;
+            column = dgv.Columns[nameof(SearchItemHeaderDto.JsonText)];
+            if (column != null) column.Visible = false;
 
             column = dgv.Columns[nameof(SearchItemDto.Source)];
             if (column != null)
@@ -289,6 +292,26 @@ namespace Topol.UseApi
             if (column != null)
             {
                 column.HeaderText = @"Наименование ТРУ";
+            }
+            column = dgv.Columns[nameof(SearchItemHeaderDto.ExtId)];
+            if (column != null)
+            {
+                column.HeaderText = @"Метка";
+            }
+            column = dgv.Columns[nameof(SearchItemHeaderDto.Normalizer)];
+            if (column != null)
+            {
+                column.HeaderText = @"Нормализатор";
+            }
+            column = dgv.Columns[nameof(SearchItemHeaderDto.AddKeywords)];
+            if (column != null)
+            {
+                column.HeaderText = @"Ключевые слова";
+            }
+            column = dgv.Columns[nameof(SearchItemHeaderDto.Priority)];
+            if (column != null)
+            {
+                column.HeaderText = @"Приоритет запроса";
             }
             column = dgv.Columns[nameof(SearchItemDto.StartProcessedDateTime)];
             if (column != null)
@@ -569,12 +592,12 @@ namespace Topol.UseApi
                 _prevRect = rect;
 
                 //Tesseract OCR
-                using (var page = _engine.Process(bmp))
-                {
-                    var ocrText = page.GetText();
-                    cmbPrices.Text = ocrText;
-                    //cmbPrices.Text = GetOnlyPrice(ocrText);
-                }
+                //using (var page = _engine.Process(bmp))
+                //{
+                //    var ocrText = page.GetText();
+                //    cmbPrices.Text = ocrText;
+                //    //cmbPrices.Text = GetOnlyPrice(ocrText);
+                //}
             }
         }
 
@@ -1278,7 +1301,7 @@ namespace Topol.UseApi
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _engine.Dispose();
+            //_engine.Dispose();
             Settings.Default.Save();
             Application.Exit();
         }

@@ -10,7 +10,9 @@ namespace FindCompany.Db.Postgress.Mappings
         {
             HasKey(e => e.Id);
             Property(e => e.Id)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+                .HasColumnName("id")
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)
+                ;
 
             Property(e => e.Host)
                 .HasColumnName("host")

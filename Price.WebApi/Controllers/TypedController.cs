@@ -37,7 +37,7 @@ namespace Price.WebApi.Controllers
         }
 
         /// <summary>
-        /// Записать элемент ((служебный метод))
+        /// Записать элемент (служебный метод)
         /// </summary>
         /// <param name="creatingDto"></param>
         /// <returns></returns>
