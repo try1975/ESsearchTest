@@ -107,9 +107,9 @@ namespace Common.Dto.Model.NewApi
 
 
         /// <summary>
-        ///     Цена позиции число
+        ///     Цена  (тип double) для элемента результата поискового запроса 
         /// </summary>
-        [JsonIgnore]
+        //[JsonIgnore]
         public double Nprice
         {
             get

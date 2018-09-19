@@ -107,7 +107,7 @@
         </member>
         <member name="P:Common.Dto.Model.NewApi.ContentExtDto.Nprice">
             <summary>
-                Цена позиции число
+                Цена  (тип double) для элемента результата поискового запроса 
             </summary>
         </member>
         <member name="P:Common.Dto.Model.NewApi.ContentExtDto.RejectReason">
