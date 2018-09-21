@@ -37,13 +37,7 @@ namespace Price.WebApi.Maintenance.Classes
             {
                 var uri = new Uri(url);
                 var host = uri.Host;
-                string seller;
-                if (!_sellersConcurrentDictionary.TryGetValue(host, out seller))
-                {
-                  return  string.Empty;
-                }
-                return seller;
-
+                return !_sellersConcurrentDictionary.TryGetValue(host, out var seller) ? string.Empty : seller;
             }
             catch (Exception exception)
             {

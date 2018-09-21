@@ -24,7 +24,9 @@ using PriceCommon.Utils;
 using Tesseract;
 using Topol.UseApi.Data.Common;
 using Topol.UseApi.Forms;
+using Topol.UseApi.Interfaces;
 using Topol.UseApi.Interfaces.Common;
+using Topol.UseApi.Ninject;
 using Topol.UseApi.Properties;
 
 namespace Topol.UseApi
@@ -1316,6 +1318,15 @@ namespace Topol.UseApi
                     Log.Error(exception);
                 }
             }
+        }
+
+        private void tabPage4_Enter(object sender, EventArgs e)
+        {
+            var bankControl = CompositionRoot.Resolve<ISellerView>();
+            var control = (Control) bankControl;
+            control.Dock = DockStyle.Fill;
+            tabPage4.Controls.Clear();
+            tabPage4.Controls.Add(control);
         }
     }
 }

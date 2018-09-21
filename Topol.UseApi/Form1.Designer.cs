@@ -154,6 +154,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -562,6 +563,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -575,7 +577,7 @@
             this.tabPage1.Controls.Add(this.tcApiSelect);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(819, 503);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Поиск";
@@ -617,7 +619,7 @@
             this.tpPacketTru.Controls.Add(this.pnlPacket);
             this.tpPacketTru.Location = new System.Drawing.Point(4, 22);
             this.tpPacketTru.Name = "tpPacketTru";
-            this.tpPacketTru.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tpPacketTru.Padding = new System.Windows.Forms.Padding(3);
             this.tpPacketTru.Size = new System.Drawing.Size(805, 135);
             this.tpPacketTru.TabIndex = 0;
             this.tpPacketTru.Text = "Пакет ТРУ";
@@ -628,8 +630,8 @@
             this.tpSingleTru.Controls.Add(this.panel1);
             this.tpSingleTru.Location = new System.Drawing.Point(4, 22);
             this.tpSingleTru.Name = "tpSingleTru";
-            this.tpSingleTru.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tpSingleTru.Size = new System.Drawing.Size(808, 135);
+            this.tpSingleTru.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSingleTru.Size = new System.Drawing.Size(805, 135);
             this.tpSingleTru.TabIndex = 1;
             this.tpSingleTru.Text = "Один ТРУ";
             this.tpSingleTru.UseVisualStyleBackColor = true;
@@ -641,7 +643,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(802, 129);
+            this.panel1.Size = new System.Drawing.Size(799, 129);
             this.panel1.TabIndex = 5;
             // 
             // panel6
@@ -650,7 +652,7 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(0, 83);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(802, 43);
+            this.panel6.Size = new System.Drawing.Size(799, 43);
             this.panel6.TabIndex = 3;
             // 
             // CallApi4OneItemPacket
@@ -670,7 +672,7 @@
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel7.Location = new System.Drawing.Point(0, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(802, 83);
+            this.panel7.Size = new System.Drawing.Size(799, 83);
             this.panel7.TabIndex = 4;
             // 
             // panel8
@@ -680,7 +682,7 @@
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel8.Location = new System.Drawing.Point(0, 32);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(802, 32);
+            this.panel8.Size = new System.Drawing.Size(799, 32);
             this.panel8.TabIndex = 0;
             // 
             // cmbNorm
@@ -711,7 +713,7 @@
             this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel9.Location = new System.Drawing.Point(0, 0);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(802, 32);
+            this.panel9.Size = new System.Drawing.Size(799, 32);
             this.panel9.TabIndex = 1;
             // 
             // tbSingleExtId
@@ -754,8 +756,8 @@
             this.tabPage2.Controls.Add(this.panel5);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage2.Size = new System.Drawing.Size(819, 460);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(819, 503);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Maybe";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -776,7 +778,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 243);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(813, 214);
+            this.groupBox1.Size = new System.Drawing.Size(813, 257);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Результаты поиска";
@@ -794,7 +796,7 @@
             this.dgvMaybe.Location = new System.Drawing.Point(3, 33);
             this.dgvMaybe.Name = "dgvMaybe";
             this.dgvMaybe.ReadOnly = true;
-            this.dgvMaybe.Size = new System.Drawing.Size(807, 178);
+            this.dgvMaybe.Size = new System.Drawing.Size(807, 221);
             this.dgvMaybe.TabIndex = 2;
             this.dgvMaybe.TimeFilter = true;
             // 
@@ -917,7 +919,7 @@
             this.tabPage3.Controls.Add(this.panel10);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(819, 460);
+            this.tabPage3.Size = new System.Drawing.Size(819, 503);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "ОКПД2";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -938,7 +940,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 240);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(819, 220);
+            this.groupBox2.Size = new System.Drawing.Size(819, 263);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Результаты поиска";
@@ -956,7 +958,7 @@
             this.dgvOkpd2.Location = new System.Drawing.Point(3, 33);
             this.dgvOkpd2.Name = "dgvOkpd2";
             this.dgvOkpd2.ReadOnly = true;
-            this.dgvOkpd2.Size = new System.Drawing.Size(813, 184);
+            this.dgvOkpd2.Size = new System.Drawing.Size(813, 227);
             this.dgvOkpd2.TabIndex = 2;
             this.dgvOkpd2.TimeFilter = true;
             // 
@@ -1367,7 +1369,7 @@
             this.cbGoogle.Checked = true;
             this.cbGoogle.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbGoogle.Location = new System.Drawing.Point(559, 31);
-            this.cbGoogle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbGoogle.Margin = new System.Windows.Forms.Padding(2);
             this.cbGoogle.Name = "cbGoogle";
             this.cbGoogle.Size = new System.Drawing.Size(60, 17);
             this.cbGoogle.TabIndex = 12;
@@ -1380,7 +1382,7 @@
             this.cbYandex.Checked = true;
             this.cbYandex.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbYandex.Location = new System.Drawing.Point(559, 10);
-            this.cbYandex.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbYandex.Margin = new System.Windows.Forms.Padding(2);
             this.cbYandex.Name = "cbYandex";
             this.cbYandex.Size = new System.Drawing.Size(62, 17);
             this.cbYandex.TabIndex = 11;
@@ -1412,7 +1414,7 @@
             // 
             this.cbNotExtractPrice.AutoSize = true;
             this.cbNotExtractPrice.Location = new System.Drawing.Point(429, 31);
-            this.cbNotExtractPrice.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbNotExtractPrice.Margin = new System.Windows.Forms.Padding(2);
             this.cbNotExtractPrice.Name = "cbNotExtractPrice";
             this.cbNotExtractPrice.Size = new System.Drawing.Size(65, 17);
             this.cbNotExtractPrice.TabIndex = 8;
@@ -1428,7 +1430,7 @@
             "Высокий",
             "Максимальный"});
             this.cmbPriority.Location = new System.Drawing.Point(712, 21);
-            this.cmbPriority.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbPriority.Margin = new System.Windows.Forms.Padding(2);
             this.cmbPriority.Name = "cmbPriority";
             this.cmbPriority.Size = new System.Drawing.Size(108, 21);
             this.cmbPriority.TabIndex = 7;
@@ -1449,7 +1451,7 @@
             this.cbSeparateRequest.Checked = true;
             this.cbSeparateRequest.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbSeparateRequest.Location = new System.Drawing.Point(429, 11);
-            this.cbSeparateRequest.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbSeparateRequest.Margin = new System.Windows.Forms.Padding(2);
             this.cbSeparateRequest.Name = "cbSeparateRequest";
             this.cbSeparateRequest.Size = new System.Drawing.Size(128, 17);
             this.cbSeparateRequest.TabIndex = 5;
@@ -1482,6 +1484,16 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Описание API: http://144.76.54.166:52620";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(819, 503);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Продавцы";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            this.tabPage4.Enter += new System.EventHandler(this.tabPage4_Enter);
             // 
             // Form1
             // 
@@ -1679,6 +1691,7 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.CheckBox cbGoogle;
         private System.Windows.Forms.CheckBox cbYandex;
+        private System.Windows.Forms.TabPage tabPage4;
     }
 }
 
