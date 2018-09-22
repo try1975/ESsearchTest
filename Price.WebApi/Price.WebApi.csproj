@@ -204,8 +204,10 @@
     <Compile Include="Auth\AuthenticationTypes.cs" />
     <Compile Include="Auth\TokenModule.cs" />
     <Compile Include="AutoMappers\ContentAutoMapper.cs" />
+    <Compile Include="AutoMappers\FindCompanyAutoMapper.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\ContentItemController.cs" />
+    <Compile Include="Controllers\FindCompanyController.cs" />
     <Compile Include="Controllers\InternetController.cs" />
     <Compile Include="Controllers\PacketController.cs" />
     <Compile Include="Controllers\PharmacyController.cs" />
@@ -234,8 +236,10 @@
     <Compile Include="Maintenance\Classes\EnricheApi.cs" />
     <Compile Include="Maintenance\Classes\InternetContentApi.cs" />
     <Compile Include="Maintenance\Classes\SearchItemApi.cs" />
+    <Compile Include="Maintenance\Classes\FindCompanyApi.cs" />
     <Compile Include="Maintenance\Interfaces\IContentApi.cs" />
     <Compile Include="Maintenance\Interfaces\IEnricheApi.cs" />
+    <Compile Include="Maintenance\Interfaces\IFindCompanyApi.cs" />
     <Compile Include="Maintenance\Interfaces\IInternetContentApi.cs" />
     <Compile Include="Maintenance\Interfaces\ISearchItemApi.cs" />
     <Compile Include="Maintenance\ITypedApi.cs" />

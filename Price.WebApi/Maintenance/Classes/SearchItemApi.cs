@@ -55,6 +55,7 @@ namespace Price.WebApi.Maintenance.Classes
         /// <param name="contentQuery"></param>
         /// <param name="internetContentApi"></param>
         /// <param name="contentApi"></param>
+        /// <param name="enricheApi"></param>
         public SearchItemApi(ISearchItemQuery query
             , IInternetContentQuery internetContentQuery, IContentQuery contentQuery
             , IInternetContentApi internetContentApi, IContentApi contentApi, IEnricheApi enricheApi

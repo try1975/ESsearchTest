@@ -46,6 +46,7 @@ namespace Price.WebApi.Ninject
             container.Bind<IContentQuery>().To<ContentQuery>().InRequestScope();
 
             container.Bind<IEnricheApi>().To<EnricheApi>().InSingletonScope();
+            container.Bind<IFindCompanyApi>().To<FindCompanyApi>().InSingletonScope();
             container.Bind<IFindCompanyQuery>().To<FindCompanyQuery>().InSingletonScope();
 
             #endregion
@@ -55,6 +56,7 @@ namespace Price.WebApi.Ninject
         {
             var cfg = new MapperConfigurationExpression();
             ContentAutoMapper.Configure(cfg);
+            FindCompanyAutoMapper.Configure(cfg);
             Mapper.Initialize(cfg);
             //Mapper.AssertConfigurationIsValid();
         }
