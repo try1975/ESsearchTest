@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
+using AutoMapper;
+using AutoMapper.Configuration;
 using log4net.Config;
+using Topol.UseApi.Data.Common;
 using Topol.UseApi.Forms;
 using Topol.UseApi.Ninject;
 
@@ -17,6 +20,9 @@ namespace Topol.UseApi
         private static void Main()
         {
             CompositionRoot.Wire(new ApplicationModule());
+            var cfg = new MapperConfigurationExpression();
+            AutoMapperConfig.RegisterMappings(cfg);
+            Mapper.Initialize(cfg);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

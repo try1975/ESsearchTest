@@ -242,7 +242,7 @@ namespace Price.WebApi.Maintenance.Classes
                         ElasticId = z.ElasticId,
                         Screenshot = string.IsNullOrEmpty(z.Screenshot) ? $"{_getUrl}{WebshotTool.GetWebshotName(z.Id, z.Uri)}" : $"{_getUrl}{z.Screenshot}",
                         PriceStatus = z.PriceStatus,
-                        Seller = z.Seller,
+                        Seller = _enricheApi.GetSeller(z.Uri),
                         Producer = z.Producer,
                         Phones = z.Phones
                     }).ToList();

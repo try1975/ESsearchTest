@@ -186,7 +186,7 @@ namespace Topol.UseApi
             priorityList = new[] { "Normal", "High", "Max" };
             cmbPriority.SelectedIndex = 0;
 
-
+            tabPage4.Enter += tabPage4_Enter;
 
         }
 
