@@ -120,7 +120,8 @@ namespace Price.WebApi.Logic.Packet
                         Okpd2 = contentDto.Okpd2,
                         Seller = contentDto.Seller,
                         Producer = contentDto.Producer,
-                        Phones = contentDto.Phones
+                        Phones = contentDto.Phones,
+                        ProdStatus = ProdStatusConvert.FromString(contentDto.prodStatus)
                     }).ToList());
                 }
                 if (inInternet == false)
