@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.OData;
+using System.Web.Http.OData.Query;
 using Common.Dto.Model.NewApi;
 using Gma.CodeCloud.Controls.TextAnalyses.Processing;
 using Price.WebApi.Maintenance.Interfaces;
@@ -55,15 +56,17 @@ namespace Price.WebApi.Controllers
         /// https://msdn.microsoft.com/en-us/library/dd541344.aspx
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="queryOptions"></param>
         /// <returns></returns>
-        [EnableQuery]
         [HttpGet]
         [Route("api/SearchItem/content/filtered/{id}", Name = nameof(ODataGetSearchItemContents) + "Route")]
-        public IQueryable<ContentExtDto> ODataGetSearchItemContents(string id)
+        public IQueryable<ContentExtDto> ODataGetSearchItemContents(string id, ODataQueryOptions<ContentExtDto> queryOptions)
         {
             //7fc2154233d9f247f98d218dc7503bdc
             var result = ((ISearchItemApi) _api).GetItemContents(id);
-            return result == null ? null : new EnumerableQuery<ContentExtDto>(result);
+            var enumerableQuery = result == null ? null : new EnumerableQuery<ContentExtDto>(result);
+            //https://d-fens.ch/2017/02/26/modifying-odataqueryoptions-on-the-fly/
+            return queryOptions.ApplyTo(enumerableQuery) as IQueryable<ContentExtDto>;
         }
 
         /// <summary>

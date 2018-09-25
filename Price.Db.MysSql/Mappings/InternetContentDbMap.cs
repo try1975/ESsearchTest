@@ -133,6 +133,11 @@ namespace Price.Db.Postgress.Mappings
                 .IsOptional()
                 ;
 
+            Property(e => e.ProdStatus)
+                .IsOptional()
+                .HasColumnName("prod_Status")
+                ;
+
             ToTable($"{tableName}");
 
         }

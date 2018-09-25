@@ -484,6 +484,12 @@ namespace Topol.UseApi
                 column.Visible = true;
                 column.HeaderText = @"Продавец";
             }
+            column = dgv.Columns[nameof(ContentExtDto.ProdStatusString)];
+            if (column != null)
+            {
+                column.Visible = true;
+                column.HeaderText = @"Статус наличия";
+            }
         }
 
         #endregion //Grid Settings

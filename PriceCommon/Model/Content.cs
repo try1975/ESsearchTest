@@ -85,5 +85,7 @@ namespace PriceCommon.Model
         /// </summary>
         public string Currency { get; set; }
 
+        public string prodStatus { get; set; }
+
     }
 }

@@ -120,6 +120,16 @@
             Признак ручной установки цены
             </summary>
         </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.ProdStatus">
+            <summary>
+            Статус наличия товара
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.ContentExtDto.ProdStatusString">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:Common.Dto.Model.NewApi.ContentMoveDto">
             <summary>
             Элемент результата поискового запроса для перемещения в другой поисковой запрос

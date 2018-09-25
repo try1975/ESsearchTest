@@ -133,5 +133,16 @@ namespace Common.Dto.Model.NewApi
         /// Признак ручной установки цены
         /// </summary>
         public int ManualPrice { get; set; }
+
+        /// <summary>
+        /// Статус наличия товара
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ProdStatus? ProdStatus { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonIgnore]
+        public string ProdStatusString => PriceCommon.Utils.Utils.GetDescription(ProdStatus);
     }
 }

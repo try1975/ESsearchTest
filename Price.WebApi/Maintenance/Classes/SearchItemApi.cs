@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Common.Dto.Logic;
-using Common.Dto.Model;
 using Common.Dto.Model.NewApi;
 using Gma.CodeCloud.Controls.TagCloud;
 using Gma.CodeCloud.Controls.TextAnalyses.Blacklist;
@@ -244,7 +243,8 @@ namespace Price.WebApi.Maintenance.Classes
                         PriceStatus = z.PriceStatus,
                         Seller = _enricheApi.GetSeller(z.Uri),
                         Producer = z.Producer,
-                        Phones = z.Phones
+                        Phones = z.Phones,
+                        ProdStatus = z.ProdStatus
                     }).ToList();
         }
 
@@ -273,7 +273,8 @@ namespace Price.WebApi.Maintenance.Classes
                  z.unit,
                  z.weight,
                  z.rate,*/
-                 z.PriceStatus
+                 z.PriceStatus,
+                 z.ProdStatus
              })
              .ToList();
             return list.Select(z => new ContentExtDto()
@@ -288,7 +289,8 @@ namespace Price.WebApi.Maintenance.Classes
                 Screenshot = string.IsNullOrEmpty(z.contact_url) ? $"{_getUrl}{WebshotTool.GetWebshotName(z.Id, z.url)}" : $"{_getUrl}{z.contact_url}",
                 PriceStatus = z.PriceStatus,
                 PriceVariants = z.prices,
-                Seller = _enricheApi.GetSeller(z.url)
+                Seller = _enricheApi.GetSeller(z.url),
+                ProdStatus = z.ProdStatus
             }).ToList();
             //TODO: enriche seller from external source
         }

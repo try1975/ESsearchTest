@@ -21,5 +21,6 @@ namespace Price.Db.Entities.Entities
         public string Phones { get; set; }
         public string RejectReason { get; set; }
         public int ManualPrice { get; set; }
+        public ProdStatus? ProdStatus { get; set; }
     }
 }

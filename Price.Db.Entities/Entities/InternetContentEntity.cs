@@ -33,5 +33,6 @@ namespace Price.Db.Entities.Entities
         public PriceStatus PriceStatus { get; set; }
         public string RejectReason { get; set; }
         public int ManualPrice { get; set; }
+        public ProdStatus? ProdStatus { get; set; }
     }
 }
