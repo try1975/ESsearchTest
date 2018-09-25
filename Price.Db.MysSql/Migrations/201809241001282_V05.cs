@@ -8,12 +8,12 @@ namespace Price.Db.Postgress.Migrations
         public override void Up()
         {
             RenameColumn(table: "public.Contents", name: "ProdStatus2", newName: "ProdStatus");
-            RenameColumn(table: "public.history", name: "ProdStatus2", newName: "prod_Status");
+            RenameColumn(table: "public.history", name: "ProdStatus2", newName: "prod_status");
         }
         
         public override void Down()
         {
-            RenameColumn(table: "public.history", name: "prod_Status", newName: "ProdStatus2");
+            RenameColumn(table: "public.history", name: "prod_status", newName: "ProdStatus2");
             RenameColumn(table: "public.Contents", name: "ProdStatus", newName: "ProdStatus2");
         }
     }
