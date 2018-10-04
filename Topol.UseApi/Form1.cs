@@ -21,7 +21,7 @@ using log4net.Repository.Hierarchy;
 using Newtonsoft.Json;
 using PriceCommon.Enums;
 using PriceCommon.Utils;
-//using Tesseract;
+using Tesseract;
 using Topol.UseApi.Data.Common;
 using Topol.UseApi.Forms;
 using Topol.UseApi.Interfaces;
@@ -64,7 +64,7 @@ namespace Topol.UseApi
         private Rectangle _rect;
         private Rectangle _prevRect;
         private readonly Brush _selectionBrush = new SolidBrush(Color.FromArgb(128, 72, 145, 220));
-        //private readonly TesseractEngine _engine;
+        private readonly TesseractEngine _engine;
 
         #endregion //rectangle on image
 
@@ -178,7 +178,7 @@ namespace Topol.UseApi
             btnSplit.Click += btnSplit_Click;
             btnExcel.Click += btnExcel_Click;
 
-            //_engine = new TesseractEngine(@"./tessdata", "rus", EngineMode.Default);
+            _engine = new TesseractEngine(@"./tessdata", "rus", EngineMode.Default);
 
 
             cmbPriority.Items.Clear();
@@ -600,12 +600,12 @@ namespace Topol.UseApi
                 _prevRect = rect;
 
                 //Tesseract OCR
-                //using (var page = _engine.Process(bmp))
-                //{
-                //    var ocrText = page.GetText();
-                //    cmbPrices.Text = ocrText;
-                //    //cmbPrices.Text = GetOnlyPrice(ocrText);
-                //}
+                using (var page = _engine.Process(bmp))
+                {
+                    var ocrText = page.GetText();
+                    cmbPrices.Text = ocrText;
+                    //cmbPrices.Text = GetOnlyPrice(ocrText);
+                }
             }
         }
 
@@ -1272,6 +1272,7 @@ namespace Topol.UseApi
                     Id = string.IsNullOrEmpty(tbSingleExtId.Text) ? Md5Logstah.GetDefaultId("", textBox2.Text) : tbSingleExtId.Text,
                     Name = textBox2.Text,
                     Norm = cmbNorm.SelectedItem as string,
+                    Syn = string.IsNullOrEmpty(tbSynonims.Text) ? new string []{} : tbSynonims.Text.Split(','),
                     Priority = priorityList[cmbPriority.SelectedIndex],
                     Options = options,
                     SearchEngine = searchEngine
@@ -1309,7 +1310,7 @@ namespace Topol.UseApi
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //_engine.Dispose();
+            _engine.Dispose();
             Settings.Default.Save();
             Application.Exit();
         }

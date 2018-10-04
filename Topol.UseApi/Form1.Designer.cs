@@ -155,6 +155,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.label18 = new System.Windows.Forms.Label();
+            this.tbSynonims = new System.Windows.Forms.TextBox();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -483,7 +485,7 @@
             // 
             // btnExcel
             // 
-            this.btnExcel.Location = new System.Drawing.Point(392, 13);
+            this.btnExcel.Location = new System.Drawing.Point(432, 13);
             this.btnExcel.Name = "btnExcel";
             this.btnExcel.Size = new System.Drawing.Size(76, 23);
             this.btnExcel.TabIndex = 5;
@@ -494,9 +496,9 @@
             // 
             this.btnSplit.Location = new System.Drawing.Point(301, 13);
             this.btnSplit.Name = "btnSplit";
-            this.btnSplit.Size = new System.Drawing.Size(76, 23);
+            this.btnSplit.Size = new System.Drawing.Size(106, 23);
             this.btnSplit.TabIndex = 4;
-            this.btnSplit.Text = "Разделить";
+            this.btnSplit.Text = "Облако тегов";
             this.btnSplit.UseVisualStyleBackColor = true;
             // 
             // btnMove
@@ -677,6 +679,8 @@
             // 
             // panel8
             // 
+            this.panel8.Controls.Add(this.tbSynonims);
+            this.panel8.Controls.Add(this.label18);
             this.panel8.Controls.Add(this.cmbNorm);
             this.panel8.Controls.Add(this.label3);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
@@ -692,7 +696,7 @@
             "лек_средства:основной"});
             this.cmbNorm.Location = new System.Drawing.Point(104, 6);
             this.cmbNorm.Name = "cmbNorm";
-            this.cmbNorm.Size = new System.Drawing.Size(445, 21);
+            this.cmbNorm.Size = new System.Drawing.Size(245, 21);
             this.cmbNorm.TabIndex = 4;
             // 
             // label3
@@ -720,7 +724,7 @@
             // 
             this.tbSingleExtId.Location = new System.Drawing.Point(603, 6);
             this.tbSingleExtId.Name = "tbSingleExtId";
-            this.tbSingleExtId.Size = new System.Drawing.Size(120, 20);
+            this.tbSingleExtId.Size = new System.Drawing.Size(129, 20);
             this.tbSingleExtId.TabIndex = 4;
             // 
             // label8
@@ -1257,8 +1261,8 @@
             // bindingNavigatorCountItem
             // 
             this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(43, 36);
-            this.bindingNavigatorCountItem.Text = "для {0}";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 36);
+            this.bindingNavigatorCountItem.Text = "of {0}";
             this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
             // 
             // bindingNavigatorDeleteItem
@@ -1494,6 +1498,22 @@
             this.linkLabel1.Text = "Описание API: http://144.76.54.166:52620";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(398, 10);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(60, 13);
+            this.label18.TabIndex = 5;
+            this.label18.Text = "Синонимы";
+            // 
+            // tbSynonims
+            // 
+            this.tbSynonims.Location = new System.Drawing.Point(464, 7);
+            this.tbSynonims.Name = "tbSynonims";
+            this.tbSynonims.Size = new System.Drawing.Size(268, 20);
+            this.tbSynonims.TabIndex = 6;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1691,6 +1711,8 @@
         private System.Windows.Forms.CheckBox cbGoogle;
         private System.Windows.Forms.CheckBox cbYandex;
         private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TextBox tbSynonims;
+        private System.Windows.Forms.Label label18;
     }
 }
 
