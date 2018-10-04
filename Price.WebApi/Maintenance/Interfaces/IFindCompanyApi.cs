@@ -4,6 +4,6 @@ namespace Price.WebApi.Maintenance.Interfaces
 {
     public interface IFindCompanyApi : ITypedApi<FindCompanyDto, int>
     {
-        
+        int GetSellerCount();
     }
 }

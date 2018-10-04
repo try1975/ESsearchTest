@@ -1,4 +1,13 @@
-﻿using System;
+﻿using ComLog.WinForms.Utils;
+using Common.Dto;
+using Common.Dto.Model;
+using Common.Dto.Model.NewApi;
+using Common.Dto.Model.Packet;
+using log4net;
+using Newtonsoft.Json;
+using PriceCommon.Enums;
+using PriceCommon.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -11,16 +20,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using ComLog.WinForms.Utils;
-using Common.Dto;
-using Common.Dto.Model;
-using Common.Dto.Model.NewApi;
-using Common.Dto.Model.Packet;
-using log4net;
-using log4net.Repository.Hierarchy;
-using Newtonsoft.Json;
-using PriceCommon.Enums;
-using PriceCommon.Utils;
 using Tesseract;
 using Topol.UseApi.Data.Common;
 using Topol.UseApi.Forms;
@@ -188,7 +187,12 @@ namespace Topol.UseApi
 
             tabPage4.Enter += tabPage4_Enter;
 
+            tsmiDelete.Click += TsmiDelete_Click;
+            tsmiSetChecked.Click += TsmiSetChecked_Click;
+            tsmiSetNotChecked.Click += TsmiSetNotChecked_Click;
         }
+
+
 
         public string[] priorityList { get; set; }
 
@@ -1353,10 +1357,65 @@ namespace Topol.UseApi
         private void tabPage4_Enter(object sender, EventArgs e)
         {
             var bankControl = CompositionRoot.Resolve<ISellerView>();
-            var control = (Control) bankControl;
+            var control = (Control)bankControl;
             control.Dock = DockStyle.Fill;
             tabPage4.Controls.Clear();
             tabPage4.Controls.Add(control);
+        }
+
+        private void TsmiDelete_Click(object sender, EventArgs e)
+        {
+            dgvContentItems.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            var rowIndicies =
+                (from DataGridViewRow row in dgvContentItems.Rows where (bool)row.Cells[nameof(ContentDto.Selected)].Value select row.Index)
+                .OrderByDescending(z => z)
+                .ToList()
+                ;
+            foreach (var rowIndex in rowIndicies) dgvContentItems.Rows.RemoveAt(rowIndex);
+        }
+
+        private async void TsmiSetChecked_Click(object sender, EventArgs e)
+        {
+            dgvContentItems.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            var rowIndicies =
+                    (from DataGridViewRow row in dgvContentItems.Rows where (bool)row.Cells[nameof(ContentDto.Selected)].Value select row.Index)
+                    .ToList()
+                ;
+
+            foreach (var rowIndex in rowIndicies.OrderByDescending(z => z))
+            {
+                var row = dgvContentItems.Rows[rowIndex];
+                var priceStatus = (PriceStatus)row.Cells[nameof(ContentExtDto.PriceStatus)].Value;
+                if (priceStatus == PriceStatus.Checked) continue;
+                row.Cells[nameof(ContentExtDto.PriceStatus)].Value = PriceStatus.Checked;
+                row.Cells[nameof(ContentExtDto.PriceStatusString)].Value = Utils.GetDescription(PriceStatus.Checked);
+                //call api set price status checked
+                var id = row.Cells[nameof(ContentExtDto.Id)].Value.ToString();
+                var elasticId = row.Cells[nameof(ContentExtDto.ElasticId)].Value.ToString();
+                 await _dataManager.PostContentItemChecked(id, elasticId);
+            }
+        }
+
+        private async void TsmiSetNotChecked_Click(object sender, EventArgs e)
+        {
+            dgvContentItems.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            var rowIndicies =
+                    (from DataGridViewRow row in dgvContentItems.Rows where (bool)row.Cells[nameof(ContentDto.Selected)].Value select row.Index)
+                    .ToList()
+                ;
+
+            foreach (var rowIndex in rowIndicies.OrderByDescending(z => z))
+            {
+                var row = dgvContentItems.Rows[rowIndex];
+                var priceStatus = (PriceStatus)row.Cells[nameof(ContentExtDto.PriceStatus)].Value;
+                if (priceStatus == PriceStatus.NotChecked) continue;
+                row.Cells[nameof(ContentExtDto.PriceStatus)].Value = PriceStatus.NotChecked;
+                row.Cells[nameof(ContentExtDto.PriceStatusString)].Value = Utils.GetDescription(PriceStatus.NotChecked);
+                //call api set price status not checked
+                var id = row.Cells[nameof(ContentExtDto.Id)].Value.ToString();
+                var elasticId = row.Cells[nameof(ContentExtDto.ElasticId)].Value.ToString();
+                await _dataManager.PostContentItemNotChecked(id, elasticId);
+            }
         }
     }
 }

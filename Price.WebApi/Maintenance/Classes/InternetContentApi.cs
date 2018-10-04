@@ -45,6 +45,24 @@ namespace Price.WebApi.Maintenance.Classes
             return false;
         }
 
+        public bool InternetContentNotChecked(int id)
+        {
+            try
+            {
+                var entity = Query.GetEntity(id);
+                if (entity == null) return false;
+                if (entity.PriceStatus == PriceStatus.NotChecked) return false;
+                entity.PriceStatus = PriceStatus.NotChecked;
+                Query.UpdateEntity(entity);
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Logger.Log.Error(exception);
+            }
+            return false;
+        }
+
         /// <summary>
         /// 
         /// 

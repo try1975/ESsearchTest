@@ -47,6 +47,20 @@ namespace Price.WebApi.Controllers
         }
 
         /// <summary>
+        /// Пометить элемент результата поиска как непровереннный.
+        /// </summary>
+        /// <param name="id">Идентификатор элемента результата поиска</param>
+        /// <param name="elasticId">Идентификатор elasticId элемента результата поиска</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("api/contentitem/notchecked/{id:int}", Name = nameof(PostContentItemNotChecked) + "Route")]
+        public IHttpActionResult PostContentItemNotChecked(int id, [FromUri] string elasticId)
+        {
+            var result = string.IsNullOrEmpty(elasticId) ? _internetContentApi.InternetContentNotChecked(id) : _contentApi.ContentNotChecked(id);
+            return StatusCode(result ? HttpStatusCode.NoContent : HttpStatusCode.Conflict);
+        }
+
+        /// <summary>
         /// Установить цену для элемента результата поиска
         /// </summary>
         /// <param name="id">Идентификатор элемента результата поиска</param>

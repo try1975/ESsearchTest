@@ -120,6 +120,14 @@ namespace Topol.UseApi.Data.Common
             }
         }
 
+        public async Task<bool> PostContentItemNotChecked(string id, string elasticId)
+        {
+            using (var response = await _apiHttpClient.PostAsync($"{_endpointContentItem}notchecked/{id}?elasticId={elasticId}", null))
+            {
+                return response.IsSuccessStatusCode;
+            }
+        }
+
         public async Task<bool> PostContentItemPrice(string id, string elasticId, string price)
         {
             using (var response = await _apiHttpClient.PostAsync($"{_endpointContentItem}setprice/{id}?elasticId={elasticId}&price={price}", null))

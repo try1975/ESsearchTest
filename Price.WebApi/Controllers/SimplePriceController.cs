@@ -1,19 +1,32 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
-using AutoMapper;
+﻿using AutoMapper;
 using Common.Dto.Model;
 using Newtonsoft.Json;
+using Price.WebApi.Maintenance.Interfaces;
 using PricePipeCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Http;
 
 namespace Price.WebApi.Controllers
-{/// <summary>
- ///     Простой поиск цен
- ///  </summary>
+{
+    /// <summary>
+    ///     Простой поиск цен
+    ///  </summary>
     [RoutePrefix("api/simpleprice")]
     //[Authorize]
     public class SimplePriceController : ApiController
     {
+        private IFindCompanyApi _findCompanyApi;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="findCompanyApi"></param>
+        public SimplePriceController(IFindCompanyApi findCompanyApi)
+        {
+            _findCompanyApi = findCompanyApi;
+        }
+
         /// <summary>
         ///     Получение списка результатов поиска без нормализации
         /// </summary>
@@ -66,15 +79,17 @@ namespace Price.WebApi.Controllers
         }
 
         /// <summary>
-        /// Получить количество поставщиков в индексе ElasticSearch по умолчанию
+        /// Получить количество поставщиков
         /// </summary>
         /// <returns>Количество поставщиков</returns>
         [HttpGet]
         [Route("sellerCount", Name = nameof(GetSellerCount) + "Route")]
         public int GetSellerCount()
         {
-            var source = AppSettings.DefaultIndex;
-            return (new SimpleSearcher(source)).GetSellerCount();
+            return _findCompanyApi.GetSellerCount();
+
+            //var source = AppSettings.DefaultIndex;
+            //return (new SimpleSearcher(source)).GetSellerCount();
         }
     }
 }

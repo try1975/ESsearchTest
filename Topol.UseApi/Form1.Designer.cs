@@ -77,6 +77,8 @@
             this.CallApi4OneItemPacket = new System.Windows.Forms.Button();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.tbSynonims = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
             this.cmbNorm = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.panel9 = new System.Windows.Forms.Panel();
@@ -155,8 +157,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.label18 = new System.Windows.Forms.Label();
-            this.tbSynonims = new System.Windows.Forms.TextBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSetChecked = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSetNotChecked = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -202,6 +206,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             this.gbSource.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlPacket
@@ -291,7 +296,7 @@
             this.gbPacketItems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbPacketItems.Location = new System.Drawing.Point(0, 0);
             this.gbPacketItems.Name = "gbPacketItems";
-            this.gbPacketItems.Size = new System.Drawing.Size(813, 59);
+            this.gbPacketItems.Size = new System.Drawing.Size(813, 47);
             this.gbPacketItems.TabIndex = 4;
             this.gbPacketItems.TabStop = false;
             this.gbPacketItems.Text = "Поисковые запросы";
@@ -447,9 +452,9 @@
             this.gbContentItems.Controls.Add(this.dgvContentItems);
             this.gbContentItems.Controls.Add(this.panel4);
             this.gbContentItems.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gbContentItems.Location = new System.Drawing.Point(0, 62);
+            this.gbContentItems.Location = new System.Drawing.Point(0, 50);
             this.gbContentItems.Name = "gbContentItems";
-            this.gbContentItems.Size = new System.Drawing.Size(813, 274);
+            this.gbContentItems.Size = new System.Drawing.Size(813, 286);
             this.gbContentItems.TabIndex = 5;
             this.gbContentItems.TabStop = false;
             this.gbContentItems.Text = "Результаты поиска";
@@ -460,12 +465,13 @@
             this.dgvContentItems.AllowUserToOrderColumns = true;
             this.dgvContentItems.AutoGenerateContextFilters = true;
             this.dgvContentItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvContentItems.ContextMenuStrip = this.contextMenuStrip1;
             this.dgvContentItems.Cursor = System.Windows.Forms.Cursors.Default;
             this.dgvContentItems.DateWithTime = false;
             this.dgvContentItems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvContentItems.Location = new System.Drawing.Point(3, 58);
             this.dgvContentItems.Name = "dgvContentItems";
-            this.dgvContentItems.Size = new System.Drawing.Size(807, 213);
+            this.dgvContentItems.Size = new System.Drawing.Size(807, 225);
             this.dgvContentItems.TabIndex = 2;
             this.dgvContentItems.TimeFilter = true;
             // 
@@ -599,7 +605,7 @@
             // splitter2
             // 
             this.splitter2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.splitter2.Location = new System.Drawing.Point(0, 59);
+            this.splitter2.Location = new System.Drawing.Point(0, 47);
             this.splitter2.Name = "splitter2";
             this.splitter2.Size = new System.Drawing.Size(813, 3);
             this.splitter2.TabIndex = 0;
@@ -688,6 +694,22 @@
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(799, 32);
             this.panel8.TabIndex = 0;
+            // 
+            // tbSynonims
+            // 
+            this.tbSynonims.Location = new System.Drawing.Point(464, 7);
+            this.tbSynonims.Name = "tbSynonims";
+            this.tbSynonims.Size = new System.Drawing.Size(268, 20);
+            this.tbSynonims.TabIndex = 6;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(398, 10);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(60, 13);
+            this.label18.TabIndex = 5;
+            this.label18.Text = "Синонимы";
             // 
             // cmbNorm
             // 
@@ -1261,8 +1283,8 @@
             // bindingNavigatorCountItem
             // 
             this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 36);
-            this.bindingNavigatorCountItem.Text = "of {0}";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(43, 36);
+            this.bindingNavigatorCountItem.Text = "для {0}";
             this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
             // 
             // bindingNavigatorDeleteItem
@@ -1498,21 +1520,32 @@
             this.linkLabel1.Text = "Описание API: http://144.76.54.166:52620";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // label18
+            // contextMenuStrip1
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(398, 10);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(60, 13);
-            this.label18.TabIndex = 5;
-            this.label18.Text = "Синонимы";
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiDelete,
+            this.tsmiSetChecked,
+            this.tsmiSetNotChecked});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(292, 92);
             // 
-            // tbSynonims
+            // tsmiDelete
             // 
-            this.tbSynonims.Location = new System.Drawing.Point(464, 7);
-            this.tbSynonims.Name = "tbSynonims";
-            this.tbSynonims.Size = new System.Drawing.Size(268, 20);
-            this.tbSynonims.TabIndex = 6;
+            this.tsmiDelete.Name = "tsmiDelete";
+            this.tsmiDelete.Size = new System.Drawing.Size(324, 22);
+            this.tsmiDelete.Text = "Удалить отмеченные";
+            // 
+            // tsmiSetChecked
+            // 
+            this.tsmiSetChecked.Name = "tsmiSetChecked";
+            this.tsmiSetChecked.Size = new System.Drawing.Size(291, 22);
+            this.tsmiSetChecked.Text = "Пометить отмеченные \"Проверено\"";
+            // 
+            // tsmiSetNotChecked
+            // 
+            this.tsmiSetNotChecked.Name = "tsmiSetNotChecked";
+            this.tsmiSetNotChecked.Size = new System.Drawing.Size(291, 22);
+            this.tsmiSetNotChecked.Text = "Пометить отмеченные \"Не проверено\"";
             // 
             // Form1
             // 
@@ -1580,6 +1613,7 @@
             this.bindingNavigator1.PerformLayout();
             this.gbSource.ResumeLayout(false);
             this.gbSource.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1713,6 +1747,10 @@
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TextBox tbSynonims;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem tsmiDelete;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSetChecked;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSetNotChecked;
     }
 }
 

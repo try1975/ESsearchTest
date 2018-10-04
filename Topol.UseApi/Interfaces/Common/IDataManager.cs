@@ -16,6 +16,7 @@ namespace Topol.UseApi.Interfaces.Common
         Task<bool> PostSearchItemBreak(string id);
         Task<bool> PostSearchItemChecked(string id);
         Task<bool> PostContentItemChecked(string id, string elasticId);
+        Task<bool> PostContentItemNotChecked(string id, string elasticId);
         Task<bool> PostContentItemPrice(string id, string elasticId, string price);
         Task<bool> DeleteSearchItem(string id);
         Task<bool> DeleteContentItem(string id, string elasticId);
