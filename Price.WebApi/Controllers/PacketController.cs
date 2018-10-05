@@ -109,7 +109,8 @@ namespace Price.WebApi.Controllers
                 //client.Headers.Add("content-type", "application/json");
                 client.Headers[HttpRequestHeader.ContentType] = "application/json";
                 var en = Encoding.UTF8;
-                var data = en.GetBytes($"{{\"items\":[{json}]}}");
+                var strData = $"{{\"items\":[{json}]}}";
+                var data = en.GetBytes(strData);
                 var uri = new Uri($"{AppGlobal.InternetSearchHost}/NewSearch");
                 try
                 {
