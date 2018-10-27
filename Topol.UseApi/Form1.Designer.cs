@@ -56,6 +56,10 @@
             this.tbConditionExtId = new System.Windows.Forms.TextBox();
             this.gbContentItems = new System.Windows.Forms.GroupBox();
             this.dgvContentItems = new ADGV.AdvancedDataGridView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSetChecked = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSetNotChecked = new System.Windows.Forms.ToolStripMenuItem();
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnExcel = new System.Windows.Forms.Button();
             this.btnSplit = new System.Windows.Forms.Button();
@@ -84,7 +88,7 @@
             this.panel9 = new System.Windows.Forms.Panel();
             this.tbSingleExtId = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tbName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitter3 = new System.Windows.Forms.Splitter();
@@ -157,10 +161,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmiDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiSetChecked = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiSetNotChecked = new System.Windows.Forms.ToolStripMenuItem();
+            this.timerAnalyze = new System.Windows.Forms.Timer(this.components);
+            this.panel25 = new System.Windows.Forms.Panel();
+            this.lblOkpd2 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -170,6 +174,7 @@
             this.panel24.SuspendLayout();
             this.gbContentItems.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvContentItems)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel11.SuspendLayout();
@@ -206,7 +211,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             this.gbSource.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
+            this.panel25.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlPacket
@@ -283,7 +288,8 @@
             this.cmbElasticIndexName.Items.AddRange(new object[] {
             "md5,internet",
             "internet",
-            "md5"});
+            "md5",
+            "gz"});
             this.cmbElasticIndexName.Location = new System.Drawing.Point(5, 17);
             this.cmbElasticIndexName.Name = "cmbElasticIndexName";
             this.cmbElasticIndexName.Size = new System.Drawing.Size(102, 21);
@@ -296,7 +302,7 @@
             this.gbPacketItems.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbPacketItems.Location = new System.Drawing.Point(0, 0);
             this.gbPacketItems.Name = "gbPacketItems";
-            this.gbPacketItems.Size = new System.Drawing.Size(813, 47);
+            this.gbPacketItems.Size = new System.Drawing.Size(813, 95);
             this.gbPacketItems.TabIndex = 4;
             this.gbPacketItems.TabStop = false;
             this.gbPacketItems.Text = "Поисковые запросы";
@@ -452,7 +458,7 @@
             this.gbContentItems.Controls.Add(this.dgvContentItems);
             this.gbContentItems.Controls.Add(this.panel4);
             this.gbContentItems.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gbContentItems.Location = new System.Drawing.Point(0, 50);
+            this.gbContentItems.Location = new System.Drawing.Point(0, 98);
             this.gbContentItems.Name = "gbContentItems";
             this.gbContentItems.Size = new System.Drawing.Size(813, 286);
             this.gbContentItems.TabIndex = 5;
@@ -474,6 +480,33 @@
             this.dgvContentItems.Size = new System.Drawing.Size(807, 225);
             this.dgvContentItems.TabIndex = 2;
             this.dgvContentItems.TimeFilter = true;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiDelete,
+            this.tsmiSetChecked,
+            this.tsmiSetNotChecked});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(292, 70);
+            // 
+            // tsmiDelete
+            // 
+            this.tsmiDelete.Name = "tsmiDelete";
+            this.tsmiDelete.Size = new System.Drawing.Size(291, 22);
+            this.tsmiDelete.Text = "Удалить отмеченные";
+            // 
+            // tsmiSetChecked
+            // 
+            this.tsmiSetChecked.Name = "tsmiSetChecked";
+            this.tsmiSetChecked.Size = new System.Drawing.Size(291, 22);
+            this.tsmiSetChecked.Text = "Пометить отмеченные \"Проверено\"";
+            // 
+            // tsmiSetNotChecked
+            // 
+            this.tsmiSetNotChecked.Name = "tsmiSetNotChecked";
+            this.tsmiSetNotChecked.Size = new System.Drawing.Size(291, 22);
+            this.tsmiSetNotChecked.Text = "Пометить отмеченные \"Не проверено\"";
             // 
             // panel4
             // 
@@ -554,7 +587,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1231, 595);
+            this.panel2.Size = new System.Drawing.Size(1231, 661);
             this.panel2.TabIndex = 6;
             // 
             // panel11
@@ -563,7 +596,7 @@
             this.panel11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel11.Location = new System.Drawing.Point(0, 66);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(827, 529);
+            this.panel11.Size = new System.Drawing.Size(827, 595);
             this.panel11.TabIndex = 3;
             // 
             // tabControl1
@@ -576,7 +609,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(827, 529);
+            this.tabControl1.Size = new System.Drawing.Size(827, 595);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
@@ -586,7 +619,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(819, 503);
+            this.tabPage1.Size = new System.Drawing.Size(819, 569);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Поиск";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -597,15 +630,15 @@
             this.panel3.Controls.Add(this.splitter2);
             this.panel3.Controls.Add(this.gbContentItems);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(3, 164);
+            this.panel3.Location = new System.Drawing.Point(3, 182);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(813, 336);
+            this.panel3.Size = new System.Drawing.Size(813, 384);
             this.panel3.TabIndex = 3;
             // 
             // splitter2
             // 
             this.splitter2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.splitter2.Location = new System.Drawing.Point(0, 47);
+            this.splitter2.Location = new System.Drawing.Point(0, 95);
             this.splitter2.Name = "splitter2";
             this.splitter2.Size = new System.Drawing.Size(813, 3);
             this.splitter2.TabIndex = 0;
@@ -619,7 +652,7 @@
             this.tcApiSelect.Location = new System.Drawing.Point(3, 3);
             this.tcApiSelect.Name = "tcApiSelect";
             this.tcApiSelect.SelectedIndex = 0;
-            this.tcApiSelect.Size = new System.Drawing.Size(813, 161);
+            this.tcApiSelect.Size = new System.Drawing.Size(813, 179);
             this.tcApiSelect.TabIndex = 2;
             // 
             // tpPacketTru
@@ -639,7 +672,7 @@
             this.tpSingleTru.Location = new System.Drawing.Point(4, 22);
             this.tpSingleTru.Name = "tpSingleTru";
             this.tpSingleTru.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSingleTru.Size = new System.Drawing.Size(805, 135);
+            this.tpSingleTru.Size = new System.Drawing.Size(805, 153);
             this.tpSingleTru.TabIndex = 1;
             this.tpSingleTru.Text = "Один ТРУ";
             this.tpSingleTru.UseVisualStyleBackColor = true;
@@ -651,14 +684,14 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(799, 129);
+            this.panel1.Size = new System.Drawing.Size(799, 147);
             this.panel1.TabIndex = 5;
             // 
             // panel6
             // 
             this.panel6.Controls.Add(this.CallApi4OneItemPacket);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel6.Location = new System.Drawing.Point(0, 83);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel6.Location = new System.Drawing.Point(0, 104);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(799, 43);
             this.panel6.TabIndex = 3;
@@ -675,12 +708,13 @@
             // 
             // panel7
             // 
+            this.panel7.Controls.Add(this.panel25);
             this.panel7.Controls.Add(this.panel8);
             this.panel7.Controls.Add(this.panel9);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel7.Location = new System.Drawing.Point(0, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(799, 83);
+            this.panel7.Size = new System.Drawing.Size(799, 98);
             this.panel7.TabIndex = 4;
             // 
             // panel8
@@ -734,7 +768,7 @@
             // 
             this.panel9.Controls.Add(this.tbSingleExtId);
             this.panel9.Controls.Add(this.label8);
-            this.panel9.Controls.Add(this.textBox2);
+            this.panel9.Controls.Add(this.tbName);
             this.panel9.Controls.Add(this.label2);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel9.Location = new System.Drawing.Point(0, 0);
@@ -758,13 +792,13 @@
             this.label8.TabIndex = 3;
             this.label8.Text = "Метка";
             // 
-            // textBox2
+            // tbName
             // 
-            this.textBox2.Location = new System.Drawing.Point(104, 6);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(445, 20);
-            this.textBox2.TabIndex = 2;
-            this.textBox2.Text = "аспирин таблетки 500мг N12";
+            this.tbName.Location = new System.Drawing.Point(104, 6);
+            this.tbName.Name = "tbName";
+            this.tbName.Size = new System.Drawing.Size(445, 20);
+            this.tbName.TabIndex = 2;
+            this.tbName.Text = "аспирин таблетки 500мг N12";
             // 
             // label2
             // 
@@ -1066,7 +1100,7 @@
             this.splitter5.Dock = System.Windows.Forms.DockStyle.Right;
             this.splitter5.Location = new System.Drawing.Point(827, 66);
             this.splitter5.Name = "splitter5";
-            this.splitter5.Size = new System.Drawing.Size(4, 529);
+            this.splitter5.Size = new System.Drawing.Size(4, 595);
             this.splitter5.TabIndex = 5;
             this.splitter5.TabStop = false;
             // 
@@ -1077,7 +1111,7 @@
             this.panel19.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel19.Location = new System.Drawing.Point(831, 66);
             this.panel19.Name = "panel19";
-            this.panel19.Size = new System.Drawing.Size(400, 529);
+            this.panel19.Size = new System.Drawing.Size(400, 595);
             this.panel19.TabIndex = 6;
             // 
             // panel21
@@ -1087,7 +1121,7 @@
             this.panel21.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel21.Location = new System.Drawing.Point(0, 200);
             this.panel21.Name = "panel21";
-            this.panel21.Size = new System.Drawing.Size(400, 329);
+            this.panel21.Size = new System.Drawing.Size(400, 395);
             this.panel21.TabIndex = 0;
             // 
             // pbWebshot
@@ -1520,38 +1554,42 @@
             this.linkLabel1.Text = "Описание API: http://144.76.54.166:52620";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // contextMenuStrip1
+            // timerAnalyze
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiDelete,
-            this.tsmiSetChecked,
-            this.tsmiSetNotChecked});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(292, 92);
+            this.timerAnalyze.Interval = 1200;
             // 
-            // tsmiDelete
+            // panel25
             // 
-            this.tsmiDelete.Name = "tsmiDelete";
-            this.tsmiDelete.Size = new System.Drawing.Size(324, 22);
-            this.tsmiDelete.Text = "Удалить отмеченные";
+            this.panel25.Controls.Add(this.lblOkpd2);
+            this.panel25.Controls.Add(this.label20);
+            this.panel25.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel25.Location = new System.Drawing.Point(0, 64);
+            this.panel25.Name = "panel25";
+            this.panel25.Size = new System.Drawing.Size(799, 32);
+            this.panel25.TabIndex = 2;
             // 
-            // tsmiSetChecked
+            // lblOkpd2
             // 
-            this.tsmiSetChecked.Name = "tsmiSetChecked";
-            this.tsmiSetChecked.Size = new System.Drawing.Size(291, 22);
-            this.tsmiSetChecked.Text = "Пометить отмеченные \"Проверено\"";
+            this.lblOkpd2.AutoSize = true;
+            this.lblOkpd2.Location = new System.Drawing.Point(103, 10);
+            this.lblOkpd2.Name = "lblOkpd2";
+            this.lblOkpd2.Size = new System.Drawing.Size(0, 13);
+            this.lblOkpd2.TabIndex = 5;
             // 
-            // tsmiSetNotChecked
+            // label20
             // 
-            this.tsmiSetNotChecked.Name = "tsmiSetNotChecked";
-            this.tsmiSetNotChecked.Size = new System.Drawing.Size(291, 22);
-            this.tsmiSetNotChecked.Text = "Пометить отмеченные \"Не проверено\"";
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(15, 10);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(48, 13);
+            this.label20.TabIndex = 0;
+            this.label20.Text = "ОКПД2:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1231, 595);
+            this.ClientSize = new System.Drawing.Size(1231, 661);
             this.Controls.Add(this.panel2);
             this.Name = "Form1";
             this.Text = "Система поиска и анализа ценовой  информации \"Тополь\": рабочее место оператора";
@@ -1568,6 +1606,7 @@
             this.panel24.ResumeLayout(false);
             this.gbContentItems.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvContentItems)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel11.ResumeLayout(false);
@@ -1613,7 +1652,8 @@
             this.bindingNavigator1.PerformLayout();
             this.gbSource.ResumeLayout(false);
             this.gbSource.PerformLayout();
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.panel25.ResumeLayout(false);
+            this.panel25.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1645,7 +1685,7 @@
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbNorm;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox tbName;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Splitter splitter2;
         private System.Windows.Forms.Panel panel3;
@@ -1751,6 +1791,10 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiDelete;
         private System.Windows.Forms.ToolStripMenuItem tsmiSetChecked;
         private System.Windows.Forms.ToolStripMenuItem tsmiSetNotChecked;
+        private System.Windows.Forms.Timer timerAnalyze;
+        private System.Windows.Forms.Panel panel25;
+        private System.Windows.Forms.Label lblOkpd2;
+        private System.Windows.Forms.Label label20;
     }
 }
 

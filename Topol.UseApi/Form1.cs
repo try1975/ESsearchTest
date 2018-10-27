@@ -18,8 +18,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using PriceCommon.Model;
 using Tesseract;
 using Topol.UseApi.Data.Common;
 using Topol.UseApi.Forms;
@@ -57,6 +59,9 @@ namespace Topol.UseApi
         private readonly BackgroundWorker _bw = new BackgroundWorker();
         private readonly BackgroundWorker _bwSellerCount = new BackgroundWorker();
         private string[] _packetLines;
+
+        private bool _needUpdateAnalyze;
+        private bool _canUpdateAnalyze = true;
 
         #region rectangle on image
         private Point _rectStartPoint;
@@ -161,7 +166,7 @@ namespace Topol.UseApi
             btnDeletePrice.Click += btnDeletePrice_Click;
             btnSetPrice.Click += btnSetPrice_Click;
 
-            tabControl1.TabPages.Remove(tabPage3);
+            //tabControl1.TabPages.Remove(tabPage3);
             tabControl1.TabPages.Remove(tabPage2);
 
             ClearContentView();
@@ -190,8 +195,13 @@ namespace Topol.UseApi
             tsmiDelete.Click += TsmiDelete_Click;
             tsmiSetChecked.Click += TsmiSetChecked_Click;
             tsmiSetNotChecked.Click += TsmiSetNotChecked_Click;
+
+            tbName.KeyDown += tbName_KeyDown;
+            tbName.TextChanged += tbName_TextChanged;
+            timerAnalyze.Tick += timerAnalyze_Tick;
         }
 
+       
 
 
         public string[] priorityList { get; set; }
@@ -1273,8 +1283,8 @@ namespace Topol.UseApi
             {
                 new SearchItemParam
                 {
-                    Id = string.IsNullOrEmpty(tbSingleExtId.Text) ? Md5Logstah.GetDefaultId("", textBox2.Text) : tbSingleExtId.Text,
-                    Name = textBox2.Text,
+                    Id = string.IsNullOrEmpty(tbSingleExtId.Text) ? Md5Logstah.GetDefaultId("", tbName.Text) : tbSingleExtId.Text,
+                    Name = tbName.Text,
                     Norm = cmbNorm.SelectedItem as string,
                     Syn = string.IsNullOrEmpty(tbSynonims.Text) ? new string []{} : tbSynonims.Text.Split(','),
                     Priority = priorityList[cmbPriority.SelectedIndex],
@@ -1417,5 +1427,59 @@ namespace Topol.UseApi
                 await _dataManager.PostContentItemNotChecked(id, elasticId);
             }
         }
+
+        private void tbName_KeyDown(object sender, KeyEventArgs e)
+        {
+            _needUpdateAnalyze = true;
+        }
+
+        private void tbName_TextChanged(object sender, EventArgs e)
+        {
+            if (!_needUpdateAnalyze) return;
+            if (_canUpdateAnalyze)
+            {
+                _canUpdateAnalyze = false;
+                UpdateDataAnalyze();
+            }
+            else
+            {
+                RestartTimerAnalyze();
+            }
+        }
+
+        private void timerAnalyze_Tick(object sender, EventArgs e)
+        {
+            _canUpdateAnalyze = true;
+            timerAnalyze.Stop();
+            UpdateDataAnalyze();
+        }
+
+        private void RestartTimerAnalyze()
+        {
+            timerAnalyze.Stop();
+            _canUpdateAnalyze = false;
+            timerAnalyze.Start();
+        }
+
+        private void UpdateDataAnalyze()
+        {
+            if (tbName.Text.Length <= 2) return;
+            HandleTextChangedAnalyze();
+        }
+
+        private async void HandleTextChangedAnalyze()
+        {
+            _needUpdateAnalyze = false;
+            lblOkpd2.Text = string.Empty;
+            var text = tbName.Text.ToLower();
+
+            var contentItems = await _dataManager.GetOkpd2Reverse(text);
+            var okpd2Reverses = contentItems as Okpd2Reverse[] ?? contentItems.ToArray();
+            if (!okpd2Reverses.Any()) return;
+            var contentItem = okpd2Reverses.FirstOrDefault();
+            if (contentItem != null) lblOkpd2.Text =  $@"{contentItem.Okpd2}";
+        }
+
+
     }
 }
