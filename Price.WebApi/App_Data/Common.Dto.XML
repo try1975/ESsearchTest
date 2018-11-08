@@ -577,6 +577,11 @@
             Google    = 0x0002
             </summary>
         </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Okpd2">
+            <summary>
+            Код ОКПД2 - может быть использован отбора
+            </summary>
+        </member>
         <member name="T:Common.Dto.Model.Packet.SearchItemProperty">
             <summary>
             свойство искомой позиции

@@ -81,5 +81,9 @@ namespace Common.Dto.Model.Packet
         /// Google    = 0x0002
         /// </summary>
         public byte SearchEngine { get; set; }
+        /// <summary>
+        /// Код ОКПД2 - может быть использован отбора
+        /// </summary>
+        public string Okpd2 { get; set; }
     }
 }

@@ -141,6 +141,7 @@ namespace Common.Dto.Model.NewApi
                     var searchItemParam = JsonConvert.DeserializeObject<SearchItemParam>(_jsonText);
                     AddKeywords = searchItemParam.AddKeywords;
                     Priority = searchItemParam.Priority;
+                    Okpd2 = searchItemParam.Okpd2;
                 }
                 catch (Exception exception)
                 {
@@ -153,5 +154,6 @@ namespace Common.Dto.Model.NewApi
         //[JsonIgnore]
         public string AddKeywords { get; set; }
         public string Priority { get; set; }
+        public string Okpd2 { get; set; }
     }
 }

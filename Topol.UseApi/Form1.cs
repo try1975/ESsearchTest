@@ -199,12 +199,18 @@ namespace Topol.UseApi
             tbName.KeyDown += tbName_KeyDown;
             tbName.TextChanged += tbName_TextChanged;
             timerAnalyze.Tick += timerAnalyze_Tick;
+
+            cmbElasticIndexName.Items.Clear();
+            cmbElasticIndexName.Items.AddRange(new[] { "ЦПОИ, Интернет", "Интернет", "ЦПОИ", "Госзакупки" });
+            elasticIndexList = new[] { "md5,internet", "internet", "md5", "gz" };
+            cmbElasticIndexName.SelectedIndex = 0;
         }
 
        
 
 
         public string[] priorityList { get; set; }
+        public string[] elasticIndexList { get; set; }
 
 
         private void ClearContentView()
@@ -328,6 +334,11 @@ namespace Topol.UseApi
             if (column != null)
             {
                 column.HeaderText = @"Приоритет запроса";
+            }
+            column = dgv.Columns[nameof(SearchItemHeaderDto.Okpd2)];
+            if (column != null)
+            {
+                column.HeaderText = @"ОКПД2";
             }
             column = dgv.Columns[nameof(SearchItemDto.StartProcessedDateTime)];
             if (column != null)
@@ -928,7 +939,7 @@ namespace Topol.UseApi
             var mustNotdRows = tbExclude.Text.ToLower()
                 .Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             var mustNot = string.Join(";", mustNotdRows);
-            var source = cmbElasticIndexName.SelectedItem as string;
+            var source = elasticIndexList[cmbElasticIndexName.SelectedIndex];
             SearchMaybe(must, should, mustNot, source);
         }
 
@@ -974,7 +985,8 @@ namespace Topol.UseApi
         private async void SearchPacket(string json, string keywords)
         {
             var dto = JsonConvert.DeserializeObject<List<SearchItemParam>>(json);
-            var searchItemHeaderDtos = await _dataManager.PostPacketAsync(dto, cmbElasticIndexName.SelectedItem as string, keywords);
+            var source = elasticIndexList[cmbElasticIndexName.SelectedIndex];
+            var searchItemHeaderDtos = await _dataManager.PostPacketAsync(dto, source, keywords);
             SearchItemsToForm(searchItemHeaderDtos);
         }
 
@@ -998,7 +1010,8 @@ namespace Topol.UseApi
 
         private async void SearchPacket(List<SearchItemParam> dto, string keywords)
         {
-            var searchItemHeaderDtos = await _dataManager.PostPacketAsync(dto, cmbElasticIndexName.SelectedItem as string, keywords);
+            var source = elasticIndexList[cmbElasticIndexName.SelectedIndex];
+            var searchItemHeaderDtos = await _dataManager.PostPacketAsync(dto, source, keywords);
             SearchItemsToForm(searchItemHeaderDtos);
         }
 
@@ -1084,6 +1097,13 @@ namespace Topol.UseApi
             if (searchItemsList == null) return;
             foreach (var searchItemDto in searchItemsList)
             {
+                // Замена наименования источника
+                var idxSource = Array.IndexOf(elasticIndexList, searchItemDto.Source);
+                if (idxSource >= 0) searchItemDto.Source = (string) cmbElasticIndexName.Items[idxSource];
+                // Замена приоритета
+                idxSource = Array.IndexOf(priorityList, searchItemDto.Priority);
+                if (idxSource >= 0) searchItemDto.Priority = (string) cmbPriority.Items[idxSource];
+                
                 var item = _listSearchItem.FirstOrDefault(z => z.Id.Equals(searchItemDto.Id) && z.Source.Equals(searchItemDto.Source));
                 if (item == null)
                 {
@@ -1289,7 +1309,8 @@ namespace Topol.UseApi
                     Syn = string.IsNullOrEmpty(tbSynonims.Text) ? new string []{} : tbSynonims.Text.Split(','),
                     Priority = priorityList[cmbPriority.SelectedIndex],
                     Options = options,
-                    SearchEngine = searchEngine
+                    SearchEngine = searchEngine,
+                    Okpd2 = lblOkpd2.Text 
                 }
             };
             SearchPacket(dto, tbKeywords.Text);
