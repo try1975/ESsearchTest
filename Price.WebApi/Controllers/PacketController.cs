@@ -93,7 +93,7 @@ namespace Price.WebApi.Controllers
                     dto.BeginProcess(Utils.GetUtcNow());
                     if (searchInInternet) dto.InternetSessionId = GetInternetSessionId(json);
                     _searchItemApi.AddItem(dto);
-                    if (!string.IsNullOrEmpty(keywords)) searchItem.Name = $"{searchItem.Name} {keywords}";
+                    //if (!string.IsNullOrEmpty(keywords)) searchItem.Name = $"{searchItem.Name} {keywords}";
                     ThreadUtil.FireAndForget(_elasticDelegate, searchItem, source, id);
                     resultList.Add(Mapper.Map<SearchItemHeaderDto>(dto));
                 }

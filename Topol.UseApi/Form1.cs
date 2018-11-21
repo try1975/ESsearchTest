@@ -166,7 +166,7 @@ namespace Topol.UseApi
             btnDeletePrice.Click += btnDeletePrice_Click;
             btnSetPrice.Click += btnSetPrice_Click;
 
-            //tabControl1.TabPages.Remove(tabPage3);
+            tabControl1.TabPages.Remove(tabPage3);
             tabControl1.TabPages.Remove(tabPage2);
 
             ClearContentView();
