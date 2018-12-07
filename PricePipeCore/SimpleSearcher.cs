@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Nest;
+using PriceCommon.Model;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Nest;
-using PriceCommon.Model;
 
 namespace PricePipeCore
 {
     public class SimpleSearcher
     {
-        public static readonly string[] ListDelimiter = {";"," "};
+        public static readonly string[] ListDelimiter = { ";", " " };
         private readonly ElasticClient _elasticClient;
         private readonly int _maxTake;
 
@@ -95,6 +95,27 @@ namespace PricePipeCore
                         .Query(row.Trim())));
             }
             return queryContainer;
+        }
+
+        public IEnumerable<Content> Okpd2Search(string okpd2)
+        {
+            if (string.IsNullOrWhiteSpace(okpd2)) return new List<Content>();
+            var rows = okpd2.ToLower().Split(ListDelimiter, StringSplitOptions.RemoveEmptyEntries);
+            var container = new List<QueryContainer>();
+            foreach (var row in rows)
+            {
+                container.Add(Query<Content>
+                    .Match(m => m
+                        .Field(p => p.Okpd2)
+                        .Query(row.Trim())));
+            };
+            var response = _elasticClient.Search<Content>(s => s
+                .Take(_maxTake)
+                .Query(q => q
+                    .Bool(b => b
+                        .Must(container.ToArray())))
+            );
+            return response.Hits.Select(s => s.Source);
         }
     }
 }

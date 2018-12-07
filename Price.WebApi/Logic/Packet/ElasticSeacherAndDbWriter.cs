@@ -89,25 +89,32 @@ namespace Price.WebApi.Logic.Packet
                     }
                     else
                     {
-                        if (splitResult.Length <= 0) continue;
-                        var must = splitResult[0].Trim().Replace(" ", delimiter);
-                        var i = 1;
-                        if (splitResult.Length > 1)
+                        if (splitResult.Length <= 0)
                         {
-                            must = $"{must}{delimiter}{splitResult[1].Trim().Replace(" ", delimiter)}";
-                            i = 2;
+                            if (!source.Equals(nameof(ElacticIndexName.Gz)) && string.IsNullOrWhiteSpace(searchItem.Okpd2)) continue;
+                            listContent = new SimpleSearcher(source).Okpd2Search(searchItem.Okpd2);
                         }
-                        if (splitResult.Length > 2)
+                        else
                         {
-                            must = $"{must}{delimiter}{splitResult[2].Trim().Replace(" ", delimiter)}";
-                            i = 3;
+                            var must = splitResult[0].Trim().Replace(" ", delimiter);
+                            var i = 1;
+                            if (splitResult.Length > 1)
+                            {
+                                must = $"{must}{delimiter}{splitResult[1].Trim().Replace(" ", delimiter)}";
+                                i = 2;
+                            }
+                            if (splitResult.Length > 2)
+                            {
+                                must = $"{must}{delimiter}{splitResult[2].Trim().Replace(" ", delimiter)}";
+                                i = 3;
+                            }
+                            var should = string.Empty;
+                            if (splitResult.Length > i)
+                            {
+                                should = string.Join(delimiter, splitResult.Skip(i).Select(p => p.Trim()));
+                            }
+                            listContent = new SimpleSearcher(source).MaybeSearch(must, should, string.Empty);
                         }
-                        var should = string.Empty;
-                        if (splitResult.Length > i)
-                        {
-                            should = string.Join(delimiter, splitResult.Skip(i).Select(p => p.Trim()));
-                        }
-                        listContent = new SimpleSearcher(source).MaybeSearch(must, should, string.Empty);
                     }
                     contentQuery.InsertEntities(listContent.Select(contentDto => new ContentEntity
                     {

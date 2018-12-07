@@ -190,6 +190,11 @@
             Взять только те поисковые запросы, где среди источников поиска был указан источник internet
             </summary>
         </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemCondition.Okpd2">
+            <summary>
+            Взять только те поисковые запросы, где совпадает ОКПД2
+            </summary>
+        </member>
         <member name="P:Common.Dto.Model.NewApi.SearchItemExtDto.Status">
             <summary>
             Статус объекта обработки

@@ -43,6 +43,20 @@ namespace Price.WebApi.Controllers
         }
 
         /// <summary>
+        ///     Получение списка результатов поиска в госзакупках по коду ОКПД2 
+        /// </summary>
+        /// <param name="okpd2">Код ОКПД2 для поиска</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("okpd2", Name = nameof(GetByOkpd2) + "Route")]
+        public IEnumerable<ContentDto> GetByOkpd2(string okpd2)
+        {
+            Logger.Log.Info($"{nameof(GetByOkpd2)}: okpd2={okpd2}");
+            return Mapper.Map<IEnumerable<ContentDto>>(new SimpleSearcher(nameof(ElacticIndexName.Gz)).Okpd2Search(okpd2));
+        }
+
+
+        /// <summary>
         ///  GET - Аналог поиска maybe без нормализации
         /// </summary>
         /// <param name="must">Массив строк (через точку с запятой) - обязательное вхождение</param>

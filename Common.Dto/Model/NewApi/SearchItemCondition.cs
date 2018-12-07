@@ -43,5 +43,10 @@ namespace Common.Dto.Model.NewApi
         /// Взять только те поисковые запросы, где среди источников поиска был указан источник internet
         /// </summary>
         public bool IsInternet { get; set; }
+
+        /// <summary>
+        /// Взять только те поисковые запросы, где совпадает ОКПД2
+        /// </summary>
+        public string Okpd2 { get; set; }
     }
 }

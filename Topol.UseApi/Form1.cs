@@ -111,6 +111,7 @@ namespace Topol.UseApi
             dgvContentItems.CellContentClick += dgvContentItems_CellContentClick;
             dgvContentItems.DataError += dgvContentItems_DataError;
             ContentItemsBindingSource.CurrentChanged += ContentItemsOnCurrentChanged;
+            ContentItemsBindingSource.ListChanged += ContentItemsListChanged;
 
 
             dgvMaybe.CellContentDoubleClick += dgv_CellContentDoubleClick;
@@ -206,7 +207,10 @@ namespace Topol.UseApi
             cmbElasticIndexName.SelectedIndex = 0;
         }
 
-       
+        private void ContentItemsListChanged(object sender, ListChangedEventArgs e)
+        {
+            toolStripStatusLabel2.Text = $@"{ContentItemsBindingSource.Count}";
+        }
 
 
         public string[] priorityList { get; set; }
@@ -997,7 +1001,8 @@ namespace Topol.UseApi
                 DateFrom = dtpFrom.Value,
                 DateTo = dtpTo.Value,
                 Name = tbConditionName.Text,
-                ExtId = tbConditionExtId.Text
+                ExtId = tbConditionExtId.Text,
+                Okpd2 = tbOkpd2Search.Text
             };
             if (cbSearchItemStatus.SelectedIndex > 0)
             {
@@ -1310,7 +1315,7 @@ namespace Topol.UseApi
                     Priority = priorityList[cmbPriority.SelectedIndex],
                     Options = options,
                     SearchEngine = searchEngine,
-                    Okpd2 = lblOkpd2.Text 
+                    Okpd2 = tbManualOkpd2.Text 
                 }
             };
             SearchPacket(dto, tbKeywords.Text);
@@ -1491,14 +1496,14 @@ namespace Topol.UseApi
         private async void HandleTextChangedAnalyze()
         {
             _needUpdateAnalyze = false;
-            lblOkpd2.Text = string.Empty;
+            tbManualOkpd2.Text = string.Empty;
             var text = tbName.Text.ToLower();
 
             var contentItems = await _dataManager.GetOkpd2Reverse(text);
             var okpd2Reverses = contentItems as Okpd2Reverse[] ?? contentItems.ToArray();
             if (!okpd2Reverses.Any()) return;
             var contentItem = okpd2Reverses.FirstOrDefault();
-            if (contentItem != null) lblOkpd2.Text =  $@"{contentItem.Okpd2}";
+            if (contentItem != null) tbManualOkpd2.Text =  $@"{contentItem.Okpd2}";
         }
 
 

@@ -122,6 +122,10 @@ namespace Price.WebApi.Maintenance.Classes
                 queryCondition = queryCondition
                         .Where(z => z.Status == searchItemCondition.Status)
                     ;
+            if(!string.IsNullOrWhiteSpace(searchItemCondition.Okpd2))
+                queryCondition = queryCondition
+                        .Where(z => z.JsonText.Contains(searchItemCondition.Okpd2))
+                    ;
             var entities = queryCondition.ToList();
 
             var dtos = Mapper.Map<List<SearchItemHeaderDto>>(entities);
