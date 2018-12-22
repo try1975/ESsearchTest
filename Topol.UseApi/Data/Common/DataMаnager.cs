@@ -86,9 +86,18 @@ namespace Topol.UseApi.Data.Common
             }
         }
 
-        public async Task<List<ContentExtDto>> GetSearchItemContent(string id)
+        public async Task<List<ContentExtDto>> GetSearchItemContent(string id, string filterValue)
         {
-            using (var response = await _apiHttpClient.GetAsync($"{_endpointSearchItemContent}{id}"))
+            string url;
+            if (string.IsNullOrWhiteSpace(filterValue))
+            {
+                url = $"{_endpointSearchItemContent}{id}";
+            }
+            else
+            {
+                url = $"{_endpointSearchItemContent}filtered/{id}?$filter={filterValue}"; 
+            }
+            using (var response = await _apiHttpClient.GetAsync(url))
             {
                 if (!response.IsSuccessStatusCode) return null;
                 var result = await response.Content.ReadAsAsync<List<ContentExtDto>>();

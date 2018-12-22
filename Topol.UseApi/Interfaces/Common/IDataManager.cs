@@ -12,7 +12,7 @@ namespace Topol.UseApi.Interfaces.Common
         Task<List<SearchItemHeaderDto>> PostPacketAsync(List<SearchItemParam> searchItemsParam, string source = "", string keywords = "");
         Task<List<SearchItemHeaderDto>> GetByConditionAsync(SearchItemCondition searchItemCondition);
         Task<SearchItemHeaderDto> GetSearchItemStatus(string id);
-        Task<List<ContentExtDto>> GetSearchItemContent(string id);
+        Task<List<ContentExtDto>> GetSearchItemContent(string id, string filterValue);
         Task<bool> PostSearchItemBreak(string id);
         Task<bool> PostSearchItemChecked(string id);
         Task<bool> PostContentItemChecked(string id, string elasticId);

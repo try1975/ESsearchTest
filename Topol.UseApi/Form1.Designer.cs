@@ -69,6 +69,9 @@
             this.btnDeleteSelected = new System.Windows.Forms.Button();
             this.btnInvertSelected = new System.Windows.Forms.Button();
             this.btnSaveInternetResults = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel11 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -167,9 +170,8 @@
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.timerAnalyze = new System.Windows.Forms.Timer(this.components);
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.cmbOdataFilter = new System.Windows.Forms.ComboBox();
+            this.label21 = new System.Windows.Forms.Label();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -181,6 +183,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvContentItems)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel11.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -217,7 +220,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             this.gbSource.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlPacket
@@ -536,6 +538,8 @@
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.label21);
+            this.panel4.Controls.Add(this.cmbOdataFilter);
             this.panel4.Controls.Add(this.btnExcel);
             this.panel4.Controls.Add(this.btnSplit);
             this.panel4.Controls.Add(this.btnMove);
@@ -603,6 +607,29 @@
             this.btnSaveInternetResults.Text = "Запомнить отмеченные цены как доверенные";
             this.btnSaveInternetResults.UseVisualStyleBackColor = true;
             this.btnSaveInternetResults.Visible = false;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1,
+            this.toolStripStatusLabel2});
+            this.statusStrip1.Location = new System.Drawing.Point(3, 261);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(807, 22);
+            this.statusStrip1.TabIndex = 4;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(56, 17);
+            this.toolStripStatusLabel1.Text = "Записей:";
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(13, 17);
+            this.toolStripStatusLabel2.Text = "0";
             // 
             // panel2
             // 
@@ -1610,28 +1637,25 @@
             // 
             this.timerAnalyze.Interval = 1200;
             // 
-            // statusStrip1
+            // cmbOdataFilter
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(3, 261);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(807, 22);
-            this.statusStrip1.TabIndex = 4;
-            this.statusStrip1.Text = "statusStrip1";
+            this.cmbOdataFilter.FormattingEnabled = true;
+            this.cmbOdataFilter.Items.AddRange(new object[] {
+            "substringof(\'болт\', Html)",
+            "Nprice ge 10 and Nprice le 100"});
+            this.cmbOdataFilter.Location = new System.Drawing.Point(514, 13);
+            this.cmbOdataFilter.Name = "cmbOdataFilter";
+            this.cmbOdataFilter.Size = new System.Drawing.Size(121, 21);
+            this.cmbOdataFilter.TabIndex = 7;
             // 
-            // toolStripStatusLabel1
+            // label21
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(56, 17);
-            this.toolStripStatusLabel1.Text = "Записей:";
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(13, 17);
-            this.toolStripStatusLabel2.Text = "0";
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(515, 0);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(94, 13);
+            this.label21.TabIndex = 8;
+            this.label21.Text = "Сложный фильтр";
             // 
             // Form1
             // 
@@ -1657,6 +1681,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvContentItems)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel11.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
@@ -1703,8 +1730,6 @@
             this.bindingNavigator1.PerformLayout();
             this.gbSource.ResumeLayout(false);
             this.gbSource.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1851,6 +1876,8 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ComboBox cmbOdataFilter;
+        private System.Windows.Forms.Label label21;
     }
 }
 

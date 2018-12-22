@@ -5,6 +5,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.OData;
 using System.Web.Http.OData.Query;
+using AutoMapper;
 using Common.Dto.Model.NewApi;
 using Gma.CodeCloud.Controls.TextAnalyses.Processing;
 using Price.WebApi.Maintenance.Interfaces;
@@ -59,14 +60,16 @@ namespace Price.WebApi.Controllers
         /// <param name="queryOptions"></param>
         /// <returns></returns>
         [HttpGet]
+        [ResponseType(typeof(List<ContentExtDto>))]
         [Route("api/SearchItem/content/filtered/{id}", Name = nameof(ODataGetSearchItemContents) + "Route")]
-        public IQueryable<ContentExtDto> ODataGetSearchItemContents(string id, ODataQueryOptions<ContentExtDto> queryOptions)
+        public IHttpActionResult ODataGetSearchItemContents(string id, ODataQueryOptions<ContentExtTxtDto> queryOptions)
         {
             //7fc2154233d9f247f98d218dc7503bdc
-            var result = ((ISearchItemApi) _api).GetItemContents(id);
-            var enumerableQuery = result == null ? null : new EnumerableQuery<ContentExtDto>(result);
+            var result = ((ISearchItemApi) _api).GetItemContentsTxt(id);
+            var enumerableQuery = result == null ? null : new EnumerableQuery<ContentExtTxtDto>(result);
             //https://d-fens.ch/2017/02/26/modifying-odataqueryoptions-on-the-fly/
-            return queryOptions.ApplyTo(enumerableQuery) as IQueryable<ContentExtDto>;
+            var dtos = queryOptions.ApplyTo(enumerableQuery) as IQueryable<ContentExtTxtDto>;
+            return Ok(Mapper.Map<List<ContentExtDto>>(dtos.ToList()));
         }
 
         /// <summary>

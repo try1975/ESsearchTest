@@ -50,6 +50,11 @@ namespace Price.WebApi.AutoMappers
             cfg.CreateMap<ContentEntity, ContentExtDto>()
                 ;
 
+            cfg.CreateMap<ContentExtTxtDto, ContentExtDto>()
+                ;
+            cfg.CreateMap<ContentExtDto, ContentExtTxtDto>()
+                ;
+
         }
     }
 }

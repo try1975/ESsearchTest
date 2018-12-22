@@ -18,7 +18,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using PriceCommon.Model;
@@ -205,6 +204,13 @@ namespace Topol.UseApi
             cmbElasticIndexName.Items.AddRange(new[] { "ЦПОИ, Интернет", "Интернет", "ЦПОИ", "Госзакупки" });
             elasticIndexList = new[] { "md5,internet", "internet", "md5", "gz" };
             cmbElasticIndexName.SelectedIndex = 0;
+
+            cmbOdataFilter.TextChanged += cmbOdataFilter_TextChanged;
+        }
+
+        private void cmbOdataFilter_TextChanged(object sender, EventArgs e)
+        {
+            PacketItemsOnCurrentChanged(sender, e);
         }
 
         private void ContentItemsListChanged(object sender, ListChangedEventArgs e)
@@ -1240,7 +1246,7 @@ namespace Topol.UseApi
                 EnableResultButtons = EnableResultButtons || (int)current.Row[nameof(SearchItemDto.Status)] == (int)TaskStatus.Break;
                 EnableResultButtons = EnableResultButtons || (int)current.Row[nameof(SearchItemDto.Status)] == (int)TaskStatus.BreakByTimeout;
                 //var contentItems = _listSearchItem.FirstOrDefault(z => z.Key.Equals(key))?.Content ?? new List<ContentDto>();
-                var contentItems = await _dataManager.GetSearchItemContent(key);
+                var contentItems = await _dataManager.GetSearchItemContent(key, cmbOdataFilter.Text);
                 var dataTable = ConvertToDataTable(contentItems);
                 dataTable.RowDeleting += ContentItemsDataTable_RowDeleting;
                 ContentItemsBindingSource.DataSource = dataTable;

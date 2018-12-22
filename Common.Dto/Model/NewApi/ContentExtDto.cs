@@ -144,5 +144,7 @@ namespace Common.Dto.Model.NewApi
         /// </summary>
         [JsonIgnore]
         public string ProdStatusString => PriceCommon.Utils.Utils.GetDescription(ProdStatus);
+
+       
     }
 }

@@ -195,6 +195,16 @@ namespace Price.WebApi.Maintenance.Classes
             return list;
         }
 
+        public List<ContentExtTxtDto> GetItemContentsTxt(string id)
+        {
+            var entity = Query.GetEntity(id);
+            if (entity == null) return null;
+            var list = Mapper.Map<List<ContentExtTxtDto>>(GetContentCollection(entity));
+            if (string.IsNullOrEmpty(entity.InternetSessionId)) return list;
+            list.AddRange(GetInternetContentTxtCollection(entity));
+            return list;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -256,6 +266,48 @@ namespace Price.WebApi.Maintenance.Classes
         {
             // not take screenshot big blob
             var list = _internetContentQuery.GetEntities().Where(x => x.session_id == entity.InternetSessionId)
+                .Select(z => new
+                {
+                    z.Id,
+                    z.spgz_Id,
+                    z.dt,
+                    z.price,
+                    z.url,
+                    z.src_id,
+                    z.contact_url,
+                    z.task_id,
+                    z.session_id,
+                    z.preview,
+                    z.selected,
+                    z.currency,
+                    z.opt,
+                    z.referer,
+                    z.prices,
+                    z.PriceStatus,
+                    z.ProdStatus
+                })
+                .ToList();
+            return list.Select(z => new ContentExtDto()
+            {
+                Id = z.Id,
+                Name = z.preview,
+                Price = z.price.ToString(),
+                Uri = z.url,
+                SearchItemId = entity.Id,
+                CollectedAt = (long)z.dt.Subtract(new DateTime(1970, 1, 1)).TotalSeconds,
+                PriceType = PriceType.Check,
+                Screenshot = string.IsNullOrEmpty(z.contact_url) ? $"{_getUrl}{WebshotTool.GetWebshotName(z.Id, z.url)}" : $"{_getUrl}{z.contact_url}",
+                PriceStatus = z.PriceStatus,
+                PriceVariants = z.prices,
+                Seller = _enricheApi.GetSeller(z.url),
+                ProdStatus = z.ProdStatus
+            }).ToList();
+        }
+
+        private List<ContentExtTxtDto> GetInternetContentTxtCollection(SearchItemEntity entity)
+        {
+            // not take screenshot big blob
+            var list = _internetContentQuery.GetEntities().Where(x => x.session_id == entity.InternetSessionId)
              .Select(z => new
              {
                  z.Id,
@@ -278,10 +330,12 @@ namespace Price.WebApi.Maintenance.Classes
                  z.weight,
                  z.rate,*/
                  z.PriceStatus,
-                 z.ProdStatus
+                 z.ProdStatus,
+                 z.txt,
+                 z.html
              })
              .ToList();
-            return list.Select(z => new ContentExtDto()
+            return list.Select(z => new ContentExtTxtDto()
             {
                 Id = z.Id,
                 Name = z.preview,
@@ -294,7 +348,9 @@ namespace Price.WebApi.Maintenance.Classes
                 PriceStatus = z.PriceStatus,
                 PriceVariants = z.prices,
                 Seller = _enricheApi.GetSeller(z.url),
-                ProdStatus = z.ProdStatus
+                ProdStatus = z.ProdStatus,
+                Txt = z.txt,
+                Html = z.html
             }).ToList();
             //TODO: enriche seller from external source
         }

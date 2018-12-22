@@ -53,6 +53,7 @@
     <Compile Include="Model\BasicContentDto.cs" />
     <Compile Include="Model\FindCompany\FindCompanyDto.cs" />
     <Compile Include="Model\NewApi\ContentExtDto.cs" />
+    <Compile Include="Model\NewApi\ContentExtTxtDto.cs" />
     <Compile Include="Model\NewApi\ContentMoveDto.cs" />
     <Compile Include="Model\NewApi\InternetContentDto.cs" />
     <Compile Include="Model\NewApi\PacketDto.cs" />

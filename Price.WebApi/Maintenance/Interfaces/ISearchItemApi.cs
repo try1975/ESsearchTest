@@ -9,6 +9,7 @@ namespace Price.WebApi.Maintenance.Interfaces
         IEnumerable<SearchItemHeaderDto> GetItemsByCondition(SearchItemCondition searchItemCondition);
         SearchItemHeaderDto GetItemHeader(string id);
         List<ContentExtDto> GetItemContents(string id);
+        List<ContentExtTxtDto> GetItemContentsTxt(string id);
         bool SearchItemBreak(string id);
         bool SearchItemChecked(string id);
         string BaseUrl { get; set; }

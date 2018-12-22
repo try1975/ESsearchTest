@@ -130,6 +130,11 @@
             
             </summary>
         </member>
+        <member name="T:Common.Dto.Model.NewApi.ContentExtTxtDto">
+            <summary>
+            Для поиска по тексту страницы
+            </summary>
+        </member>
         <member name="T:Common.Dto.Model.NewApi.ContentMoveDto">
             <summary>
             Элемент результата поискового запроса для перемещения в другой поисковой запрос
