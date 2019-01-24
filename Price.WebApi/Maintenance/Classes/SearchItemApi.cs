@@ -37,11 +37,10 @@ namespace Price.WebApi.Maintenance.Classes
         /// </summary>
         public string BaseUrl
         {
-            get { return _baseUrl; }
+            get => _baseUrl;
             set
             {
                 _baseUrl = value;
-                //_getUrl = $"{_baseUrl}/GetFiles/{nameof(GetFile)}.ashx?id=";
                 _getUrl = $"{_baseUrl}/{AppGlobal.Screenshots}/";
             }
         }

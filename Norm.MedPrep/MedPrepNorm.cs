@@ -120,7 +120,7 @@ namespace Norm.MedPrep
 
         public string InitialName
         {
-            get { return _initialName; }
+            get => _initialName;
             set
             {
                 _initialName = value;

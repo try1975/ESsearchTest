@@ -63,6 +63,8 @@
             this.tsmiSetChecked = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSetNotChecked = new System.Windows.Forms.ToolStripMenuItem();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.label21 = new System.Windows.Forms.Label();
+            this.cmbOdataFilter = new System.Windows.Forms.ComboBox();
             this.btnExcel = new System.Windows.Forms.Button();
             this.btnSplit = new System.Windows.Forms.Button();
             this.btnMove = new System.Windows.Forms.Button();
@@ -170,8 +172,6 @@
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.timerAnalyze = new System.Windows.Forms.Timer(this.components);
-            this.cmbOdataFilter = new System.Windows.Forms.ComboBox();
-            this.label21 = new System.Windows.Forms.Label();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -552,6 +552,26 @@
             this.panel4.Size = new System.Drawing.Size(807, 42);
             this.panel4.TabIndex = 3;
             // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(515, 0);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(94, 13);
+            this.label21.TabIndex = 8;
+            this.label21.Text = "Сложный фильтр";
+            // 
+            // cmbOdataFilter
+            // 
+            this.cmbOdataFilter.FormattingEnabled = true;
+            this.cmbOdataFilter.Items.AddRange(new object[] {
+            "substringof(\'болт\', Html)",
+            "Nprice ge 10 and Nprice le 100"});
+            this.cmbOdataFilter.Location = new System.Drawing.Point(514, 13);
+            this.cmbOdataFilter.Name = "cmbOdataFilter";
+            this.cmbOdataFilter.Size = new System.Drawing.Size(121, 21);
+            this.cmbOdataFilter.TabIndex = 7;
+            // 
             // btnExcel
             // 
             this.btnExcel.Location = new System.Drawing.Point(432, 13);
@@ -699,8 +719,8 @@
             // 
             // tcApiSelect
             // 
-            this.tcApiSelect.Controls.Add(this.tpPacketTru);
             this.tcApiSelect.Controls.Add(this.tpSingleTru);
+            this.tcApiSelect.Controls.Add(this.tpPacketTru);
             this.tcApiSelect.Dock = System.Windows.Forms.DockStyle.Top;
             this.tcApiSelect.Location = new System.Drawing.Point(3, 3);
             this.tcApiSelect.Name = "tcApiSelect";
@@ -877,7 +897,7 @@
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(445, 20);
             this.tbName.TabIndex = 2;
-            this.tbName.Text = "аспирин таблетки 500мг N12";
+            this.tbName.Text = "аспирин таблетки 300мг N20";
             // 
             // label2
             // 
@@ -1636,26 +1656,6 @@
             // timerAnalyze
             // 
             this.timerAnalyze.Interval = 1200;
-            // 
-            // cmbOdataFilter
-            // 
-            this.cmbOdataFilter.FormattingEnabled = true;
-            this.cmbOdataFilter.Items.AddRange(new object[] {
-            "substringof(\'болт\', Html)",
-            "Nprice ge 10 and Nprice le 100"});
-            this.cmbOdataFilter.Location = new System.Drawing.Point(514, 13);
-            this.cmbOdataFilter.Name = "cmbOdataFilter";
-            this.cmbOdataFilter.Size = new System.Drawing.Size(121, 21);
-            this.cmbOdataFilter.TabIndex = 7;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(515, 0);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(94, 13);
-            this.label21.TabIndex = 8;
-            this.label21.Text = "Сложный фильтр";
             // 
             // Form1
             // 

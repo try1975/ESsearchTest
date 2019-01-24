@@ -81,6 +81,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Db.Entities", "Db.Entities\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FindCompany.Db.Postgress", "FindCompany.Db.Postgress\FindCompany.Db.Postgress.csproj", "{FE517A09-1DEC-4027-8E21-EED047F13C2B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KTRU", "KTRU", "{0C9BD28F-0142-4CD5-BFDC-4D0EAA913081}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ktru.Xml2Json", "Ktru.Xml2Json\Ktru.Xml2Json.csproj", "{4F8FCE53-BFAF-4E8C-9146-306B3E2B0247}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -195,6 +199,10 @@ Global
 		{FE517A09-1DEC-4027-8E21-EED047F13C2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE517A09-1DEC-4027-8E21-EED047F13C2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE517A09-1DEC-4027-8E21-EED047F13C2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F8FCE53-BFAF-4E8C-9146-306B3E2B0247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F8FCE53-BFAF-4E8C-9146-306B3E2B0247}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F8FCE53-BFAF-4E8C-9146-306B3E2B0247}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F8FCE53-BFAF-4E8C-9146-306B3E2B0247}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -220,6 +228,7 @@ Global
 		{1EF366E9-1250-4A38-A6E4-41EB61A5B8FD} = {E7F41E40-75F9-4110-A69B-6B213BCE3FE6}
 		{18F58C90-DFEC-47CD-93EE-255D986542B9} = {E7F41E40-75F9-4110-A69B-6B213BCE3FE6}
 		{FE517A09-1DEC-4027-8E21-EED047F13C2B} = {E7F41E40-75F9-4110-A69B-6B213BCE3FE6}
+		{4F8FCE53-BFAF-4E8C-9146-306B3E2B0247} = {0C9BD28F-0142-4CD5-BFDC-4D0EAA913081}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A9BD0551-2AC1-463F-A0B2-20DBB02C6A19}
