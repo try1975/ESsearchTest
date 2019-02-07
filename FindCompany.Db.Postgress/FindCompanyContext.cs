@@ -14,6 +14,7 @@ namespace FindCompany.Db.Postgress
         }
         public FindCompanyContext(string conn = "FindCompanyConnection") : base($"name={conn}")
         {
+            Database.Log += s => System.Diagnostics.Debug.WriteLine(s);
         }
 
         public virtual DbSet<FindCompanyEntity> FindCompanies { get; set; }

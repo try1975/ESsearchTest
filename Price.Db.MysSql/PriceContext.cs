@@ -14,6 +14,7 @@ namespace Price.Db.Postgress
         }
         public PriceContext(string conn = "PriceConnection") : base($"name={conn}")
         {
+            Database.Log += s => System.Diagnostics.Debug.WriteLine(s);
         }
 
         public virtual DbSet<SearchItemEntity> SearchItems { get; set; }

@@ -37,6 +37,8 @@ namespace Topol.UseApi
         private readonly List<SearchItemHeaderDto> _listSearchItem = new List<SearchItemHeaderDto>();
         private DataTable _datatableSearchItem;
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly string Md5 = nameof(Md5);
+        private readonly string Gz = nameof(Gz);
 
         private bool _enableResultButtons;
         private bool EnableResultButtons
@@ -202,7 +204,7 @@ namespace Topol.UseApi
 
             cmbElasticIndexName.Items.Clear();
             cmbElasticIndexName.Items.AddRange(new[] { "ЦПОИ, Интернет", "Интернет", "ЦПОИ", "Госзакупки" });
-            elasticIndexList = new[] { "md5,internet", "internet", "md5", "gz" };
+            elasticIndexList = new[] { $"{Md5},internet", "internet", Md5, Gz };
             cmbElasticIndexName.SelectedIndex = 0;
 
             cmbOdataFilter.TextChanged += cmbOdataFilter_TextChanged;
@@ -1370,8 +1372,8 @@ namespace Topol.UseApi
         {
             try
             {
-                var sellerCount = _dataManager.GetSellerCount().Result;
-                ((BackgroundWorker)sender).ReportProgress(0, sellerCount);
+                var dictionary = _dataManager.GetSourceCounts().Result;
+                ((BackgroundWorker)sender).ReportProgress(0, dictionary);
             }
             catch (Exception exception)
             {
@@ -1386,8 +1388,11 @@ namespace Topol.UseApi
             {
                 try
                 {
-                    var sellerCount = (int)e.UserState;
-                    lblSellerCount.Text = $@"{sellerCount}";
+                    var dictionary = (Dictionary<string, string>)e.UserState;
+
+                    lblSellerCount.Text = $@"{dictionary["Company"]}";
+                    lblMd5Count.Text = $@"{dictionary[Md5]}";
+                    lblGzCount.Text = $@"{dictionary[Gz]}";
                 }
                 catch (Exception exception)
                 {
@@ -1398,11 +1403,13 @@ namespace Topol.UseApi
 
         private void tabPage4_Enter(object sender, EventArgs e)
         {
-            var bankControl = CompositionRoot.Resolve<ISellerView>();
-            var control = (Control)bankControl;
+            var sellerView = CompositionRoot.Resolve<ISellerView>();
+            var control = (Control)sellerView;
             control.Dock = DockStyle.Fill;
-            tabPage4.Controls.Clear();
-            tabPage4.Controls.Add(control);
+            panel27.Controls.Clear();
+            panel27.Controls.Add(control);
+            //tabPage4.Controls.Clear();
+            //tabPage4.Controls.Add(control);
         }
 
         private void TsmiDelete_Click(object sender, EventArgs e)

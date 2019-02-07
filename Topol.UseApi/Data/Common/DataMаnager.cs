@@ -26,6 +26,7 @@ namespace Topol.UseApi.Data.Common
         private readonly string _endpointSearchItem;
         private readonly string _endpointMove;
         private readonly string _endpointGetSellerCount;
+        private readonly string _endpointGetSourceCounts;
         private readonly HttpClient _apiHttpClient;
 
         public DataMаnager()
@@ -46,7 +47,7 @@ namespace Topol.UseApi.Data.Common
             _endpointSearchItem = $"{baseApi}api/searchitem/";
             _endpointMove = $"{baseApi}api/searchitem/move/";
             _endpointGetSellerCount = $"{baseApi}api/simpleprice/sellerCount/";
-
+            _endpointGetSourceCounts = $"{baseApi}api/common/counts/";
             #endregion
 
             _apiHttpClient = new HttpClient(new LoggingHandler());
@@ -206,6 +207,16 @@ namespace Topol.UseApi.Data.Common
             {
                 if (!response.IsSuccessStatusCode) return 0;
                 var result = await response.Content.ReadAsAsync<int>();
+                return result;
+            }
+        }
+
+        public async Task<Dictionary<string, string>> GetSourceCounts()
+        {
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointGetSourceCounts}"))
+            {
+                if (!response.IsSuccessStatusCode) return new Dictionary<string, string>();
+                var result = await response.Content.ReadAsAsync<Dictionary<string, string>>();
                 return result;
             }
         }

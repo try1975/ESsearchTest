@@ -26,5 +26,6 @@ namespace Topol.UseApi.Interfaces.Common
 
         Task<SearchItemHeaderDto> MoveResults(List<ContentMoveDto> list, string id, string name, string extId);
         Task<int> GetSellerCount();
+        Task<Dictionary<string, string>> GetSourceCounts();
     }
 }

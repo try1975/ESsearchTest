@@ -81,7 +81,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.tcApiSelect = new System.Windows.Forms.TabControl();
-            this.tpPacketTru = new System.Windows.Forms.TabPage();
             this.tpSingleTru = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -100,6 +99,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.tbName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.tpPacketTru = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitter3 = new System.Windows.Forms.Splitter();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -162,8 +162,6 @@
             this.gbSource = new System.Windows.Forms.GroupBox();
             this.cbGoogle = new System.Windows.Forms.CheckBox();
             this.cbYandex = new System.Windows.Forms.CheckBox();
-            this.lblSellerCount = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
             this.cbNotExtractPrice = new System.Windows.Forms.CheckBox();
             this.cmbPriority = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
@@ -172,6 +170,14 @@
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.timerAnalyze = new System.Windows.Forms.Timer(this.components);
+            this.panel26 = new System.Windows.Forms.Panel();
+            this.panel27 = new System.Windows.Forms.Panel();
+            this.lblSellerCount = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.lblMd5Count = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.lblGzCount = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -190,7 +196,6 @@
             this.tabPage1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tcApiSelect.SuspendLayout();
-            this.tpPacketTru.SuspendLayout();
             this.tpSingleTru.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -198,6 +203,7 @@
             this.panel25.SuspendLayout();
             this.panel8.SuspendLayout();
             this.panel9.SuspendLayout();
+            this.tpPacketTru.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMaybe)).BeginInit();
@@ -210,6 +216,7 @@
             this.panel10.SuspendLayout();
             this.panel15.SuspendLayout();
             this.panel16.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.panel19.SuspendLayout();
             this.panel21.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbWebshot)).BeginInit();
@@ -220,6 +227,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             this.gbSource.SuspendLayout();
+            this.panel26.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlPacket
@@ -298,7 +306,7 @@
             "internet",
             "md5",
             "gz"});
-            this.cmbElasticIndexName.Location = new System.Drawing.Point(5, 17);
+            this.cmbElasticIndexName.Location = new System.Drawing.Point(5, 12);
             this.cmbElasticIndexName.Name = "cmbElasticIndexName";
             this.cmbElasticIndexName.Size = new System.Drawing.Size(102, 21);
             this.cmbElasticIndexName.TabIndex = 1;
@@ -728,17 +736,6 @@
             this.tcApiSelect.Size = new System.Drawing.Size(813, 179);
             this.tcApiSelect.TabIndex = 2;
             // 
-            // tpPacketTru
-            // 
-            this.tpPacketTru.Controls.Add(this.pnlPacket);
-            this.tpPacketTru.Location = new System.Drawing.Point(4, 22);
-            this.tpPacketTru.Name = "tpPacketTru";
-            this.tpPacketTru.Padding = new System.Windows.Forms.Padding(3);
-            this.tpPacketTru.Size = new System.Drawing.Size(805, 153);
-            this.tpPacketTru.TabIndex = 0;
-            this.tpPacketTru.Text = "Пакет ТРУ";
-            this.tpPacketTru.UseVisualStyleBackColor = true;
-            // 
             // tpSingleTru
             // 
             this.tpSingleTru.Controls.Add(this.panel1);
@@ -907,6 +904,17 @@
             this.label2.Size = new System.Drawing.Size(83, 13);
             this.label2.TabIndex = 0;
             this.label2.Text = "Наименование";
+            // 
+            // tpPacketTru
+            // 
+            this.tpPacketTru.Controls.Add(this.pnlPacket);
+            this.tpPacketTru.Location = new System.Drawing.Point(4, 22);
+            this.tpPacketTru.Name = "tpPacketTru";
+            this.tpPacketTru.Padding = new System.Windows.Forms.Padding(3);
+            this.tpPacketTru.Size = new System.Drawing.Size(805, 153);
+            this.tpPacketTru.TabIndex = 0;
+            this.tpPacketTru.Text = "Пакет ТРУ";
+            this.tpPacketTru.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
@@ -1186,6 +1194,8 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.panel27);
+            this.tabPage4.Controls.Add(this.panel26);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(819, 615);
@@ -1511,10 +1521,12 @@
             // 
             // gbSource
             // 
+            this.gbSource.Controls.Add(this.lblGzCount);
+            this.gbSource.Controls.Add(this.label25);
+            this.gbSource.Controls.Add(this.lblMd5Count);
+            this.gbSource.Controls.Add(this.label23);
             this.gbSource.Controls.Add(this.cbGoogle);
             this.gbSource.Controls.Add(this.cbYandex);
-            this.gbSource.Controls.Add(this.lblSellerCount);
-            this.gbSource.Controls.Add(this.label17);
             this.gbSource.Controls.Add(this.cbNotExtractPrice);
             this.gbSource.Controls.Add(this.cmbPriority);
             this.gbSource.Controls.Add(this.label16);
@@ -1556,27 +1568,6 @@
             this.cbYandex.TabIndex = 11;
             this.cbYandex.Text = "Yandex";
             this.cbYandex.UseVisualStyleBackColor = true;
-            // 
-            // lblSellerCount
-            // 
-            this.lblSellerCount.AutoSize = true;
-            this.lblSellerCount.Location = new System.Drawing.Point(79, 41);
-            this.lblSellerCount.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblSellerCount.Name = "lblSellerCount";
-            this.lblSellerCount.Size = new System.Drawing.Size(13, 13);
-            this.lblSellerCount.TabIndex = 10;
-            this.lblSellerCount.Text = "0";
-            this.lblSellerCount.Click += new System.EventHandler(this.lblSellerCount_Click);
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(5, 41);
-            this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(69, 13);
-            this.label17.TabIndex = 9;
-            this.label17.Text = "Продавцов: ";
             // 
             // cbNotExtractPrice
             // 
@@ -1657,6 +1648,84 @@
             // 
             this.timerAnalyze.Interval = 1200;
             // 
+            // panel26
+            // 
+            this.panel26.Controls.Add(this.lblSellerCount);
+            this.panel26.Controls.Add(this.label17);
+            this.panel26.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel26.Location = new System.Drawing.Point(0, 0);
+            this.panel26.Name = "panel26";
+            this.panel26.Size = new System.Drawing.Size(819, 34);
+            this.panel26.TabIndex = 0;
+            // 
+            // panel27
+            // 
+            this.panel27.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel27.Location = new System.Drawing.Point(0, 34);
+            this.panel27.Name = "panel27";
+            this.panel27.Size = new System.Drawing.Size(819, 581);
+            this.panel27.TabIndex = 1;
+            // 
+            // lblSellerCount
+            // 
+            this.lblSellerCount.AutoSize = true;
+            this.lblSellerCount.Location = new System.Drawing.Point(81, 12);
+            this.lblSellerCount.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSellerCount.Name = "lblSellerCount";
+            this.lblSellerCount.Size = new System.Drawing.Size(13, 13);
+            this.lblSellerCount.TabIndex = 12;
+            this.lblSellerCount.Text = "0";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(7, 12);
+            this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(69, 13);
+            this.label17.TabIndex = 11;
+            this.label17.Text = "Продавцов: ";
+            // 
+            // lblMd5Count
+            // 
+            this.lblMd5Count.Location = new System.Drawing.Point(79, 36);
+            this.lblMd5Count.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblMd5Count.Name = "lblMd5Count";
+            this.lblMd5Count.Size = new System.Drawing.Size(60, 13);
+            this.lblMd5Count.TabIndex = 14;
+            this.lblMd5Count.Text = "0";
+            this.lblMd5Count.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(5, 36);
+            this.label23.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(45, 13);
+            this.label23.TabIndex = 13;
+            this.label23.Text = "ЦПОИ: ";
+            // 
+            // lblGzCount
+            // 
+            this.lblGzCount.Location = new System.Drawing.Point(79, 50);
+            this.lblGzCount.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblGzCount.Name = "lblGzCount";
+            this.lblGzCount.Size = new System.Drawing.Size(60, 13);
+            this.lblGzCount.TabIndex = 16;
+            this.lblGzCount.Text = "0";
+            this.lblGzCount.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(5, 50);
+            this.label25.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(72, 13);
+            this.label25.TabIndex = 15;
+            this.label25.Text = "Госзакупки: ";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1690,7 +1759,6 @@
             this.tabPage1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.tcApiSelect.ResumeLayout(false);
-            this.tpPacketTru.ResumeLayout(false);
             this.tpSingleTru.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
@@ -1701,6 +1769,7 @@
             this.panel8.PerformLayout();
             this.panel9.ResumeLayout(false);
             this.panel9.PerformLayout();
+            this.tpPacketTru.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMaybe)).EndInit();
@@ -1715,6 +1784,7 @@
             this.panel15.ResumeLayout(false);
             this.panel16.ResumeLayout(false);
             this.panel16.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
             this.panel19.ResumeLayout(false);
             this.panel21.ResumeLayout(false);
             this.panel21.PerformLayout();
@@ -1730,6 +1800,8 @@
             this.bindingNavigator1.PerformLayout();
             this.gbSource.ResumeLayout(false);
             this.gbSource.PerformLayout();
+            this.panel26.ResumeLayout(false);
+            this.panel26.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1856,8 +1928,6 @@
         private System.Windows.Forms.ComboBox cmbPriority;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.CheckBox cbNotExtractPrice;
-        private System.Windows.Forms.Label lblSellerCount;
-        private System.Windows.Forms.Label label17;
         private System.Windows.Forms.CheckBox cbGoogle;
         private System.Windows.Forms.CheckBox cbYandex;
         private System.Windows.Forms.TabPage tabPage4;
@@ -1878,6 +1948,14 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ComboBox cmbOdataFilter;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Panel panel27;
+        private System.Windows.Forms.Panel panel26;
+        private System.Windows.Forms.Label lblSellerCount;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label lblGzCount;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label lblMd5Count;
+        private System.Windows.Forms.Label label23;
     }
 }
 

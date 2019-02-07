@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Web.Http;
-//using Price.WebApi.Logic.Interfaces;
+using System.Web.Http.Description;
+using Price.WebApi.Logic;
+using Price.WebApi.Maintenance.Interfaces;
 using PriceCommon.Model;
 using PricePipeCore;
 
@@ -15,14 +18,15 @@ namespace Price.WebApi.Controllers
     //[Authorize]
     public class CommonController : ApiController
     {
+        private readonly IFindCompanyApi _findCompanyApi;
         //private IUpdatePriceWatcher _updatePriceWatcher;
 
+        /// <inheritdoc />
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="updatePriceWatcher"></param>
-        public CommonController(/*IUpdatePriceWatcher updatePriceWatcher*/)
+        public CommonController(IFindCompanyApi findCompanyApi)
         {
+            _findCompanyApi = findCompanyApi;
             //_updatePriceWatcher = updatePriceWatcher;
         }
 
@@ -55,6 +59,61 @@ namespace Price.WebApi.Controllers
                 i = i + 1;
             } while (notEnd);
             return list;
+        }
+
+        /// <summary>
+        /// Количество записей в разных источниках данных
+        /// </summary>Gz
+        /// <returns>
+        /// Md5 - ценовые роботы
+        /// Gz - госзакупкм
+        /// Company - фирмы
+        /// </returns>
+        [HttpGet]
+        [ResponseType(typeof(Dictionary<string, string>))]
+        [Route("counts", Name = nameof(GetCounts) + "Route")]
+        public IDictionary<string, string> GetCounts()
+        {
+            const string companyKey = "Company";
+            const string countSufix = "Count";
+            string companyCount;
+            if (!MemoryCache.Default.Contains($"{companyKey}{countSufix}"))
+            {
+                companyCount = _findCompanyApi.GetSellerCount().ToString();
+                MemoryCache.Default.Add($"{companyKey}{countSufix}", companyCount, DateTimeOffset.UtcNow.AddSeconds(AppGlobal.CashSeconds));
+            }
+            else
+            {
+                companyCount = MemoryCache.Default.Get($"{companyKey}{countSufix}")?.ToString();
+            }
+            string mdCount;
+            if (!MemoryCache.Default.Contains($"{nameof(ElacticIndexName.Md5)}{countSufix}"))
+            {
+                var elasticClient = ElasticClientFactory.GetElasticClient(source: nameof(ElacticIndexName.Md5));
+                mdCount = elasticClient.Count<Content>().Count.ToString();
+                MemoryCache.Default.Add($"{nameof(ElacticIndexName.Md5)}{countSufix}", mdCount, DateTimeOffset.UtcNow.AddSeconds(AppGlobal.CashSeconds));
+            }
+            else
+            {
+                mdCount = MemoryCache.Default.Get($"{nameof(ElacticIndexName.Md5)}{countSufix}")?.ToString();
+            }
+            string gzCount;
+            if (!MemoryCache.Default.Contains($"{nameof(ElacticIndexName.Gz)}{countSufix}"))
+            {
+                var elasticClient = ElasticClientFactory.GetElasticClient(source: nameof(ElacticIndexName.Gz));
+                gzCount = elasticClient.Count<Content>().Count.ToString();
+                MemoryCache.Default.Add($"{nameof(ElacticIndexName.Gz)}{countSufix}", gzCount, DateTimeOffset.UtcNow.AddSeconds(AppGlobal.CashSeconds));
+            }
+            else
+            {
+                gzCount = MemoryCache.Default.Get($"{nameof(ElacticIndexName.Gz)}{countSufix}")?.ToString();
+            }
+            return new Dictionary<string, string>
+            {
+                {nameof(ElacticIndexName.Md5), mdCount},
+                {nameof(ElacticIndexName.Gz), gzCount },
+                {companyKey, companyCount}
+            };
         }
 
         /// <summary>
