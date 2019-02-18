@@ -46,6 +46,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ElasticScripts", "ElasticScripts", "{B7E6C0B5-A100-4979-B1BB-F3499764FCA9}"
 	ProjectSection(SolutionItems) = preProject
 		es_20180131.txt = es_20180131.txt
+		es_gz_v2_idx_template.txt = es_gz_v2_idx_template.txt
 		es_query.txt = es_query.txt
 		es_query2.txt = es_query2.txt
 		es_syn.json = es_syn.json

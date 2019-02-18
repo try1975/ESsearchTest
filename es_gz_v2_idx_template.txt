@@ -1,0 +1,121 @@
+PUT http://109.235.214.206:49201/_template/gz_v2
+
+{
+	"index_patterns": ["gz_v2*"],
+	"aliases": { "gz_all": {}},
+	"settings": {
+            "index": {
+                "format": "6",
+                "codec": "best_compression",
+                "number_of_shards": "1",
+                "auto_expand_replicas": "0-1",
+                "number_of_replicas": "0",
+                "analysis": {
+					"analyzer": {
+						"default": {
+							"filter": ["lowercase"],
+							"char_filter": ["html_strip"],
+							"tokenizer": "whitespace"
+						}
+					}
+				}
+            }
+    },
+    "mappings": {
+		"content": {
+			"properties": {
+				"collectedAt": {
+					"type": "date"
+				},
+				"currency": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				},
+				"id": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				},
+				"name": {
+					"type": "text"
+				},
+				"okei": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				},
+				"okpd2": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				},
+				"price": {
+					"type": "keyword",
+					"null_value": "0"
+				},
+				"type": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				},
+				"uRI": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				},
+				"ktru": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				},
+				"inn": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				},
+				"xml_path": {
+					"type": "text",
+					"fields": {
+						"keyword": {
+							"type": "keyword",
+							"ignore_above": 256
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -28,6 +28,7 @@ namespace Ktru.Xml2Json
             {
                 //Console.WriteLine(n.OuterXml);
                 Console.WriteLine(JsonConvert.SerializeXmlNode(n, Formatting.Indented));
+                Console.ReadKey();
             }
 
             //string json = JsonConvert.SerializeXmlNode(doc);

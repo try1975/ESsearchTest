@@ -13,33 +13,32 @@ namespace PricePipeCore
 
         public static ElasticClient GetElasticClient(string source = "")
         {
-            ElasticClient elasticClient;
-            ClientsPool.TryGetValue(source, out elasticClient);
+            ClientsPool.TryGetValue(source, out var elasticClient);
             if (elasticClient != null) return ClientsPool[source];
-            string address = null;
-            string defaultIndex = null;
-            string userName = null;
-            string password = null;
+            string address;
+            string defaultIndex;
+            string userName;
+            string password;
             if (source.Equals(nameof(ElacticIndexName.Md5), StringComparison.InvariantCultureIgnoreCase) || string.IsNullOrEmpty(source))
             {
-                address = AppSettings.Host;
+                address = AppSettings.Md5Host;
                 defaultIndex = AppSettings.DefaultIndex.ToLower();
-                userName = AppSettings.UserName;
-                password = AppSettings.Password;
+                userName = AppSettings.Md5UserName;
+                password = AppSettings.Md5Password;
             }
             else if (source.Equals(nameof(ElacticIndexName.Gz), StringComparison.InvariantCultureIgnoreCase))
             {
-                address = AppSettings.Host;
+                address = AppSettings.GzHost;
                 defaultIndex = nameof(ElacticIndexName.Gz).ToLower();
-                userName = AppSettings.UserName;
-                password = AppSettings.Password;
+                userName = AppSettings.GzUserName;
+                password = AppSettings.GzPassword;
             }
             else
             {
-                address = AppSettings.Host;
+                address = AppSettings.OtherHost;
                 defaultIndex = source.Trim().ToLower();
-                userName = AppSettings.UserName;
-                password = AppSettings.Password;
+                userName = AppSettings.OtherUserName;
+                password = AppSettings.OtherPassword;
             }
             if (string.IsNullOrEmpty(address) || string.IsNullOrEmpty(defaultIndex) || string.IsNullOrEmpty(userName) ||
                 string.IsNullOrEmpty(password)) return null;
