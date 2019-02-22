@@ -5,7 +5,11 @@ using Price.WebApi.Maintenance.Interfaces;
 using PricePipeCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Web.Http;
+using Common.Dto.Model.NewApi;
 
 namespace Price.WebApi.Controllers
 {
@@ -104,6 +108,22 @@ namespace Price.WebApi.Controllers
 
             //var source = AppSettings.DefaultIndex;
             //return (new SimpleSearcher(source)).GetSellerCount();
+        }
+
+        [HttpGet]
+        [Route("gzDocs/{regNum}")]
+        public async Task<Dictionary<string, string>> GetGzDocs(string regNum)
+        {
+            var apiHttpClient = new HttpClient();
+            apiHttpClient.DefaultRequestHeaders.Accept.Clear();
+            apiHttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            using (var response = await apiHttpClient.GetAsync($"http://localhost:53986/api/docs/{regNum}"))
+            {
+                if (!response.IsSuccessStatusCode) return null;
+                var result = await response.Content.ReadAsAsync<Dictionary<string, string>>();
+                return result;
+            }
         }
     }
 }

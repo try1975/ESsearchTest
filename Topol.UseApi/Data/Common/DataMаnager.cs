@@ -27,6 +27,7 @@ namespace Topol.UseApi.Data.Common
         private readonly string _endpointMove;
         private readonly string _endpointGetSellerCount;
         private readonly string _endpointGetSourceCounts;
+        private readonly string _endpointGzDocs;
         private readonly HttpClient _apiHttpClient;
 
         public DataMаnager()
@@ -35,6 +36,7 @@ namespace Topol.UseApi.Data.Common
 
             var baseApi = ConfigurationManager.AppSettings["BaseApi"];
             var token = ConfigurationManager.AppSettings["ExternalToken"];
+            var gzApi = ConfigurationManager.AppSettings["GzApi"];
 
             _endpointPostPacketAsync = $"{baseApi}api/packet/";
             _endpointSearchItemByCondition = $"{baseApi}api/searchitem/bycondition/";
@@ -48,6 +50,8 @@ namespace Topol.UseApi.Data.Common
             _endpointMove = $"{baseApi}api/searchitem/move/";
             _endpointGetSellerCount = $"{baseApi}api/simpleprice/sellerCount/";
             _endpointGetSourceCounts = $"{baseApi}api/common/counts/";
+
+            _endpointGzDocs = $"{gzApi}api/docs/";
             #endregion
 
             _apiHttpClient = new HttpClient(new LoggingHandler());
@@ -217,6 +221,26 @@ namespace Topol.UseApi.Data.Common
             {
                 if (!response.IsSuccessStatusCode) return new Dictionary<string, string>();
                 var result = await response.Content.ReadAsAsync<Dictionary<string, string>>();
+                return result;
+            }
+        }
+
+        public async Task<Dictionary<string, string>> GetGzDocsAcync(string regNum)
+        {
+            using (var response = await _apiHttpClient.GetAsync($"{_endpointGzDocs}{regNum}"))
+            {
+                if (!response.IsSuccessStatusCode) return new Dictionary<string, string>();
+                var result = await response.Content.ReadAsAsync<Dictionary<string, string>>();
+                return result;
+            }
+        }
+
+        public Dictionary<string, string> GetGzDocs(string regNum)
+        {
+            using (var response = _apiHttpClient.GetAsync($"{_endpointGzDocs}{regNum}").Result)
+            {
+                if (!response.IsSuccessStatusCode) return new Dictionary<string, string>();
+                var result = response.Content.ReadAsAsync<Dictionary<string, string>>().Result;
                 return result;
             }
         }

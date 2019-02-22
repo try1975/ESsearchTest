@@ -54,6 +54,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="contract_3490700095518000006_40556822.xml" />
     <Content Include="nsiKTRU_all_20181222010001_001.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

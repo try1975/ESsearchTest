@@ -63,6 +63,7 @@ namespace Topol.UseApi
 
         private bool _needUpdateAnalyze;
         private bool _canUpdateAnalyze = true;
+        private DataTable _docsDataTable = new DataTable();
 
         #region rectangle on image
         private Point _rectStartPoint;
@@ -208,6 +209,41 @@ namespace Topol.UseApi
             cmbElasticIndexName.SelectedIndex = 0;
 
             cmbOdataFilter.TextChanged += cmbOdataFilter_TextChanged;
+
+            _docsDataTable.Columns.Add("DocName");
+            _docsDataTable.Columns.Add("DocUrl");
+            listBox1.DataSource = _docsDataTable;
+            listBox1.DisplayMember = "DocName";
+            listBox1.ValueMember = "DocUrl";
+            listBox1.MouseDoubleClick += ListBox1_MouseDoubleClick;
+        }
+
+        private void ListBox1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (listBox1.SelectedIndex < 0) return;
+            try
+            {
+                var ext = Path.GetExtension(listBox1.Text);
+                var url = listBox1.SelectedValue.ToString();
+                if (ext != null)
+                {
+                    ext = ext.ToLower();
+                    if ((ext.StartsWith(".doc") || ext.StartsWith(".xls")) && !ModifierKeys.HasFlag(Keys.Control))
+                    {
+                        url = $@"https://view.officeapps.live.com/op/view.aspx?src={Uri.EscapeDataString(url)}";
+                    }
+                    else if (ext.StartsWith(".pdf") && !ModifierKeys.HasFlag(Keys.Control))
+                    {
+                        url = $@"https://docs.google.com/viewerng/viewer?url={Uri.EscapeDataString(url)}&embedded=true";
+                    }
+                }
+                Process.Start(url);
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+                MessageBox.Show($@"Not started {listBox1.SelectedValue.ToString()}");
+            }
         }
 
         private void cmbOdataFilter_TextChanged(object sender, EventArgs e)
@@ -1296,6 +1332,24 @@ namespace Topol.UseApi
                     var items = priceVariants.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                     cmbPrices.Items.AddRange(items);
                     cmbPrices.SelectedIndex = 0;
+                }
+                _docsDataTable.Rows.Clear();
+                var uri = new Uri(current.Row[nameof(ContentExtDto.Uri)].ToString());
+                if (uri.Host.ToLower() == "zakupki.gov.ru")
+                {
+                    var arguments = uri.Query
+                        .Substring(1) // Remove '?'
+                        .Split('&')
+                        .Select(q => q.Split('='))
+                        .ToDictionary(q => q.FirstOrDefault(), q => q.Skip(1).FirstOrDefault());
+                    var docs= _dataManager.GetGzDocs(arguments["reestrNumber"]);
+                    foreach (var doc in docs)
+                    {
+                        var row = _docsDataTable.NewRow();
+                        row["DocName"] = doc.Value;
+                        row["DocUrl"] = doc.Key;
+                        _docsDataTable.Rows.Add(row);
+                    }
                 }
             }
             catch (Exception exception)

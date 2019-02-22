@@ -10,6 +10,7 @@ PUT http://109.235.214.206:49201/_template/gz_v2
                 "number_of_shards": "1",
                 "auto_expand_replicas": "0-1",
                 "number_of_replicas": "0",
+				"default_pipeline": "gz_v2_pipeline",
                 "analysis": {
 					"analyzer": {
 						"default": {

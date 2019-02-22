@@ -39,6 +39,7 @@ namespace PricePipeCore
                 );
             return response.Hits.Select(s => s.Source);
         }
+
         public IEnumerable<Content> MaybeSearch(string must, string should, string mustNot)
         {
             var containerMust = GetExactQueryContainer(must, ListDelimiter);
@@ -116,6 +117,20 @@ namespace PricePipeCore
                         .Must(container.ToArray())))
             );
             return response.Hits.Select(s => s.Source);
+        }
+
+        public string GetGzXmlPath(string regNum)
+        {
+            regNum = regNum.Trim();
+            if (string.IsNullOrWhiteSpace(regNum)) return string.Empty;
+            var response = _elasticClient.Search<Content>(s => s
+                .Take(1)
+                .Query(q => q
+                    .Term(b => b
+                        .Field(f=>f.Uri)
+                        .Value(regNum)))
+            );
+            return response.Hits.Select(s => s.Source).FirstOrDefault()?.xml_path;
         }
     }
 }

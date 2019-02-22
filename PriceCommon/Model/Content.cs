@@ -1,4 +1,6 @@
 using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 
 namespace PriceCommon.Model
@@ -27,6 +29,7 @@ namespace PriceCommon.Model
         /// </summary>
         public double Nprice => Convert.ToDouble(Price);
 
+        [JsonProperty("uRI")]
         /// <summary>
         /// —сылка на источник
         /// </summary>
@@ -86,6 +89,8 @@ namespace PriceCommon.Model
         public string Currency { get; set; }
 
         public string prodStatus { get; set; }
+
+        public string xml_path { get; set; }
 
     }
 }

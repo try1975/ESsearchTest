@@ -1,0 +1,38 @@
+PUT _ingest/pipeline/gz_v2_pipeline
+{
+	"description": "split records by regions and years",
+	"processors": [
+		{
+			"date_index_name": {
+				"field": "collectedAt",
+				"date_formats": [
+					"UNIX"
+				],
+				"index_name_prefix": "gz_v2_{{region}}_",
+				"date_rounding": "y"
+			}
+		},
+		{
+			"remove": {
+				"field": "region"
+			}
+		},
+		{
+			"trim": {
+				"field": "name",
+				"ignore_failure": true
+			}
+		}
+	]
+}
+
+PUT /_cluster/settings HTTP/1.1
+Host: 109.235.214.206:49201
+Content-Type: application/json
+Authorization: Basic ZWxhc3RpYzpzdkJaZEhrWEdaRUpuWXky
+cache-control: no-cache
+{
+    "persistent": {
+        "action.auto_create_index": "twitter,index10,-index1*,+ind*,+<gz*,+gz*" 
+    }
+}
