@@ -51,7 +51,7 @@ namespace ESsearchTest
         {
             if (AppSettings.MaxResultCount > udResultCount.Maximum) udResultCount.Maximum = AppSettings.MaxResultCount;
 
-            var address = AppSettings.Host;
+            var address = AppSettings.Md5Host;
             if (string.IsNullOrEmpty(address)) address = @"http://localhost:9200/";
 
             try
@@ -67,7 +67,7 @@ namespace ESsearchTest
                     })
                     .DisableDirectStreaming()
                     .DefaultIndex(AppSettings.DefaultIndex)
-                    .BasicAuthentication(AppSettings.UserName, AppSettings.Password)
+                    .BasicAuthentication(AppSettings.Md5UserName, AppSettings.Md5Password)
                     //.PrettyJson()
                     ;
                 _elasticClient = new ElasticClient(connectionSettings);

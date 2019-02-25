@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Xml;
+using GzDocs.Services;
 using PricePipeCore;
 using Swashbuckle.Examples;
 
@@ -59,9 +60,9 @@ namespace GzDocs.Controllers
         [HttpGet, Route("{regNum}"), ResponseType(typeof(Dictionary<string, Uri>))]
         public Dictionary<string, string> Get(string regNum)
         {
-            object cached;
-            cached = MemoryCache.Default.Get(regNum);
+            var cached = MemoryCache.Default.Get(regNum);
             if (cached != null) return (Dictionary<string, string>)cached;
+
             var dictionary = new Dictionary<string, string>();
             var xmlPath = new SimpleSearcher(nameof(ElacticIndexName.Gz)).GetGzXmlPath(regNum);
             if (string.IsNullOrWhiteSpace(xmlPath)) return dictionary;
@@ -69,7 +70,7 @@ namespace GzDocs.Controllers
             var nsmgr = new XmlNamespaceManager(doc.NameTable);
             nsmgr.AddNamespace("q", @"http://zakupki.gov.ru/oos/types/1");
             nsmgr.AddNamespace("ns2", @"http://zakupki.gov.ru/oos/export/1");
-            doc.LoadXml(File.ReadAllText($@"F:\Gz\XML\{xmlPath}"));
+            doc.LoadXml(File.ReadAllText(Path.Combine(AppGlobal.GzFilesPathPrefix, xmlPath)));
             var xRoot = doc.DocumentElement;
             if (xRoot == null) return dictionary;
             var childnodes = xRoot.SelectNodes(".//q:attachment", nsmgr);
@@ -83,7 +84,7 @@ namespace GzDocs.Controllers
                 if(Path.GetExtension(fileName)==".xml") continue;
                 dictionary[url]= fileName;
             }
-            MemoryCache.Default.Add(regNum, dictionary, DateTimeOffset.UtcNow.AddMinutes(15));
+            MemoryCache.Default.Add(regNum, dictionary, DateTimeOffset.UtcNow.AddMinutes(AppGlobal.CachMinutes));
             return dictionary;
 
             /*
@@ -102,7 +103,7 @@ namespace GzDocs.Controllers
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             var xmlPath = new SimpleSearcher(nameof(ElacticIndexName.Gz)).GetGzXmlPath(regNum);
             if (string.IsNullOrWhiteSpace(xmlPath)) return response;
-            var path = $@"C:\Gz\XML\{xmlPath}";
+            var path = Path.Combine(AppGlobal.GzFilesPathPrefix, xmlPath);
             if (!File.Exists(path)) return response;
             var stream = new FileStream(path, FileMode.Open);
             response.Content = new StreamContent(stream);
