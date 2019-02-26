@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,6 +13,10 @@ using System.Net;
 using System.Text;
 using System.Windows.Forms;
 using Topol.UseApi.Utils;
+using DataTable = System.Data.DataTable;
+using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
+using Table = DocumentFormat.OpenXml.Wordprocessing.Table;
+//using SautinSoft;
 
 namespace Topol.UseApi.Forms
 {
@@ -36,12 +41,27 @@ namespace Topol.UseApi.Forms
                 .Select(q => q.Split('='))
                 .ToDictionary(q => q.FirstOrDefault(), q => q.Skip(1).FirstOrDefault());
             var uid = arguments["uid"];
-            filename = Path.Combine(KnownFolders.GetPath(KnownFolder.Downloads), $"{uid}{Path.GetExtension(filename)}");
+            var ext = Convert.ToString(Path.GetExtension(filename)).ToLower();
+            filename = Path.Combine(KnownFolders.GetPath(KnownFolder.Downloads), $"{uid}{ext}");
 
-            if (!File.Exists(filename))
+            if (!File.Exists(filename)) DownloadFile(filename, url);
+
+            if (ext.EndsWith(".doc"))
             {
-                DownloadFile(filename, url);
+                var newFileName = filename.Replace(".doc", ".docx");
+                if (File.Exists(filename) && !File.Exists(newFileName)) ConvertDocToDocx(filename, newFileName);
+                filename = newFileName;
             }
+
+            //if (ext.EndsWith(".pdf"))
+            //{
+            //    var newFileName = filename.Replace(".pdf", ".docx");
+            //    var f = new PdfFocus();
+            //    f.OpenPdf(filename);
+            //    f.ToWord(newFileName);
+            //    f.ClosePdf();
+            //    filename = newFileName;
+            //}
 
             TextFromWord(filename);
 
@@ -49,6 +69,17 @@ namespace Topol.UseApi.Forms
             _datatableBindingSource.DataSource = _datatables[0];
             dgvTable.DataSource = _datatableBindingSource;
             return true;
+        }
+
+        private void ConvertDocToDocx(string path, string newFileName)
+        {
+            if (!path.ToLower().EndsWith(".doc")) return;
+            var word = new Microsoft.Office.Interop.Word.Application();
+            var document = word.Documents.Open(path);
+            document.SaveAs2(newFileName, WdSaveFormat.wdFormatXMLDocument, CompatibilityMode: WdCompatibilityMode.wdWord2010);
+            word.ActiveDocument.Close();
+            word.Quit();
+            //File.Delete(path);
         }
 
         private static void DownloadFile(string filename, string url)

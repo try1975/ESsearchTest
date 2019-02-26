@@ -231,7 +231,7 @@ namespace Topol.UseApi
             var ext = Path.GetExtension(listBox1.Text);
             if (ext == null) return;
             ext = ext.ToLower();
-            if (ext.StartsWith(".docx")) btnWordTable.Visible = true;
+            if (ext.StartsWith(".doc") /*|| ext.StartsWith(".pdf")*/) btnWordTable.Visible = true;
         }
 
         private void ListBox1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -271,7 +271,7 @@ namespace Topol.UseApi
                 var url = listBox1.SelectedValue.ToString();
                 if (ext == null) return;
                 ext = ext.ToLower();
-                if (!ext.StartsWith(".docx")) return;
+                if (!ext.StartsWith(".doc") /*&& !ext.StartsWith(".pdf")*/) return;
                 var frmWordTable = new WordTablesForm();
                 if (frmWordTable.Prepare(listBox1.Text, url)) frmWordTable.ShowDialog();
             }
