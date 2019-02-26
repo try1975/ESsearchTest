@@ -39,6 +39,8 @@ namespace Price.WebApi.Jobs
             var api = new ContentApi(query);
             foreach (var entity in entities)
             {
+                var uri = new Uri(entity.Uri);
+                if (uri.Host.ToLower() == "zakupki.gov.ru") continue;
                 try
                 {
                     api.RemoveItem(entity.Id);

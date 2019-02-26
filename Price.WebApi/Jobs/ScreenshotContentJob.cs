@@ -32,6 +32,7 @@ namespace Price.WebApi.Jobs
                     var uri = new Uri(entity.Uri);
                     entity.Screenshot = WebshotTool.GetWebshotName(entity.Id, uri);
                     query.UpdateEntity(entity);
+                    if (uri.Host.ToLower() == "zakupki.gov.ru") continue;
                     var filename = Path.Combine(AppGlobal.ScreenshotPath, $"{entity.Screenshot}");
                     if (File.Exists(filename)) continue;
                     string arguments;

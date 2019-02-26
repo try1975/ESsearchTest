@@ -140,6 +140,8 @@
             this.linkLabelScreenshot = new System.Windows.Forms.LinkLabel();
             this.panel22 = new System.Windows.Forms.Panel();
             this.panel23 = new System.Windows.Forms.Panel();
+            this.btnWordTable = new System.Windows.Forms.Button();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.btnDeletePrice = new System.Windows.Forms.Button();
             this.btnSkipPrice = new System.Windows.Forms.Button();
             this.btnSetPriceChecked = new System.Windows.Forms.Button();
@@ -179,7 +181,6 @@
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.timerAnalyze = new System.Windows.Forms.Timer(this.components);
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -1326,6 +1327,7 @@
             // 
             // panel23
             // 
+            this.panel23.Controls.Add(this.btnWordTable);
             this.panel23.Controls.Add(this.listBox1);
             this.panel23.Controls.Add(this.btnDeletePrice);
             this.panel23.Controls.Add(this.btnSkipPrice);
@@ -1335,6 +1337,27 @@
             this.panel23.Name = "panel23";
             this.panel23.Size = new System.Drawing.Size(400, 100);
             this.panel23.TabIndex = 6;
+            // 
+            // btnWordTable
+            // 
+            this.btnWordTable.Location = new System.Drawing.Point(4, 33);
+            this.btnWordTable.Name = "btnWordTable";
+            this.btnWordTable.Size = new System.Drawing.Size(17, 19);
+            this.btnWordTable.TabIndex = 4;
+            this.btnWordTable.Text = "W";
+            this.btnWordTable.UseVisualStyleBackColor = true;
+            this.btnWordTable.Visible = false;
+            // 
+            // listBox1
+            // 
+            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(26, 33);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(353, 56);
+            this.listBox1.TabIndex = 3;
             // 
             // btnDeletePrice
             // 
@@ -1739,14 +1762,6 @@
             // 
             this.timerAnalyze.Interval = 1200;
             // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(26, 33);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(353, 56);
-            this.listBox1.TabIndex = 3;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1980,6 +1995,7 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Panel pnlWebshot;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Button btnWordTable;
     }
 }
 

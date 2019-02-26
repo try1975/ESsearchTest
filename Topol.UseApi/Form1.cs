@@ -6,7 +6,7 @@ using Common.Dto.Model.Packet;
 using log4net;
 using Newtonsoft.Json;
 using PriceCommon.Enums;
-using PriceCommon.Utils;
+using PriceCommon.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,7 +20,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using PriceCommon.Model;
 using Tesseract;
 using Topol.UseApi.Data.Common;
 using Topol.UseApi.Forms;
@@ -63,7 +62,7 @@ namespace Topol.UseApi
 
         private bool _needUpdateAnalyze;
         private bool _canUpdateAnalyze = true;
-        private DataTable _docsDataTable = new DataTable();
+        private readonly DataTable _docsDataTable = new DataTable();
 
         #region rectangle on image
         private Point _rectStartPoint;
@@ -135,12 +134,12 @@ namespace Topol.UseApi
 
             cbSearchItemStatus.DataSource = new[] {
                 new SearchItemStatusItem { Text="Любое", TaskStatus=null},
-                new SearchItemStatusItem { Text=Utils.GetDescription(TaskStatus.InProcess), TaskStatus=TaskStatus.InProcess},
-                new SearchItemStatusItem { Text=Utils.GetDescription(TaskStatus.Checked), TaskStatus=TaskStatus.Checked},
-                new SearchItemStatusItem { Text=Utils.GetDescription(TaskStatus.Ok), TaskStatus=TaskStatus.Ok},
-                new SearchItemStatusItem { Text=Utils.GetDescription(TaskStatus.BreakByTimeout), TaskStatus=TaskStatus.BreakByTimeout},
-                new SearchItemStatusItem { Text=Utils.GetDescription(TaskStatus.Break), TaskStatus=TaskStatus.Break},
-                new SearchItemStatusItem { Text=Utils.GetDescription(TaskStatus.Error), TaskStatus=TaskStatus.Error}
+                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.InProcess), TaskStatus=TaskStatus.InProcess},
+                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.Checked), TaskStatus=TaskStatus.Checked},
+                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.Ok), TaskStatus=TaskStatus.Ok},
+                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.BreakByTimeout), TaskStatus=TaskStatus.BreakByTimeout},
+                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.Break), TaskStatus=TaskStatus.Break},
+                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.Error), TaskStatus=TaskStatus.Error}
                 };
             cbSearchItemStatus.DisplayMember = "Text";
             cbSearchItemStatus.SelectedIndex = 0;
@@ -204,8 +203,8 @@ namespace Topol.UseApi
             timerAnalyze.Tick += timerAnalyze_Tick;
 
             cmbElasticIndexName.Items.Clear();
-            cmbElasticIndexName.Items.AddRange(new[] { "ЦПОИ, Интернет", "Интернет", "ЦПОИ", "Госзакупки" });
-            elasticIndexList = new[] { $"{Md5},internet", "internet", Md5, Gz };
+            cmbElasticIndexName.Items.AddRange(new[] { "Госзакупки", "ЦПОИ", "ЦПОИ, Интернет", "Интернет"  });
+            elasticIndexList = new[] { Gz, Md5, $"Gz {Md5},internet", "internet" };
             cmbElasticIndexName.SelectedIndex = 0;
 
             cmbOdataFilter.TextChanged += cmbOdataFilter_TextChanged;
@@ -216,6 +215,23 @@ namespace Topol.UseApi
             listBox1.DisplayMember = "DocName";
             listBox1.ValueMember = "DocUrl";
             listBox1.MouseDoubleClick += ListBox1_MouseDoubleClick;
+            listBox1.SelectedIndexChanged += ListBox1_SelectedIndexChanged;
+            btnWordTable.Click += btnWordTable_Click;
+        }
+
+        private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetBtnWordTableVisible();
+        }
+
+        private void SetBtnWordTableVisible()
+        {
+            btnWordTable.Visible = false;
+            if (listBox1.SelectedIndex < 0) return;
+            var ext = Path.GetExtension(listBox1.Text);
+            if (ext == null) return;
+            ext = ext.ToLower();
+            if (ext.StartsWith(".docx")) btnWordTable.Visible = true;
         }
 
         private void ListBox1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -246,6 +262,27 @@ namespace Topol.UseApi
             }
         }
 
+        private void btnWordTable_Click(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedIndex < 0) return;
+            try
+            {
+                var ext = Path.GetExtension(listBox1.Text);
+                var url = listBox1.SelectedValue.ToString();
+                if (ext == null) return;
+                ext = ext.ToLower();
+                if (!ext.StartsWith(".docx")) return;
+                var frmWordTable = new WordTablesForm();
+                if (frmWordTable.Prepare(listBox1.Text, url)) frmWordTable.ShowDialog();
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+                MessageBox.Show($@"Not started {listBox1.SelectedValue.ToString()}");
+            }
+        }
+
+
         private void cmbOdataFilter_TextChanged(object sender, EventArgs e)
         {
             PacketItemsOnCurrentChanged(sender, e);
@@ -272,6 +309,8 @@ namespace Topol.UseApi
             pbWebshot.InitialImage = null;
             _rect.Width = 0;
             _rect.Height = 0;
+            _docsDataTable.Rows.Clear();
+            SetBtnWordTableVisible();
         }
 
 
@@ -815,7 +854,7 @@ namespace Topol.UseApi
             var dataRow = dataTable.Select($"{idColumnName}='{id}'").FirstOrDefault();
             if (dataRow == null || !await _dataManager.PostSearchItemBreak(id)) return;
             dataRow.SetField(nameof(SearchItemHeaderDto.Status), TaskStatus.Break);
-            dataRow.SetField(nameof(SearchItemHeaderDto.StatusString), Utils.GetDescription(TaskStatus.Break));
+            dataRow.SetField(nameof(SearchItemHeaderDto.StatusString), PriceCommon.Utils.Utils.GetDescription(TaskStatus.Break));
         }
         private async void SearchItemDelete()
         {
@@ -850,7 +889,7 @@ namespace Topol.UseApi
             var dataRow = dataTable.Select($"{idColumnName}='{id}'").FirstOrDefault();
             if (dataRow == null || !await _dataManager.PostSearchItemChecked(id)) return;
             dataRow.SetField(nameof(SearchItemHeaderDto.Status), TaskStatus.Checked);
-            dataRow.SetField(nameof(SearchItemHeaderDto.StatusString), Utils.GetDescription(TaskStatus.Checked));
+            dataRow.SetField(nameof(SearchItemHeaderDto.StatusString), PriceCommon.Utils.Utils.GetDescription(TaskStatus.Checked));
         }
 
         private void btnSetPriceChecked_Click(object sender, EventArgs e)
@@ -868,7 +907,7 @@ namespace Topol.UseApi
             var priceStatus = (PriceStatus)oPriceStatus;
             if (priceStatus == PriceStatus.Checked) return;
             current.Row[nameof(ContentExtDto.PriceStatus)] = PriceStatus.Checked;
-            current.Row[nameof(ContentExtDto.PriceStatusString)] = Utils.GetDescription(PriceStatus.Checked);
+            current.Row[nameof(ContentExtDto.PriceStatusString)] = PriceCommon.Utils.Utils.GetDescription(PriceStatus.Checked);
             //call api set price status checked
             var id = ((int)current.Row[nameof(ContentExtDto.Id)]).ToString();
             var elasticId = current.Row[nameof(ContentExtDto.ElasticId)] as string;
@@ -1335,22 +1374,21 @@ namespace Topol.UseApi
                 }
                 _docsDataTable.Rows.Clear();
                 var uri = new Uri(current.Row[nameof(ContentExtDto.Uri)].ToString());
-                if (uri.Host.ToLower() == "zakupki.gov.ru")
+                if (uri.Host.ToLower() != "zakupki.gov.ru") return;
+                var arguments = uri.Query
+                    .Substring(1) // Remove '?'
+                    .Split('&')
+                    .Select(q => q.Split('='))
+                    .ToDictionary(q => q.FirstOrDefault(), q => q.Skip(1).FirstOrDefault());
+                var docs= _dataManager.GetGzDocs(arguments["reestrNumber"]);
+                foreach (var doc in docs)
                 {
-                    var arguments = uri.Query
-                        .Substring(1) // Remove '?'
-                        .Split('&')
-                        .Select(q => q.Split('='))
-                        .ToDictionary(q => q.FirstOrDefault(), q => q.Skip(1).FirstOrDefault());
-                    var docs= _dataManager.GetGzDocs(arguments["reestrNumber"]);
-                    foreach (var doc in docs)
-                    {
-                        var row = _docsDataTable.NewRow();
-                        row["DocName"] = doc.Value;
-                        row["DocUrl"] = doc.Key;
-                        _docsDataTable.Rows.Add(row);
-                    }
+                    var row = _docsDataTable.NewRow();
+                    row["DocName"] = doc.Value;
+                    row["DocUrl"] = doc.Key;
+                    _docsDataTable.Rows.Add(row);
                 }
+                SetBtnWordTableVisible();
             }
             catch (Exception exception)
             {
@@ -1491,7 +1529,7 @@ namespace Topol.UseApi
                 var priceStatus = (PriceStatus)row.Cells[nameof(ContentExtDto.PriceStatus)].Value;
                 if (priceStatus == PriceStatus.Checked) continue;
                 row.Cells[nameof(ContentExtDto.PriceStatus)].Value = PriceStatus.Checked;
-                row.Cells[nameof(ContentExtDto.PriceStatusString)].Value = Utils.GetDescription(PriceStatus.Checked);
+                row.Cells[nameof(ContentExtDto.PriceStatusString)].Value = PriceCommon.Utils.Utils.GetDescription(PriceStatus.Checked);
                 //call api set price status checked
                 var id = row.Cells[nameof(ContentExtDto.Id)].Value.ToString();
                 var elasticId = row.Cells[nameof(ContentExtDto.ElasticId)].Value.ToString();
@@ -1513,7 +1551,7 @@ namespace Topol.UseApi
                 var priceStatus = (PriceStatus)row.Cells[nameof(ContentExtDto.PriceStatus)].Value;
                 if (priceStatus == PriceStatus.NotChecked) continue;
                 row.Cells[nameof(ContentExtDto.PriceStatus)].Value = PriceStatus.NotChecked;
-                row.Cells[nameof(ContentExtDto.PriceStatusString)].Value = Utils.GetDescription(PriceStatus.NotChecked);
+                row.Cells[nameof(ContentExtDto.PriceStatusString)].Value = PriceCommon.Utils.Utils.GetDescription(PriceStatus.NotChecked);
                 //call api set price status not checked
                 var id = row.Cells[nameof(ContentExtDto.Id)].Value.ToString();
                 var elasticId = row.Cells[nameof(ContentExtDto.ElasticId)].Value.ToString();

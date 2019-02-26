@@ -3,18 +3,20 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
 namespace ReadWordTables
 {
-    public partial class Form1 : Form
+    public partial class WordTablesForm : Form
     {
         private List<DataTable> datatables = new List<DataTable>();
         private BindingSource datatableBindingSource = new BindingSource();
 
-        public Form1()
+        public WordTablesForm()
         {
             InitializeComponent();
         }
@@ -23,12 +25,10 @@ namespace ReadWordTables
         {
             var openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() != DialogResult.OK) return;
-            textBox1.Text = TextFromWord(openFileDialog.FileName);
-            if (datatables.Any())
-            {
-                datatableBindingSource.DataSource = datatables[0];
-                dgvTable.DataSource = datatableBindingSource;
-            }
+           // textBox1.Text = TextFromWord(openFileDialog.FileName);
+            if (!datatables.Any()) return;
+            datatableBindingSource.DataSource = datatables[0];
+            dgvTable.DataSource = datatableBindingSource;
         }
 
         private string TextFromWord(string filename)
@@ -81,14 +81,14 @@ namespace ReadWordTables
                 var idxColumn = 0;
                 foreach (var cell in row.Descendants<TableCell>())
                 {
-                    var sb = new StringBuilder();
+                    var sbRow = new StringBuilder();
                     foreach (var para in cell.Descendants<Paragraph>())
                     {
                         var text = ProcessParagraph(para, textBuilder);
-                        sb.AppendLine(text);
+                        sbRow.AppendLine(text);
                     }
                     textBuilder.Append(" | ");
-                    datatableRow[idxColumn] = sb.ToString();
+                    datatableRow[idxColumn] = sbRow.ToString();
                     idxColumn++;
                 }
                 textBuilder.AppendLine("");
@@ -100,14 +100,24 @@ namespace ReadWordTables
 
         private static string ProcessParagraph(Paragraph node, StringBuilder textBuilder)
         {
-            var sb = new StringBuilder();
+            var sbParagraph = new StringBuilder();
             foreach (var text in node.Descendants<Text>())
             {
                 textBuilder.Append(text.InnerText);
-                sb.Append(text.InnerText);
+                sbParagraph.Append(text.InnerText);
             }
-            return sb.ToString();
+            return sbParagraph.ToString();
         }
 
+        private void btnExcelExport_Click(object sender, EventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog { FileName = $"Topol.Api_{DateTime.Now:yyyyMMdd_HHmm}.xlsx" };
+            if (saveFileDialog.ShowDialog() != DialogResult.OK) return;
+            var sourceDataTable = (DataTable)datatableBindingSource.DataSource;
+            var view = new DataView(sourceDataTable, dgvTable.FilterString, dgvTable.SortString, DataViewRowState.CurrentRows);
+            var dataTable = view.ToTable();
+            //CreateExcelFile.CreateExcelDocument(dataTable, saveFileDialog.FileName);
+            if (File.Exists(saveFileDialog.FileName)) Process.Start(saveFileDialog.FileName);
+        }
     }
 }
