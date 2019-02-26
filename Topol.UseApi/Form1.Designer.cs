@@ -1340,13 +1340,13 @@
             // 
             // btnWordTable
             // 
+            this.btnWordTable.Enabled = false;
             this.btnWordTable.Location = new System.Drawing.Point(4, 33);
             this.btnWordTable.Name = "btnWordTable";
             this.btnWordTable.Size = new System.Drawing.Size(17, 19);
             this.btnWordTable.TabIndex = 4;
             this.btnWordTable.Text = "Т";
             this.btnWordTable.UseVisualStyleBackColor = true;
-            this.btnWordTable.Visible = false;
             // 
             // listBox1
             // 

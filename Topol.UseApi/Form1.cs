@@ -221,17 +221,15 @@ namespace Topol.UseApi
 
         private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SetBtnWordTableVisible();
+            SetBtnWordTableEnable();
         }
 
-        private void SetBtnWordTableVisible()
+        private void SetBtnWordTableEnable()
         {
-            btnWordTable.Visible = false;
+            btnWordTable.Enabled = false;
             if (listBox1.SelectedIndex < 0) return;
-            var ext = Path.GetExtension(listBox1.Text);
-            if (ext == null) return;
-            ext = ext.ToLower();
-            if (ext.StartsWith(".doc") /*|| ext.StartsWith(".pdf")*/) btnWordTable.Visible = true;
+            var ext = Convert.ToString(Path.GetExtension(listBox1.Text)).ToLower();
+            if (ext.StartsWith(".doc") /*|| ext.StartsWith(".pdf")*/) btnWordTable.Enabled = true;
         }
 
         private void ListBox1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -310,7 +308,7 @@ namespace Topol.UseApi
             _rect.Width = 0;
             _rect.Height = 0;
             _docsDataTable.Rows.Clear();
-            SetBtnWordTableVisible();
+            SetBtnWordTableEnable();
         }
 
 
@@ -1388,7 +1386,7 @@ namespace Topol.UseApi
                     row["DocUrl"] = doc.Key;
                     _docsDataTable.Rows.Add(row);
                 }
-                SetBtnWordTableVisible();
+                SetBtnWordTableEnable();
             }
             catch (Exception exception)
             {
