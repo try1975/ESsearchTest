@@ -24,7 +24,9 @@ namespace GzDocs
                 .ConfigureRoutes()
                 .ConfigureExceptionHandling()
                 .ConfigureSwagger()
-                .UseWebApi();
+                .ConfigureStatic()
+                .UseWebApi()
+                ;
         }
     }
 }

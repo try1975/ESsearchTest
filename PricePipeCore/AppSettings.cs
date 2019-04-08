@@ -42,9 +42,7 @@ namespace PricePipeCore
             UpdatePriceApi = ConfigurationManager.AppSettings[nameof(UpdatePriceApi)];
             ExternalToken = ConfigurationManager.AppSettings[nameof(ExternalToken)];
 
-            int maxResultCount;
-            int.TryParse(ConfigurationManager.AppSettings[nameof(MaxResultCount)], out maxResultCount);
-            MaxResultCount = maxResultCount;
+            MaxResultCount = int.TryParse(ConfigurationManager.AppSettings[nameof(MaxResultCount)], out var maxResultCount) ? maxResultCount : 1000;
         }
     }
 }

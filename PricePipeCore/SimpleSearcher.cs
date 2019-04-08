@@ -11,11 +11,11 @@ namespace PricePipeCore
     {
         public static readonly string[] ListDelimiter = { ";", " " };
         private readonly ElasticClient _elasticClient;
-        private readonly int _maxTake;
+        private readonly int _maxTake = AppSettings.MaxResultCount;
 
         public SimpleSearcher(string source)
         {
-            _maxTake = 200;
+            //_maxTake = 200;
             try
             {
                 _elasticClient = ElasticClientFactory.GetElasticClient(source);

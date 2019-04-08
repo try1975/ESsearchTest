@@ -9,14 +9,12 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Windows.Forms;
 using Topol.UseApi.Utils;
 using DataTable = System.Data.DataTable;
 using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
 using Table = DocumentFormat.OpenXml.Wordprocessing.Table;
-//using SautinSoft;
 
 namespace Topol.UseApi.Forms
 {
@@ -30,21 +28,37 @@ namespace Topol.UseApi.Forms
             InitializeComponent();
         }
 
+        public void Show(string key)
+        {
+            if (_datatableBindingSource.SupportsSearching)
+            {
+                key = key.ToLower();
+                var tbl = (DataTable)_datatableBindingSource.DataSource;
+                foreach (DataColumn column in tbl.Columns)
+                {
+                    var rowIndex = 0;
+                    foreach(DataRow dataRow in tbl.Rows)
+                    {
+                        
+                        if (dataRow[column.ColumnName].ToString().ToLower().Contains(key))
+                        {
+                            //_datatableBindingSource.Position = rowIndex;
+                            dgvTable.CurrentCell = dgvTable.Rows[rowIndex].Cells[column.ColumnName];
+                            break;
+                        }
+                        rowIndex++;
+                    }
+                }
+            }
+            Show();
+        }
 
         public bool Prepare(string filename, string url)
         {
             Text = filename;
-            var uri = new Uri(url);
-            var arguments = uri.Query
-                .Substring(1) // Remove '?'
-                .Split('&')
-                .Select(q => q.Split('='))
-                .ToDictionary(q => q.FirstOrDefault(), q => q.Skip(1).FirstOrDefault());
-            var uid = arguments["uid"];
             var ext = Convert.ToString(Path.GetExtension(filename)).ToLower();
-            filename = Path.Combine(KnownFolders.GetPath(KnownFolder.Downloads), $"{uid}{ext}");
 
-            if (!File.Exists(filename)) DownloadFile(filename, url);
+            filename = Downloader.GetFile(filename, url);
 
             if (ext.EndsWith(".doc"))
             {
@@ -53,15 +67,27 @@ namespace Topol.UseApi.Forms
                 filename = newFileName;
             }
 
-            //if (ext.EndsWith(".pdf"))
-            //{
-            //    var newFileName = filename.Replace(".pdf", ".docx");
-            //    var f = new PdfFocus();
-            //    f.OpenPdf(filename);
-            //    f.ToWord(newFileName);
-            //    f.ClosePdf();
-            //    filename = newFileName;
-            //}
+            TextFromWord(filename);
+
+            if (!_datatables.Any()) return false;
+            _datatableBindingSource.DataSource = _datatables[0];
+            dgvTable.DataSource = _datatableBindingSource;
+            return true;
+        }
+
+        public bool Prepare2(string filename, string url)
+        {
+            Text = filename;
+            var ext = Convert.ToString(Path.GetExtension(filename)).ToLower();
+
+            filename = Downloader.GetFile2(filename, url);
+
+            if (ext.EndsWith(".doc"))
+            {
+                var newFileName = filename.Replace(".doc", ".docx");
+                if (File.Exists(filename) && !File.Exists(newFileName)) ConvertDocToDocx(filename, newFileName);
+                filename = newFileName;
+            }
 
             TextFromWord(filename);
 
@@ -82,34 +108,44 @@ namespace Topol.UseApi.Forms
             //File.Delete(path);
         }
 
-        private static void DownloadFile(string filename, string url)
-        {
-
-            var request = (HttpWebRequest)WebRequest.Create(url);
-            request.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8";
-            request.UserAgent =
-                "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36";
-
-
-            using (var response = (HttpWebResponse)request.GetResponseAsync().Result)
-            {
-                var responseStream = response.GetResponseStream();
-                using (var fileStream = File.Create(filename))
-                {
-                    responseStream?.CopyTo(fileStream);
-                }
-            }
-        }
-
         private void TextFromWord(string filename)
         {
             var datatable = new DataTable();
+            //копировать файл если он занят
+            try
+            {
+                using (Stream _ = new FileStream(filename, FileMode.Open))
+                {
+                    // File/Stream manipulating code here
+                }
+            }
+            catch
+            {
+                var count = 1;
+
+                var fileNameOnly = Path.GetFileNameWithoutExtension(filename);
+                var extension = Path.GetExtension(filename);
+                var path = Path.GetDirectoryName(filename);
+                var newFullPath = filename;
+
+                while (File.Exists(newFullPath))
+                {
+                    var tempFileName = $"{fileNameOnly}({count++})";
+                    newFullPath = Path.Combine(path ?? throw new InvalidOperationException(), tempFileName + extension);
+                }
+                File.Copy(filename, newFullPath, true);
+                filename = newFullPath;
+            }
+
             using (var wDoc = WordprocessingDocument.Open(filename, false))
             {
-                var parts = wDoc.MainDocumentPart.Document.Descendants().FirstOrDefault();
-                if (parts == null) return;
+                var part = wDoc.MainDocumentPart.Document
+                    .Descendants()
+                    .FirstOrDefault(z => z.LocalName == "body")
+                    ;
+                if (part == null) return;
                 _datatables.Clear();
-                foreach (var node in parts.ChildElements)
+                foreach (var node in part.ChildElements)
                 {
                     switch (node)
                     {

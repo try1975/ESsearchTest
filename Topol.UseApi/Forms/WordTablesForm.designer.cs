@@ -30,9 +30,9 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnExcelExport = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dgvTable = new ADGV.AdvancedDataGridView();
-            this.btnExcelExport = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTable)).BeginInit();
@@ -46,6 +46,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(800, 49);
             this.panel1.TabIndex = 0;
+            // 
+            // btnExcelExport
+            // 
+            this.btnExcelExport.Location = new System.Drawing.Point(24, 12);
+            this.btnExcelExport.Name = "btnExcelExport";
+            this.btnExcelExport.Size = new System.Drawing.Size(75, 23);
+            this.btnExcelExport.TabIndex = 0;
+            this.btnExcelExport.Text = "в Excel";
+            this.btnExcelExport.UseVisualStyleBackColor = true;
+            this.btnExcelExport.Click += new System.EventHandler(this.btnExcelExport_Click);
             // 
             // panel2
             // 
@@ -72,16 +82,6 @@
             this.dgvTable.TabIndex = 0;
             this.dgvTable.TimeFilter = false;
             // 
-            // btnExcelExport
-            // 
-            this.btnExcelExport.Location = new System.Drawing.Point(24, 12);
-            this.btnExcelExport.Name = "btnExcelExport";
-            this.btnExcelExport.Size = new System.Drawing.Size(75, 23);
-            this.btnExcelExport.TabIndex = 0;
-            this.btnExcelExport.Text = "в Excel";
-            this.btnExcelExport.UseVisualStyleBackColor = true;
-            this.btnExcelExport.Click += new System.EventHandler(this.btnExcelExport_Click);
-            // 
             // WordTablesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -91,6 +91,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "WordTablesForm";
             this.Text = "Таблицы";
+            this.TopMost = true;
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTable)).EndInit();

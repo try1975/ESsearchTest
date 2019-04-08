@@ -27,6 +27,7 @@ using Topol.UseApi.Interfaces;
 using Topol.UseApi.Interfaces.Common;
 using Topol.UseApi.Ninject;
 using Topol.UseApi.Properties;
+using Topol.UseApi.Utils;
 
 namespace Topol.UseApi
 {
@@ -193,6 +194,7 @@ namespace Topol.UseApi
             cmbPriority.SelectedIndex = 0;
 
             tabPage4.Enter += tabPage4_Enter;
+            tabPage5.Enter += tabPage5_Enter;
 
             tsmiDelete.Click += TsmiDelete_Click;
             tsmiSetChecked.Click += TsmiSetChecked_Click;
@@ -204,7 +206,7 @@ namespace Topol.UseApi
 
             cmbElasticIndexName.Items.Clear();
             cmbElasticIndexName.Items.AddRange(new[] { "Госзакупки", "ЦПОИ", "ЦПОИ, Интернет", "Интернет"  });
-            elasticIndexList = new[] { Gz, Md5, $"Gz {Md5},internet", "internet" };
+            elasticIndexList = new[] { Gz, Md5, $"{Md5},internet", "internet" };
             cmbElasticIndexName.SelectedIndex = 0;
 
             cmbOdataFilter.TextChanged += cmbOdataFilter_TextChanged;
@@ -216,7 +218,7 @@ namespace Topol.UseApi
             listBox1.ValueMember = "DocUrl";
             listBox1.MouseDoubleClick += ListBox1_MouseDoubleClick;
             listBox1.SelectedIndexChanged += ListBox1_SelectedIndexChanged;
-            btnWordTable.Click += btnWordTable_Click;
+            btnWordTable.Click += BtnWordTable_Click;
         }
 
         private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -242,14 +244,22 @@ namespace Topol.UseApi
                 if (ext != null)
                 {
                     ext = ext.ToLower();
-                    if ((ext.StartsWith(".doc") || ext.StartsWith(".xls")) && !ModifierKeys.HasFlag(Keys.Control))
+                    if (!ModifierKeys.HasFlag(Keys.Control))
                     {
-                        url = $@"https://view.officeapps.live.com/op/view.aspx?src={Uri.EscapeDataString(url)}";
+                        url = Downloader.GetFile(listBox1.Text, url);
                     }
-                    else if (ext.StartsWith(".pdf") && !ModifierKeys.HasFlag(Keys.Control))
+                    else
                     {
-                        url = $@"https://docs.google.com/viewerng/viewer?url={Uri.EscapeDataString(url)}&embedded=true";
+                        if ((ext.StartsWith(".doc") || ext.StartsWith(".xls")))
+                        {
+                            url = $@"https://view.officeapps.live.com/op/view.aspx?src={Uri.EscapeDataString(url)}";
+                        }
+                        else if (ext.StartsWith(".pdf"))
+                        {
+                            url = $@"https://docs.google.com/viewerng/viewer?url={Uri.EscapeDataString(url)}&embedded=true";
+                        }
                     }
+
                 }
                 Process.Start(url);
             }
@@ -260,7 +270,7 @@ namespace Topol.UseApi
             }
         }
 
-        private void btnWordTable_Click(object sender, EventArgs e)
+        private void BtnWordTable_Click(object sender, EventArgs e)
         {
             if (listBox1.SelectedIndex < 0) return;
             try
@@ -271,7 +281,7 @@ namespace Topol.UseApi
                 ext = ext.ToLower();
                 if (!ext.StartsWith(".doc") /*&& !ext.StartsWith(".pdf")*/) return;
                 var frmWordTable = new WordTablesForm();
-                if (frmWordTable.Prepare(listBox1.Text, url)) frmWordTable.ShowDialog();
+                if (frmWordTable.Prepare(listBox1.Text, url)) frmWordTable.Show();
             }
             catch (Exception exception)
             {
@@ -1500,6 +1510,15 @@ namespace Topol.UseApi
             panel27.Controls.Add(control);
             //tabPage4.Controls.Clear();
             //tabPage4.Controls.Add(control);
+        }
+
+        private void tabPage5_Enter(object sender, EventArgs e)
+        {
+            var view = CompositionRoot.Resolve<IGzDocSearchView>();
+            var control = (Control)view;
+            control.Dock = DockStyle.Fill;
+            panel29.Controls.Clear();
+            panel29.Controls.Add(control);
         }
 
         private void TsmiDelete_Click(object sender, EventArgs e)

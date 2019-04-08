@@ -15,13 +15,13 @@ namespace PricePipeCore
     {
         private readonly ElasticClient _elasticClient;
 
-        private readonly int _maxTake;
+        private readonly int _maxTake = AppSettings.MaxResultCount;
         private INorm _norm;
         private List<Content> _founded;
 
         public PharmacySearcher(string source)
         {
-            _maxTake = 200;
+            //_maxTake = 200;
             try
             {
                 _elasticClient = ElasticClientFactory.GetElasticClient(source);

@@ -16,6 +16,7 @@ namespace Topol.UseApi.Ninject
 
             Bind<ISellerView>().To<SellerControl>().InSingletonScope();
             Bind<ISellerDataManager>().To<SellerDataManager>().InSingletonScope();
+            Bind<IGzDocSearchView>().To<GzDocSearchControl>().InSingletonScope();
         }
     }
 }

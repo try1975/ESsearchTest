@@ -18,6 +18,9 @@ using Newtonsoft.Json.Serialization;
 using Owin;
 using Swashbuckle.Application;
 using Swashbuckle.Examples;
+using GzDocs.Services;
+using Microsoft.Owin.FileSystems;
+using Microsoft.Owin.StaticFiles;
 
 namespace GzDocs
 {
@@ -136,7 +139,7 @@ namespace GzDocs
         }
 
         /// <summary>
-        /// COnfigures Swagger.
+        /// Configures Swagger.
         /// </summary>
         public ApiConfig ConfigureSwagger()
         {
@@ -161,6 +164,30 @@ namespace GzDocs
             return this;
         }
 
+        public ApiConfig ConfigureStatic()
+        {
+            var contentDir = AppGlobal.GzAttachmentsPathPrefix;
+            var physicalFileSystem = new PhysicalFileSystem(contentDir);
+            var options = new FileServerOptions
+            {
+                EnableDefaultFiles = true,
+                FileSystem = physicalFileSystem
+            };
+            options.StaticFileOptions.FileSystem = physicalFileSystem;
+            options.StaticFileOptions.ServeUnknownFileTypes = true;
+            options.DefaultFilesOptions.DefaultFileNames = new[]
+            {
+                "index.html"
+            };
+
+            _app.UseFileServer(options);
+
+            return this;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public void UseWebApi()
         {
             _app.UseWebApi(_configuration);

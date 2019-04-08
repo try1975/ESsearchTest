@@ -28,6 +28,7 @@ namespace Topol.UseApi.Data.Common
         private readonly string _endpointGetSellerCount;
         private readonly string _endpointGetSourceCounts;
         private readonly string _endpointGzDocs;
+        private readonly string _endpointGzDocSearch;
         private readonly HttpClient _apiHttpClient;
 
         public DataMаnager()
@@ -52,6 +53,7 @@ namespace Topol.UseApi.Data.Common
             _endpointGetSourceCounts = $"{baseApi}api/common/counts/";
 
             _endpointGzDocs = $"{gzApi}api/docs/";
+            _endpointGzDocSearch = $"{gzApi}api/docsearch/";
             #endregion
 
             _apiHttpClient = new HttpClient(new LoggingHandler());
@@ -238,6 +240,16 @@ namespace Topol.UseApi.Data.Common
         public Dictionary<string, string> GetGzDocs(string regNum)
         {
             using (var response = _apiHttpClient.GetAsync($"{_endpointGzDocs}{regNum}").Result)
+            {
+                if (!response.IsSuccessStatusCode) return new Dictionary<string, string>();
+                var result = response.Content.ReadAsAsync<Dictionary<string, string>>().Result;
+                return result;
+            }
+        }
+
+        public Dictionary<string, string> GetGzDocSearch(string key)
+        {
+            using (var response = _apiHttpClient.GetAsync($"{_endpointGzDocSearch}?key={key}").Result)
             {
                 if (!response.IsSuccessStatusCode) return new Dictionary<string, string>();
                 var result = response.Content.ReadAsAsync<Dictionary<string, string>>().Result;

@@ -30,5 +30,6 @@ namespace Topol.UseApi.Interfaces.Common
 
         Task<Dictionary<string, string>> GetGzDocsAcync(string regNum);
         Dictionary<string, string> GetGzDocs(string regNum);
+        Dictionary<string, string> GetGzDocSearch(string key);
     }
 }
