@@ -171,13 +171,19 @@ namespace GzDocs
             var options = new FileServerOptions
             {
                 EnableDefaultFiles = true,
-                FileSystem = physicalFileSystem
-            };
-            options.StaticFileOptions.FileSystem = physicalFileSystem;
-            options.StaticFileOptions.ServeUnknownFileTypes = true;
-            options.DefaultFilesOptions.DefaultFileNames = new[]
-            {
-                "index.html"
+                FileSystem = physicalFileSystem,
+                StaticFileOptions =
+                {
+                    FileSystem = physicalFileSystem,
+                    ServeUnknownFileTypes = true
+                },
+                DefaultFilesOptions =
+                {
+                    DefaultFileNames = new[]
+                    {
+                        "index.html"
+                    }
+                }
             };
 
             _app.UseFileServer(options);
