@@ -131,6 +131,8 @@
             this.panel26 = new System.Windows.Forms.Panel();
             this.lblSellerCount = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.panel29 = new System.Windows.Forms.Panel();
             this.splitter5 = new System.Windows.Forms.Splitter();
             this.panel19 = new System.Windows.Forms.Panel();
             this.pnlWebshot = new System.Windows.Forms.Panel();
@@ -140,8 +142,6 @@
             this.linkLabelScreenshot = new System.Windows.Forms.LinkLabel();
             this.panel22 = new System.Windows.Forms.Panel();
             this.panel23 = new System.Windows.Forms.Panel();
-            this.btnWordTable = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.btnDeletePrice = new System.Windows.Forms.Button();
             this.btnSkipPrice = new System.Windows.Forms.Button();
             this.btnSetPriceChecked = new System.Windows.Forms.Button();
@@ -181,8 +181,7 @@
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.timerAnalyze = new System.Windows.Forms.Timer(this.components);
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.panel29 = new System.Windows.Forms.Panel();
+            this.pnlGzDocList = new System.Windows.Forms.Panel();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -223,6 +222,7 @@
             this.panel16.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.panel26.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             this.panel19.SuspendLayout();
             this.pnlWebshot.SuspendLayout();
             this.panel21.SuspendLayout();
@@ -234,7 +234,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             this.gbSource.SuspendLayout();
-            this.tabPage5.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlPacket
@@ -902,7 +901,7 @@
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(445, 20);
             this.tbName.TabIndex = 2;
-            this.tbName.Text = "аспирин таблетки 300мг N20";
+            this.tbName.Text = "аспирин таблетки 300мг";
             // 
             // label2
             // 
@@ -1249,6 +1248,24 @@
             this.label17.TabIndex = 11;
             this.label17.Text = "Продавцов: ";
             // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.panel29);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(819, 615);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Госзакупки - документы";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // panel29
+            // 
+            this.panel29.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel29.Location = new System.Drawing.Point(0, 0);
+            this.panel29.Name = "panel29";
+            this.panel29.Size = new System.Drawing.Size(819, 615);
+            this.panel29.TabIndex = 1;
+            // 
             // splitter5
             // 
             this.splitter5.BackColor = System.Drawing.SystemColors.HotTrack;
@@ -1331,8 +1348,7 @@
             // 
             // panel23
             // 
-            this.panel23.Controls.Add(this.btnWordTable);
-            this.panel23.Controls.Add(this.listBox1);
+            this.panel23.Controls.Add(this.pnlGzDocList);
             this.panel23.Controls.Add(this.btnDeletePrice);
             this.panel23.Controls.Add(this.btnSkipPrice);
             this.panel23.Controls.Add(this.btnSetPriceChecked);
@@ -1341,27 +1357,6 @@
             this.panel23.Name = "panel23";
             this.panel23.Size = new System.Drawing.Size(400, 100);
             this.panel23.TabIndex = 6;
-            // 
-            // btnWordTable
-            // 
-            this.btnWordTable.Enabled = false;
-            this.btnWordTable.Location = new System.Drawing.Point(4, 33);
-            this.btnWordTable.Name = "btnWordTable";
-            this.btnWordTable.Size = new System.Drawing.Size(17, 19);
-            this.btnWordTable.TabIndex = 4;
-            this.btnWordTable.Text = "Т";
-            this.btnWordTable.UseVisualStyleBackColor = true;
-            // 
-            // listBox1
-            // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(26, 33);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(353, 56);
-            this.listBox1.TabIndex = 3;
             // 
             // btnDeletePrice
             // 
@@ -1766,23 +1761,13 @@
             // 
             this.timerAnalyze.Interval = 1200;
             // 
-            // tabPage5
+            // pnlGzDocList
             // 
-            this.tabPage5.Controls.Add(this.panel29);
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(819, 615);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "Госзакупки - документы";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // panel29
-            // 
-            this.panel29.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel29.Location = new System.Drawing.Point(0, 0);
-            this.panel29.Name = "panel29";
-            this.panel29.Size = new System.Drawing.Size(819, 615);
-            this.panel29.TabIndex = 1;
+            this.pnlGzDocList.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlGzDocList.Location = new System.Drawing.Point(0, 33);
+            this.pnlGzDocList.Name = "pnlGzDocList";
+            this.pnlGzDocList.Size = new System.Drawing.Size(400, 67);
+            this.pnlGzDocList.TabIndex = 3;
             // 
             // Form1
             // 
@@ -1845,6 +1830,7 @@
             this.tabPage4.ResumeLayout(false);
             this.panel26.ResumeLayout(false);
             this.panel26.PerformLayout();
+            this.tabPage5.ResumeLayout(false);
             this.panel19.ResumeLayout(false);
             this.pnlWebshot.ResumeLayout(false);
             this.panel21.ResumeLayout(false);
@@ -1861,7 +1847,6 @@
             this.bindingNavigator1.PerformLayout();
             this.gbSource.ResumeLayout(false);
             this.gbSource.PerformLayout();
-            this.tabPage5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2017,10 +2002,9 @@
         private System.Windows.Forms.Label lblMd5Count;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Panel pnlWebshot;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.Button btnWordTable;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.Panel panel29;
+        private System.Windows.Forms.Panel pnlGzDocList;
     }
 }
 

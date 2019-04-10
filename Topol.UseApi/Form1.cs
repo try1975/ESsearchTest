@@ -21,13 +21,13 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Tesseract;
+using Topol.UseApi.Controls;
 using Topol.UseApi.Data.Common;
 using Topol.UseApi.Forms;
 using Topol.UseApi.Interfaces;
 using Topol.UseApi.Interfaces.Common;
 using Topol.UseApi.Ninject;
 using Topol.UseApi.Properties;
-using Topol.UseApi.Utils;
 
 namespace Topol.UseApi
 {
@@ -63,7 +63,7 @@ namespace Topol.UseApi
 
         private bool _needUpdateAnalyze;
         private bool _canUpdateAnalyze = true;
-        private readonly DataTable _docsDataTable = new DataTable();
+        private readonly IGzDocListView _gzDocListView;
 
         #region rectangle on image
         private Point _rectStartPoint;
@@ -84,6 +84,13 @@ namespace Topol.UseApi
         {
             InitializeComponent();
             Text = $"{Text} (версия {ProductVersion})";
+
+            _gzDocListView = CompositionRoot.Resolve<IGzDocListView>();
+            var ctrlGzDocList = (Control)_gzDocListView;
+            ctrlGzDocList.Dock = DockStyle.Fill;
+            pnlGzDocList.Controls.Clear();
+            pnlGzDocList.Controls.Add(ctrlGzDocList);
+
             cmbElasticIndexName.SelectedIndex = 0;
             cmbNorm.SelectedIndex = 0;
             _dataManager = new DataMаnager();
@@ -210,86 +217,7 @@ namespace Topol.UseApi
             cmbElasticIndexName.SelectedIndex = 0;
 
             cmbOdataFilter.TextChanged += cmbOdataFilter_TextChanged;
-
-            _docsDataTable.Columns.Add("DocName");
-            _docsDataTable.Columns.Add("DocUrl");
-            listBox1.DataSource = _docsDataTable;
-            listBox1.DisplayMember = "DocName";
-            listBox1.ValueMember = "DocUrl";
-            listBox1.MouseDoubleClick += ListBox1_MouseDoubleClick;
-            listBox1.SelectedIndexChanged += ListBox1_SelectedIndexChanged;
-            btnWordTable.Click += BtnWordTable_Click;
         }
-
-        private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            SetBtnWordTableEnable();
-        }
-
-        private void SetBtnWordTableEnable()
-        {
-            btnWordTable.Enabled = false;
-            if (listBox1.SelectedIndex < 0) return;
-            var ext = Convert.ToString(Path.GetExtension(listBox1.Text)).ToLower();
-            if (ext.StartsWith(".doc") /*|| ext.StartsWith(".pdf")*/) btnWordTable.Enabled = true;
-        }
-
-        private void ListBox1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (listBox1.SelectedIndex < 0) return;
-            try
-            {
-                var ext = Path.GetExtension(listBox1.Text);
-                var url = listBox1.SelectedValue.ToString();
-                if (ext != null)
-                {
-                    ext = ext.ToLower();
-                    if (!ModifierKeys.HasFlag(Keys.Control))
-                    {
-                        url = Downloader.GetFile(listBox1.Text, url);
-                    }
-                    else
-                    {
-                        if ((ext.StartsWith(".doc") || ext.StartsWith(".xls")))
-                        {
-                            url = $@"https://view.officeapps.live.com/op/view.aspx?src={Uri.EscapeDataString(url)}";
-                        }
-                        else if (ext.StartsWith(".pdf"))
-                        {
-                            url = $@"https://docs.google.com/viewerng/viewer?url={Uri.EscapeDataString(url)}&embedded=true";
-                        }
-                    }
-
-                }
-                Process.Start(url);
-            }
-            catch (Exception exception)
-            {
-                Log.Error(exception);
-                MessageBox.Show($@"Not started {listBox1.SelectedValue.ToString()}");
-            }
-        }
-
-        private void BtnWordTable_Click(object sender, EventArgs e)
-        {
-            if (listBox1.SelectedIndex < 0) return;
-            try
-            {
-                var ext = Path.GetExtension(listBox1.Text);
-                var url = listBox1.SelectedValue.ToString();
-                if (ext == null) return;
-                ext = ext.ToLower();
-                if (!ext.StartsWith(".doc") /*&& !ext.StartsWith(".pdf")*/) return;
-                var frmWordTable = new WordTablesForm();
-                if (frmWordTable.Prepare(listBox1.Text, url)) frmWordTable.Show();
-            }
-            catch (Exception exception)
-            {
-                Log.Error(exception);
-                MessageBox.Show($@"Not started {listBox1.SelectedValue.ToString()}");
-            }
-        }
-
 
         private void cmbOdataFilter_TextChanged(object sender, EventArgs e)
         {
@@ -317,8 +245,7 @@ namespace Topol.UseApi
             pbWebshot.InitialImage = null;
             _rect.Width = 0;
             _rect.Height = 0;
-            _docsDataTable.Rows.Clear();
-            SetBtnWordTableEnable();
+            _gzDocListView.ClearData();
         }
 
 
@@ -1380,7 +1307,7 @@ namespace Topol.UseApi
                     cmbPrices.Items.AddRange(items);
                     cmbPrices.SelectedIndex = 0;
                 }
-                _docsDataTable.Rows.Clear();
+                
                 var uri = new Uri(current.Row[nameof(ContentExtDto.Uri)].ToString());
                 if (uri.Host.ToLower() != "zakupki.gov.ru") return;
                 var arguments = uri.Query
@@ -1388,15 +1315,7 @@ namespace Topol.UseApi
                     .Split('&')
                     .Select(q => q.Split('='))
                     .ToDictionary(q => q.FirstOrDefault(), q => q.Skip(1).FirstOrDefault());
-                var docs= _dataManager.GetGzDocs(arguments["reestrNumber"]);
-                foreach (var doc in docs)
-                {
-                    var row = _docsDataTable.NewRow();
-                    row["DocName"] = doc.Value;
-                    row["DocUrl"] = doc.Key;
-                    _docsDataTable.Rows.Add(row);
-                }
-                SetBtnWordTableEnable();
+                _gzDocListView.FillByReestrNum(arguments[GzDocUtils.ReestrNumber]);
             }
             catch (Exception exception)
             {
@@ -1461,11 +1380,6 @@ namespace Topol.UseApi
             _engine.Dispose();
             Settings.Default.Save();
             Application.Exit();
-        }
-
-        private void lblSellerCount_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void bwSellerCount_DoWork(object sender, DoWorkEventArgs e)

@@ -133,12 +133,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Administration\CurrentUser.cs" />
+    <Compile Include="Controls\GzDocListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\GzDocListControl.Designer.cs">
+      <DependentUpon>GzDocListControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\GzDocSearchControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\GzDocSearchControl.Designer.cs">
       <DependentUpon>GzDocSearchControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\GzDocUtils.cs" />
     <Compile Include="Data\Common\AutoMapperConfig.cs" />
     <Compile Include="Data\Common\HttpClientExtensions.cs" />
     <Compile Include="Data\Common\TypedDataMаnager.cs" />
@@ -155,6 +162,7 @@
     <Compile Include="Interfaces\Common\ITypedDataMаnager.cs" />
     <Compile Include="Interfaces\Common\ITypedView.cs" />
     <Compile Include="Interfaces\Data\ISellerDataManager.cs" />
+    <Compile Include="Interfaces\IGzDocListView.cs" />
     <Compile Include="Interfaces\IGzDocSearchView.cs" />
     <Compile Include="Interfaces\ISellerView.cs" />
     <Compile Include="Controls\SellerControl.cs">
@@ -207,6 +215,9 @@
     <Compile Include="Utils\CreateExcelFile.cs" />
     <Compile Include="Utils\Downloader.cs" />
     <Compile Include="Utils\KnownFolders.cs" />
+    <EmbeddedResource Include="Controls\GzDocListControl.resx">
+      <DependentUpon>GzDocListControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\GzDocSearchControl.resx">
       <DependentUpon>GzDocSearchControl.cs</DependentUpon>
     </EmbeddedResource>
