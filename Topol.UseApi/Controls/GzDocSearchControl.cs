@@ -1,11 +1,10 @@
-﻿using System;
+﻿using ADGV;
+using log4net;
+using System;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using log4net;
 using Topol.UseApi.Forms;
 using Topol.UseApi.Interfaces;
 using Topol.UseApi.Interfaces.Common;
@@ -20,59 +19,82 @@ namespace Topol.UseApi.Controls
         private readonly IDataMаnager _dataManager;
         private readonly DataTable _docsDataTable = new DataTable();
         private readonly IGzDocListView _gzDocListView;
-        private BindingSource _dgvItemsBindingSource { get; }
+        private string _reestrNumber;
+        private BindingSource DocsBindingSource { get; }
 
         public GzDocSearchControl(IDataMаnager dataManager)
         {
             InitializeComponent();
             _dataManager = dataManager;
 
-            _docsDataTable.Columns.Add(GzDocUtils.DocName);
-            _docsDataTable.Columns.Add(GzDocUtils.DocUrl);
-            _dgvItemsBindingSource = new BindingSource {DataSource = _docsDataTable};
-            dgvItems.DataSource = _dgvItemsBindingSource;
-            _dgvItemsBindingSource.CurrentChanged += DgvItemsBindingSource_CurrentChanged;
+            var column = new DataColumn("Selected", typeof(bool)) { DefaultValue = false };
+            _docsDataTable.Columns.Add(column);
+            column = new DataColumn(GzDocUtils.DocName) { ReadOnly = true };
+            _docsDataTable.Columns.Add(column);
+            column = new DataColumn(GzDocUtils.DocExt) { ReadOnly = true };
+            _docsDataTable.Columns.Add(column);
+            column = new DataColumn(GzDocUtils.DocRegion) { ReadOnly = true };
+            _docsDataTable.Columns.Add(column);
+            column = new DataColumn(GzDocUtils.DocMonth) { ReadOnly = true };
+            _docsDataTable.Columns.Add(column);
+            column = new DataColumn(GzDocUtils.DocReestrNumber) { ReadOnly = true };
+            _docsDataTable.Columns.Add(column);
+            column = new DataColumn(GzDocUtils.DocUrl) { ReadOnly = true };
+            _docsDataTable.Columns.Add(column);
+
+
+            DocsBindingSource = new BindingSource { DataSource = _docsDataTable };
+            dgvDocs.DataSource = DocsBindingSource;
+            DocsBindingSource.CurrentChanged += DocsBindingSource_CurrentChanged;
             btnGzDocSearch.Click += BtnGzDocSearch_Click;
             btnWordTable.Click += BtnWordTable_Click;
-            dgvItems.CellContentDoubleClick += DgvItems_CellContentDoubleClick;
+            dgvDocs.CellContentDoubleClick += DgvDocsCellContentDoubleClick;
 
             _gzDocListView = CompositionRoot.Resolve<IGzDocListView>();
-            var control = (Control)_gzDocListView;
-            control.Dock = DockStyle.Fill;
+            var docListControl = (Control)_gzDocListView;
+            docListControl.Dock = DockStyle.Fill;
             panel7.Controls.Clear();
-            panel7.Controls.Add(control);
+            panel7.Controls.Add(docListControl);
+
+            dgvDocs.FilterStringChanged += DgvDocsFilterStringChanged;
+            dgvDocs.SortStringChanged += DgvDocsSortStringChanged;
+            btnGoGzWebsite.Click += BtnGoGzWebsiteOnClick;
         }
 
-        private void DgvItemsBindingSource_CurrentChanged(object sender, EventArgs e)
+        private void BtnGoGzWebsiteOnClick(object sender, EventArgs eventArgs)
+        {
+            GzDocUtils.GetUrlGzWebsiteCardDocs(_reestrNumber);
+        }
+
+        private static void DgvDocsSortStringChanged(object sender, EventArgs e)
+        {
+            if (!(sender is AdvancedDataGridView dataGridView)) return;
+            if (!(dataGridView.DataSource is BindingSource bindingSource)) return;
+            bindingSource.Sort = dataGridView.SortString;
+        }
+
+        private static void DgvDocsFilterStringChanged(object sender, EventArgs e)
+        {
+            if (!(sender is AdvancedDataGridView dataGridView)) return;
+            if (!(dataGridView.DataSource is BindingSource bindingSource)) return;
+            bindingSource.Filter = dataGridView.FilterString;
+        }
+
+        private void DocsBindingSource_CurrentChanged(object sender, EventArgs e)
         {
             GetData(out var url, out var filename);
             SetBtnWordTableEnable(filename);
             _gzDocListView.ClearData();
-            if (!string.IsNullOrWhiteSpace(url))
-            {
-                var uri = new Uri(url);
-                var arguments = uri.Query
-                    .Substring(1) // Remove '?'
-                    .Split('&')
-                    .Select(q => q.Split('='))
-                    .ToDictionary(q => q.FirstOrDefault(), q => q.Skip(1).FirstOrDefault());
-                var docPath = arguments["docPath"];
-                if(string.IsNullOrWhiteSpace(docPath)) return;
-                try
-                {
-                    var reestrNumber = Regex.Match(docPath, "%2f([0-9]*)%2f", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace).Groups[1].Value;
-                    _gzDocListView.FillByReestrNum(reestrNumber);
-                }
-                catch (Exception)
-                {
-                }
-            }
+            GzDocUtils.GetUrlData(url, out var _, out var _, out var docReestrNumber, Log);
+            if (string.IsNullOrWhiteSpace(docReestrNumber)) return;
+            _reestrNumber = docReestrNumber;
+            _gzDocListView.FillByReestrNum(_reestrNumber);
         }
 
         private void GetData(out string url, out string filename)
         {
-            var current = (DataRowView)_dgvItemsBindingSource.Current;
-            if(current == null)
+            var current = (DataRowView)DocsBindingSource.Current;
+            if (current == null)
             {
                 url = null;
                 filename = null;
@@ -82,15 +104,24 @@ namespace Topol.UseApi.Controls
             filename = current.Row[GzDocUtils.DocName] as string;
         }
 
+        
+
         private void BtnGzDocSearch_Click(object sender, EventArgs e)
         {
             _docsDataTable.Rows.Clear();
             var docs = _dataManager.GetGzDocSearch(tbGzDocSearchKey.Text);
+            if (docs.Count == 0) MessageBox.Show(@"Не найдено.");
             foreach (var doc in docs)
             {
                 var row = _docsDataTable.NewRow();
-                row["DocName"] = doc.Value;
-                row["DocUrl"] = doc.Key;
+                row[GzDocUtils.DocName] = doc.Value;
+                row[GzDocUtils.DocUrl] = doc.Key;
+                GzDocUtils.GetUrlData(doc.Key, out var docRegion, out var docMonth, out var docReestrNumber, Log);
+                row[GzDocUtils.DocRegion] = docRegion;
+                row[GzDocUtils.DocMonth] = docMonth;
+                row[GzDocUtils.DocReestrNumber] = docReestrNumber;
+                GzDocUtils.GetFilenameData(doc.Value, out var ext);
+                row[GzDocUtils.DocExt] = ext;
                 _docsDataTable.Rows.Add(row);
             }
         }
@@ -106,7 +137,7 @@ namespace Topol.UseApi.Controls
         private void BtnWordTable_Click(object sender, EventArgs e)
         {
             GetData(out var url, out var filename);
-            if(string.IsNullOrWhiteSpace(url) || string.IsNullOrWhiteSpace(filename)) return;
+            if (string.IsNullOrWhiteSpace(url) || string.IsNullOrWhiteSpace(filename)) return;
             try
             {
                 var ext = Path.GetExtension(filename);
@@ -123,23 +154,22 @@ namespace Topol.UseApi.Controls
             }
         }
 
-        private void DgvItems_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
-        { 
+        private void DgvDocsCellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
             GetData(out var url, out var filename);
             if (string.IsNullOrWhiteSpace(url) || string.IsNullOrWhiteSpace(filename)) return;
             try
             {
-                var ext = Path.GetExtension(filename);
-                if (! string.IsNullOrWhiteSpace(ext))
+                GzDocUtils.GetFilenameData(filename, out var ext);
+                if (!string.IsNullOrWhiteSpace(ext))
                 {
-                    ext = ext.ToLower();
                     if (!ModifierKeys.HasFlag(Keys.Control))
                     {
                         url = Downloader.GetFile2(filename, url);
                     }
                     else
                     {
-                        if ((ext.StartsWith(".doc") || ext.StartsWith(".xls")))
+                        if (ext.StartsWith(".doc") || ext.StartsWith(".xls"))
                         {
                             url = $@"https://view.officeapps.live.com/op/view.aspx?src={Uri.EscapeDataString(url)}";
                         }

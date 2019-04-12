@@ -559,7 +559,7 @@ namespace Topol.UseApi
             SplitResults();
         }
 
-        private async void SplitResults()
+        private void SplitResults()
         {
             var current = (DataRowView)SearchItemsBindingSource.Current;
             if (current == null) return;

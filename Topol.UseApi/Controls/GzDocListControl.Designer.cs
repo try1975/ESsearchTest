@@ -32,6 +32,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnWordTable = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnGoGzWebsite = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,6 +47,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnGoGzWebsite);
             this.panel1.Controls.Add(this.btnWordTable);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -70,6 +72,15 @@
             this.panel2.Size = new System.Drawing.Size(33, 155);
             this.panel2.TabIndex = 6;
             // 
+            // btnGoGzWebsite
+            // 
+            this.btnGoGzWebsite.Location = new System.Drawing.Point(6, 28);
+            this.btnGoGzWebsite.Name = "btnGoGzWebsite";
+            this.btnGoGzWebsite.Size = new System.Drawing.Size(17, 19);
+            this.btnGoGzWebsite.TabIndex = 6;
+            this.btnGoGzWebsite.Text = "Г";
+            this.btnGoGzWebsite.UseVisualStyleBackColor = true;
+            // 
             // GzDocListControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -90,5 +101,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnWordTable;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnGoGzWebsite;
     }
 }

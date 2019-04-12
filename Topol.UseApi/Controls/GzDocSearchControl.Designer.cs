@@ -36,18 +36,19 @@
             this.label22 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.dgvItems = new ADGV.AdvancedDataGridView();
+            this.dgvDocs = new ADGV.AdvancedDataGridView();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnGoGzWebsite = new System.Windows.Forms.Button();
             this.btnWordTable = new System.Windows.Forms.Button();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.label1 = new System.Windows.Forms.Label();
             this.panel28.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDocs)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -95,7 +96,7 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.splitter1);
-            this.panel1.Controls.Add(this.dgvItems);
+            this.panel1.Controls.Add(this.dgvDocs);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -113,23 +114,21 @@
             this.splitter1.TabIndex = 5;
             this.splitter1.TabStop = false;
             // 
-            // dgvItems
+            // dgvDocs
             // 
-            this.dgvItems.AllowUserToAddRows = false;
-            this.dgvItems.AllowUserToDeleteRows = false;
-            this.dgvItems.AllowUserToOrderColumns = true;
+            this.dgvDocs.AllowUserToAddRows = false;
+            this.dgvDocs.AllowUserToOrderColumns = true;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgvItems.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvItems.AutoGenerateContextFilters = true;
-            this.dgvItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvItems.DateWithTime = false;
-            this.dgvItems.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvItems.Location = new System.Drawing.Point(37, 0);
-            this.dgvItems.Name = "dgvItems";
-            this.dgvItems.ReadOnly = true;
-            this.dgvItems.Size = new System.Drawing.Size(116, 437);
-            this.dgvItems.TabIndex = 2;
-            this.dgvItems.TimeFilter = false;
+            this.dgvDocs.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvDocs.AutoGenerateContextFilters = true;
+            this.dgvDocs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDocs.DateWithTime = false;
+            this.dgvDocs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvDocs.Location = new System.Drawing.Point(37, 0);
+            this.dgvDocs.Name = "dgvDocs";
+            this.dgvDocs.Size = new System.Drawing.Size(116, 437);
+            this.dgvDocs.TabIndex = 2;
+            this.dgvDocs.TimeFilter = false;
             // 
             // panel3
             // 
@@ -167,14 +166,33 @@
             this.panel5.Size = new System.Drawing.Size(420, 32);
             this.panel5.TabIndex = 0;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(140, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Все документы контракта";
+            // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.btnGoGzWebsite);
             this.panel2.Controls.Add(this.btnWordTable);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(37, 437);
             this.panel2.TabIndex = 3;
+            // 
+            // btnGoGzWebsite
+            // 
+            this.btnGoGzWebsite.Location = new System.Drawing.Point(14, 28);
+            this.btnGoGzWebsite.Name = "btnGoGzWebsite";
+            this.btnGoGzWebsite.Size = new System.Drawing.Size(17, 19);
+            this.btnGoGzWebsite.TabIndex = 7;
+            this.btnGoGzWebsite.Text = "Г";
+            this.btnGoGzWebsite.UseVisualStyleBackColor = true;
             // 
             // btnWordTable
             // 
@@ -185,15 +203,6 @@
             this.btnWordTable.TabIndex = 5;
             this.btnWordTable.Text = "Т";
             this.btnWordTable.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(140, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Все документы контракта";
             // 
             // GzDocSearchControl
             // 
@@ -206,7 +215,7 @@
             this.panel28.ResumeLayout(false);
             this.panel28.PerformLayout();
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDocs)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
@@ -224,7 +233,7 @@
         private System.Windows.Forms.TextBox tbGzDocSearchKey;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Panel panel1;
-        private ADGV.AdvancedDataGridView dgvItems;
+        private ADGV.AdvancedDataGridView dgvDocs;
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnWordTable;
@@ -234,5 +243,6 @@
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnGoGzWebsite;
     }
 }

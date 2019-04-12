@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ADGV;
 using Topol.UseApi.Utils;
 using DataTable = System.Data.DataTable;
 using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
@@ -26,31 +27,73 @@ namespace Topol.UseApi.Forms
         public WordTablesForm()
         {
             InitializeComponent();
+
+            btnGzDocSearch.Click += BtnGzDocSearchOnClick;
+            button1.Click += Button1OnClick;
+            dgvTable.FilterStringChanged += DgvTableOnFilterStringChanged;
+            dgvTable.SortStringChanged += DgvTableOnSortStringChanged;
+        }
+
+        private static void DgvTableOnSortStringChanged(object sender, EventArgs e)
+        {
+            if (!(sender is AdvancedDataGridView dataGridView)) return;
+            if (!(dataGridView.DataSource is BindingSource bindingSource)) return;
+            bindingSource.Sort = dataGridView.SortString;
+        }
+
+        private static void DgvTableOnFilterStringChanged(object sender, EventArgs e)
+        {
+            if (!(sender is AdvancedDataGridView dataGridView)) return;
+            if (!(dataGridView.DataSource is BindingSource bindingSource)) return;
+            bindingSource.Filter = dataGridView.FilterString;
+        }
+
+        private void Button1OnClick(object sender, EventArgs eventArgs)
+        {
+            SearchInTable(tbGzDocSearchKey.Text, dgvTable.CurrentCell.RowIndex, dgvTable.CurrentCell.ColumnIndex);
+        }
+
+        private void BtnGzDocSearchOnClick(object sender, EventArgs eventArgs)
+        {
+            SearchInTable(tbGzDocSearchKey.Text);
         }
 
         public void Show(string key)
         {
-            if (_datatableBindingSource.SupportsSearching)
-            {
-                key = key.ToLower();
-                var tbl = (DataTable)_datatableBindingSource.DataSource;
-                foreach (DataColumn column in tbl.Columns)
-                {
-                    var rowIndex = 0;
-                    foreach(DataRow dataRow in tbl.Rows)
-                    {
-                        
-                        if (dataRow[column.ColumnName].ToString().ToLower().Contains(key))
-                        {
-                            //_datatableBindingSource.Position = rowIndex;
-                            dgvTable.CurrentCell = dgvTable.Rows[rowIndex].Cells[column.ColumnName];
-                            break;
-                        }
-                        rowIndex++;
-                    }
-                }
-            }
             Show();
+            tbGzDocSearchKey.Text = key;
+            SearchInTable(key);
+        }
+
+        private void SearchInTable(string key, int startRow = 0, int startColumn = 0)
+        {
+            if (!_datatableBindingSource.SupportsSearching) return;
+            key = key.ToLower();
+            var tbl = (DataTable)_datatableBindingSource.DataSource;
+            var found = false;
+
+            if (startColumn > 0) startColumn++;
+            if (startColumn >= tbl.Columns.Count - 1)
+            {
+                startColumn = 0;
+                startRow++;
+            }
+            if (startRow >= tbl.Rows.Count - 1) startRow = 0;
+
+            for (var rowIndex = startRow; rowIndex < tbl.Rows.Count; rowIndex++)
+            {
+                var dataRow = tbl.Rows[rowIndex];
+                for (var columnIndex = startColumn; columnIndex < tbl.Columns.Count; columnIndex++)
+                {
+                    if (!dataRow[columnIndex].ToString().ToLower().Contains(key)) continue;
+                    dgvTable.CurrentCell = dgvTable.Rows[rowIndex].Cells[columnIndex];
+                    found = true;
+                    break;
+                }
+                startColumn = 0;
+                if (found) break;
+            }
+            if (!found) MessageBox.Show($@"{key} - не найдено.");
         }
 
         public bool Prepare(string filename, string url)
@@ -171,13 +214,12 @@ namespace Topol.UseApi.Forms
                     {
                         datatable.Columns.Add($"Column{datatable.Columns.Count + 1}", typeof(string));
                     }
-
                 }
                 var datatableRow = datatable.NewRow();
                 var idxColumn = 0;
                 foreach (var cell in row.Descendants<TableCell>())
                 {
-                    var sbRow = new StringBuilder();
+                    var sbRow = new StringBuilder(cell.Descendants<Paragraph>().Count());
                     foreach (var para in cell.Descendants<Paragraph>())
                     {
                         var text = ProcessParagraph(para);
@@ -192,7 +234,7 @@ namespace Topol.UseApi.Forms
 
         private static string ProcessParagraph(OpenXmlElement node)
         {
-            var sbParagraph = new StringBuilder();
+            var sbParagraph = new StringBuilder(node.Descendants<Text>().Count());
             foreach (var text in node.Descendants<Text>())
             {
                 sbParagraph.Append(text.InnerText);

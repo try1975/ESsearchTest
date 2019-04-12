@@ -18,6 +18,7 @@ namespace Topol.UseApi.Controls
         private static readonly ILog Log = LogManager.GetLogger(nameof(GzDocListControl));
         private readonly DataTable _docsDataTable = new DataTable();
         private readonly IDataMаnager _dataManager;
+        private string _reestrNumber;
 
         public GzDocListControl()
         {
@@ -33,7 +34,12 @@ namespace Topol.UseApi.Controls
             lbGzDocs.MouseDoubleClick += ListBox1_MouseDoubleClick;
             lbGzDocs.SelectedIndexChanged += LbGzDocsOnSelectedIndexChanged;
             btnWordTable.Click += BtnWordTableOnClick;
-            
+            btnGoGzWebsite.Click += BtnGoGzWebsiteOnClick;
+        }
+
+        private void BtnGoGzWebsiteOnClick(object sender, EventArgs eventArgs)
+        {
+            GzDocUtils.GetUrlGzWebsiteCardDocs(_reestrNumber);
         }
 
         private void LbGzDocsOnSelectedIndexChanged(object sender, EventArgs eventArgs)
@@ -107,7 +113,7 @@ namespace Topol.UseApi.Controls
             _docsDataTable.Rows.Clear();
         }
 
-        public void Add(string docName, string docUrl)
+        private void Add(string docName, string docUrl)
         {
             var row = _docsDataTable.NewRow();
             row[GzDocUtils.DocName] = docName;
@@ -117,6 +123,7 @@ namespace Topol.UseApi.Controls
 
         public void FillByReestrNum(string reestrNumber)
         {
+            _reestrNumber = reestrNumber;
             ClearData();
             if(string.IsNullOrWhiteSpace(reestrNumber)) return;
             var docs = _dataManager.GetGzDocs(reestrNumber);
@@ -127,7 +134,7 @@ namespace Topol.UseApi.Controls
             SetBtnWordTableEnable();
         }
 
-        public void GetData(out string url, out string filename)
+        private void GetData(out string url, out string filename)
         {
             url = null;
             filename = null;
