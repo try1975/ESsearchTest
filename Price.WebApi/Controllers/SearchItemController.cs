@@ -9,6 +9,7 @@ using AutoMapper;
 using Common.Dto.Model.NewApi;
 using Gma.CodeCloud.Controls.TextAnalyses.Processing;
 using Price.WebApi.Maintenance.Interfaces;
+using Swashbuckle.Swagger.Annotations;
 
 namespace Price.WebApi.Controllers
 {
@@ -25,6 +26,15 @@ namespace Price.WebApi.Controllers
         public SearchItemController(ISearchItemApi api) : base(api)
         {
         }
+
+        [HttpGet]
+        [Route("api/SearchItem/{id}", Name = "GetSearchItemByIdRoute")]
+        [SwaggerOperation("GetSearchItemByIdRoute")]
+        public override IHttpActionResult Get(string id)
+        {
+            return base.Get(id);
+        }
+
 
         /// <summary>
         /// Получить заголовок поискового запроса по идентификатору

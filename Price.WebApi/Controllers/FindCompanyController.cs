@@ -2,6 +2,7 @@
 using System.Web.Http;
 using Common.Dto.Model.FindCompany;
 using Price.WebApi.Maintenance.Interfaces;
+using Swashbuckle.Swagger.Annotations;
 
 namespace Price.WebApi.Controllers
 {
@@ -9,6 +10,15 @@ namespace Price.WebApi.Controllers
     {
         public FindCompanyController(IFindCompanyApi api) : base(api)
         {
+        }
+
+
+        [HttpGet]
+        [Route("api/FindCompany/{id:int}", Name = "GetFindCompanyByIdRoute")]
+        [SwaggerOperation("GetFindCompanyByIdRoute")]
+        public override IHttpActionResult Get(int id)
+        {
+            return base.Get(id);
         }
 
 

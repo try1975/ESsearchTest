@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Web.Http;
+using System.Web.Http.Results;
 using Price.WebApi.Logic.Xpath;
 using PricePipeCore;
 using Common.Dto.Logic;
@@ -51,7 +52,7 @@ namespace Price.WebApi.Controllers
         /// <param name="dto"></param>
         [HttpPost]
         [Route("api/xpath", Name = nameof(XpathPost) + "Route")]
-        public HttpStatusCode XpathPost(XPathDto dto)
+        public IHttpActionResult XpathPost(XPathDto dto)
         {
             try
             {
@@ -65,13 +66,13 @@ namespace Price.WebApi.Controllers
                     .Id(dto.Id)
                 );
                 return response.Result == Result.Created || response.Result == Result.Updated
-                    ? HttpStatusCode.Created
-                    : HttpStatusCode.BadRequest;
+                    ? (IHttpActionResult) Ok()
+                    : BadRequest("POST failed");
             }
             catch (Exception exception)
             {
                 Logger.Log.Error($"{nameof(XpathPost)} {dto} {exception}");
-                return HttpStatusCode.InternalServerError;
+                return InternalServerError(exception);
             }
         }
     }
