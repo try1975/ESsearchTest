@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Web.Http.OData;
 using System.Web.Http.OData.Query;
 using AutoMapper;
 using Common.Dto.Model.NewApi;
@@ -148,6 +146,14 @@ namespace Price.WebApi.Controllers
             var result = ((ISearchItemApi)_api).WordsCloud(id);
             return result!=null ? (IHttpActionResult)Ok(result) : NotFound();
         }
+
+        [HttpDelete]
+        [Route("api/SearchItem/{id}", Name = nameof(DeleteSearchItem) + "Route")]
+        public IHttpActionResult DeleteSearchItem(string id)
+        {
+            return Delete(id);
+        }
+
     }
     
 }

@@ -82,8 +82,18 @@ namespace Common.Dto.Model.Packet
         /// </summary>
         public byte SearchEngine { get; set; }
         /// <summary>
-        /// Код ОКПД2 - может быть использован отбора
+        /// Код ОКПД2 - может быть использован для отбора
         /// </summary>
         public string Okpd2 { get; set; }
+        /// <summary>
+        /// Url обратного вызова для уведомления об окончании поиска
+        /// </summary>
+        public string CallbackUrl { get; set; }
+
+        public static string ExtractSearchItemCallbackUrl(string searchItemEntityJsonText)
+        {
+            var searchItemParam = JsonConvert.DeserializeObject<SearchItemParam>(searchItemEntityJsonText);
+            return searchItemParam.CallbackUrl;
+        }
     }
 }

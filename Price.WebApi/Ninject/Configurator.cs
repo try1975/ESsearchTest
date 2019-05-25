@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using AutoMapper;
 using AutoMapper.Configuration;
+using Common.Dto.Model.Packet;
 using FindCompany.Db.Entities.QueryProcessors;
 using FindCompany.Db.Postgress;
 using FindCompany.Db.Postgress.QueryProcessors;
@@ -48,6 +49,8 @@ namespace Price.WebApi.Ninject
             container.Bind<IEnricheApi>().To<EnricheApi>().InSingletonScope();
             container.Bind<IFindCompanyApi>().To<FindCompanyApi>().InSingletonScope();
             container.Bind<IFindCompanyQuery>().To<FindCompanyQuery>().InSingletonScope();
+
+            container.Bind<ISearchItemCallback>().To<SearchItemCallback>().InSingletonScope();
 
             #endregion
         }

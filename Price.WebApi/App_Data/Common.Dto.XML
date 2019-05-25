@@ -300,6 +300,193 @@
             </summary>
             <param name="tick"></param>
         </member>
+        <member name="T:Common.Dto.Model.Packet.SearchItemCallback">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Common.Dto.Model.Packet.SearchItemDto">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemDto.Source">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemDto.Key">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemDto.Id">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemDto.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemDto.Status">
+            <summary>
+            Статус объекта обработки
+            </summary>
+        </member>
+        <member name="T:Common.Dto.Model.Packet.SearchItemParam">
+            <summary>
+            искомая позиция
+            </summary>
+        </member>
+        <member name="F:Common.Dto.Model.Packet.SearchItemParam.UseYandex">
+            <summary>
+            Использовать Yandex при поиске
+            </summary>
+        </member>
+        <member name="F:Common.Dto.Model.Packet.SearchItemParam.UseGoogle">
+            <summary>
+            Использовать Google при поиске
+            </summary>
+        </member>
+        <member name="M:Common.Dto.Model.Packet.SearchItemParam.#ctor">
+            <summary>
+            Конструктор, поисковые движки по умолчанию все
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Id">
+            <summary>
+            id позиции
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Name">
+            <summary>
+            наименование позиции
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Category">
+            <summary>
+            категория позиции, может отсутствовать
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.SearchItemProperties">
+            <summary>
+            список свойств, может отсутствовать
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Info">
+            <summary>
+            расширенная информация о позиции, может отсутствовать
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Syn">
+            <summary>
+            альтернативные наименования позиции
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Norm">
+            <summary>
+            нормализатор, применяемый при обработке позиции
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.AddKeywords">
+            <summary>
+            Дополнительные слова для поиска
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Priority">
+            <summary>
+            Приоритет запроса
+            Normal = Нормальный
+            High = Высокий
+            Max = Максимальный
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Options">
+            <summary>
+            Битовая маска опций поиска
+             Раздельные запросы по каждому дополнительному слову - установить флаг 8
+             Не извлекать цены - установить флаг 2
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.SearchEngine">
+            <summary>
+            Битовая маска использования поисковых систем
+            Yandex    = 0x0001
+            Google    = 0x0002
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Okpd2">
+            <summary>
+            Код ОКПД2 - может быть использован отбора
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemParam.CallbackUrl">
+            <summary>
+            Url для функции обратного вызова для уведомления об окончании поиска
+            </summary>
+        </member>
+        <member name="T:Common.Dto.Model.Packet.SearchItemProperty">
+            <summary>
+            свойство искомой позиции
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemProperty.Key">
+            <summary>
+            наименование свойства
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemProperty.Value">
+            <summary>
+            значение свойства
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchItemProperty.Group">
+            <summary>
+            да/нет - раздел введён для удобства группировки
+            </summary>
+        </member>
+        <member name="T:Common.Dto.Model.Packet.SearchPacketResultDto">
+            <summary>
+            Результат пакетного поиска
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchPacketResultDto.Id">
+            <summary>
+            id позиции задачи поиска
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchPacketResultDto.Name">
+            <summary>
+            наименование позиции задачи поиска
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchPacketResultDto.Content">
+            <summary>
+            Найденные ТРУ
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchPacketTaskDto.TotalCount">
+            <summary>
+            Всего объектов в задаче
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchPacketTaskDto.ProcessedCount">
+            <summary>
+            Уже обработано объектов в задаче
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.Packet.SearchPacketTaskDto.SearchItems">
+            <summary>
+            Список объектов в задаче
+            </summary>
+        </member>
+        <member name="M:Common.Dto.Model.Packet.SearchPacketTaskDto.UpdateStatistics(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:Common.Dto.Model.XPath.XPathDto">
             <summary>
             
@@ -473,183 +660,6 @@
         <member name="P:Common.Dto.Model.MaybeDto.MustNots">
             <summary>
             обязательное отсутствие
-            </summary>
-        </member>
-        <member name="T:Common.Dto.Model.Packet.SearchItemDto">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemDto.Source">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemDto.Key">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemDto.Id">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemDto.Name">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemDto.Status">
-            <summary>
-            Статус объекта обработки
-            </summary>
-        </member>
-        <member name="T:Common.Dto.Model.Packet.SearchItemParam">
-            <summary>
-            искомая позиция
-            </summary>
-        </member>
-        <member name="F:Common.Dto.Model.Packet.SearchItemParam.UseYandex">
-            <summary>
-            Использовать Yandex при поиске
-            </summary>
-        </member>
-        <member name="F:Common.Dto.Model.Packet.SearchItemParam.UseGoogle">
-            <summary>
-            Использовать Google при поиске
-            </summary>
-        </member>
-        <member name="M:Common.Dto.Model.Packet.SearchItemParam.#ctor">
-            <summary>
-            Конструктор, поисковые движки по умолчанию все
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Id">
-            <summary>
-            id позиции
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Name">
-            <summary>
-            наименование позиции
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Category">
-            <summary>
-            категория позиции, может отсутствовать
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemParam.SearchItemProperties">
-            <summary>
-            список свойств, может отсутствовать
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Info">
-            <summary>
-            расширенная информация о позиции, может отсутствовать
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Syn">
-            <summary>
-            альтернативные наименования позиции
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Norm">
-            <summary>
-            нормализатор, применяемый при обработке позиции
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemParam.AddKeywords">
-            <summary>
-            Дополнительные слова для поиска
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Priority">
-            <summary>
-            Приоритет запроса
-            Normal = Нормальный
-            High = Высокий
-            Max = Максимальный
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Options">
-            <summary>
-            Битовая маска опций поиска
-             Раздельные запросы по каждому дополнительному слову - установить флаг 8
-             Не извлекать цены - установить флаг 2
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemParam.SearchEngine">
-            <summary>
-            Битовая маска использования поисковых систем
-            Yandex    = 0x0001
-            Google    = 0x0002
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemParam.Okpd2">
-            <summary>
-            Код ОКПД2 - может быть использован отбора
-            </summary>
-        </member>
-        <member name="T:Common.Dto.Model.Packet.SearchItemProperty">
-            <summary>
-            свойство искомой позиции
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemProperty.Key">
-            <summary>
-            наименование свойства
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemProperty.Value">
-            <summary>
-            значение свойства
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchItemProperty.Group">
-            <summary>
-            да/нет - раздел введён для удобства группировки
-            </summary>
-        </member>
-        <member name="T:Common.Dto.Model.Packet.SearchPacketResultDto">
-            <summary>
-            Результат пакетного поиска
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchPacketResultDto.Id">
-            <summary>
-            id позиции задачи поиска
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchPacketResultDto.Name">
-            <summary>
-            наименование позиции задачи поиска
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchPacketResultDto.Content">
-            <summary>
-            Найденные ТРУ
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchPacketTaskDto.TotalCount">
-            <summary>
-            Всего объектов в задаче
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchPacketTaskDto.ProcessedCount">
-            <summary>
-            Уже обработано объектов в задаче
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.Packet.SearchPacketTaskDto.SearchItems">
-            <summary>
-            Список объектов в задаче
-            </summary>
-        </member>
-        <member name="M:Common.Dto.Model.Packet.SearchPacketTaskDto.UpdateStatistics(System.Int32,System.Int32)">
-            <summary>
-            
             </summary>
         </member>
         <member name="T:Common.Dto.Model.SourceDto">

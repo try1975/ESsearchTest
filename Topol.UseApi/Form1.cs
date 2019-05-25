@@ -19,6 +19,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tesseract;
 using Topol.UseApi.Controls;
@@ -28,6 +29,7 @@ using Topol.UseApi.Interfaces;
 using Topol.UseApi.Interfaces.Common;
 using Topol.UseApi.Ninject;
 using Topol.UseApi.Properties;
+using TaskStatus = PriceCommon.Enums.TaskStatus;
 
 namespace Topol.UseApi
 {
@@ -779,7 +781,7 @@ namespace Topol.UseApi
             SearchItemChecked();
         }
 
-        private async void SearchItemBreak()
+        private async Task SearchItemBreak()
         {
             var current = (DataRowView)SearchItemsBindingSource.Current;
             if (current == null) return;
@@ -791,9 +793,9 @@ namespace Topol.UseApi
             dataRow.SetField(nameof(SearchItemHeaderDto.Status), TaskStatus.Break);
             dataRow.SetField(nameof(SearchItemHeaderDto.StatusString), PriceCommon.Utils.Utils.GetDescription(TaskStatus.Break));
         }
-        private async void SearchItemDelete()
+        private async Task SearchItemDelete()
         {
-            SearchItemBreak();
+            await SearchItemBreak();
             var current = (DataRowView)SearchItemsBindingSource.Current;
             var oTaskStatus = current?.Row[nameof(SearchItemHeaderDto.Status)];
             if (oTaskStatus == null) return;

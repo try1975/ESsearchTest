@@ -25,7 +25,7 @@ namespace Price.WebApi.Logic.Packet
         /// <param name="searchItem"></param>
         /// <param name="allSources"></param>
         /// <param name="id"></param>
-        public static void Execute(SearchItemParam searchItem, string allSources, string id)
+        public static void Execute(SearchItemParam searchItem, string allSources, string id, ISearchItemCallback searchItemCallback)
         {
             var sources = allSources.ToLower().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             if (sources.Length == 0) return;
@@ -137,6 +137,8 @@ namespace Price.WebApi.Logic.Packet
                     entity.ProcessedAt = Utils.GetUtcNow();
                     entity.Status = TaskStatus.Ok;
                     searchItemQuery.UpdateEntity(entity);
+                    var callbackUrl = SearchItemParam.ExtractSearchItemCallbackUrl(entity.JsonText);
+                    searchItemCallback.FireCallback(callbackUrl, entity.Id);
                 }
             }
             catch (Exception e)
@@ -147,6 +149,8 @@ namespace Price.WebApi.Logic.Packet
                 entity.ProcessedAt = Utils.GetUtcNow();
                 entity.Status = TaskStatus.Error;
                 searchItemQuery.UpdateEntity(entity);
+                var callbackUrl = SearchItemParam.ExtractSearchItemCallbackUrl(entity.JsonText);
+                searchItemCallback.FireCallback(callbackUrl, entity.Id);
             }
         }
     }

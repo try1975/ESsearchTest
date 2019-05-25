@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Common.Dto.Logic;
+using Common.Dto.Model.Packet;
 using Price.Db.Postgress;
 using Price.Db.Postgress.QueryProcessors;
 using Price.WebApi.Logic;
@@ -14,6 +15,16 @@ namespace Price.WebApi.Jobs
     /// </summary>
     public class CheckInternetSearchJob : IJob
     {
+        private readonly ISearchItemCallback _searchItemCallback;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="searchItemCallback"></param>
+        public CheckInternetSearchJob(ISearchItemCallback searchItemCallback)
+        {
+            _searchItemCallback = searchItemCallback;
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -26,11 +37,13 @@ namespace Price.WebApi.Jobs
             foreach (var entity in entities)
             {
                 // Stop long tasks
-                if ((entity.StartProcessed + AppGlobal.InternetSearchTimeoutSeconds ) < Utils.GetUtcNow())
+                if (entity.StartProcessed + AppGlobal.InternetSearchTimeoutSeconds < Utils.GetUtcNow())
                 {
                     entity.ProcessedAt = Utils.GetUtcNow();
                     entity.Status = TaskStatus.BreakByTimeout;
                     query.UpdateEntity(entity);
+                    var callbackUrl = SearchItemParam.ExtractSearchItemCallbackUrl(entity.JsonText);
+                    _searchItemCallback.FireCallback(callbackUrl, entity.Id);
                     AnalistService.TerminateSession(entity.InternetSessionId);
                     continue;
                 }
@@ -40,6 +53,8 @@ namespace Price.WebApi.Jobs
                     entity.ProcessedAt = Utils.GetUtcNow();
                     entity.Status = TaskStatus.Ok;
                     query.UpdateEntity(entity);
+                    var callbackUrl = SearchItemParam.ExtractSearchItemCallbackUrl(entity.JsonText);
+                    _searchItemCallback.FireCallback(callbackUrl, entity.Id);
                 }
             }
         }

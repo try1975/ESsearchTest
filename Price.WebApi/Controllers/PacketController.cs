@@ -24,17 +24,21 @@ namespace Price.WebApi.Controllers
     public class PacketController : ApiController
     {
         private readonly ISearchItemApi _searchItemApi;
+        private readonly ISearchItemCallback _searchItemCallback;
 
-        private delegate void ElasticDelegate(SearchItemParam searchItem, string allSources, string searchItemId);
+        private delegate void ElasticDelegate(SearchItemParam searchItem, string allSources, string searchItemId, ISearchItemCallback searchItemCallback);
 
         private readonly Delegate _elasticDelegate = new ElasticDelegate(ElasticSeacherAndDbWriter.Execute);
+        
+
         /// <summary>
         /// Поиск пакетом ТРУ(пакет может состоять из одного ТРУ).
         /// </summary>
         /// <param name="searchItemApi"></param>
-        public PacketController(ISearchItemApi searchItemApi)
+        public PacketController(ISearchItemApi searchItemApi, ISearchItemCallback searchItemCallback)
         {
             _searchItemApi = searchItemApi;
+            _searchItemCallback = searchItemCallback;
         }
 
         /// <summary>
@@ -94,7 +98,7 @@ namespace Price.WebApi.Controllers
                     if (searchInInternet) dto.InternetSessionId = GetInternetSessionId(json);
                     _searchItemApi.AddItem(dto);
                     //if (!string.IsNullOrEmpty(keywords)) searchItem.Name = $"{searchItem.Name} {keywords}";
-                    ThreadUtil.FireAndForget(_elasticDelegate, searchItem, source, id);
+                    ThreadUtil.FireAndForget(_elasticDelegate, searchItem, source, id, _searchItemCallback);
                     resultList.Add(Mapper.Map<SearchItemHeaderDto>(dto));
                 }
                 else resultList.Add(dtoHeader);

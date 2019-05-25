@@ -213,6 +213,7 @@
     <Compile Include="Controllers\PharmacyController.cs" />
     <Compile Include="Controllers\SearchItemController.cs" />
     <Compile Include="Controllers\SimplePriceController.cs" />
+    <Compile Include="Controllers\TestCallbackController.cs" />
     <Compile Include="Controllers\TypedController.cs" />
     <Compile Include="Controllers\XpathController.cs" />
     <Compile Include="Global.asax.cs">
