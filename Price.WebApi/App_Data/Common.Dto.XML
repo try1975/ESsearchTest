@@ -419,12 +419,12 @@
         </member>
         <member name="P:Common.Dto.Model.Packet.SearchItemParam.Okpd2">
             <summary>
-            Код ОКПД2 - может быть использован отбора
+            Код ОКПД2 - может быть использован для отбора
             </summary>
         </member>
         <member name="P:Common.Dto.Model.Packet.SearchItemParam.CallbackUrl">
             <summary>
-            Url для функции обратного вызова для уведомления об окончании поиска
+            Url обратного вызова для уведомления об окончании поиска
             </summary>
         </member>
         <member name="T:Common.Dto.Model.Packet.SearchItemProperty">

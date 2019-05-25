@@ -142,7 +142,6 @@ namespace Common.Dto.Model.NewApi
                     AddKeywords = searchItemParam.AddKeywords;
                     Priority = searchItemParam.Priority;
                     Okpd2 = searchItemParam.Okpd2;
-                    CallbackUrl = searchItemParam.CallbackUrl;
                 }
                 catch (Exception exception)
                 {
@@ -156,6 +155,5 @@ namespace Common.Dto.Model.NewApi
         public string AddKeywords { get; set; }
         public string Priority { get; set; }
         public string Okpd2 { get; set; }
-        public string CallbackUrl { get; set; }
     }
 }
