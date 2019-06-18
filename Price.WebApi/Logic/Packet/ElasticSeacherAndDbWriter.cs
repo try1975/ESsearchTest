@@ -28,10 +28,21 @@ namespace Price.WebApi.Logic.Packet
         public static void Execute(SearchItemParam searchItem, string allSources, string id, ISearchItemCallback searchItemCallback)
         {
             var sources = allSources.ToLower().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            if (sources.Length == 0) return;
             var dbContext = new PriceContext();
             var contentQuery = new ContentQuery(dbContext);
             var searchItemQuery = new SearchItemQuery(dbContext);
+            if (sources.Length == 0)
+            {
+                Logger.Log.Error($"Нет источника: sources.Length == 0");
+                var entity = searchItemQuery.GetEntity(id);
+                entity.ProcessedAt = Utils.GetUtcNow();
+                entity.Status = TaskStatus.Error;
+                searchItemQuery.UpdateEntity(entity);
+                var callbackUrl = SearchItemParam.ExtractSearchItemCallbackUrl(entity.JsonText);
+                searchItemCallback.FireCallback(callbackUrl, entity.Id);
+                return;
+            }
+           
             string internet;
             internet = $"{nameof(internet)}";
             var inInternet= false;
