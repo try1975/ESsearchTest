@@ -33,7 +33,7 @@ namespace Price.WebApi.Jobs
         {
             Logger.Log.Info($"{nameof(CheckInternetSearchJob)} - {DateTime.Now:HH:mm:ss}");
             var query = new SearchItemQuery(new PriceContext());
-            var entities = query.GetEntities().Where(z => z.Status == TaskStatus.InProcess && z.Source.Contains("internet")).ToList();
+            var entities = query.GetEntities().Where(z => z.Status == TaskStatus.InProcess /*&& z.Source.Contains("internet")*/).ToList();
             foreach (var entity in entities)
             {
                 // Stop long tasks
@@ -44,7 +44,10 @@ namespace Price.WebApi.Jobs
                     query.UpdateEntity(entity);
                     var callbackUrl = SearchItemParam.ExtractSearchItemCallbackUrl(entity.JsonText);
                     _searchItemCallback.FireCallback(callbackUrl, entity.Id);
-                    AnalistService.TerminateSession(entity.InternetSessionId);
+                    if (entity.Source.Contains("internet"))
+                    { 
+                        AnalistService.TerminateSession(entity.InternetSessionId);
+                    }
                     continue;
                 }
 
