@@ -247,9 +247,12 @@ namespace Topol.UseApi.Data.Common
             }
         }
 
-        public Dictionary<string, string> GetGzDocSearch(string key)
+        public Dictionary<string, string> GetGzDocSearch(string key, string regions = "", string months="")
         {
-            using (var response = _apiHttpClient.GetAsync($"{_endpointGzDocSearch}?key={key}").Result)
+            var url = $"{_endpointGzDocSearch}?key={key}";
+            if (!string.IsNullOrEmpty(regions.Trim())) url = $"{url}&regions={regions}";
+            if (!string.IsNullOrEmpty(months.Trim())) url = $"{url}&months={months}";
+            using (var response = _apiHttpClient.GetAsync(url).Result)
             {
                 if (!response.IsSuccessStatusCode) return new Dictionary<string, string>();
                 var result = response.Content.ReadAsAsync<Dictionary<string, string>>().Result;

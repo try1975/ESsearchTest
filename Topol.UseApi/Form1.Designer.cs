@@ -142,6 +142,7 @@
             this.linkLabelScreenshot = new System.Windows.Forms.LinkLabel();
             this.panel22 = new System.Windows.Forms.Panel();
             this.panel23 = new System.Windows.Forms.Panel();
+            this.pnlGzDocList = new System.Windows.Forms.Panel();
             this.btnDeletePrice = new System.Windows.Forms.Button();
             this.btnSkipPrice = new System.Windows.Forms.Button();
             this.btnSetPriceChecked = new System.Windows.Forms.Button();
@@ -181,7 +182,6 @@
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.timerAnalyze = new System.Windows.Forms.Timer(this.components);
-            this.pnlGzDocList = new System.Windows.Forms.Panel();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -1358,6 +1358,14 @@
             this.panel23.Size = new System.Drawing.Size(400, 100);
             this.panel23.TabIndex = 6;
             // 
+            // pnlGzDocList
+            // 
+            this.pnlGzDocList.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlGzDocList.Location = new System.Drawing.Point(0, 33);
+            this.pnlGzDocList.Name = "pnlGzDocList";
+            this.pnlGzDocList.Size = new System.Drawing.Size(400, 67);
+            this.pnlGzDocList.TabIndex = 3;
+            // 
             // btnDeletePrice
             // 
             this.btnDeletePrice.ForeColor = System.Drawing.Color.Red;
@@ -1760,14 +1768,6 @@
             // timerAnalyze
             // 
             this.timerAnalyze.Interval = 1200;
-            // 
-            // pnlGzDocList
-            // 
-            this.pnlGzDocList.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlGzDocList.Location = new System.Drawing.Point(0, 33);
-            this.pnlGzDocList.Name = "pnlGzDocList";
-            this.pnlGzDocList.Size = new System.Drawing.Size(400, 67);
-            this.pnlGzDocList.TabIndex = 3;
             // 
             // Form1
             // 

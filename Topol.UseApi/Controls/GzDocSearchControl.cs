@@ -109,7 +109,7 @@ namespace Topol.UseApi.Controls
         private void BtnGzDocSearch_Click(object sender, EventArgs e)
         {
             _docsDataTable.Rows.Clear();
-            var docs = _dataManager.GetGzDocSearch(tbGzDocSearchKey.Text);
+            var docs = _dataManager.GetGzDocSearch(tbGzDocSearchKey.Text, tbGzDocRegions.Text, tbGzDocMonths.Text);
             if (docs.Count == 0) MessageBox.Show(@"Не найдено.");
             foreach (var doc in docs)
             {

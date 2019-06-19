@@ -46,6 +46,10 @@
             this.btnGoGzWebsite = new System.Windows.Forms.Button();
             this.btnWordTable = new System.Windows.Forms.Button();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tbGzDocRegions = new System.Windows.Forms.TextBox();
+            this.tbGzDocMonths = new System.Windows.Forms.TextBox();
             this.panel28.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDocs)).BeginInit();
@@ -58,13 +62,17 @@
             // 
             // panel28
             // 
+            this.panel28.Controls.Add(this.tbGzDocMonths);
+            this.panel28.Controls.Add(this.tbGzDocRegions);
+            this.panel28.Controls.Add(this.label3);
+            this.panel28.Controls.Add(this.label2);
             this.panel28.Controls.Add(this.btnGzDocSearch);
             this.panel28.Controls.Add(this.tbGzDocSearchKey);
             this.panel28.Controls.Add(this.label22);
             this.panel28.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel28.Location = new System.Drawing.Point(0, 0);
             this.panel28.Name = "panel28";
-            this.panel28.Size = new System.Drawing.Size(573, 50);
+            this.panel28.Size = new System.Drawing.Size(854, 50);
             this.panel28.TabIndex = 1;
             // 
             // btnGzDocSearch
@@ -102,15 +110,15 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 50);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(573, 437);
+            this.panel1.Size = new System.Drawing.Size(854, 418);
             this.panel1.TabIndex = 2;
             // 
             // splitter1
             // 
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.splitter1.Location = new System.Drawing.Point(150, 0);
+            this.splitter1.Location = new System.Drawing.Point(431, 0);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 437);
+            this.splitter1.Size = new System.Drawing.Size(3, 418);
             this.splitter1.TabIndex = 5;
             this.splitter1.TabStop = false;
             // 
@@ -126,7 +134,7 @@
             this.dgvDocs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvDocs.Location = new System.Drawing.Point(37, 0);
             this.dgvDocs.Name = "dgvDocs";
-            this.dgvDocs.Size = new System.Drawing.Size(116, 437);
+            this.dgvDocs.Size = new System.Drawing.Size(397, 418);
             this.dgvDocs.TabIndex = 2;
             this.dgvDocs.TimeFilter = false;
             // 
@@ -134,9 +142,9 @@
             // 
             this.panel3.Controls.Add(this.panel4);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel3.Location = new System.Drawing.Point(153, 0);
+            this.panel3.Location = new System.Drawing.Point(434, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(420, 437);
+            this.panel3.Size = new System.Drawing.Size(420, 418);
             this.panel3.TabIndex = 4;
             // 
             // panel4
@@ -182,7 +190,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(37, 437);
+            this.panel2.Size = new System.Drawing.Size(37, 418);
             this.panel2.TabIndex = 3;
             // 
             // btnGoGzWebsite
@@ -204,6 +212,40 @@
             this.btnWordTable.Text = "Т";
             this.btnWordTable.UseVisualStyleBackColor = true;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(511, 12);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(70, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Код региона";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(670, 12);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(80, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Код ГодМесяц";
+            // 
+            // tbGzDocRegions
+            // 
+            this.tbGzDocRegions.Location = new System.Drawing.Point(587, 8);
+            this.tbGzDocRegions.Name = "tbGzDocRegions";
+            this.tbGzDocRegions.Size = new System.Drawing.Size(77, 20);
+            this.tbGzDocRegions.TabIndex = 5;
+            this.tbGzDocRegions.Text = "50,77";
+            // 
+            // tbGzDocMonths
+            // 
+            this.tbGzDocMonths.Location = new System.Drawing.Point(756, 8);
+            this.tbGzDocMonths.Name = "tbGzDocMonths";
+            this.tbGzDocMonths.Size = new System.Drawing.Size(77, 20);
+            this.tbGzDocMonths.TabIndex = 6;
+            this.tbGzDocMonths.Text = "201902";
+            // 
             // GzDocSearchControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -211,7 +253,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel28);
             this.Name = "GzDocSearchControl";
-            this.Size = new System.Drawing.Size(573, 487);
+            this.Size = new System.Drawing.Size(854, 468);
             this.panel28.ResumeLayout(false);
             this.panel28.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -244,5 +286,9 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnGoGzWebsite;
+        private System.Windows.Forms.TextBox tbGzDocMonths;
+        private System.Windows.Forms.TextBox tbGzDocRegions;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
     }
 }
