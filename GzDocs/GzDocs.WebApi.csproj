@@ -137,6 +137,7 @@
     <Compile Include="App_Start\ApiConfig.cs" />
     <Compile Include="App_Start\ApiExceptionHandler.cs" />
     <Compile Include="App_Start\ApiExceptionLogger.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\DocContentController.cs" />
     <Compile Include="Controllers\DocsController.cs" />
     <Compile Include="Controllers\DocSearchController.cs" />
