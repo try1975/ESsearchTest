@@ -125,7 +125,14 @@ namespace Price.WebApi.Maintenance.Classes
                 queryCondition = queryCondition
                         .Where(z => z.JsonText.Contains(searchItemCondition.Okpd2))
                     ;
-            var entities = queryCondition.ToList();
+            var pageSize = searchItemCondition.PageSize > 0 ? searchItemCondition.PageSize : 100;
+            var pageNum = searchItemCondition.PageNum > 1 ? (searchItemCondition.PageNum - 1) * pageSize : 0;
+
+            var entities = queryCondition.OrderBy(i => i.StartProcessed)
+                    .Skip(pageNum)
+                    .Take(pageSize)
+                    .ToList()
+                    ;
 
             var dtos = new List<SearchItemHeaderDto>(entities.Count);
             foreach (var searchItemEntity in entities)

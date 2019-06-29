@@ -200,6 +200,16 @@
             Взять только те поисковые запросы, где совпадает ОКПД2
             </summary>
         </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemCondition.PageSize">
+            <summary>
+            размер страницы (100 по умолчанию)
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.NewApi.SearchItemCondition.PageNum">
+            <summary>
+            номер страницы
+            </summary>
+        </member>
         <member name="P:Common.Dto.Model.NewApi.SearchItemExtDto.Status">
             <summary>
             Статус объекта обработки

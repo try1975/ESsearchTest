@@ -7,7 +7,7 @@ namespace Price.Db.Postgress.QueryProcessors
 {
     public class ContentQuery : TypedQuery<ContentEntity, int>, IContentQuery
     {
-        public ContentQuery(DbContext db) : base(db)
+        public ContentQuery(PriceContext db) : base(db)
         {
         }
     }

@@ -1031,9 +1031,17 @@ namespace Topol.UseApi
             {
                 dto.Status = ((SearchItemStatusItem)cbSearchItemStatus.SelectedItem).TaskStatus;
             }
-            var searchItemHeaderDtos = await _dataManager.GetByConditionAsync(dto);
-            SearchItemsToForm(searchItemHeaderDtos);
-            if (searchItemHeaderDtos.Count == 0) MessageBox.Show(@"Данные не найдены");
+
+            try
+            {
+                var searchItemHeaderDtos = await _dataManager.GetByConditionAsync(dto);
+                SearchItemsToForm(searchItemHeaderDtos);
+                if (searchItemHeaderDtos.Count == 0) MessageBox.Show(@"Данные не найдены");
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+            }
         }
 
         private async void SearchPacket(List<SearchItemParam> dto, string keywords)
