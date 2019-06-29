@@ -51,6 +51,13 @@ namespace Price.Db.Postgress.Mappings
                 .IsOptional()
                 ;
 
+            Property(e => e.ElasticCount)
+                .IsRequired()
+                ;
+            Property(e => e.InternetCount)
+               .IsRequired()
+                ;
+
             ToTable($"{tableName}");
         }
     }

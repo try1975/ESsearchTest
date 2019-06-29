@@ -23,5 +23,7 @@ namespace Price.Db.Entities.Entities
         public string Normalizer { get; set; }
         public string JsonText { get; set; }
         public string UserName { get; set; }
+        public int ElasticCount { get; set; }
+        public int InternetCount { get; set; }
     }
 }

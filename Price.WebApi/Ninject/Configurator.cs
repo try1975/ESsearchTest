@@ -71,7 +71,7 @@ namespace Price.WebApi.Ninject
             container.Bind<DbContext>().To<PriceContext>().WhenInjectedInto<InternetContentQuery>().InRequestScope();
             container.Bind<DbContext>().To<PriceContext>().WhenInjectedInto<SearchItemQuery>().InRequestScope();
             
-            container.Bind<DbContext>().To<FindCompanyContext>().WhenInjectedInto<FindCompanyQuery>().InSingletonScope();
+            container.Bind<DbContext>().To<FindCompanyContext>().WhenInjectedInto<FindCompanyQuery>().InRequestScope();
             //container.Bind<ExchangeServiceMailSender>().ToSelf().InSingletonScope();
         }
     }

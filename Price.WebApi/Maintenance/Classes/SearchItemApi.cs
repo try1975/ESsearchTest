@@ -127,14 +127,38 @@ namespace Price.WebApi.Maintenance.Classes
                     ;
             var entities = queryCondition.ToList();
 
-            var dtos = Mapper.Map<List<SearchItemHeaderDto>>(entities);
-            foreach (var dto in dtos)
+            var dtos = new List<SearchItemHeaderDto>(entities.Count);
+            foreach (var searchItemEntity in entities)
             {
-                dto.ContentCount += _contentQuery.GetEntities().Count(z => z.SearchItemId == dto.Id);
-                dto.ContentCount += _internetContentQuery.GetEntities().Count(z => z.session_id == dto.InternetSessionId);
+                dtos.Add(MapSearchItemHeaderDto(searchItemEntity));
             }
             return dtos;
         }
+
+        private SearchItemHeaderDto MapSearchItemHeaderDto(SearchItemEntity searchItemEntity)
+        {
+            if(searchItemEntity==null) return null;
+            var contentCount = 0;
+            contentCount += searchItemEntity.ElasticCount;
+            if (!string.IsNullOrEmpty(searchItemEntity.InternetSessionId)) contentCount += searchItemEntity.InternetCount;
+            var dto = new SearchItemHeaderDto
+            {
+                Id = searchItemEntity.Id,
+                Name = searchItemEntity.Name,
+                InternetSessionId = searchItemEntity.InternetSessionId,
+                StartProcessed = searchItemEntity.StartProcessed,
+                LastUpdate = searchItemEntity.LastUpdate,
+                ProcessedAt = searchItemEntity.ProcessedAt,
+                Status = searchItemEntity.Status,
+                Source = searchItemEntity.Source,
+                ExtId = searchItemEntity.ExtId,
+                Normalizer = searchItemEntity.Normalizer,
+                JsonText = searchItemEntity.JsonText,
+                ContentCount = contentCount
+            };
+            return dto;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -171,12 +195,7 @@ namespace Price.WebApi.Maintenance.Classes
         /// <returns></returns>
         public SearchItemHeaderDto GetItemHeader(string id)
         {
-            var entity = Query.GetEntity(id);
-            var dto = Mapper.Map<SearchItemHeaderDto>(entity);
-            if (dto == null) return null;
-            dto.ContentCount += _contentQuery.GetEntities().Count(z => z.SearchItemId == entity.Id);
-            dto.ContentCount += _internetContentQuery.GetEntities().Count(z => z.session_id == entity.InternetSessionId);
-            return dto;
+            return MapSearchItemHeaderDto(Query.GetEntity(id));
         }
 
         /// <summary>
@@ -400,11 +419,7 @@ namespace Price.WebApi.Maintenance.Classes
                     _internetContentQuery.UpdateEntity(contentEntity);
                 }
             }
-            var dto = Mapper.Map<SearchItemHeaderDto>(entity);
-            if (dto == null) return null;
-            dto.ContentCount += _contentQuery.GetEntities().Count(z => z.SearchItemId == entity.Id);
-            dto.ContentCount += _internetContentQuery.GetEntities().Count(z => z.session_id == entity.InternetSessionId);
-            return dto;
+            return MapSearchItemHeaderDto(entity);
         }
 
         public IEnumerable<IWord> WordsCloud(string id)
@@ -443,7 +458,7 @@ namespace Price.WebApi.Maintenance.Classes
                 ;
         }
 
-        internal class FakeProgress : IProgressIndicator
+        private class FakeProgress : IProgressIndicator
         {
             public int Maximum { get; set; }
             public void Increment(int value)

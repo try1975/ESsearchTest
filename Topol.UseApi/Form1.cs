@@ -17,6 +17,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -71,6 +72,7 @@ namespace Topol.UseApi
         private Point _rectStartPoint;
         private Rectangle _rect;
         private Rectangle _prevRect;
+        private DateTime _lastList2GridRun = DateTime.UtcNow;
         private readonly Brush _selectionBrush = new SolidBrush(Color.FromArgb(128, 72, 145, 220));
         private readonly TesseractEngine _engine;
 
@@ -284,6 +286,7 @@ namespace Topol.UseApi
                         //{
                         //    MessageBox.Show(@"Ошибка запроса.");
                         //}
+                        Thread.Sleep(200);
                     }
                     catch (Exception exception)
                     {
@@ -1160,6 +1163,10 @@ namespace Topol.UseApi
 
         private void List2Grid(ref DataTable dataTable)
         {
+            var utcNow = DateTime.UtcNow;
+            var span = utcNow - _lastList2GridRun;
+            if((int)span.TotalMilliseconds<1000) return;
+            _lastList2GridRun = utcNow;    
             if (dataTable == null)
             {
                 dataTable = ConvertToDataTable(_listSearchItem);
@@ -1538,6 +1545,7 @@ namespace Topol.UseApi
             var text = tbName.Text.ToLower();
 
             var contentItems = await _dataManager.GetOkpd2Reverse(text);
+            if (contentItems == null) return;
             var okpd2Reverses = contentItems as Okpd2Reverse[] ?? contentItems.ToArray();
             if (!okpd2Reverses.Any()) return;
             var contentItem = okpd2Reverses.FirstOrDefault();

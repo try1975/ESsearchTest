@@ -51,6 +51,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ElasticScripts", "ElasticSc
 		es_query.txt = es_query.txt
 		es_query2.txt = es_query2.txt
 		es_syn.json = es_syn.json
+		Temp_migration_20190628.txt = Temp_migration_20190628.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RusStemmer", "RusStemmer\RusStemmer.csproj", "{1CD0E838-0F31-492C-B47D-7DF77A0E633C}"
@@ -92,6 +93,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadWordTables", "ReadWordTables\ReadWordTables.csproj", "{5F64D62E-AE99-463A-895A-794B42354452}"
 EndProject
 Global
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
