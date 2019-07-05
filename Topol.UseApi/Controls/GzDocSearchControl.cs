@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using GzCommon;
 using Topol.UseApi.Forms;
 using Topol.UseApi.Interfaces;
 using Topol.UseApi.Interfaces.Common;
@@ -59,6 +60,11 @@ namespace Topol.UseApi.Controls
             dgvDocs.FilterStringChanged += DgvDocsFilterStringChanged;
             dgvDocs.SortStringChanged += DgvDocsSortStringChanged;
             btnGoGzWebsite.Click += BtnGoGzWebsiteOnClick;
+
+            var gzRegions = _dataManager.GetGzRegions();
+            clbRegions.DataSource = gzRegions;
+            clbRegions.DisplayMember = "Name";
+            clbRegions.SelectedIndex = 0;
         }
 
         private void BtnGoGzWebsiteOnClick(object sender, EventArgs eventArgs)
@@ -108,8 +114,15 @@ namespace Topol.UseApi.Controls
 
         private void BtnGzDocSearch_Click(object sender, EventArgs e)
         {
+            var regions ="";
+            foreach (var item in clbRegions.CheckedItems)
+            {
+                if (!string.IsNullOrEmpty(regions)) regions += ",";
+                regions += ((RegionItem) item).Code;
+            }
+
             _docsDataTable.Rows.Clear();
-            var docs = _dataManager.GetGzDocSearch(tbGzDocSearchKey.Text, tbGzDocRegions.Text, tbGzDocMonths.Text);
+            var docs = _dataManager.GetGzDocSearch(tbGzDocSearchKey.Text, regions, tbGzDocMonths.Text);
             if (docs.Count == 0) MessageBox.Show(@"Не найдено.");
             foreach (var doc in docs)
             {

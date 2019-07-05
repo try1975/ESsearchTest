@@ -7,6 +7,7 @@ using Common.Dto;
 using Common.Dto.Model;
 using Common.Dto.Model.NewApi;
 using Common.Dto.Model.Packet;
+using GzCommon;
 using PriceCommon.Model;
 using Topol.UseApi.Administration;
 using Topol.UseApi.Interfaces.Common;
@@ -29,7 +30,9 @@ namespace Topol.UseApi.Data.Common
         private readonly string _endpointGetSourceCounts;
         private readonly string _endpointGzDocs;
         private readonly string _endpointGzDocSearch;
+        private readonly string _endpointGzRegions;
         private readonly HttpClient _apiHttpClient;
+        
 
         public DataMаnager()
         {
@@ -54,6 +57,8 @@ namespace Topol.UseApi.Data.Common
 
             _endpointGzDocs = $"{gzApi}api/docs/";
             _endpointGzDocSearch = $"{gzApi}api/docsearch/";
+            _endpointGzRegions = $"{gzApi}api/common/regions/";
+
             #endregion
 
             _apiHttpClient = new HttpClient(new LoggingHandler());
@@ -256,6 +261,17 @@ namespace Topol.UseApi.Data.Common
             {
                 if (!response.IsSuccessStatusCode) return new Dictionary<string, string>();
                 var result = response.Content.ReadAsAsync<Dictionary<string, string>>().Result;
+                return result;
+            }
+        }
+
+        public List<RegionItem> GetGzRegions()
+        {
+            var url = $"{_endpointGzRegions}";
+            using (var response = _apiHttpClient.GetAsync(url).Result)
+            {
+                if (!response.IsSuccessStatusCode) return new List<RegionItem>();
+                var result = response.Content.ReadAsAsync<List<RegionItem>>().Result;
                 return result;
             }
         }

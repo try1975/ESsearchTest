@@ -146,6 +146,7 @@
       <DependentUpon>GzDocSearchControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\GzDocUtils.cs" />
+    <Compile Include="Datasources\SearchItemStatusItem.cs" />
     <Compile Include="Data\Common\AutoMapperConfig.cs" />
     <Compile Include="Data\Common\HttpClientExtensions.cs" />
     <Compile Include="Data\Common\TypedDataMаnager.cs" />
@@ -315,6 +316,10 @@
     <ProjectReference Include="..\Common.Dto\Common.Dto.csproj">
       <Project>{ed2886fc-f692-44b5-9328-8013183a2402}</Project>
       <Name>Common.Dto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GzCommon\GzCommon.csproj">
+      <Project>{3844e3dc-45ef-4a1c-89cb-c50af808b71e}</Project>
+      <Name>GzCommon</Name>
     </ProjectReference>
     <ProjectReference Include="..\PriceCommon\PriceCommon.csproj">
       <Project>{0BDCAA8C-D511-46F0-B681-33DBED62C002}</Project>

@@ -92,10 +92,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GzDocs.WebApi", "GzDocs\GzD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadWordTables", "ReadWordTables\ReadWordTables.csproj", "{5F64D62E-AE99-463A-895A-794B42354452}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GzCommon", "GzCommon\GzCommon.csproj", "{3844E3DC-45EF-4A1C-89CB-C50AF808B71E}"
+EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -221,6 +220,10 @@ Global
 		{5F64D62E-AE99-463A-895A-794B42354452}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F64D62E-AE99-463A-895A-794B42354452}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F64D62E-AE99-463A-895A-794B42354452}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3844E3DC-45EF-4A1C-89CB-C50AF808B71E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3844E3DC-45EF-4A1C-89CB-C50AF808B71E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3844E3DC-45EF-4A1C-89CB-C50AF808B71E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3844E3DC-45EF-4A1C-89CB-C50AF808B71E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -251,5 +254,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A9BD0551-2AC1-463F-A0B2-20DBB02C6A19}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
