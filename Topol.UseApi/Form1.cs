@@ -537,13 +537,19 @@ namespace Topol.UseApi
 
         private void btnExcel_Click(object sender, EventArgs e)
         {
-            var saveFileDialog = new SaveFileDialog { FileName = $"Topol.Api_{DateTime.Now:yyyyMMdd_HHmm}.xlsx" };
+            const string defaultExt = "xlsx";
+            var saveFileDialog = new SaveFileDialog { FileName = $"Topol.Api_{DateTime.Now:yyyyMMdd_HHmm}.{defaultExt}" };
+            saveFileDialog.Filter =  "Excel files (*.xlxs)|*.xlsx|All files (*.*)|*.*";
+            saveFileDialog.DefaultExt = "xlsx";
             if (saveFileDialog.ShowDialog() != DialogResult.OK) return;
             var sourceDataTable = (DataTable)ContentItemsBindingSource.DataSource;
             var view = new DataView(sourceDataTable, dgvContentItems.FilterString, dgvContentItems.SortString, DataViewRowState.CurrentRows);
             var dataTable = view.ToTable();
-            CreateExcelFile.CreateExcelDocument(dataTable, saveFileDialog.FileName);
-            if (File.Exists(saveFileDialog.FileName)) Process.Start(saveFileDialog.FileName);
+            var filename = saveFileDialog.FileName;
+            var ext = Path.GetExtension(filename);
+            if (ext != $".{defaultExt}") filename += $".{defaultExt}";
+            CreateExcelFile.CreateExcelDocument(dataTable, filename);
+            if (File.Exists(filename)) Process.Start(filename);
         }
 
         private void btnSplit_Click(object sender, EventArgs e)
