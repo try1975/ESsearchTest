@@ -66,12 +66,14 @@ namespace Price.WebApi.Ninject
 
         private static void ConfigureOrm(IKernel container)
         {
-            //container.Bind<DbContext>().To<PriceContext>().InSingletonScope();
-            container.Bind<DbContext>().To<PriceContext>().WhenInjectedInto<ContentQuery>().InRequestScope();
-            container.Bind<DbContext>().To<PriceContext>().WhenInjectedInto<InternetContentQuery>().InRequestScope();
-            container.Bind<DbContext>().To<PriceContext>().WhenInjectedInto<SearchItemQuery>().InRequestScope();
+            container.Bind<PriceContext>().To<PriceContext>().InRequestScope();
             
-            container.Bind<DbContext>().To<FindCompanyContext>().WhenInjectedInto<FindCompanyQuery>().InRequestScope();
+            //container.Bind<DbContext>().To<PriceContext>().WhenInjectedInto<ContentQuery>().InRequestScope();
+            //container.Bind<DbContext>().To<PriceContext>().WhenInjectedInto<InternetContentQuery>().InRequestScope();
+            //container.Bind<DbContext>().To<PriceContext>().WhenInjectedInto<SearchItemQuery>().InRequestScope();
+
+            //container.Bind<DbContext>().To<FindCompanyContext>().WhenInjectedInto<FindCompanyQuery>().InRequestScope();
+            container.Bind<FindCompanyContext>().To<FindCompanyContext>().InRequestScope();
             //container.Bind<ExchangeServiceMailSender>().ToSelf().InSingletonScope();
         }
     }

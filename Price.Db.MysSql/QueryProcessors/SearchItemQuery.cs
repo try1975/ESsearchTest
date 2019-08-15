@@ -7,7 +7,7 @@ namespace Price.Db.Postgress.QueryProcessors
 {
     public class SearchItemQuery : TypedQuery<SearchItemEntity, string>, ISearchItemQuery
     {
-        public SearchItemQuery(DbContext db) : base(db)
+        public SearchItemQuery(PriceContext db) : base(db)
         {
         }
     }

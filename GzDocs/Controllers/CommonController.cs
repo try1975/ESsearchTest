@@ -4,24 +4,39 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Http;
+using GzCommon;
 
 namespace GzDocs.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [RoutePrefix("api/common")]
     public class CommonController : ApiController
     {
 
+        /// <summary>
+        /// Список регионов, по которым есть данные
+        /// </summary>
+        /// <returns></returns>
         [HttpGet, Route("regions")]
-        public List<string> GetRegions()
+        public List<RegionItem> GetRegions()
         {
-            return GetDirectoriesName(AppGlobal.GzAttachmentsPathPrefix)
-                .Select(z => z.Substring(0,2))
+            var regionCodes = GetDirectoriesName(AppGlobal.GzAttachmentsPathPrefix)
+                .Select(z => z.Substring(0, 2))
                 .Distinct()
                 .OrderBy(z => z)
+                ;
+            return RegionItem.RegionItems
+                .Where(z => regionCodes.Contains(z.Code))
                 .ToList()
                 ;
         }
 
+        /// <summary>
+        /// Список ГодМесяц, по которым есть данные
+        /// </summary>
+        /// <returns></returns>
         [HttpGet, Route("months")]
         public List<string> GetMonths()
         {
@@ -33,7 +48,7 @@ namespace GzDocs.Controllers
                 ;
         }
 
-        public static List<string> GetDirectoriesName(string path)
+        private static IEnumerable<string> GetDirectoriesName(string path)
         {
             return Directory.GetDirectories(path)
                             .Select(Path.GetFileName)

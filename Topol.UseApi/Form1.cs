@@ -25,6 +25,7 @@ using System.Windows.Forms;
 using Tesseract;
 using Topol.UseApi.Controls;
 using Topol.UseApi.Data.Common;
+using Topol.UseApi.Datasources;
 using Topol.UseApi.Forms;
 using Topol.UseApi.Interfaces;
 using Topol.UseApi.Interfaces.Common;
@@ -77,12 +78,6 @@ namespace Topol.UseApi
         private readonly TesseractEngine _engine;
 
         #endregion //rectangle on image
-
-        private class SearchItemStatusItem
-        {
-            public string Text { get; set; }
-            public TaskStatus? TaskStatus { get; set; }
-        }
 
         public Form1()
         {
@@ -144,15 +139,7 @@ namespace Topol.UseApi
             var baseApi = ConfigurationManager.AppSettings["BaseApi"];
             linkLabel1.Text = $@"Описание API - {baseApi}";
 
-            cbSearchItemStatus.DataSource = new[] {
-                new SearchItemStatusItem { Text="Любое", TaskStatus=null},
-                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.InProcess), TaskStatus=TaskStatus.InProcess},
-                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.Checked), TaskStatus=TaskStatus.Checked},
-                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.Ok), TaskStatus=TaskStatus.Ok},
-                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.BreakByTimeout), TaskStatus=TaskStatus.BreakByTimeout},
-                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.Break), TaskStatus=TaskStatus.Break},
-                new SearchItemStatusItem { Text=PriceCommon.Utils.Utils.GetDescription(TaskStatus.Error), TaskStatus=TaskStatus.Error}
-                };
+            cbSearchItemStatus.DataSource = SearchItemStatusItem.GetSearchItemStatusItems();
             cbSearchItemStatus.DisplayMember = "Text";
             cbSearchItemStatus.SelectedIndex = 0;
 
@@ -1031,9 +1018,17 @@ namespace Topol.UseApi
             {
                 dto.Status = ((SearchItemStatusItem)cbSearchItemStatus.SelectedItem).TaskStatus;
             }
-            var searchItemHeaderDtos = await _dataManager.GetByConditionAsync(dto);
-            SearchItemsToForm(searchItemHeaderDtos);
-            if (searchItemHeaderDtos.Count == 0) MessageBox.Show(@"Данные не найдены");
+
+            try
+            {
+                var searchItemHeaderDtos = await _dataManager.GetByConditionAsync(dto);
+                SearchItemsToForm(searchItemHeaderDtos);
+                if (searchItemHeaderDtos.Count == 0) MessageBox.Show(@"Данные не найдены");
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+            }
         }
 
         private async void SearchPacket(List<SearchItemParam> dto, string keywords)

@@ -15,7 +15,9 @@ namespace Price.WebApi.Jobs
         /// </summary>
         public static void Start()
         {
-            //return;
+#if DEBUG
+            return;
+#endif
             var scheduler = StdSchedulerFactory.GetDefaultScheduler();
             scheduler.Start();
 

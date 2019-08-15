@@ -65,8 +65,9 @@ namespace Db.Entities
             if (entity == null) return false;
             try
             {
-                _db.Set<T>().Attach(entity);
-                _db.Set<T>().Remove(entity);
+                //_db.Set<T>().Attach(entity);
+                //_db.Set<T>().Remove(entity);
+                _db.Entry(entity).State = EntityState.Deleted; 
                 _db.SaveChanges();
                 return true;
             }

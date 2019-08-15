@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Common.Dto.Model;
 using Common.Dto.Model.NewApi;
 using Common.Dto.Model.Packet;
+using GzCommon;
 using PriceCommon.Model;
 
 namespace Topol.UseApi.Interfaces.Common
@@ -31,5 +32,6 @@ namespace Topol.UseApi.Interfaces.Common
         Task<Dictionary<string, string>> GetGzDocsAcync(string regNum);
         Dictionary<string, string> GetGzDocs(string regNum);
         Dictionary<string, string> GetGzDocSearch(string key, string regions, string months);
+        List<RegionItem> GetGzRegions();
     }
 }

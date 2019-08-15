@@ -13,7 +13,7 @@ namespace Price.Db.Postgress.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201906291409337_V06"; }
+            get { return "201906291903247_V06"; }
         }
         
         string IMigrationMetadata.Source

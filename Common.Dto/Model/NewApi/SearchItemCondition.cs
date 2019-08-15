@@ -48,5 +48,14 @@ namespace Common.Dto.Model.NewApi
         /// Взять только те поисковые запросы, где совпадает ОКПД2
         /// </summary>
         public string Okpd2 { get; set; }
+
+        /// <summary>
+        /// размер страницы (100 по умолчанию)
+        /// </summary>
+        public int PageSize { get; set; }
+        /// <summary>
+        /// номер страницы
+        /// </summary>
+        public int PageNum { get; set; }
     }
 }

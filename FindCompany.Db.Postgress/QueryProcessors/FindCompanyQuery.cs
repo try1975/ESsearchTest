@@ -7,7 +7,7 @@ namespace FindCompany.Db.Postgress.QueryProcessors
 {
     public class FindCompanyQuery : TypedQuery<FindCompanyEntity, int>, IFindCompanyQuery
     {
-        public FindCompanyQuery(DbContext db) : base(db)
+        public FindCompanyQuery(FindCompanyContext db) : base(db)
         {
         }
     }
