@@ -45,6 +45,7 @@ namespace GzCommon
                 new RegionItem {Name = "Амурская область", Code = "28"},
                 new RegionItem {Name = "Архангельская область", Code = "29"},
                 new RegionItem {Name = "Астраханская область", Code = "30"},
+                new RegionItem {Name = "Белгородская область", Code = "31"},
                 new RegionItem {Name = "Камчатский край", Code = "41"},
 
                 new RegionItem {Name = "Московская область", Code = "50"},
@@ -52,6 +53,8 @@ namespace GzCommon
                 new RegionItem {Name = "Забайкальский край", Code = "75"},
                 new RegionItem {Name = "Москва", Code = "77"},
                 new RegionItem {Name = "Республика Крым", Code = "91"},
+                new RegionItem {Name = "Иные территории, включая город и космодром Байконур", Code = "99"}
+                
             };
         }
     }
