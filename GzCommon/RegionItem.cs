@@ -46,6 +46,7 @@ namespace GzCommon
                 new RegionItem {Name = "Архангельская область", Code = "29"},
                 new RegionItem {Name = "Астраханская область", Code = "30"},
                 new RegionItem {Name = "Белгородская область", Code = "31"},
+                new RegionItem {Name = "Брянская область", Code = "32"},
                 new RegionItem {Name = "Камчатский край", Code = "41"},
 
                 new RegionItem {Name = "Московская область", Code = "50"},
