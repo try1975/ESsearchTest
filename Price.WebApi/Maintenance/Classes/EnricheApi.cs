@@ -21,7 +21,9 @@ namespace Price.WebApi.Maintenance.Classes
         public EnricheApi(IFindCompanyQuery findCompanyQuery)
         {
             var findCompanies = findCompanyQuery.GetEntities()
-                .Select(z => new {z.Host, z.Name}).ToList();
+                .Where(z => !string.IsNullOrEmpty(z.Host))
+                .Select(z => new {z.Host, z.Name})
+                .ToList();
             _sellersConcurrentDictionary = new ConcurrentDictionary<string, string>(findCompanies.Select(z=> new KeyValuePair<string, string>(z.Host, z.Name)));
         }
 
