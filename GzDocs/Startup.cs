@@ -18,7 +18,7 @@ namespace GzDocs
         public void Configuration(IAppBuilder app)
         {
             new ApiConfig(app)
-                //.ConfigureCorsMiddleware(ConfigurationManager.AppSettings["cors"])
+                .ConfigureCorsMiddleware(ConfigurationManager.AppSettings["cors"])
                 .ConfigureAufacMiddleware()
                 .ConfigureFormatters()
                 .ConfigureRoutes()

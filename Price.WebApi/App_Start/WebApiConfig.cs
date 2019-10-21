@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using System.Web.Http.OData.Extensions;
+using System.Web.Http.Cors;
 
 namespace Price.WebApi
 {
@@ -24,6 +25,9 @@ namespace Price.WebApi
             // OData query options
             //config.EnableQuerySupport();
             config.AddODataQueryFilter();
+
+            var corsAttr = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(corsAttr);
         }
     }
 }
