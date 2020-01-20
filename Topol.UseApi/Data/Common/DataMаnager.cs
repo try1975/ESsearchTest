@@ -31,6 +31,7 @@ namespace Topol.UseApi.Data.Common
         private readonly string _endpointGzDocs;
         private readonly string _endpointGzDocSearch;
         private readonly string _endpointGzRegions;
+        private readonly string _endpointMonitoring;
         private readonly HttpClient _apiHttpClient;
         
 
@@ -58,6 +59,8 @@ namespace Topol.UseApi.Data.Common
             _endpointGzDocs = $"{gzApi}api/docs/";
             _endpointGzDocSearch = $"{gzApi}api/docsearch/";
             _endpointGzRegions = $"{gzApi}api/common/regions/";
+
+            _endpointMonitoring = $"{baseApi}api/Monitoring/schedule/";
 
             #endregion
 
@@ -273,6 +276,27 @@ namespace Topol.UseApi.Data.Common
                 if (!response.IsSuccessStatusCode) return new List<RegionItem>();
                 var result = response.Content.ReadAsAsync<List<RegionItem>>().Result;
                 return result;
+            }
+        }
+
+        public async Task<List<MonitoringScheduleDto>> GetSchedules()
+        {
+            var url = $"{_endpointMonitoring}";
+            using (var response = await _apiHttpClient.GetAsync(url))
+            {
+                if (!response.IsSuccessStatusCode) return new List<MonitoringScheduleDto>();
+                var result = response.Content.ReadAsAsync<List<MonitoringScheduleDto>>().Result;
+                return result;
+            }
+        }
+
+        public async Task<MonitoringScheduleDto> PostSchedule(MonitoringScheduleDto monitoringScheduleDto)
+        {
+            var url = $"{_endpointMonitoring}";
+            using (var response = await _apiHttpClient.PostAsJsonAsync(url, monitoringScheduleDto))
+            {
+                if (!response.IsSuccessStatusCode) return null;
+                return await response.Content.ReadAsAsync<MonitoringScheduleDto>();
             }
         }
     }

@@ -21,12 +21,15 @@ namespace Price.Db.Postgress
         public virtual DbSet<InternetContentEntity> InternetContents { get; set; }
         public virtual DbSet<ContentEntity> Contents { get; set; }
 
+        public virtual DbSet<ScheduleEntity> Schedules { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             const string prefix = "";
             modelBuilder.Configurations.Add(new SearchItemDbMap($"{prefix}{nameof(SearchItems)}"));
             modelBuilder.Configurations.Add(new InternetContentDbMap($"{prefix}history"));
             modelBuilder.Configurations.Add(new ContentDbMap($"{prefix}{nameof(Contents)}"));
+            modelBuilder.Configurations.Add(new ScheduleDbMap($"{prefix}{nameof(Schedules)}"));
             modelBuilder.HasDefaultSchema("public");
             base.OnModelCreating(modelBuilder);
         }

@@ -497,6 +497,46 @@
             
             </summary>
         </member>
+        <member name="T:Common.Dto.Model.MonitoringScheduleDto">
+            <summary>
+            Структура для задания параметров мониторинга
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.MonitoringScheduleDto.FirstDate">
+            <summary>
+            Дата начала выполнения 
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.MonitoringScheduleDto.LastDate">
+            <summary>
+            Дата последнего выполнения 
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.MonitoringScheduleDto.NextRequestDate">
+            <summary>
+            Дата следующего выполнения 
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.MonitoringScheduleDto.Frequency">
+            <summary>
+            Частота обновления (0-ежедневно, 1-еженедельно)
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.MonitoringScheduleDto.IsActive">
+            <summary>
+            Мониторинг актуален 
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.MonitoringScheduleDto.Note">
+            <summary>
+            Примечание
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.MonitoringScheduleDto.Url">
+            <summary>
+            Ссылка
+            </summary>
+        </member>
         <member name="T:Common.Dto.Model.XPath.XPathDto">
             <summary>
             

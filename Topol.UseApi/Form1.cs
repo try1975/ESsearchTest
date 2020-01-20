@@ -90,9 +90,16 @@ namespace Topol.UseApi
             pnlGzDocList.Controls.Clear();
             pnlGzDocList.Controls.Add(ctrlGzDocList);
 
+            
+
             cmbElasticIndexName.SelectedIndex = 0;
             cmbNorm.SelectedIndex = 0;
             _dataManager = new DataMаnager();
+
+
+            var monitoringControl = new MonitoringControl(_dataManager);
+            monitoringControl.Dock = DockStyle.Fill;
+            tabPage6.Controls.Add(monitoringControl);
 
             MaybeItemsBindingSource = new BindingSource();
             Okpd2ItemsBindingSource = new BindingSource();
@@ -197,6 +204,7 @@ namespace Topol.UseApi
             tsmiDelete.Click += TsmiDelete_Click;
             tsmiSetChecked.Click += TsmiSetChecked_Click;
             tsmiSetNotChecked.Click += TsmiSetNotChecked_Click;
+            tsmiSetMonitoring.Click += TsmiSetMonitoring_Click;
 
             tbName.KeyDown += tbName_KeyDown;
             tbName.TextChanged += tbName_TextChanged;
@@ -209,6 +217,8 @@ namespace Topol.UseApi
 
             cmbOdataFilter.TextChanged += cmbOdataFilter_TextChanged;
         }
+
+        
 
         private void cmbOdataFilter_TextChanged(object sender, EventArgs e)
         {
@@ -1498,6 +1508,16 @@ namespace Topol.UseApi
                 var elasticId = row.Cells[nameof(ContentExtDto.ElasticId)].Value.ToString();
                 await _dataManager.PostContentItemNotChecked(id, elasticId);
             }
+        }
+
+        private void TsmiSetMonitoring_Click(object sender, EventArgs e)
+        {
+            var dto = new MonitoringScheduleDto
+            {
+                Frequency = Frequency.Monthly
+            };
+            var frm = new ScheduleForm(dto);
+            frm.ShowDialog();
         }
 
         private void tbName_KeyDown(object sender, KeyEventArgs e)

@@ -109,9 +109,8 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
@@ -146,11 +145,23 @@
       <DependentUpon>GzDocSearchControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\GzDocUtils.cs" />
+    <Compile Include="Controls\MonitoringControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MonitoringControl.Designer.cs">
+      <DependentUpon>MonitoringControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Datasources\SearchItemStatusItem.cs" />
     <Compile Include="Data\Common\AutoMapperConfig.cs" />
     <Compile Include="Data\Common\HttpClientExtensions.cs" />
     <Compile Include="Data\Common\TypedDataMаnager.cs" />
     <Compile Include="Data\SellerDataManager.cs" />
+    <Compile Include="Forms\ScheduleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ScheduleForm.Designer.cs">
+      <DependentUpon>ScheduleForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\WordTablesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -222,6 +233,9 @@
     <EmbeddedResource Include="Controls\GzDocSearchControl.resx">
       <DependentUpon>GzDocSearchControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MonitoringControl.resx">
+      <DependentUpon>MonitoringControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\SellerControl.resx">
       <DependentUpon>SellerControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -239,6 +253,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormSplit.resx">
       <DependentUpon>FormSplit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ScheduleForm.resx">
+      <DependentUpon>ScheduleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\WordTablesForm.resx">
       <DependentUpon>WordTablesForm.cs</DependentUpon>

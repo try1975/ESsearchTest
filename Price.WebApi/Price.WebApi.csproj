@@ -97,7 +97,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
@@ -149,7 +148,11 @@
     <Reference Include="System.Web.Http.OData, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.5.7.0\lib\net45\System.Web.Http.OData.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
@@ -166,9 +169,6 @@
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -211,12 +211,14 @@
     <Compile Include="Auth\TokenModule.cs" />
     <Compile Include="AutoMappers\ContentAutoMapper.cs" />
     <Compile Include="AutoMappers\FindCompanyAutoMapper.cs" />
+    <Compile Include="AutoMappers\ScheduleAutoMapper.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\ContentItemController.cs" />
     <Compile Include="Controllers\FindCompanyController.cs" />
     <Compile Include="Controllers\InternetController.cs" />
     <Compile Include="Controllers\PacketController.cs" />
     <Compile Include="Controllers\PharmacyController.cs" />
+    <Compile Include="Controllers\MonitoringController.cs" />
     <Compile Include="Controllers\SearchItemController.cs" />
     <Compile Include="Controllers\SimplePriceController.cs" />
     <Compile Include="Controllers\TestCallbackController.cs" />
@@ -242,12 +244,14 @@
     <Compile Include="Maintenance\Classes\ContentApi.cs" />
     <Compile Include="Maintenance\Classes\EnricheApi.cs" />
     <Compile Include="Maintenance\Classes\InternetContentApi.cs" />
+    <Compile Include="Maintenance\Classes\ScheduleApi.cs" />
     <Compile Include="Maintenance\Classes\SearchItemApi.cs" />
     <Compile Include="Maintenance\Classes\FindCompanyApi.cs" />
     <Compile Include="Maintenance\Interfaces\IContentApi.cs" />
     <Compile Include="Maintenance\Interfaces\IEnricheApi.cs" />
     <Compile Include="Maintenance\Interfaces\IFindCompanyApi.cs" />
     <Compile Include="Maintenance\Interfaces\IInternetContentApi.cs" />
+    <Compile Include="Maintenance\Interfaces\IScheduleApi.cs" />
     <Compile Include="Maintenance\Interfaces\ISearchItemApi.cs" />
     <Compile Include="Maintenance\ITypedApi.cs" />
     <Compile Include="Maintenance\TypedApi.cs" />

@@ -56,6 +56,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\Frequency.cs" />
     <Compile Include="PriceCommonConstants.cs" />
     <Compile Include="Enums\EnumLocalizeAttribite.cs" />
     <Compile Include="Enums\PriceStatus.cs" />

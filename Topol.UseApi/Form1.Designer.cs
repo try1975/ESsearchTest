@@ -133,6 +133,7 @@
             this.label17 = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.panel29 = new System.Windows.Forms.Panel();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
             this.splitter5 = new System.Windows.Forms.Splitter();
             this.panel19 = new System.Windows.Forms.Panel();
             this.pnlWebshot = new System.Windows.Forms.Panel();
@@ -182,6 +183,7 @@
             this.tbKeywords = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.timerAnalyze = new System.Windows.Forms.Timer(this.components);
+            this.tsmiSetMonitoring = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlPacket.SuspendLayout();
             this.pnlCallPacket.SuspendLayout();
             this.pnlLoadPacket.SuspendLayout();
@@ -528,9 +530,10 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiDelete,
             this.tsmiSetChecked,
-            this.tsmiSetNotChecked});
+            this.tsmiSetNotChecked,
+            this.tsmiSetMonitoring});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(292, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(292, 114);
             // 
             // tsmiDelete
             // 
@@ -693,6 +696,7 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -1266,6 +1270,15 @@
             this.panel29.Size = new System.Drawing.Size(819, 615);
             this.panel29.TabIndex = 1;
             // 
+            // tabPage6
+            // 
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(819, 615);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "Мониторинг";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
             // splitter5
             // 
             this.splitter5.BackColor = System.Drawing.SystemColors.HotTrack;
@@ -1507,8 +1520,8 @@
             // bindingNavigatorCountItem
             // 
             this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(43, 36);
-            this.bindingNavigatorCountItem.Text = "для {0}";
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(35, 36);
+            this.bindingNavigatorCountItem.Text = "of {0}";
             this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
             // 
             // bindingNavigatorDeleteItem
@@ -1547,6 +1560,7 @@
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Position";
             this.bindingNavigatorPositionItem.AutoSize = false;
+            this.bindingNavigatorPositionItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
             this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 23);
             this.bindingNavigatorPositionItem.Text = "0";
@@ -1768,6 +1782,12 @@
             // timerAnalyze
             // 
             this.timerAnalyze.Interval = 1200;
+            // 
+            // tsmiSetMonitoring
+            // 
+            this.tsmiSetMonitoring.Name = "tsmiSetMonitoring";
+            this.tsmiSetMonitoring.Size = new System.Drawing.Size(291, 22);
+            this.tsmiSetMonitoring.Text = "Поставить на мониторинг";
             // 
             // Form1
             // 
@@ -2005,6 +2025,8 @@
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.Panel panel29;
         private System.Windows.Forms.Panel pnlGzDocList;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSetMonitoring;
     }
 }
 

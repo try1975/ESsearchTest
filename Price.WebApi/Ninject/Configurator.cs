@@ -45,6 +45,9 @@ namespace Price.WebApi.Ninject
             container.Bind<IInternetContentQuery>().To<InternetContentQuery>().InRequestScope();
             container.Bind<IContentApi>().To<ContentApi>().InRequestScope();
             container.Bind<IContentQuery>().To<ContentQuery>().InRequestScope();
+            
+            container.Bind<IScheduleQuery>().To<ScheduleQuery>().InRequestScope();
+            container.Bind<IScheduleApi>().To<ScheduleApi>().InRequestScope();
 
             container.Bind<IEnricheApi>().To<EnricheApi>().InSingletonScope();
             container.Bind<IFindCompanyApi>().To<FindCompanyApi>().InSingletonScope();
@@ -60,6 +63,7 @@ namespace Price.WebApi.Ninject
             var cfg = new MapperConfigurationExpression();
             ContentAutoMapper.Configure(cfg);
             FindCompanyAutoMapper.Configure(cfg);
+            ScheduleAutoMapper.Configure(cfg);
             Mapper.Initialize(cfg);
             //Mapper.AssertConfigurationIsValid();
         }

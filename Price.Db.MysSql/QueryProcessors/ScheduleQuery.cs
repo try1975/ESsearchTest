@@ -4,9 +4,9 @@ using Price.Db.Entities.QueryProcessors;
 
 namespace Price.Db.Postgress.QueryProcessors
 {
-    public class ContentQuery : TypedQuery<ContentEntity, int>, IContentQuery
+    public class ScheduleQuery : TypedQuery<ScheduleEntity, int>, IScheduleQuery
     {
-        public ContentQuery(PriceContext db) : base(db)
+        public ScheduleQuery(PriceContext db) : base(db)
         {
         }
     }

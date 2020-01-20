@@ -10,6 +10,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Common.Dto.Model.NewApi;
+using Common.Dto.Model.Packet;
 
 namespace Price.WebApi.Controllers
 {
@@ -21,14 +22,16 @@ namespace Price.WebApi.Controllers
     public class SimplePriceController : ApiController
     {
         private IFindCompanyApi _findCompanyApi;
+        private readonly ISearchItemCallback _searchItemCallback;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="findCompanyApi"></param>
-        public SimplePriceController(IFindCompanyApi findCompanyApi)
+        public SimplePriceController(IFindCompanyApi findCompanyApi, ISearchItemCallback searchItemCallback)
         {
             _findCompanyApi = findCompanyApi;
+            _searchItemCallback = searchItemCallback;
         }
 
         /// <summary>
