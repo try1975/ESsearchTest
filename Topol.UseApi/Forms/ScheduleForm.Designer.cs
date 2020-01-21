@@ -46,8 +46,8 @@
             this.cbIsActive = new System.Windows.Forms.CheckBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.tbUrl = new System.Windows.Forms.TextBox();
-            this.tbNote = new System.Windows.Forms.TextBox();
+            this.tbUri = new System.Windows.Forms.TextBox();
+            this.tbName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
@@ -231,7 +231,7 @@
             // panel4
             // 
             this.panel4.Controls.Add(this.label2);
-            this.panel4.Controls.Add(this.tbUrl);
+            this.panel4.Controls.Add(this.tbUri);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(0, 181);
             this.panel4.Name = "panel4";
@@ -241,26 +241,26 @@
             // panel5
             // 
             this.panel5.Controls.Add(this.label3);
-            this.panel5.Controls.Add(this.tbNote);
+            this.panel5.Controls.Add(this.tbName);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel5.Location = new System.Drawing.Point(0, 227);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(462, 57);
             this.panel5.TabIndex = 15;
             // 
-            // tbUrl
+            // tbUri
             // 
-            this.tbUrl.Location = new System.Drawing.Point(88, 6);
-            this.tbUrl.Name = "tbUrl";
-            this.tbUrl.Size = new System.Drawing.Size(315, 20);
-            this.tbUrl.TabIndex = 0;
+            this.tbUri.Location = new System.Drawing.Point(101, 6);
+            this.tbUri.Name = "tbUri";
+            this.tbUri.Size = new System.Drawing.Size(315, 20);
+            this.tbUri.TabIndex = 0;
             // 
-            // tbNote
+            // tbName
             // 
-            this.tbNote.Location = new System.Drawing.Point(89, 9);
-            this.tbNote.Name = "tbNote";
-            this.tbNote.Size = new System.Drawing.Size(316, 20);
-            this.tbNote.TabIndex = 1;
+            this.tbName.Location = new System.Drawing.Point(101, 9);
+            this.tbName.Name = "tbName";
+            this.tbName.Size = new System.Drawing.Size(316, 20);
+            this.tbName.TabIndex = 1;
             // 
             // label2
             // 
@@ -276,9 +276,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(13, 12);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(70, 13);
+            this.label3.Size = new System.Drawing.Size(83, 13);
             this.label3.TabIndex = 11;
-            this.label3.Text = "Примечание";
+            this.label3.Text = "Наименование";
             // 
             // ScheduleForm
             // 
@@ -330,7 +330,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox tbNote;
-        private System.Windows.Forms.TextBox tbUrl;
+        private System.Windows.Forms.TextBox tbName;
+        private System.Windows.Forms.TextBox tbUri;
     }
 }

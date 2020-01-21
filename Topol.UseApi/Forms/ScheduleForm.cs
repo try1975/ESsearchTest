@@ -38,7 +38,7 @@ namespace Topol.UseApi.Forms
                     break;
             }
             cbIsActive.Checked = _monitoringScheduleDto.IsActive;
-            tbUrl.Text = _monitoringScheduleDto.Url;
+            tbUri.Text = _monitoringScheduleDto.Uri;
 
             this.FormClosed += ScheduleForm_FormClosed;
         }
@@ -54,8 +54,8 @@ namespace Topol.UseApi.Forms
             if (rbAnnually.Checked) _monitoringScheduleDto.Frequency = Frequency.Annually;
 
             _monitoringScheduleDto.IsActive = cbIsActive.Checked;
-            _monitoringScheduleDto.Url = tbUrl.Text;
-            _monitoringScheduleDto.Note = tbNote.Text;
+            _monitoringScheduleDto.Uri = tbUri.Text;
+            _monitoringScheduleDto.Name = tbName.Text;
         }
     }
 }

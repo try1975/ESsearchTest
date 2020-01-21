@@ -527,12 +527,12 @@
             Мониторинг актуален 
             </summary>
         </member>
-        <member name="P:Common.Dto.Model.MonitoringScheduleDto.Note">
+        <member name="P:Common.Dto.Model.MonitoringScheduleDto.Name">
             <summary>
-            Примечание
+            Наименование
             </summary>
         </member>
-        <member name="P:Common.Dto.Model.MonitoringScheduleDto.Url">
+        <member name="P:Common.Dto.Model.MonitoringScheduleDto.Uri">
             <summary>
             Ссылка
             </summary>

@@ -12,6 +12,7 @@ namespace Price.Db.Entities.Entities
         public DateTime? NextRequestDate { get; set; }
         public Frequency Frequency { get; set; }
         public bool IsActive { get; set; }
-        public string Note { get; set; }
+        public string Name { get; set; }
+        public string Uri { get; set; }
     }
 }

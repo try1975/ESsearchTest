@@ -1510,14 +1510,21 @@ namespace Topol.UseApi
             }
         }
 
-        private void TsmiSetMonitoring_Click(object sender, EventArgs e)
+        private async void TsmiSetMonitoring_Click(object sender, EventArgs e)
         {
             var dto = new MonitoringScheduleDto
             {
-                Frequency = Frequency.Monthly
+                FirstDate = DateTime.Today,
+                Frequency = Frequency.Monthly,
+                IsActive = true,
+                Name = (string)dgvContentItems.CurrentRow.Cells[nameof(ContentExtDto.Name)].Value,
+                Uri = (string)dgvContentItems.CurrentRow.Cells[nameof(ContentExtDto.Uri)].Value
             };
             var frm = new ScheduleForm(dto);
-            frm.ShowDialog();
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                await _dataManager.PostSchedule(frm._monitoringScheduleDto);
+            }
         }
 
         private void tbName_KeyDown(object sender, KeyEventArgs e)

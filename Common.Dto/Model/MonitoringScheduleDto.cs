@@ -34,12 +34,12 @@ namespace Common.Dto.Model
         /// </summary>
         public bool IsActive { get; set; }
         /// <summary>
-        /// Примечание
+        /// Наименование
         /// </summary>
-        public string Note { get; set; }
+        public string Name { get; set; }
         /// <summary>
         /// Ссылка
         /// </summary>
-        public string Url { get; set; }
+        public string Uri { get; set; }
     }
 }
