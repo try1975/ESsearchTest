@@ -37,6 +37,7 @@ namespace Topol.UseApi.Interfaces.Common
 
         Task<List<ScheduleDto>> GetSchedules();
         Task<ScheduleDto> PostSchedule(ScheduleDto monitoringScheduleDto);
+        Task<ScheduleDto> PutSchedule(ScheduleDto monitoringScheduleDto);
         Task<bool> DeleteSchedule(int id);
     }
 }

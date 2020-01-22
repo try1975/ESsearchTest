@@ -68,10 +68,10 @@
             this.advancedDataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.advancedDataGridView2.DateWithTime = false;
             this.advancedDataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.advancedDataGridView2.Location = new System.Drawing.Point(3, 63);
+            this.advancedDataGridView2.Location = new System.Drawing.Point(3, 61);
             this.advancedDataGridView2.Name = "advancedDataGridView2";
             this.advancedDataGridView2.ReadOnly = true;
-            this.advancedDataGridView2.Size = new System.Drawing.Size(880, 202);
+            this.advancedDataGridView2.Size = new System.Drawing.Size(880, 204);
             this.advancedDataGridView2.TabIndex = 2;
             this.advancedDataGridView2.TimeFilter = false;
             // 
@@ -81,12 +81,12 @@
             this.panel30.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel30.Location = new System.Drawing.Point(3, 16);
             this.panel30.Name = "panel30";
-            this.panel30.Size = new System.Drawing.Size(880, 47);
+            this.panel30.Size = new System.Drawing.Size(880, 45);
             this.panel30.TabIndex = 1;
             // 
             // btnExcel
             // 
-            this.btnExcel.Location = new System.Drawing.Point(402, 12);
+            this.btnExcel.Location = new System.Drawing.Point(42, 12);
             this.btnExcel.Name = "btnExcel";
             this.btnExcel.Size = new System.Drawing.Size(76, 23);
             this.btnExcel.TabIndex = 6;

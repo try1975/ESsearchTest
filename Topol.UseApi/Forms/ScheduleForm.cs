@@ -4,13 +4,17 @@ using System.Windows.Forms;
 
 namespace Topol.UseApi.Forms
 {
+    public enum ScheduleFormMode { ScheduleFormAdd, ScheduleFormEdit }
+
     public partial class ScheduleForm : Form
     {
         public ScheduleDto _scheduleDto;
+        private readonly ScheduleFormMode _scheduleFormMode;
 
-        public ScheduleForm(ScheduleDto scheduleDto)
+        public ScheduleForm(ScheduleDto scheduleDto, ScheduleFormMode scheduleFormMode)
         {
             InitializeComponent();
+            _scheduleFormMode = scheduleFormMode;
             _scheduleDto = scheduleDto;
 
             switch (_scheduleDto.Frequency)
@@ -41,6 +45,9 @@ namespace Topol.UseApi.Forms
             tbUri.Text = _scheduleDto.Uri;
             tbName.Text = _scheduleDto.Name;
 
+            panel2.Visible = (_scheduleFormMode == ScheduleFormMode.ScheduleFormEdit);
+            dateTimePicker1.Value = _scheduleDto.NextDate;
+
             FormClosed += ScheduleForm_FormClosed;
         }
 
@@ -57,6 +64,7 @@ namespace Topol.UseApi.Forms
             _scheduleDto.IsActive = cbIsActive.Checked;
             _scheduleDto.Uri = tbUri.Text;
             _scheduleDto.Name = tbName.Text;
+            _scheduleDto.NextDate = dateTimePicker1.Value;
         }
     }
 }

@@ -1520,7 +1520,7 @@ namespace Topol.UseApi
                 Name = (string)dgvContentItems.CurrentRow.Cells[nameof(ContentExtDto.Name)].Value,
                 Uri = (string)dgvContentItems.CurrentRow.Cells[nameof(ContentExtDto.Uri)].Value
             };
-            var frm = new ScheduleForm(dto);
+            var frm = new ScheduleForm(dto, ScheduleFormMode.ScheduleFormAdd);
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 await _dataManager.PostSchedule(frm._scheduleDto);
