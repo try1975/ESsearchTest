@@ -74,6 +74,15 @@ namespace Price.WebApi.Jobs
                 .Build();
             scheduler.ScheduleJob(searchResultRetentionJob, searchResultRetentionTrigger);
 
+            var priceMonitoringJob = JobBuilder.Create<PriceMonitoringJob>().Build();
+            var priceMonitoringTrigger = TriggerBuilder.Create()
+                .WithIdentity(nameof(PriceMonitoringJob), "group4")
+                .WithSimpleSchedule(x => x
+                    .WithIntervalInHours(1)
+                    .WithMisfireHandlingInstructionIgnoreMisfires()
+                    .RepeatForever())
+                .Build();
+            scheduler.ScheduleJob(priceMonitoringJob, priceMonitoringTrigger);
         }
     }
 }

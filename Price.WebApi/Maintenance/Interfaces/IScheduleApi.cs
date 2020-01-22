@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Price.WebApi.Maintenance.Interfaces
 {
-    public interface IScheduleApi : ITypedApi<MonitoringScheduleDto, int>
+    public interface IScheduleApi : ITypedApi<ScheduleDto, int>
     {
     }
 }

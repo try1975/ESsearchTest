@@ -1512,9 +1512,9 @@ namespace Topol.UseApi
 
         private async void TsmiSetMonitoring_Click(object sender, EventArgs e)
         {
-            var dto = new MonitoringScheduleDto
+            var dto = new ScheduleDto
             {
-                FirstDate = DateTime.Today,
+                NextDate = DateTime.UtcNow.Date.AddDays(1),
                 Frequency = Frequency.Monthly,
                 IsActive = true,
                 Name = (string)dgvContentItems.CurrentRow.Cells[nameof(ContentExtDto.Name)].Value,
@@ -1523,7 +1523,7 @@ namespace Topol.UseApi
             var frm = new ScheduleForm(dto);
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                await _dataManager.PostSchedule(frm._monitoringScheduleDto);
+                await _dataManager.PostSchedule(frm._scheduleDto);
             }
         }
 

@@ -32,10 +32,10 @@ namespace PriceCommon.Utils
                 return -2;
             }
 
-            var min = count/4;
-            var max = count*3/4;
+            var min = count / 4;
+            var max = count * 3 / 4;
             var del = true;
-            if (count%4 > 0)
+            if (count % 4 > 0)
             {
                 min++;
                 max++;
@@ -70,16 +70,16 @@ namespace PriceCommon.Utils
             var maxInd = "Ц[" + max + "] ";
             if (del)
             {
-                minPrice = (minPrice + nextMinPrice)/2;
+                minPrice = (minPrice + nextMinPrice) / 2;
                 minInd = "(Ц[" + min + "]+Ц[" + (min + 1) + "])/2 ";
-                maxPrice = (maxPrice + nextMaxPrice)/2;
+                maxPrice = (maxPrice + nextMaxPrice) / 2;
                 maxInd = "(Ц[" + max + "]+Ц[" + (max + 1) + "])/2 ";
             }
             sbText.AppendLine($"3. Минимальное значение цены Цмин={minInd} ={minPrice}");
             sbText.AppendLine($"4. Максимальное значение цены Цмакс={maxInd} ={maxPrice}");
-            if (maxPrice >= minPrice*5/4)
+            if (maxPrice >= minPrice * 5 / 4)
             {
-                maxPrice = minPrice*5/4;
+                maxPrice = minPrice * 5 / 4;
                 sbText.AppendLine($"5. Верхняя граница диапазона Limmax={maxPrice}");
             }
             var sum = 0.0;
@@ -103,7 +103,7 @@ namespace PriceCommon.Utils
             }
             else
             {
-                calculatedPrice = Math.Round(sum/countPriceInCalc, 2, MidpointRounding.AwayFromZero);
+                calculatedPrice = Math.Round(sum / countPriceInCalc, 2, MidpointRounding.AwayFromZero);
             }
             sbText.Append($"7. Итого цена предмета государственного заказа: {calculatedPrice}");
             calculationText = sbText.ToString();
@@ -124,7 +124,6 @@ namespace PriceCommon.Utils
         }
 
         public static string GetDescription(Enum en)
-
         {
             if (en == null) return string.Empty;
             Type type = en.GetType();
@@ -146,6 +145,32 @@ namespace PriceCommon.Utils
 
             return en.ToString();
 
+        }
+
+        public static DateTime LoopNextFrequencyDate(DateTime moment, DateTime date, Frequency frequency)
+        {
+            var nextDate = date;
+            while (nextDate < moment)
+            {
+                nextDate = GetNextFrequencyDate(nextDate, frequency);
+            }
+            return nextDate;
+        }
+
+
+        public static DateTime GetNextFrequencyDate(DateTime date, Frequency frequency)
+        {
+            switch (frequency)
+            {
+                case Frequency.Daily: return date.AddDays(1);
+                case Frequency.Weekly: return date.AddDays(7);
+                case Frequency.Monthly: return date.AddMonths(1);
+                case Frequency.Every2Month: return date.AddMonths(2);
+                case Frequency.Quarterly: return date.AddMonths(3);
+                case Frequency.HalfYearly: return date.AddMonths(6);
+                case Frequency.Annually: return date.AddMonths(12);
+                default: return date.AddDays(1);
+            }
         }
     }
 }

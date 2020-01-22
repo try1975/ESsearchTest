@@ -497,42 +497,32 @@
             
             </summary>
         </member>
-        <member name="T:Common.Dto.Model.MonitoringScheduleDto">
+        <member name="T:Common.Dto.Model.ScheduleDto">
             <summary>
             Структура для задания параметров мониторинга
             </summary>
         </member>
-        <member name="P:Common.Dto.Model.MonitoringScheduleDto.FirstDate">
+        <member name="P:Common.Dto.Model.ScheduleDto.NextDate">
             <summary>
-            Дата начала выполнения 
+            Дата выполнения 
             </summary>
         </member>
-        <member name="P:Common.Dto.Model.MonitoringScheduleDto.LastDate">
-            <summary>
-            Дата последнего выполнения 
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.MonitoringScheduleDto.NextRequestDate">
-            <summary>
-            Дата следующего выполнения 
-            </summary>
-        </member>
-        <member name="P:Common.Dto.Model.MonitoringScheduleDto.Frequency">
+        <member name="P:Common.Dto.Model.ScheduleDto.Frequency">
             <summary>
             Частота обновления (0-ежедневно, 1-еженедельно)
             </summary>
         </member>
-        <member name="P:Common.Dto.Model.MonitoringScheduleDto.IsActive">
+        <member name="P:Common.Dto.Model.ScheduleDto.IsActive">
             <summary>
             Мониторинг актуален 
             </summary>
         </member>
-        <member name="P:Common.Dto.Model.MonitoringScheduleDto.Name">
+        <member name="P:Common.Dto.Model.ScheduleDto.Name">
             <summary>
             Наименование
             </summary>
         </member>
-        <member name="P:Common.Dto.Model.MonitoringScheduleDto.Uri">
+        <member name="P:Common.Dto.Model.ScheduleDto.Uri">
             <summary>
             Ссылка
             </summary>

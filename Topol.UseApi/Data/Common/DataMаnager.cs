@@ -279,24 +279,33 @@ namespace Topol.UseApi.Data.Common
             }
         }
 
-        public async Task<List<MonitoringScheduleDto>> GetSchedules()
+        public async Task<List<ScheduleDto>> GetSchedules()
         {
             var url = $"{_endpointMonitoring}";
             using (var response = await _apiHttpClient.GetAsync(url))
             {
-                if (!response.IsSuccessStatusCode) return new List<MonitoringScheduleDto>();
-                var result = response.Content.ReadAsAsync<List<MonitoringScheduleDto>>().Result;
+                if (!response.IsSuccessStatusCode) return new List<ScheduleDto>();
+                var result = response.Content.ReadAsAsync<List<ScheduleDto>>().Result;
                 return result;
             }
         }
 
-        public async Task<MonitoringScheduleDto> PostSchedule(MonitoringScheduleDto monitoringScheduleDto)
+        public async Task<ScheduleDto> PostSchedule(ScheduleDto monitoringScheduleDto)
         {
             var url = $"{_endpointMonitoring}";
             using (var response = await _apiHttpClient.PostAsJsonAsync(url, monitoringScheduleDto))
             {
                 if (!response.IsSuccessStatusCode) return null;
-                return await response.Content.ReadAsAsync<MonitoringScheduleDto>();
+                return await response.Content.ReadAsAsync<ScheduleDto>();
+            }
+        }
+
+        public async Task<bool> DeleteSchedule(int id)
+        {
+            var url = $"{_endpointMonitoring}/{id}";
+            using (var response = await _apiHttpClient.DeleteAsync(url))
+            {
+                return response.IsSuccessStatusCode;
             }
         }
     }

@@ -35,7 +35,8 @@ namespace Topol.UseApi.Interfaces.Common
         Dictionary<string, string> GetGzDocSearch(string key, string regions, string months);
         List<RegionItem> GetGzRegions();
 
-        Task<List<MonitoringScheduleDto>> GetSchedules();
-        Task<MonitoringScheduleDto> PostSchedule(MonitoringScheduleDto monitoringScheduleDto);
+        Task<List<ScheduleDto>> GetSchedules();
+        Task<ScheduleDto> PostSchedule(ScheduleDto monitoringScheduleDto);
+        Task<bool> DeleteSchedule(int id);
     }
 }

@@ -31,14 +31,18 @@
             this.gbMonitiringSchedulePrices = new System.Windows.Forms.GroupBox();
             this.advancedDataGridView2 = new ADGV.AdvancedDataGridView();
             this.panel30 = new System.Windows.Forms.Panel();
+            this.btnExcel = new System.Windows.Forms.Button();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.gbMonitoringSchedule = new System.Windows.Forms.GroupBox();
             this.dgvShedules = new ADGV.AdvancedDataGridView();
             this.panel28 = new System.Windows.Forms.Panel();
-            this.btnGetSchedules = new System.Windows.Forms.Button();
+            this.btnRemoveSchedule = new System.Windows.Forms.Button();
+            this.btnChangeSchedule = new System.Windows.Forms.Button();
             this.btnAddSchedule = new System.Windows.Forms.Button();
+            this.btnGetSchedules = new System.Windows.Forms.Button();
             this.gbMonitiringSchedulePrices.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView2)).BeginInit();
+            this.panel30.SuspendLayout();
             this.gbMonitoringSchedule.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShedules)).BeginInit();
             this.panel28.SuspendLayout();
@@ -73,11 +77,21 @@
             // 
             // panel30
             // 
+            this.panel30.Controls.Add(this.btnExcel);
             this.panel30.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel30.Location = new System.Drawing.Point(3, 16);
             this.panel30.Name = "panel30";
             this.panel30.Size = new System.Drawing.Size(880, 47);
             this.panel30.TabIndex = 1;
+            // 
+            // btnExcel
+            // 
+            this.btnExcel.Location = new System.Drawing.Point(402, 12);
+            this.btnExcel.Name = "btnExcel";
+            this.btnExcel.Size = new System.Drawing.Size(76, 23);
+            this.btnExcel.TabIndex = 6;
+            this.btnExcel.Text = "в Excel";
+            this.btnExcel.UseVisualStyleBackColor = true;
             // 
             // splitter1
             // 
@@ -117,6 +131,8 @@
             // 
             // panel28
             // 
+            this.panel28.Controls.Add(this.btnRemoveSchedule);
+            this.panel28.Controls.Add(this.btnChangeSchedule);
             this.panel28.Controls.Add(this.btnAddSchedule);
             this.panel28.Controls.Add(this.btnGetSchedules);
             this.panel28.Dock = System.Windows.Forms.DockStyle.Top;
@@ -125,14 +141,23 @@
             this.panel28.Size = new System.Drawing.Size(880, 40);
             this.panel28.TabIndex = 0;
             // 
-            // btnGetSchedules
+            // btnRemoveSchedule
             // 
-            this.btnGetSchedules.Location = new System.Drawing.Point(43, 11);
-            this.btnGetSchedules.Name = "btnGetSchedules";
-            this.btnGetSchedules.Size = new System.Drawing.Size(75, 23);
-            this.btnGetSchedules.TabIndex = 0;
-            this.btnGetSchedules.Text = "получить список";
-            this.btnGetSchedules.UseVisualStyleBackColor = true;
+            this.btnRemoveSchedule.Location = new System.Drawing.Point(316, 11);
+            this.btnRemoveSchedule.Name = "btnRemoveSchedule";
+            this.btnRemoveSchedule.Size = new System.Drawing.Size(75, 23);
+            this.btnRemoveSchedule.TabIndex = 3;
+            this.btnRemoveSchedule.Text = "удалить";
+            this.btnRemoveSchedule.UseVisualStyleBackColor = true;
+            // 
+            // btnChangeSchedule
+            // 
+            this.btnChangeSchedule.Location = new System.Drawing.Point(235, 11);
+            this.btnChangeSchedule.Name = "btnChangeSchedule";
+            this.btnChangeSchedule.Size = new System.Drawing.Size(75, 23);
+            this.btnChangeSchedule.TabIndex = 2;
+            this.btnChangeSchedule.Text = "изменить";
+            this.btnChangeSchedule.UseVisualStyleBackColor = true;
             // 
             // btnAddSchedule
             // 
@@ -142,6 +167,15 @@
             this.btnAddSchedule.TabIndex = 1;
             this.btnAddSchedule.Text = "добавить";
             this.btnAddSchedule.UseVisualStyleBackColor = true;
+            // 
+            // btnGetSchedules
+            // 
+            this.btnGetSchedules.Location = new System.Drawing.Point(43, 11);
+            this.btnGetSchedules.Name = "btnGetSchedules";
+            this.btnGetSchedules.Size = new System.Drawing.Size(75, 23);
+            this.btnGetSchedules.TabIndex = 0;
+            this.btnGetSchedules.Text = "получить список";
+            this.btnGetSchedules.UseVisualStyleBackColor = true;
             // 
             // MonitoringControl
             // 
@@ -154,6 +188,7 @@
             this.Size = new System.Drawing.Size(886, 662);
             this.gbMonitiringSchedulePrices.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView2)).EndInit();
+            this.panel30.ResumeLayout(false);
             this.gbMonitoringSchedule.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvShedules)).EndInit();
             this.panel28.ResumeLayout(false);
@@ -172,5 +207,8 @@
         private System.Windows.Forms.Panel panel28;
         private System.Windows.Forms.Button btnGetSchedules;
         private System.Windows.Forms.Button btnAddSchedule;
+        private System.Windows.Forms.Button btnExcel;
+        private System.Windows.Forms.Button btnRemoveSchedule;
+        private System.Windows.Forms.Button btnChangeSchedule;
     }
 }

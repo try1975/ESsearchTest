@@ -11,7 +11,7 @@ using PriceCommon.Enums;
 
 namespace Price.WebApi.Maintenance.Classes
 {
-    public class ScheduleApi : TypedApi<MonitoringScheduleDto, ScheduleEntity, int>, IScheduleApi
+    public class ScheduleApi : TypedApi<ScheduleDto, ScheduleEntity, int>, IScheduleApi
     {
         public ScheduleApi(IScheduleQuery query) : base(query)
         {

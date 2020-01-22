@@ -32,7 +32,7 @@ namespace Price.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("schedule", Name = nameof(GetMonitoringSchedules) + "Route")]
-        public IEnumerable<MonitoringScheduleDto> GetMonitoringSchedules()
+        public IEnumerable<ScheduleDto> GetMonitoringSchedules()
         {
             Logger.Log.Info($"{nameof(GetMonitoringSchedules)}");
             return  _scheduleApi.GetItems();
@@ -45,7 +45,7 @@ namespace Price.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("schedule/{id}", Name = nameof(GetMonitoringSchedule) + "Route")]
-        public MonitoringScheduleDto GetMonitoringSchedule(int id)
+        public ScheduleDto GetMonitoringSchedule(int id)
         {
             Logger.Log.Info($"{nameof(GetMonitoringSchedule)}: {id}");
             return _scheduleApi.GetItem(id);
@@ -58,7 +58,7 @@ namespace Price.WebApi.Controllers
         /// <returns>Возвращаемая структура</returns>
         [HttpPost]
         [Route("schedule", Name = nameof(PostMonitoringSchedule) + "Route")]
-        public MonitoringScheduleDto PostMonitoringSchedule([FromBody]MonitoringScheduleDto monitoringScheduleDto)
+        public ScheduleDto PostMonitoringSchedule([FromBody]ScheduleDto monitoringScheduleDto)
         {
             Logger.Log.Info($"{nameof(PostMonitoringSchedule)}: {JsonConvert.SerializeObject(monitoringScheduleDto)}");
             return  _scheduleApi.AddItem(monitoringScheduleDto);

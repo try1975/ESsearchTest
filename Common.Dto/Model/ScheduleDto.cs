@@ -8,21 +8,13 @@ namespace Common.Dto.Model
     /// <summary>
     /// Структура для задания параметров мониторинга
     /// </summary>
-    public class MonitoringScheduleDto: IDto<int>
+    public class ScheduleDto: IDto<int>
     {
         public int Id { get; set; }
         /// <summary>
-        /// Дата начала выполнения 
+        /// Дата выполнения 
         /// </summary>
-        public DateTime FirstDate { get; set; }
-        /// <summary>
-        /// Дата последнего выполнения 
-        /// </summary>
-        public DateTime? LastDate { get; set; }
-        /// <summary>
-        /// Дата следующего выполнения 
-        /// </summary>
-        public DateTime? NextRequestDate { get; set; }
+        public DateTime NextDate { get; set; }
         /// <summary>
         /// Частота обновления (0-ежедневно, 1-еженедельно)
         /// </summary>

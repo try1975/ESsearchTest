@@ -10,9 +10,9 @@ namespace Price.WebApi.AutoMappers
 
         public static void Configure(MapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<MonitoringScheduleDto, ScheduleEntity>()
+            cfg.CreateMap<ScheduleDto, ScheduleEntity>()
                 ;
-            cfg.CreateMap<ScheduleEntity, MonitoringScheduleDto>()
+            cfg.CreateMap<ScheduleEntity, ScheduleDto>()
                 ;
         }
     }

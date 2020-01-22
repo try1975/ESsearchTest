@@ -228,6 +228,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Jobs\CheckInternetSearchJob.cs" />
+    <Compile Include="Jobs\PriceMonitoringJob.cs" />
     <Compile Include="Jobs\SearchResultRetentionJob.cs" />
     <Compile Include="Jobs\ElasticRecordRetentionJob.cs" />
     <Compile Include="Jobs\TopolScheduler.cs" />

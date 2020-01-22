@@ -6,14 +6,14 @@ namespace Topol.UseApi.Forms
 {
     public partial class ScheduleForm : Form
     {
-        public MonitoringScheduleDto _monitoringScheduleDto;
+        public ScheduleDto _scheduleDto;
 
-        public ScheduleForm(MonitoringScheduleDto monitoringScheduleDto)
+        public ScheduleForm(ScheduleDto scheduleDto)
         {
             InitializeComponent();
-            _monitoringScheduleDto = monitoringScheduleDto;
+            _scheduleDto = scheduleDto;
 
-            switch (_monitoringScheduleDto.Frequency)
+            switch (_scheduleDto.Frequency)
             {
                 case Frequency.Daily:
                     rbDaily.Checked = true;
@@ -37,25 +37,26 @@ namespace Topol.UseApi.Forms
                     rbAnnually.Checked = true;
                     break;
             }
-            cbIsActive.Checked = _monitoringScheduleDto.IsActive;
-            tbUri.Text = _monitoringScheduleDto.Uri;
+            cbIsActive.Checked = _scheduleDto.IsActive;
+            tbUri.Text = _scheduleDto.Uri;
+            tbName.Text = _scheduleDto.Name;
 
-            this.FormClosed += ScheduleForm_FormClosed;
+            FormClosed += ScheduleForm_FormClosed;
         }
 
         private void ScheduleForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (rbDaily.Checked) _monitoringScheduleDto.Frequency = Frequency.Daily;
-            if (rbWeekly.Checked) _monitoringScheduleDto.Frequency = Frequency.Weekly;
-            if (rbMonthly.Checked) _monitoringScheduleDto.Frequency = Frequency.Monthly;
-            if (rbEvery2Month.Checked) _monitoringScheduleDto.Frequency = Frequency.Every2Month;
-            if (rbQuarterly.Checked) _monitoringScheduleDto.Frequency = Frequency.Quarterly;
-            if (rbHalfYearly.Checked) _monitoringScheduleDto.Frequency = Frequency.HalfYearly;
-            if (rbAnnually.Checked) _monitoringScheduleDto.Frequency = Frequency.Annually;
+            if (rbDaily.Checked) _scheduleDto.Frequency = Frequency.Daily;
+            if (rbWeekly.Checked) _scheduleDto.Frequency = Frequency.Weekly;
+            if (rbMonthly.Checked) _scheduleDto.Frequency = Frequency.Monthly;
+            if (rbEvery2Month.Checked) _scheduleDto.Frequency = Frequency.Every2Month;
+            if (rbQuarterly.Checked) _scheduleDto.Frequency = Frequency.Quarterly;
+            if (rbHalfYearly.Checked) _scheduleDto.Frequency = Frequency.HalfYearly;
+            if (rbAnnually.Checked) _scheduleDto.Frequency = Frequency.Annually;
 
-            _monitoringScheduleDto.IsActive = cbIsActive.Checked;
-            _monitoringScheduleDto.Uri = tbUri.Text;
-            _monitoringScheduleDto.Name = tbName.Text;
+            _scheduleDto.IsActive = cbIsActive.Checked;
+            _scheduleDto.Uri = tbUri.Text;
+            _scheduleDto.Name = tbName.Text;
         }
     }
 }
