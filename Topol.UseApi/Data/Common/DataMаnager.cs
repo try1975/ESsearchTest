@@ -300,15 +300,6 @@ namespace Topol.UseApi.Data.Common
             }
         }
 
-        public async Task<ScheduleDto> PutSchedule(ScheduleDto monitoringScheduleDto)
-        {
-            var url = $"{_endpointMonitoring}";
-            using (var response = await _apiHttpClient.PutAsJsonAsync(url, monitoringScheduleDto))
-            {
-                if (!response.IsSuccessStatusCode) return null;
-                return await response.Content.ReadAsAsync<ScheduleDto>();
-            }
-        }
 
         public async Task<bool> DeleteSchedule(int id)
         {

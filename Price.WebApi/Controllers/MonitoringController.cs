@@ -61,7 +61,7 @@ namespace Price.WebApi.Controllers
         public ScheduleDto PostMonitoringSchedule([FromBody]ScheduleDto monitoringScheduleDto)
         {
             Logger.Log.Info($"{nameof(PostMonitoringSchedule)}: {JsonConvert.SerializeObject(monitoringScheduleDto)}");
-            return  _scheduleApi.AddItem(monitoringScheduleDto);
+            return  _scheduleApi.ChangeItem(monitoringScheduleDto);
         }
 
         /// <summary>

@@ -499,7 +499,12 @@
         </member>
         <member name="T:Common.Dto.Model.ScheduleDto">
             <summary>
-            Структура для задания параметров мониторинга
+            Структура для задания параметров мониторинга (расписание)
+            </summary>
+        </member>
+        <member name="P:Common.Dto.Model.ScheduleDto.Id">
+            <summary>
+            Идентификатор
             </summary>
         </member>
         <member name="P:Common.Dto.Model.ScheduleDto.NextDate">
@@ -509,7 +514,7 @@
         </member>
         <member name="P:Common.Dto.Model.ScheduleDto.Frequency">
             <summary>
-            Частота обновления (0-ежедневно, 1-еженедельно)
+            Частота обновления (0-день, 1-неделя, 2-месяц, 3-два месяца, 4-квартал, 5-полгода, 6-год)
             </summary>
         </member>
         <member name="P:Common.Dto.Model.ScheduleDto.IsActive">

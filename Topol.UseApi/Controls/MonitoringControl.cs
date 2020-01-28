@@ -5,6 +5,8 @@ using log4net;
 using Topol.UseApi.Forms;
 using Common.Dto.Model;
 using PriceCommon.Enums;
+using System.Linq;
+using ADGV;
 
 namespace Topol.UseApi.Controls
 {
@@ -13,7 +15,7 @@ namespace Topol.UseApi.Controls
         private static readonly ILog Log = LogManager.GetLogger(nameof(MonitoringControl));
         private readonly IDataMаnager _dataManager;
         private BindingSource _bindingSource { get; }
-        
+
         public MonitoringControl(IDataMаnager dataManager)
         {
             InitializeComponent();
@@ -31,10 +33,47 @@ namespace Topol.UseApi.Controls
 
         private async void BtnGetSchedules_Click(object sender, EventArgs e)
         {
-            var schedules = await _dataManager.GetSchedules();
+            var schedules = (await _dataManager.GetSchedules()).OrderBy(x => x.NextDate).ToList();
             if (schedules.Count == 0) MessageBox.Show(@"Не найдено.");
             _bindingSource.DataSource = schedules;
             _bindingSource.ResetBindings(true);
+            SetColumns();
+        }
+
+        private void SetColumns()
+        {
+            var dgv = dgvShedules;
+
+            // установить видимость полей
+            var column = dgv.Columns[nameof(ScheduleDto.Id)];
+            if (column != null) column.Visible = false;
+
+            column = dgv.Columns[nameof(ScheduleDto.NextDate)];
+            if (column != null)
+            {
+                column.HeaderText = @"Дата следующего обновления";
+                column.Width = 100;
+            }
+            column = dgv.Columns[nameof(ScheduleDto.Frequency)];
+            if (column != null)
+            {
+                column.HeaderText = @"Частота обновления";
+            }
+            column = dgv.Columns[nameof(ScheduleDto.IsActive)];
+            if (column != null)
+            {
+                column.HeaderText = @"Расписание активно";
+            }
+            column = dgv.Columns[nameof(ScheduleDto.Name)];
+            if (column != null)
+            {
+                column.HeaderText = @"Наименование";
+            }
+            column = dgv.Columns[nameof(ScheduleDto.Uri)];
+            if (column != null)
+            {
+                column.HeaderText = @"Ссылка";
+            }
         }
 
         private async void BtnAddSchedule_Click(object sender, EventArgs e)
@@ -59,7 +98,7 @@ namespace Topol.UseApi.Controls
             var frm = new ScheduleForm(dto, ScheduleFormMode.ScheduleFormEdit);
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                await _dataManager.PostSchedule(frm._scheduleDto);
+                var updatedDto = await _dataManager.PostSchedule(frm._scheduleDto);
             }
         }
 

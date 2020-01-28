@@ -8,6 +8,7 @@ using PricePipeCore;
 using Common.Dto.Logic;
 using Common.Dto.Model.XPath;
 using Nest;
+using System.Collections.Generic;
 
 namespace Price.WebApi.Controllers
 {
@@ -74,6 +75,18 @@ namespace Price.WebApi.Controllers
                 Logger.Log.Error($"{nameof(XpathPost)} {dto} {exception}");
                 return InternalServerError(exception);
             }
+        }
+
+        [HttpGet]
+        [Route("api/schedules", Name = nameof(GetSchedules) + "Route")]
+        public IEnumerable<XPathDto> GetSchedules()
+        {
+            var elasticClient = ElasticClientFactory.GetElasticClient("md_xpath");
+            var response = elasticClient.Search<XPathDto>(z => z
+                .Type(nameof(PriceCommon.Model.Content).ToLower())
+                .Size(100)
+            );
+            return response.Hits.Select(s => s.Source);
         }
     }
 }
